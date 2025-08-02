@@ -1,0 +1,104 @@
+# LUKHAS Learning & Knowledge Capture Configuration
+# This configuration enables Claude Code to act as your technical mentor and memory
+
+lukhas_learning:
+  enabled: true
+  version: "1.0.0"
+  
+  # Learning journal settings
+  journal:
+    auto_capture: true
+    prompt_on_significant_changes: true
+    daily_review_time: "18:00"  # 6 PM daily review
+    
+  # Decision tracking
+  decisions:
+    capture_threshold: "medium"  # low, medium, high
+    require_rationale: true
+    link_to_code: true
+    categorize_automatically: true
+    
+  # Insight analysis
+  insights:
+    daily_prompts:
+      - "What worked well today?"
+      - "What challenges did you face?"
+      - "What would you do differently?"
+      - "What did you learn?"
+    auto_categorize: true
+    sentiment_analysis: true
+    
+  # Pattern detection
+  patterns:
+    min_occurrences: 3
+    suggest_automation: true
+    track_time_spent: true
+    identify_blockers: true
+    
+  # AI mentorship
+  ai_mentor:
+    personality: "encouraging_technical_mentor"
+    proactive_suggestions: true
+    question_answering: true
+    learning_resources: true
+    
+  # Knowledge building
+  knowledge:
+    auto_extract_concepts: true
+    build_personal_glossary: true
+    link_to_lukhas_concepts: true
+    create_solution_database: true
+
+# Hook configurations
+hooks:
+  pre_commit:
+    enabled: true
+    capture_decisions: true
+    min_change_size: 10  # lines
+    
+  post_save:
+    enabled: true
+    analyze_changes: true
+    update_patterns: true
+    
+  daily_review:
+    enabled: true
+    time: "18:00"
+    duration_minutes: 15
+    
+# Integration with LUKHAS concepts
+lukhas_integration:
+  use_memory_fold: true
+  apply_emotional_vectors: true
+  create_causal_chains: true
+  build_consciousness_signature: true
+  
+# Storage settings
+storage:
+  format: "json"  # json, yaml, or markdown
+  compress_old_entries: true
+  retention_days: 365
+  backup_enabled: true
+  
+# Privacy and security
+privacy:
+  local_only: true
+  encrypt_sensitive: false
+  exclude_patterns:
+    - "*.env"
+    - "*secret*"
+    - "*password*"
+    
+# Visualization and reporting
+reporting:
+  weekly_summary: true
+  growth_tracking: true
+  decision_timeline: true
+  insight_trends: true
+  
+# Notifications
+notifications:
+  daily_review_reminder: true
+  pattern_discovered: true
+  milestone_reached: true
+  question_answered: true
