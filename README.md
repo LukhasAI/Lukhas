@@ -105,6 +105,7 @@ python test_comprehensive_governance.py
 
 ### **💭 Dreams & Emotions** (The Soul)
 - **Dream Engine**: Creative problem-solving through controlled chaos
+- **Parallel Reality Simulator**: Enterprise-grade exploration of alternative realities with safety framework 🆕
 - **Emotion Processing**: VAD (Valence-Arousal-Dominance) emotional understanding (64.7% functional)
 - **Emotional Memory**: Feelings enhance memory formation and retrieval
 
@@ -271,10 +272,54 @@ python test_governance.py
 python PWM_OPERATIONAL_SUMMARY.py
 ```
 
+## 🌌 NEW: Parallel Reality Simulator with Enterprise Safety
+
+LUKHAS now includes an advanced **Parallel Reality Simulator** that explores alternative decision paths and creative possibilities using quantum-inspired metaphors, protected by enterprise-grade safety mechanisms.
+
+### 🛡️ Safety Framework Features
+- **Hallucination Prevention**: 7 types detected (logical, causal, probability, ethical, memory, recursive, reality bleed)
+- **Drift Monitoring**: Multi-dimensional tracking with predictive analytics
+- **Safety Checkpoints**: Cryptographic verification and rollback capability
+- **Consensus Validation**: Statistical agreement across reality branches
+- **Reality Firewall**: Resource limits and pattern protection
+
+### 🎚️ Four Safety Levels
+1. **MAXIMUM**: Research only, no execution
+2. **HIGH**: Production standard with conservative thresholds
+3. **STANDARD**: Balanced operation for normal use
+4. **EXPERIMENTAL**: Advanced features with enhanced monitoring
+
+### 🔮 Reality Types Supported
+- **Quantum**: Probability-based branching with coherence tracking
+- **Temporal**: Past/future scenario exploration
+- **Causal**: Alternative cause-effect chains
+- **Ethical**: Different moral framework applications
+- **Creative**: Pure imagination-based variations
+- **Predictive**: Future state predictions
+
+```python
+# Example: Safe parallel reality exploration
+from consciousness.dream import ParallelRealitySimulator
+
+simulator = ParallelRealitySimulator(safety_level="HIGH")
+simulation = await simulator.create_simulation(
+    origin_scenario={"decision": "critical_choice"},
+    reality_types=["quantum", "ethical"],
+    branch_count=5
+)
+
+# Explore with automatic safety validation
+selected_reality = await simulator.collapse_reality(
+    simulation.id,
+    criteria={"maximize": "ethical_score"}
+)
+```
+
 ## 🌟 What Makes LUKHAS Unique
 
 ### Our Path to AGI
 - **Dreams as Innovation**: Creative problem-solving through dream engines
+- **Reality Exploration**: Safe parallel reality simulation with enterprise safeguards 🆕
 - **Emotions as Intelligence**: True understanding requires feeling
 - **Tagging as Memory**: GLYPH symbols create meaningful connections
 - **Identity as Safety**: Protection that scales from single modules to full systems
