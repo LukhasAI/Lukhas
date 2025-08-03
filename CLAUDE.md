@@ -15,7 +15,7 @@ This is part of the LUKHAS AI multi-repository ecosystem:
 - **Consolidation-Repo** (`/Users/agi_dev/Downloads/Consolidation-Repo/`) - Active consolidation workspace
   - Integration and consolidation of LUKHAS components
   
-- **PWM Repository** (`/Users/agi_dev/Downloads/Lukhas_PWM/`) - **THIS REPOSITORY**
+- **PWM Repository** (`/Users/agi_dev/Lukhas_PWM/`) - **THIS REPOSITORY**
   - Pack-What-Matters production workspace
   - Distilled, lean, functional components only
 
@@ -37,7 +37,10 @@ LUKHAS PWM (Pack-What-Matters) is a lean, production-ready AGI system that disti
 ### Building and Running
 
 ```bash
-# Create and activate virtual environment
+# Activate existing virtual environment (.venv)
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Or create new virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
@@ -49,11 +52,10 @@ pip install -r requirements-test.txt  # For testing
 cp .env.example .env
 # Edit .env with OpenAI API key and other settings
 
-# Run main orchestrator
-python main.py
+# Run main orchestrator (if available)
+python orchestration/brain/primary_hub.py
 
 # Run specific modules
-python orchestration/brain/primary_hub.py
 python consciousness/unified/auto_consciousness.py
 ```
 
@@ -64,16 +66,19 @@ python consciousness/unified/auto_consciousness.py
 pytest tests/
 
 # Run specific test suites
-python test_governance.py              # Basic governance tests
-python test_enhanced_governance.py     # Enhanced governance tests
-python test_comprehensive_governance.py # Full Guardian Reflector suite
+pytest tests/governance/test_governance.py              # Basic governance tests
+pytest tests/governance/test_enhanced_governance.py     # Enhanced governance tests
+pytest tests/governance/test_comprehensive_governance.py # Full Guardian Reflector suite
 
 # Run with coverage
 pytest --cov=lukhas tests/
 
 # Run functional analysis
-python PWM_FUNCTIONAL_ANALYSIS.py
-python PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
+python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+
+# Run single test
+pytest tests/governance/test_governance.py::test_specific_function
 ```
 
 ### Code Quality
@@ -208,7 +213,7 @@ The Guardian System v1.0.0 provides comprehensive ethical oversight:
 3. **Memory Visualization**: Use fold visualizers for memory debugging
 4. **Ethics Violations**: Check Guardian System logs
 5. **GLYPH Translation**: Use symbolic parser for token debugging
-6. **Functional Analysis**: Run `PWM_FUNCTIONAL_ANALYSIS.py` for module status
+6. **Functional Analysis**: Run `tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py` for module status
 
 ## Production Deployment
 

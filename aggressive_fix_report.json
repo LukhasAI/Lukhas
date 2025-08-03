@@ -1,0 +1,11 @@
+{
+  "timestamp": "20250802_203919",
+  "total_errors": 199,
+  "fixed": 39,
+  "quarantined": 160,
+  "remaining": 0,
+  "quarantine_dir": "quarantine/20250802_203919",
+  "errors_by_type": {
+    "SyntaxError": 199
+  }
+}
