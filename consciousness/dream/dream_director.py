@@ -1,9 +1,9 @@
-import logging
+from core.common import get_logger
 from typing import Any, Dict, List
 
 from .immersive_ingestion import dream_breath
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 # ΛTAG: dream_director

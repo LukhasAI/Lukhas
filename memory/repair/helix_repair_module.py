@@ -5,7 +5,7 @@ import structlog
 
 from memory.systems.healix_memory_core import HealixMemoryCore
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 class HelixRepairModule:
     """Detects and repairs basic inconsistencies in the memory helix."""

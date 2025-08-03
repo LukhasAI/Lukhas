@@ -16,12 +16,12 @@ from __future__ import annotations
 
 
 import json
-import logging
+from core.common import get_logger
 from typing import List, Optional, Dict, Any
 
 from core.event_sourcing import EventStore, Event, AIAgentAggregate
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class EventReplayer:

@@ -60,9 +60,10 @@ except ImportError as e:
     MemoryFold = None
 
 # LUKHAS_TAG: memory_audit_core
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 class MemoryDriftAuditor:
     """
     ΛAUDITOR: Advanced memory drift detection and collapse analysis system.

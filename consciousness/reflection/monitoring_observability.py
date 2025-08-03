@@ -30,7 +30,7 @@ OBSERVABILITY FEATURES:
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
@@ -52,8 +52,8 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 # Monitoring and observability libraries
-import prometheus_client
-from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
+# import prometheus_client  # External dependency
+# from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
 import structlog
 from opentelemetry import trace, metrics
 from opentelemetry.exporter.jaeger.thrift import JaegerExporter
@@ -77,7 +77,6 @@ import boto3
 # TODO: Restore this import when creative_expressions_v2 module is available
 # from creative_expressions_v2 import CreativeMetrics
 
-logger = structlog.get_logger(__name__)
 
 # Prometheus metrics
 MODEL_INFERENCE_DURATION = Histogram(

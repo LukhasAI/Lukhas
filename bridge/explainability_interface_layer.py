@@ -41,7 +41,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
 import structlog
 
 # Configure module logger
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 
 # Module constants

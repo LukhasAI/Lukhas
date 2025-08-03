@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the episodic memory colony to the me
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import uuid
@@ -28,7 +28,7 @@ except ImportError as e:
         def __init__(self, *args, **kwargs):
             pass
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class EpisodicMemoryIntegration:

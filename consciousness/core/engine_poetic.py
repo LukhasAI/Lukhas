@@ -76,7 +76,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime
 from dataclasses import dataclass
@@ -165,7 +165,7 @@ class ConsciousnessEngine:
         of awareness that will illuminate all of LUKHAS's experiences.
         """
         self.config = config or self._default_consciousness_config()
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
         self.state = ConsciousnessState.DORMANT
 
         # Core consciousness components

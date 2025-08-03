@@ -18,7 +18,7 @@ Symbolic Dream Exporter for LUCΛS — filters by tier, tags, emoji, or narratio
 intent and allows selective exporting to a .jsonl file.
 """
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 import json
 from pathlib import Path
 

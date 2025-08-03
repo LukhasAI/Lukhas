@@ -1,7 +1,7 @@
 """Privacy and security management"""
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class PrivacyManager:
     """Manages privacy settings and compliance"""

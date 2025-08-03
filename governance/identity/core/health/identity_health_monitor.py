@@ -6,7 +6,7 @@ self-healing procedures based on tier-specific strategies.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Set, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta

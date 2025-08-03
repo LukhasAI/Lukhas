@@ -13,7 +13,7 @@ This component handles consciousness data processing functionality in the LUKHAS
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Any # List not used in signatures but kept
 from datetime import datetime
 

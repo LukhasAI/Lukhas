@@ -25,7 +25,7 @@ from .integration_adapters import MemorySafetyIntegration
 from .memory_safety_features import MemorySafetySystem
 from .hybrid_memory_fold import HybridMemoryFold
 
-logger = structlog.get_logger("ΛTRACE.memory.modules")
+from core.common import get_logger
 
 
 class LearningModuleIntegration:

@@ -17,7 +17,7 @@ COLLAPSE_READY: True
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 import json
 from typing import Dict, List, Optional, Any, Tuple, Set
@@ -27,7 +27,7 @@ from pathlib import Path
 import numpy as np
 from enum import Enum
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EthicsRiskLevel(Enum):
     """Ethics risk classification levels"""

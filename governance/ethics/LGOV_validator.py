@@ -14,10 +14,10 @@ It will be responsible for ensuring that all orchestration decisions adhere to
 the defined governance and ethical frameworks.
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class SymbolicOversightValidator:
     """

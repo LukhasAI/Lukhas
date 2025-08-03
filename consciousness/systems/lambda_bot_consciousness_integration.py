@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the ΛBot consciousness monitor to t
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import uuid
@@ -36,7 +36,7 @@ except ImportError as e:
         RECURSIVE = "recursive"
         TRANSCENDENT = "transcendent"
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class LambdaBotConsciousnessIntegration:

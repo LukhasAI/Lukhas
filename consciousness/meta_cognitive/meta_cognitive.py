@@ -23,7 +23,7 @@ import asyncio
 import numpy as np
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.meta_cognitive.Orchestrator")
+from core.common import get_logger
 
 # AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`.
 # Ensure these components are correctly packaged or accessible.

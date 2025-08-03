@@ -49,7 +49,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict, deque
 import structlog
 
-logger = structlog.get_logger("ΛTRACE.memory.safety")
+from core.common import get_logger
 
 
 @dataclass

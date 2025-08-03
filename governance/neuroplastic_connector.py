@@ -4,9 +4,9 @@ Auto-generated connector that integrates isolated components
 """
 
 from typing import Dict, Any, List, Optional
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class GovernanceConnector:
     """Connects isolated components into the GOVERNANCE nervous system"""

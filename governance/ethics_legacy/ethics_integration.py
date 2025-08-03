@@ -15,7 +15,7 @@ This module connects:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
@@ -39,7 +39,7 @@ from ethics.sentinel.ethical_drift_sentinel import EthicalDriftSentinel
 from ethics.service import EthicsService
 from ethics.stabilization.tuner import StabilizationTuner
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class EthicalDecisionType(Enum):

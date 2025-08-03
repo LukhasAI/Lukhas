@@ -13,7 +13,7 @@ Compliance: EU AI Act, GDPR, US NIST AI Framework
 
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import asyncio
 import uuid
 from datetime import datetime, timedelta
@@ -33,7 +33,7 @@ except ImportError:
     CRYPTO_AVAILABLE = False
     logging.warning("Cryptography library not available. Using mock implementations.")
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class LukhasIdEnhancedReasoningEngine(Enum):
     """Lukhas_ID Access Tiers - Each tier builds upon previous capabilities"""

@@ -14,7 +14,7 @@ Tags: memory, organization, consolidation, critical
 import os
 import shutil
 from pathlib import Path
-import logging
+from core.common import get_logger
 from typing import Dict, List, Set
 import json
 import re

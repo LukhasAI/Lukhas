@@ -48,7 +48,7 @@ License: lukhas Proprietary (Enterprise) / Open Core (Community)
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Callable, Union
@@ -62,16 +62,16 @@ import yaml
 try:
     from core.advanced_symbolic_loop import EnhancedCoreIntegrator
     from core.memory.memoria_manager import MemoryManager
-    from lukhas.CORE.voice.voice_engine import VoiceEngine
-    from lukhas.CORE.dream.dream_processor import DreamEngine
-    from lukhas.CORE.emotion.emotional_resonance import EmotionalResonanceEngine
-    from AID.core.lambda_identity import IdentitySystem
-    from lukhas.CORE.quantum.quantum_processor import QuantumEngine
-    from lukhas.CORE_INTEGRATION.orchestrator import CoreOrchestrator
+#     from lukhas.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+#     from lukhas.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+#     from lukhas.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+#     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+#     from lukhas.CORE.quantum.quantum_processor import QuantumEngine  # TODO: Install or implement CORE
+    from orchestration.orchestrator import CoreOrchestrator
     from agent.flagship import Agent
-    from common.config import Config
+    from core.common.config import Config
     from common.exceptions import LException, SafetyViolationError
-    from lukhas.common.logger import get_lukhas_logger
+    from core.logging import get_lukhas_logger
 except ImportError as e:
     # Graceful degradation for development/testing
     print(f"Warning: lukhas core modules not fully available: {e}")

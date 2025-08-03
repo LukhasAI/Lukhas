@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:28.128623
 """
 
 from typing import Dict, Any, Optional
-import logging
+from core.common import get_logger
 import numpy as np
 import requests
 from io import BytesIO
@@ -92,7 +92,6 @@ class VoiceSynthesis:
     def _select_provider(self, emotion: Optional[str] = None) -> str:
         """Select the appropriate TTS provider based on context."""
 from typing import Dict, List, Any, Optional
-import logging
 import time
 from collections import deque
 import numpy as np

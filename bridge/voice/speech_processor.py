@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime
 import threading
 import queue
-import logging
+from core.common import get_logger
 import asyncio
 import os
 import sys
@@ -19,7 +19,7 @@ import openai
 from integrations.elevenlabs.elevenlabs_client import ElevenLabsClient
 from integrations.openai.whisper_client import WhisperClient
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class SpeechProcessor:
     """

@@ -26,7 +26,7 @@
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import queue
 import threading
 import time
@@ -51,7 +51,7 @@ except ImportError:
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ActorState(Enum):

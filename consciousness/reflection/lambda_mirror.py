@@ -48,7 +48,7 @@
 import argparse
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import os
 import re
 import time
@@ -63,7 +63,6 @@ import structlog
 from hashlib import sha256
 
 # Configure module logger
-logger = structlog.get_logger("lukhas.consciousness.reflection.ΛMIRROR")
 
 # Module constants
 MODULE_VERSION = "2.0.0"

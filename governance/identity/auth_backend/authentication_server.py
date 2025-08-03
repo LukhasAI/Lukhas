@@ -26,7 +26,7 @@ import websockets
 import json
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime, timezone, timedelta
-import logging
+from core.common import get_logger
 import hashlib
 import nacl.signing
 import nacl.exceptions
@@ -42,7 +42,6 @@ from .pqc_crypto_engine import PQCCryptoEngine
 from .audit_logger import AuditLogger
 from .trust_scorer import LukhasTrustScorer
 from ..utils.replay_protection import ReplayProtection
-from ..utils.shared_logging import get_logger
 
 # 🛡️ Compliance Imports
 from ..privacy.gdpr_compliance import GDPRCompliance
@@ -50,7 +49,6 @@ from ..privacy.ccpa_compliance import CCPACompliance
 from ..privacy.consent_manager import ConsentManager
 from ..privacy.data_retention_manager import DataRetentionManager
 
-logger = get_logger('AuthenticationServer')
 
 # 🛡️ Privacy and Compliance Data Structures
 class DataProcessingBasis(Enum):

@@ -1,10 +1,10 @@
 """Memoria core component for symbolic trace management."""
 try:
     import structlog  # type: ignore
-    logger = structlog.get_logger(__name__)
+from from core.common import get_logger
 except ImportError:  # pragma: no cover - fallback when structlog isn't installed
     import logging
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 

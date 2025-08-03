@@ -84,7 +84,7 @@ from collections import defaultdict
 from pathlib import Path
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # # LUKHAS Federated Model class
 # ΛEXPOSE: Defines the structure and operations for individual federated models.

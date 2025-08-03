@@ -55,7 +55,7 @@
 
 import datetime
 from typing import Dict, Any, List, Optional
-import logging
+from core.common import get_logger
 
 class MemoryManager:
     """

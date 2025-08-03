@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.129660
 
 # packages/core/src/nodes/goal_node.py
 from typing import Dict, List, Any
-import logging
+from core.common import get_logger
 import time
 
 class GoalManagementNode:

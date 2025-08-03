@@ -1,0 +1,16 @@
+# Suggested package additions based on import analysis
+# Add these to requirements.txt as needed
+
+aioredis>=2.0.0
+celery>=5.3.0
+discord.py>=2.3.0
+dramatiq>=1.15.0
+edge-tts>=6.1.0
+gradio>=4.0.0
+langchain>=0.1.0
+pinecone-client>=2.2.0
+python-telegram-bot>=20.0
+sendgrid>=6.10.0
+slack-sdk>=3.23.0
+stripe>=7.0.0
+twilio>=8.10.0

@@ -25,7 +25,7 @@ from typing import Optional, List, Dict, Any
 from dream.dashboard.dream_metrics_view import metrics_view
 from dream.dream_engine.lukhas_oracle_dream import generate_dream
 from datetime import datetime
-import logging
+from core.common import get_logger
 
 try:
     from memory.unified_memory_manager import MemoryFoldSystem

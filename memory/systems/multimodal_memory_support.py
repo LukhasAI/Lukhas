@@ -76,7 +76,7 @@ try:
 except ImportError:
     VIDEO_AVAILABLE = False
 
-logger = structlog.get_logger("ΛTRACE.memory.multimodal")
+from core.common import get_logger
 
 
 class ModalityType(Enum):

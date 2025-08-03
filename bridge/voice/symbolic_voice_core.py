@@ -4,10 +4,10 @@ import sys
 import uuid
 import json
 import subprocess
-import logging
+from core.common import get_logger
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 API_KEY = os.getenv("VOICE_SYSTEMS_API_KEY", "")
 LUKHAS = {

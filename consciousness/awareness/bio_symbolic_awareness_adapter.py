@@ -11,7 +11,7 @@ Enhanced bio-symbolic adapter for the Lukhas Awareness Protocol that implements
 quantum-biological metaphors with a focus of simplicity and safety.
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 from typing import Dict, Any, Optional, List
 from datetime import datetime
@@ -81,7 +81,7 @@ except ImportError:
         def create_base_pattern(self, user_id): return {"user_id": user_id}
     bio_symbolic_available = False
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class BioSymbolicAwarenessAdapter:
     """

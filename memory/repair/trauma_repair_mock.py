@@ -3,14 +3,14 @@ Trauma Repair Mock Implementation
 Lightweight mock implementation without dependencies
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from enum import Enum
 import asyncio
 import random
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TraumaType(Enum):

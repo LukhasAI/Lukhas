@@ -3,7 +3,7 @@ Memory Profiler Wrapper
 Provides integration layer for memory profiler components
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
 
@@ -23,7 +23,7 @@ except ImportError as e:
     MEMORY_PROFILER_AVAILABLE = False
     logging.warning(f"Memory profiler components not available: {e}")
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MemoryProfiler:

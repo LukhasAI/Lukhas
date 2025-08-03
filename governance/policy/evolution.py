@@ -47,7 +47,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 import threading
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
@@ -55,7 +55,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

@@ -49,7 +49,7 @@ import structlog
 import openai
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.bridge")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"

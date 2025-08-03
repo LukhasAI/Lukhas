@@ -1,8 +1,7 @@
 from collections import deque
 import time
-from utils.shared_logging import get_logger
+from core.common import get_logger
 
-logger = get_logger('ReplayProtection')
 
 class ReplayProtection:
     """Tracks recent nonces to prevent replay attacks with timestamp-based expiration."""

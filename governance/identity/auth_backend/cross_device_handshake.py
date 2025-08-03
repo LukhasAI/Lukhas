@@ -5,10 +5,9 @@
 
 import nacl.signing
 from utils.replay_protection import ReplayProtection
-from utils.shared_logging import get_logger
+from core.common import get_logger
 import time
 
-logger = get_logger('CrossDeviceHandshake')
 
 class CrossDeviceHandshake:
     """Manages session linking across multiple devices with AGI-proof standards."""

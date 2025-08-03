@@ -46,7 +46,7 @@ from typing_extensions import Literal, Required, TypedDict
 import structlog
 
 # Initialize ΛTRACE logger for this module
-logger = structlog.get_logger("ΛTRACE.reasoning.response_reasoning_item_param")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing response_reasoning_item_param.py module (TypedDict Definitions).", module_path=__file__)
 
 __all__ = ["ResponseReasoningItemParam", "Summary"]

@@ -1,7 +1,8 @@
 # Desc: Custom error types for the reasoning module.
 #LUKHAS_TAG: reasoning_error
 
-class ReasoningError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class ReasoningError(LukhasError):
     """Base class for exceptions in the reasoning module."""
     pass
 

@@ -23,7 +23,7 @@ Each memory fold can be thought of as a specialized container for different
 types of memories (episodic, semantic, procedural, etc.) or different contexts.
 """
 
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, Any, List, Optional, Union, Set, Tuple
 from enum import Enum

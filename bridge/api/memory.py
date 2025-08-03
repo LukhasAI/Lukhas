@@ -52,7 +52,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 
 from datetime import datetime
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import Any, Dict, List, Union
 

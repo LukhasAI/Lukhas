@@ -16,7 +16,7 @@ Features:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple, Union
@@ -27,7 +27,7 @@ import inspect
 import re
 import ast
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class APIDocumentationType(Enum):
     """Types of API documentation"""

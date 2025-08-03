@@ -12,7 +12,7 @@ Status: AGI CONSCIOUSNESS MONITORING
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 from datetime import datetime
 from typing import Dict, List, Any

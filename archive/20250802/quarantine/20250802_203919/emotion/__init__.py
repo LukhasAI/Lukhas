@@ -1,0 +1,4 @@
+"""
+Emotion Module
+"""
+

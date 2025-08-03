@@ -8,7 +8,7 @@
 
 from flask import Flask, request, jsonify, session # Flask import remains, though app is from unified_api
 # from flask_cors import CORS # CORS might be handled by unified_api's app instance
-import logging # Standard logging, ΛTRACE pattern will be primary
+from core.common import get_logger
 import time
 import random # For request ID generation
 from typing import Dict, Any, Optional

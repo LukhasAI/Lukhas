@@ -1,0 +1,4 @@
+"""
+Ethics_Service Module
+"""
+

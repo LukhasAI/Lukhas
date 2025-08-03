@@ -17,7 +17,7 @@ Integration Date: 2025-05-31T07:55:28.035055
 
 import datetime
 import enum
-import logging
+from core.common import get_logger
 import time
 import typing
 import warnings

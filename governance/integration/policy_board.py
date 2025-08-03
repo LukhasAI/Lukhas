@@ -24,7 +24,7 @@ import json
 from pathlib import Path
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.governance.PolicyBoard")
+from core.common import get_logger
 
 # AIMPORT_TODO: Review deep relative imports for robustness.
 # Ensure these components are correctly packaged or accessible.

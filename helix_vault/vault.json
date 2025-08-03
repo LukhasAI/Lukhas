@@ -1,0 +1,276 @@
+{
+  "version": "1.0",
+  "created": "2025-08-03T10:11:27.857535",
+  "statistics": {
+    "total_memories": 4,
+    "avg_drift": 0.17500000000000004,
+    "max_drift": 0.7,
+    "min_drift": 6.661338147750939e-17,
+    "total_repairs": 0,
+    "locked_memories": 0,
+    "unique_tags": 10,
+    "avg_memory_size": 8.0
+  },
+  "memories": {
+    "skill_riding_bike": {
+      "memory_id": "skill_riding_bike",
+      "origin": [
+        "BALANCE",
+        "PEDAL",
+        "STEER",
+        "BRAKE",
+        "PRACTICE",
+        "FALL",
+        "RETRY",
+        "SUCCESS"
+      ],
+      "current": [
+        "BALANCE",
+        "PEDAL",
+        "STEER",
+        "BRAKE",
+        "PRACTICE",
+        "FALL",
+        "RETRY",
+        "SUCCESS"
+      ],
+      "emotional": [
+        "BALANCE",
+        "PEDAL",
+        "STEER",
+        "BRAKE",
+        "PRACTICE",
+        "FALL",
+        "RETRY",
+        "SUCCESS"
+      ],
+      "temporal": [
+        "BALANCE",
+        "PEDAL",
+        "STEER",
+        "BRAKE",
+        "PRACTICE",
+        "FALL",
+        "RETRY",
+        "SUCCESS"
+      ],
+      "causal": [
+        "BALANCE",
+        "PEDAL",
+        "STEER",
+        "BRAKE",
+        "PRACTICE",
+        "FALL",
+        "RETRY",
+        "SUCCESS"
+      ],
+      "metadata": {
+        "created": "2025-08-03T10:11:27.855794",
+        "accessed": 0,
+        "last_access": null,
+        "tags": [
+          "motor_skill",
+          "childhood",
+          "procedural"
+        ],
+        "locked": false,
+        "repair_history": []
+      }
+    },
+    "fact_gravity": {
+      "memory_id": "fact_gravity",
+      "origin": [
+        "NEWTON",
+        "FORCE",
+        "MASS",
+        "ACCELERATION",
+        "9.8",
+        "METERS",
+        "SECOND",
+        "SQUARED"
+      ],
+      "current": [
+        "NEWTON",
+        "FORCE",
+        "MASS",
+        "ACCELERATION",
+        "9.8",
+        "METERS",
+        "SECOND",
+        "SQUARED"
+      ],
+      "emotional": [
+        "NEWTON",
+        "FORCE",
+        "MASS",
+        "ACCELERATION",
+        "9.8",
+        "METERS",
+        "SECOND",
+        "SQUARED"
+      ],
+      "temporal": [
+        "NEWTON",
+        "FORCE",
+        "MASS",
+        "ACCELERATION",
+        "9.8",
+        "METERS",
+        "SECOND",
+        "SQUARED"
+      ],
+      "causal": [
+        "NEWTON",
+        "FORCE",
+        "MASS",
+        "ACCELERATION",
+        "9.8",
+        "METERS",
+        "SECOND",
+        "SQUARED"
+      ],
+      "metadata": {
+        "created": "2025-08-03T10:11:27.855803",
+        "accessed": 0,
+        "last_access": null,
+        "tags": [
+          "semantic",
+          "scientific",
+          "physics"
+        ],
+        "locked": false,
+        "repair_history": []
+      }
+    },
+    "event_birthday_10": {
+      "memory_id": "event_birthday_10",
+      "origin": [
+        "CAKE",
+        "CANDLES",
+        "FRIENDS",
+        "GIFTS",
+        "SURPRISE",
+        "JOY",
+        "FAMILY",
+        "PHOTOS"
+      ],
+      "current": [
+        "CAKE",
+        "CANDLES",
+        "FRIENDS",
+        "GIFTS",
+        "SURPRISE",
+        "JOY",
+        "FAMILY",
+        "PHOTOS"
+      ],
+      "emotional": [
+        "CAKE",
+        "CANDLES",
+        "FRIENDS",
+        "GIFTS",
+        "SURPRISE",
+        "JOY",
+        "FAMILY",
+        "PHOTOS"
+      ],
+      "temporal": [
+        "CAKE",
+        "CANDLES",
+        "FRIENDS",
+        "GIFTS",
+        "SURPRISE",
+        "JOY",
+        "FAMILY",
+        "PHOTOS"
+      ],
+      "causal": [
+        "CAKE",
+        "CANDLES",
+        "FRIENDS",
+        "GIFTS",
+        "SURPRISE",
+        "JOY",
+        "FAMILY",
+        "PHOTOS"
+      ],
+      "metadata": {
+        "created": "2025-08-03T10:11:27.855811",
+        "accessed": 0,
+        "last_access": null,
+        "tags": [
+          "episodic",
+          "childhood",
+          "celebration"
+        ],
+        "locked": false,
+        "repair_history": []
+      }
+    },
+    "trauma_accident": {
+      "memory_id": "trauma_accident",
+      "origin": [
+        "CAR",
+        "CRASH",
+        "FEAR",
+        "PAIN",
+        "HOSPITAL",
+        "RECOVERY",
+        "SCAR",
+        "CAUTION"
+      ],
+      "current": [
+        "CAR",
+        "INCIDENT",
+        "CONCERN",
+        "DISCOMFORT",
+        "CLINIC",
+        "HEALING",
+        "MARK",
+        "CAREFUL"
+      ],
+      "emotional": [
+        "CAR",
+        "CRASH",
+        "FEAR",
+        "PAIN",
+        "HOSPITAL",
+        "RECOVERY",
+        "SCAR",
+        "CAUTION"
+      ],
+      "temporal": [
+        "CAR",
+        "CRASH",
+        "FEAR",
+        "PAIN",
+        "HOSPITAL",
+        "RECOVERY",
+        "SCAR",
+        "CAUTION"
+      ],
+      "causal": [
+        "CAR",
+        "CRASH",
+        "FEAR",
+        "PAIN",
+        "HOSPITAL",
+        "RECOVERY",
+        "SCAR",
+        "CAUTION"
+      ],
+      "metadata": {
+        "created": "2025-08-03T10:11:27.855817",
+        "accessed": 0,
+        "last_access": null,
+        "tags": [
+          "episodic",
+          "trauma",
+          "formative"
+        ],
+        "locked": false,
+        "repair_history": []
+      }
+    }
+  }
+}

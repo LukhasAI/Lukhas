@@ -12,7 +12,7 @@
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 import numpy as np
-import logging
+from core.common import get_logger
 
 from memory.emotional import EmotionVector, EmotionalMemory
 from emotion.affect_stagnation_detector import AffectStagnationDetector

@@ -75,9 +75,9 @@ except ImportError:
 
 # Import additional components with error handling
 try:
-    from LUKHAS_ID.vault.lukhas_id import LucasID, AccessTier
+    from core.common_ID.vault.lukhas_id import LucasID, AccessTier
 except ImportError:
-    logger.warning("Could not import LUKHAS_ID components. Identity integration will be limited.")
+    logger.warning("Could not # import LUKHAS_ID  # External dependency components. Identity integration will be limited.")
     LucasID = None
     class AccessTier(Enum):
         """Fallback access tier enum if import fails"""

@@ -26,7 +26,7 @@
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 import uuid
 from abc import ABC, abstractmethod
@@ -57,7 +57,7 @@ except ImportError:
         version: int
         correlation_id: Optional[str] = None
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class StateType(Enum):

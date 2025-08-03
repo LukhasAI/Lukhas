@@ -24,7 +24,7 @@ Author: Lukhas AI Team
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 from datetime import datetime
 from typing import Dict, Any, Optional, List
@@ -159,8 +159,8 @@ class LukhasAGIIntegrationManager:
                 import sys
                 sys.path.append(str(github_app_path))
 
-                from Bot_agi_core import BotAGICore
-                from Bot_consciousness_monitor import BotConsciousnessMonitor
+#                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core
+#                 from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO: Install or implement Bot_consciousness_monitor
 
                 # Create GitHub App AGI integration
                 github_agi_core = BotAGICore()

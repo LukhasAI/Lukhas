@@ -21,7 +21,7 @@ logger = structlog.get_logger(__name__)
 +────────────────────────────────────────────────────────────────────────────+
 | MODULE         : lukhas_agent_handoff.py                                    |
 | DESCRIPTION    :                                                           |
-|   Manages live symbolic handoffs from LUKHAS to vendor or third-party AI   |
+|   Manages live symbolic handoffs from core.common to vendor or third-party AI   |
 |   agents within widget flows. Includes branded agent metadata, takeover   |
 |   styling, and GPT-driven persona integration.                             |
 |   Floating overlays can activate if user context allows it (e.g., mobile    |

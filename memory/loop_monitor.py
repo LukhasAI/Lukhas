@@ -21,7 +21,7 @@ from typing import Awaitable, Dict, Optional
 
 import structlog
 
-logger = structlog.get_logger("ΛTRACE.memory.loop_monitor")
+from core.common import get_logger
 
 
 @dataclass

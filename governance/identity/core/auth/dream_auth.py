@@ -26,7 +26,7 @@ from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime, timedelta
-import logging
+from core.common import get_logger
 import numpy as np
 
 # Import LUKHAS components

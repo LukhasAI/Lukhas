@@ -4,7 +4,7 @@ Implements a 3D helical visualization of system memories,
 integrating with the memory management system, Lukhas_ID, and Seedra.
 """
 
-import logging
+from core.common import get_logger
 import plotly.graph_objects as go
 import numpy as np
 from typing import Dict, List, Optional, Tuple, Any

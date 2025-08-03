@@ -2,7 +2,7 @@
 import base64
 import io
 import json
-import logging
+from core.common import get_logger
 import operator
 import os
 import pickle
@@ -14,7 +14,7 @@ from itertools import groupby
 from typing import Any
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 cache = lru_cache(None)

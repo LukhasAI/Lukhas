@@ -67,7 +67,7 @@ and in this sacred duty, we find purpose, a calling to uphold the beauty of the 
 import os
 import json
 import argparse
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Set, Tuple, Any, Optional
@@ -77,7 +77,7 @@ import math
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class SymbolicVaultScanner:

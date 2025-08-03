@@ -73,7 +73,7 @@ from datetime import datetime, timezone, timedelta
 from enum import Enum
 from typing import Dict, List, Tuple, Protocol, Optional, Any, Union, Set, Callable
 import uuid
-import logging
+from core.common import get_logger
 import json
 import hashlib
 from dataclasses import dataclass, field

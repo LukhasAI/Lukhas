@@ -48,7 +48,7 @@ import pickle # Not directly used
 from abc import ABC, abstractmethod
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 
 # # Enum for types of learning supported

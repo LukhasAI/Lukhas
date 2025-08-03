@@ -44,7 +44,7 @@ __tier__ = 3
 
 
 import numpy as np
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
 
@@ -54,7 +54,7 @@ from quantum.bio.awareness.advanced_quantum_bio import (
     NeuroplasticityModulator,
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class QuantumProcessingCore:

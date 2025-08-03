@@ -3,7 +3,7 @@ DocuTutor Plugin Integration with Lukhas AI
 Implements core integration patterns for connecting with Lukhas's systems.
 """
 
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 from enum import Enum
 from pydantic import BaseModel
@@ -22,7 +22,7 @@ from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph
 from .content_generation_engine.doc_generator import DocGenerator
 from .tutoring_engine.tutor import TutorEngine
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class PluginLearningEngine(str, Enum):
     DOCUMENTATION = "documentation"

@@ -44,7 +44,7 @@ __tier__ = 2
 
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 import numpy as np
 import hashlib

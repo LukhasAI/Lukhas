@@ -25,7 +25,7 @@ ENTERPRISE FEATURES:
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -45,7 +45,7 @@ from torch.nn import functional as F
 from collections import defaultdict, deque
 import aiofiles
 import aioredis
-from prometheus_client import Counter, Histogram, Gauge
+# from prometheus_client import Counter, Histogram, Gauge
 import structlog
 
 # Type definitions
@@ -58,7 +58,6 @@ CREATIVE_REQUESTS_TOTAL = Counter('creative_requests_total', 'Total creative req
 ACTIVE_GENERATORS = Gauge('active_generators', 'Number of active generators')
 
 # Structured logging
-logger = structlog.get_logger(__name__)
 
 
 class CreativeStyle(Enum):

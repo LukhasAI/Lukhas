@@ -10,7 +10,7 @@ Manages ethical checks for LUKHAS.
 """
 
 from typing import Tuple, Dict, Any
-import logging
+from core.common import get_logger
 
 # More nuanced list of potentially problematic keywords/phrases
 ETHICAL_KEYWORDS_BLACKLIST = [

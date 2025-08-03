@@ -45,10 +45,9 @@ from datetime import datetime, timezone, timedelta
 from collections import defaultdict, Counter
 from dataclasses import dataclass
 import structlog
-import logging
+from core.common import get_logger
 
 # Configure module logger
-logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "2.0.0"

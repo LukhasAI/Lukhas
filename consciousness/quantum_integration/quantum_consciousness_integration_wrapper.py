@@ -4,7 +4,7 @@ Integration wrapper for connecting quantum consciousness integration to the cons
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import uuid
@@ -30,7 +30,7 @@ except ImportError as e:
     MODULE_VERSION = "1.0.0"
     MODULE_NAME = "quantum consciousness integration"
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class QuantumConsciousnessIntegration:

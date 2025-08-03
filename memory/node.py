@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:28.128623
 """
 
 from typing import Dict, Any, Optional
-import logging
+from core.common import get_logger
 import numpy as np
 import requests
 from io import BytesIO
@@ -101,6 +101,5 @@ EOF
 
 cat > lukhas_agi/packages/core/src/nodes/ethics_node.py << 'EOF'
 from typing import Dict, List, Any
-import logging
 import numpy as np
 import time

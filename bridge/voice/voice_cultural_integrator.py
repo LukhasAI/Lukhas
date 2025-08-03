@@ -21,7 +21,7 @@ DEPENDENCIES:
 - emotion_mapper_alt.py
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 

@@ -34,7 +34,7 @@ Integration Date: 2025-05-31T07:55:28.056913
 # WARNING
 import asyncio
 import base64
-import logging
+from core.common import get_logger
 import re
 import warnings
 from typing import TYPE_CHECKING, Any, AsyncIterable, Dict, List, Literal, Optional, Set, Union, overload
@@ -112,7 +112,7 @@ if TYPE_CHECKING:
     from aiohttp import ClientResponse, ClientSession
     from PIL.Image import Image
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 MODEL_KWARGS_NOT_USED_REGEX = re.compile(r"The following `model_kwargs` are not used by the model: \[(.*?)\]")

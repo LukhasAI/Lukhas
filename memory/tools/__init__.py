@@ -3,11 +3,12 @@ Tools Module
 Auto-generated module initialization file
 """
 
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 try:
+from from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
     from .memory_drift_auditor import MemoryDriftAuditor
     logger.debug("Imported MemoryDriftAuditor from .memory_drift_auditor")
 except ImportError as e:

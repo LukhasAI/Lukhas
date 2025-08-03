@@ -48,7 +48,7 @@ TODO: Add violation heatmap for pattern recognition
 IDEA: Implement ethical drift prediction with ML forecasting
 """
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots

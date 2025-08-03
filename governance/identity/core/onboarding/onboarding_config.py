@@ -20,7 +20,7 @@
 """
 
 import json
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field, asdict
 from enum import Enum

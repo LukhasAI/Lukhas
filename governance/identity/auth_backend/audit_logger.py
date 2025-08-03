@@ -12,7 +12,7 @@ Purpose: Constitutional audit log system for transparency and compliance
 import json
 import time
 import hashlib
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Any, Union
 from datetime import datetime, timedelta
 from enum import Enum
@@ -21,7 +21,7 @@ from pathlib import Path
 import asyncio
 import uuid
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class AuditEventType(Enum):
     """Types of audit event"""

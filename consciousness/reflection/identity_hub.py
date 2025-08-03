@@ -14,7 +14,7 @@ a unified interface for external systems to interact with identity.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional
@@ -247,7 +247,7 @@ except ImportError as e:
 # from identity.qrg_test_suite import TestQRGCompliance
 # from identity.qrg_integration import QRGType
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class IdentityHub:

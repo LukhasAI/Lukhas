@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:28.137869
 """
 
 from typing import Dict, Any, List
-import logging
+from core.common import get_logger
 from datetime import datetime
 
 class MetaCore:

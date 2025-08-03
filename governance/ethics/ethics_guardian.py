@@ -45,7 +45,7 @@ except ImportError:
     EthicalFramework = None
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.orchestration.monitoring.sub_agents.EthicsGuardian")
+from core.common import get_logger
 
 class EthicsGuardian:
     """

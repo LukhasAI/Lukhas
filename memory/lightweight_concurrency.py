@@ -24,9 +24,9 @@ import weakref
 from collections import deque
 from enum import IntEnum
 from typing import Any, Callable, Dict, Optional, Set, Tuple
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ActorPriority(IntEnum):

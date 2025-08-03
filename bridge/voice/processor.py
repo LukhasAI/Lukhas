@@ -9,7 +9,7 @@ Author: lukhas AI Team
 TAGS: [CRITICAL, KeyFile, Voice, Audio]
 """
 
-import logging
+from core.common import get_logger
 import json
 import os
 import numpy as np
@@ -21,7 +21,7 @@ from typing import Dict, Any, Optional, List, Tuple, Union
 from enum import Enum
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceMode(Enum):
     """Voice processing modes"""

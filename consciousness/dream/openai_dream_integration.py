@@ -34,7 +34,7 @@ import base64
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional, List, Tuple
-import logging
+from core.common import get_logger
 from io import BytesIO
 
 # OpenAI imports

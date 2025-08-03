@@ -41,7 +41,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, List, Optional, Tuple
 
@@ -145,7 +145,7 @@ except ImportError:
 
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

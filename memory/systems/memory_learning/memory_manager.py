@@ -40,7 +40,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 import json
 import os
 import time
@@ -56,14 +56,15 @@ import re # Add re for regex operations in extract_insights
 # Assuming memory_folds and trauma_lock are now in the same directory
 from .memory_folds import AGIMemory, MemoryType, MemoryPriority, MemoryFold
 from .trauma_lock import TraumaLockSystem as TraumaLock # Renamed class in trauma_lock.py
-from AID.core.lambda_id import ID, AccessTier
-from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy
+# from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
+# from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
 # Assuming dream_reflection_loop is in CORE/dream_engine
 # from consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's not used directly here  # Removed to break circular dependency
 
 logger = logging.getLogger("v1_AGI.memory")
 
-class MemoryAccessError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class MemoryAccessError(LukhasError):
     """Exception raised for memory access permission errors."""
     pass
 

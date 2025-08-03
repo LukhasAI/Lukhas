@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the brain identity connector to the 
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import uuid
@@ -50,7 +50,7 @@ except ImportError as e:
         MODIFY = "modify"
         DELETE = "delete"
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class BrainIdentityIntegration:

@@ -70,7 +70,7 @@ except ImportError:
         class MultiheadAttention:
             def __init__(self, *args, **kwargs): pass
 
-logger = structlog.get_logger("ΛTRACE.memory.hybrid")
+from core.common import get_logger
 
 
 @dataclass

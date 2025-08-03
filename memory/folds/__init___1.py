@@ -13,9 +13,9 @@ Total entities: 1354
 
 # Lazy imports to avoid circular dependencies
 import importlib
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Entity registry for lazy loading
 _ENTITY_REGISTRY = {
@@ -610,7 +610,6 @@ _FUNCTION_REGISTRY = {
     "get_grid_status": ("auth_utils.grid_size_calculator", "get_grid_status"),
     "add_nonce": ("auth_utils.replay_protection", "add_nonce"),
     "is_replay": ("auth_utils.replay_protection", "is_replay"),
-    "get_logger": ("auth_utils.shared_logging", "get_logger"),
     "force_upgrade": ("backend.app.admin_tools", "force_upgrade"),
     "force_downgrade": ("backend.app.admin_tools", "force_downgrade"),
     "generate_admin_token": ("backend.app.admin_tools", "generate_admin_token"),

@@ -12,7 +12,7 @@
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.governance")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing core.integration.governance package.")
 
 # Define what is explicitly exported by this package

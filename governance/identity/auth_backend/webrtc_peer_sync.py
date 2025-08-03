@@ -2,12 +2,10 @@
 # Implements WebRTC peer-to-peer sync fallback
 
 import asyncio
-import logging
+from core.common import get_logger
 from .pqc_crypto_engine import PQCCryptoEngine
 from .audit_logger import AuditLogger
-from utils.shared_logging import get_logger
 
-logger = get_logger('WebRTCPeerSync')
 
 class WebRTCPeerSync:
     """Handles peer-to-peer sync fallback using WebRTC with signaling and peer tracking."""

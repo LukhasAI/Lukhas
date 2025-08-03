@@ -14,7 +14,7 @@ Provides unified consciousness processing with OpenAI enhancement.
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
 from dataclasses import dataclass, field
@@ -26,7 +26,7 @@ from contracts import IConsciousnessModule, IQuantumModule, ProcessingResult, Ag
 from quantum.attention_economics import QuantumAttentionEconomics
 from orchestration.brain.consciousness_core import ConsciousnessCore
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ConsciousnessState(Enum):

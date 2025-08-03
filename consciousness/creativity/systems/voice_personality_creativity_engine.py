@@ -13,14 +13,14 @@ DEPENDENCIES:
 - LUKHAS_AGI_2.CORE.orchestration.emotional_oscillator
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 import random
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Import personality components
 try:

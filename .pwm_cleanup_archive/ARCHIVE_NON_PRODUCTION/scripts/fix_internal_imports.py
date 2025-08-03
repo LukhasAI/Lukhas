@@ -87,8 +87,8 @@ class InternalImportFixer:
 
         mappings = {
             # LUKHAS_AGENT_PLUGIN patterns
-            'from LUKHAS_AGENT_PLUGIN.core.lukhas_emotion_log': 'from core.lukhas_emotion_log',
-            'from LUKHAS_AGENT_PLUGIN.': 'from ',
+            'from core.common_AGENT_PLUGIN.core.lukhas_emotion_log': 'from core.lukhas_emotion_log',
+            'from core.common_AGENT_PLUGIN.': 'from ',
 
             # Symbolic AI patterns
             'from symbolic_ai.trait_manager': 'from orchestration.brain.spine.trait_manager',

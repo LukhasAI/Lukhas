@@ -33,7 +33,7 @@ except ImportError:
     plt, sns, FuncAnimation = None, None, None # type: ignore
 
 # ΛTRACE: Standard logger setup for HealixMemoryCore.
-log = structlog.get_logger(__name__)
+from core.common import get_logger, GLYPHToken, create_glyph
 
 # ΛNOTE: The lukhas_tier_required decorator is a placeholder for conceptual tiering.
 def lukhas_tier_required(level: int): # Placeholder

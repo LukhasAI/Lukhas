@@ -23,7 +23,7 @@ import structlog
 
 # LUKHAS Core Imports
 # ΛTRACE: Standard logger setup for memory.core_memory.core.
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # ΛCAUTION: Critical import for BaseModule and decorators. Using placeholders if import fails.
 # This is a #ΛDRIFT_POINT as behavior changes significantly with/without actual base module.

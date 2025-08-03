@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-08-03T08:58:37.221467",
+  "results": [
+    {
+      "demo": "basic_perception",
+      "success": true,
+      "privacy_preserved": true
+    },
+    {
+      "demo": "anomaly_detection",
+      "success": true,
+      "scenarios_tested": 3
+    },
+    {
+      "demo": "demo_texture_analysis",
+      "success": false,
+      "error": "cannot reshape array of size 512 into shape (22)"
+    },
+    {
+      "demo": "motion_tracking",
+      "success": true,
+      "patterns_tested": 2
+    },
+    {
+      "demo": "demo_multimodal_fusion",
+      "success": false,
+      "error": "__init__() missing 1 required positional argument: 'vector_signature'"
+    },
+    {
+      "demo": "privacy_preservation",
+      "success": true,
+      "scenarios_tested": 4
+    }
+  ],
+  "summary": {
+    "total_demos": 6,
+    "successful": 4,
+    "privacy_preserved": true,
+    "ethical_compliance": true
+  }
+}

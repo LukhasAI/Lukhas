@@ -16,11 +16,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -31,12 +31,11 @@ import numpy as np
 from typing import Dict, List, Optional, Tuple, Any, Union
 from dataclasses import dataclass, field
 from enum import Enum
-import logging
 import json
 import time
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ConsciousnessState(Enum):

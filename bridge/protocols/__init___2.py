@@ -38,7 +38,7 @@ components throughout the LUKHAS system.
 import structlog
 
 # Initialize ΛTRACE logger for the core_reasoning sub-package using structlog
-logger = structlog.get_logger("ΛTRACE.reasoning.core_reasoning")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing reasoning.core_reasoning sub-package.", package_name="reasoning.core_reasoning", file_path=__file__)
 
 # Define what symbols are exported when 'from . import *' or

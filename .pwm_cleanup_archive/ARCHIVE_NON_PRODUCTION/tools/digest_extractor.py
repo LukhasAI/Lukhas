@@ -43,7 +43,7 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "digest_extractor"
 
 class DigestExtractor:
-    """Extract system digest from LUKHAS codebase metadata."""
+    """Extract system digest from core.common codebase metadata."""
 
     def __init__(self, base_path: str = "/Users/agi_dev/Downloads/Consolidation-Repo"):
         self.base_path = Path(base_path)

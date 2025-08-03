@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 
 from cachetools import TTLCache
 
-from streamlit.runtime.session_manager import SessionInfo, SessionStorage
+# from streamlit.runtime.session_manager import SessionInfo, SessionStorage  # TODO: Install or implement streamlit
 
 if TYPE_CHECKING:
     from collections.abc import MutableMapping

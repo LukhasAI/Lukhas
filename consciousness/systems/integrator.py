@@ -34,7 +34,7 @@ seamless communication between all cognitive modules.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 import time
 from typing import Dict, List, Optional, Any, Union, Tuple

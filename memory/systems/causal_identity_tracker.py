@@ -40,7 +40,7 @@ import structlog
 
 from .fold_lineage_tracker import FoldLineageTracker, CausationType, CausalLink, FoldLineageNode
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # ΛCAUSAL: Enhanced causation types for identity tracking
 class IdentityLinkType(Enum):

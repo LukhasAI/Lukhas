@@ -55,7 +55,7 @@ IDEA: Add predictive causality modeling for proactive feedback optimization
 """
 
 import json
-import logging
+from core.common import get_logger
 import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional

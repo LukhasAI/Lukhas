@@ -42,7 +42,7 @@ __tier__ = 2
 
 
 
-import logging
+from core.common import get_logger
 import numpy as np
 import asyncio
 import hashlib

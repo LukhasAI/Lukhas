@@ -49,12 +49,12 @@ try:
     from V1.systems.core.modules.nias.nias_core import push_symbolic_message
 
     # Widget system from AGENT folder
-    from AGENT.lukhas_widget_engine import WidgetEngine
-    from AGENT.lukhas_nias_filter import evaluate_ad_permission
+#     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
+#     from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT
 
     V1_COMPONENTS_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Could not import V1 components: {e}")
+    logging.warning(f"Could not # import V1  # External dependency components: {e}")
     V1_COMPONENTS_AVAILABLE = False
 
 @dataclass

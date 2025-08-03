@@ -39,7 +39,7 @@ from .memory_interface import (
     MemoryOperation, MemoryResponse, ValidationResult
 )
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class SemanticRelationType(Enum):

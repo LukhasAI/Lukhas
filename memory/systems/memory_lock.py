@@ -25,7 +25,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
-import logging
+from core.common import get_logger
 import os
 import time
 import json
@@ -37,7 +37,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TraumaLockSystem:

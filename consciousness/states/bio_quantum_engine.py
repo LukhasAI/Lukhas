@@ -16,7 +16,7 @@ Symphony Architecture for advanced abstract reasoning capabilities.
 
 import asyncio
 import numpy as np
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, Any, List, Optional, Tuple, Union
 from datetime import datetime

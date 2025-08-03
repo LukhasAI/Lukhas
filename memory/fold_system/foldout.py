@@ -34,10 +34,9 @@ import binascii
 from pathlib import Path
 from datetime import datetime
 from typing import Iterable, Dict, Any, Optional
-import logging
+from core.common import get_logger
 import structlog
 
-logger = structlog.get_logger("ΛTRACE.memory.foldout")
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"

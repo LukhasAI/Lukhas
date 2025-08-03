@@ -82,9 +82,9 @@ except ImportError:
 
 # Configure module logger
 if structlog:
-    logger = structlog.get_logger(__name__)
+    pass  # TODO: Implement
 else:
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "2.0.0"

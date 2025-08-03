@@ -15,12 +15,12 @@ DESCRIPTION:
 """
 
 import json
-import logging
+from core.common import get_logger
 from pathlib import Path
 from core.utils.symbolic_utils import tier_label, summarize_emotion_vector
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

@@ -52,7 +52,7 @@ from collections import defaultdict, deque
 import networkx as nx
 import json
 
-logger = structlog.get_logger("ΛTRACE.memory.causal")
+from core.common import get_logger
 
 
 class CausalRelationType(Enum):

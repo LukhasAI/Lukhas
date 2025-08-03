@@ -46,7 +46,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 import numpy as np
 from typing import Dict, List, Any, Optional
@@ -60,7 +60,7 @@ from ..bio_core.bio_symbolic import (
     CardiolipinEncoder
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class SystemAwareness:
     """

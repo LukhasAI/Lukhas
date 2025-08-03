@@ -13,7 +13,7 @@ Integration Date: 2025-05-31T07:55:28.192995
 """
 
 import numpy as np
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Tuple, Union, Optional
 
 logger = logging.getLogger("QuantumAttention")

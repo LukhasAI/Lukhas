@@ -24,7 +24,7 @@
 import sys
 import json
 import time
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional
 import argparse
 

@@ -33,11 +33,10 @@ import json
 import binascii
 from pathlib import Path
 from typing import Generator, Dict, Any, Optional, Union
-import logging
+from core.common import get_logger
 import structlog
 from io import BytesIO
 
-logger = structlog.get_logger("ΛTRACE.memory.foldin")
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"
@@ -46,7 +45,8 @@ MAGIC = b"LKF\x01"
 SUPPORTED_SPECS = ["1.0"]
 
 
-class LKFPackError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class LKFPackError(LukhasError):
     """Base exception for LKF-Pack errors."""
     pass
 

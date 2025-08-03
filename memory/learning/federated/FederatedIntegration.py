@@ -25,14 +25,14 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Any, Tuple, Set
 from datetime import datetime, timedelta
-import logging
+from core.common import get_logger
 
 # Integration imports (would resolve to existing LUKHAS components)
 # from .monitor_dashboard import MetaLearningMonitorDashboard, LearningMetrics
 # from .rate_modulator import DynamicLearningRateModulator, ConvergenceSignal
 # from .symbolic_feedback import SymbolicFeedbackSystem
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Federationstrategy(Enum):
     """Strategies for federated learning coordination"""

@@ -28,7 +28,7 @@ import structlog
 from .context_aware_voice_modular import ContextAwareVoiceSystem
 from .recognition import VoiceRecognition
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class VoiceHub:

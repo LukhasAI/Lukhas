@@ -10,13 +10,14 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, List, Set
 from dataclasses import dataclass, field
 from datetime import datetime
-import logging
+from core.common import get_logger
 import uuid
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
-class HookExecutionError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class HookExecutionError(LukhasError):
     """Raised when hook execution fails"""
     pass
 

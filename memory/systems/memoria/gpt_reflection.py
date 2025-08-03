@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -38,7 +38,7 @@ try:
     from openai import OpenAI, APIError
     OPENAI_AVAILABLE = True
 except ImportError:
-    log_init_fallback = structlog.get_logger(__name__) # Temp logger for this specific message
+from from core.common import get_logger
     log_init_fallback.warning("OpenAI library not found. `generate_gpt_reflection` will use placeholder.", component="GPTReflection")
     OPENAI_AVAILABLE = False
     # Define placeholder classes to mimic openai library structure if not available
@@ -51,21 +51,19 @@ except ImportError:
 
     class _MockChatCompletions:
         def create(self, **kwargs: Any) -> _MockResponse:
-            log_placeholder = structlog.get_logger("OpenAI_Placeholder_Client")
             log_placeholder.info("Placeholder: client.chat.completions.create invoked.", model_requested=kwargs.get("model"))
             return _MockResponse(model=kwargs.get("model", "placeholder_model"))
 
     class OpenAI: # type: ignore
         chat: Any # To hold an instance of _MockChat
         def __init__(self, api_key: Optional[str]):
-            _log_placeholder_init = structlog.get_logger("OpenAI_Placeholder_Init")
             if not OPENAI_AVAILABLE and not api_key: # Only log if truly using placeholder due to missing lib
                  _log_placeholder_init.debug("OpenAI placeholder client initialized (no API key needed/checked for placeholder).")
             self.chat = type('_MockChat', (), {'completions': _MockChatCompletions()})() # Assign instance
 
-    class APIError(Exception): pass # type: ignore
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+    class APIError(LukhasError): pass # type: ignore
 
-log = structlog.get_logger(__name__)
 
 OPENAI_API_KEY_ENV_VAR_NAME = "OPENAI_API_KEY_LUKHAS"
 OPENAI_API_KEY_VALUE = os.getenv(OPENAI_API_KEY_ENV_VAR_NAME)

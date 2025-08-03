@@ -1,7 +1,7 @@
 import pytest
 
 from dast import DASTEngine
-from abas import ABASEngine
+# from abas import ABASEngine
 from nias import NIASEngine
 
 

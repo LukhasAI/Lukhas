@@ -26,7 +26,7 @@ For more information, visit: https://lukhas.ai
 # dream_generator.py
 import random
 from datetime import datetime
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional
 import asyncio
 import openai

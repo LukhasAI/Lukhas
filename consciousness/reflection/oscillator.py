@@ -43,7 +43,7 @@ from typing import Dict, Any, Optional, List, Tuple
 from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime
-import logging
+from core.common import get_logger
 import cmath
 import hashlib
 from concurrent.futures import ThreadPoolExecutor

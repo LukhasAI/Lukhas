@@ -11,11 +11,11 @@ Integration Date: 2025-05-31T07:55:30.783257
 # ╰──────────────────────────────────────────────────────────────────────────────╯
 import argparse
 import subprocess
-import logging
+from core.common import get_logger
 from pathlib import Path
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

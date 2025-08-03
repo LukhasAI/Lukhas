@@ -14,7 +14,7 @@ Fixes the current implementation gaps and aligns with BaseColony infrastructure
 import asyncio
 import random
 import time
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Set, Callable, Union
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -36,7 +36,7 @@ except ImportError:
     BASE_COLONY_AVAILABLE = False
     BaseColony = object
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class AgentState(Enum):

@@ -13,7 +13,7 @@ import sys
 import time
 import os
 from pathlib import Path
-import logging
+from core.common import get_logger
 import traceback # For detailed error logging
 
 # Initialize logger for ΛTRACE

@@ -41,7 +41,7 @@
 
 # Module imports
 import os
-import logging
+from core.common import get_logger
 from typing import Dict, Optional
 import openai
 

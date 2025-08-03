@@ -39,7 +39,7 @@ import psutil
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py or by the script that instantiates this.
-logger = structlog.get_logger("ΛTRACE.core.Adaptative_AGI.GUARDIAN.sub_agents.MemoryCleaner")
+from core.common import get_logger
 
 # ΛEXPOSE
 # MemoryCleaner sub-agent for memory optimization tasks.

@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:29.372300
 
 import os
 from core.config import settings
-import logging
+from core.common import get_logger
 import aiohttp
 import asyncio
 from typing import Dict, Any, Optional, List, Union, BinaryIO
@@ -17,7 +17,7 @@ import tempfile
 import json
 import openai
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class WhisperClient:
     """

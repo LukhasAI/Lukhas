@@ -107,7 +107,7 @@ class BaseMemoryManager(ABC):
         """
         self.config = config or {}
         if structlog:
-            self.logger = structlog.get_logger(f"LUKHAS.Memory.{self.__class__.__name__}")
+from from core.common import get_logger
         else:
             self.logger = logging.getLogger(f"LUKHAS.Memory.{self.__class__.__name__}")
 

@@ -21,7 +21,7 @@ Uses the existing elevenlabs_client.py for speech synthesis
 import os
 import sys
 import argparse
-import logging
+from core.common import get_logger
 import asyncio
 from pathlib import Path
 

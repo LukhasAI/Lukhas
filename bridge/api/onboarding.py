@@ -7,7 +7,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
+from core.common import get_logger
 import time # For generating basic request IDs
 from flask import Blueprint, request, jsonify
 

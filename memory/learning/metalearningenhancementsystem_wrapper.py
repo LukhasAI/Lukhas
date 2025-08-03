@@ -3,7 +3,7 @@ Meta-Learning Enhancement System Wrapper
 Integration wrapper for meta-learning enhancement system
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 import asyncio
 from datetime import datetime
@@ -37,7 +37,7 @@ except ImportError as e:
 else:
     USING_MOCK = False
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MetaLearningEnhancementWrapper:

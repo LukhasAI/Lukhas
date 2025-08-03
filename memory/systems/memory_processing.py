@@ -20,9 +20,9 @@ import datetime
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 from enum import Enum
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EmotionalState(Enum):
     NEUTRAL = "neutral"

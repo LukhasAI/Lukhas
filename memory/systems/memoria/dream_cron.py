@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -42,10 +42,9 @@ try:
     SCHEDULE_LIB_AVAILABLE = True
 except ImportError:
     # Logger not yet initialized if this is top-level, handle gracefully or initialize temp
-    _init_log = structlog.get_logger("lukhas_dream_cron_init") # Temp for this one case
+from from core.common import get_logger
     _init_log.error("Python 'schedule' library not found. Dream cron cannot run. Install with: pip install schedule")
 
-log = structlog.get_logger(__name__)
 
 # --- Configuration ---
 # TODO: Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root or via env var LUKHAS_SCRIPTS_PATH)

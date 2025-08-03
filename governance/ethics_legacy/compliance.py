@@ -11,7 +11,7 @@ License: Proprietary
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
@@ -59,7 +59,7 @@ class EthicsComplianceEngine:
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
         # Configuration
         self.strict_mode = self.config.get("strict_mode", True)

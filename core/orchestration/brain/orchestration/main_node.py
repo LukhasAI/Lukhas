@@ -38,7 +38,7 @@ try:
     from backend.cognitive.node import Node
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
-    from AID.service.identity_manager import IdentityManager
+#     from AID.service.identity_manager import IdentityManager  # TODO: Install or implement AID
     from backend.security.privacy_manager import PrivacyManager
     
     # Utils and config

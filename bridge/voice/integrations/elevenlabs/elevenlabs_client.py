@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:29.366776
 """
 
 import os
-import logging
+from core.common import get_logger
 import aiohttp
 import asyncio
 import sys
@@ -15,7 +15,7 @@ import base64
 from datetime import datetime
 import uuid
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ElevenLabsClient:
     """

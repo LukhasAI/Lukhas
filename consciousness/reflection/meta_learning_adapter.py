@@ -46,7 +46,7 @@ from enum import Enum
 from datetime import datetime, timedelta # timedelta not used
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # # Enum for phases of meta-learning enhancement
 class LearningPhase(Enum):

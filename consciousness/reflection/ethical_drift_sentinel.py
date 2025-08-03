@@ -67,7 +67,7 @@ import structlog
 from pathlib import Path
 
 # Configure structured logging
-logger = structlog.get_logger("ΛSENTINEL.ethics.drift")
+from core.common import get_logger, GLYPHToken, create_glyph
 
 
 class EscalationTier(Enum):

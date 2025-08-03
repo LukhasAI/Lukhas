@@ -21,7 +21,7 @@
 
 import hashlib
 import base64
-import logging
+from core.common import get_logger
 import time
 from dataclasses import dataclass
 from enum import Enum

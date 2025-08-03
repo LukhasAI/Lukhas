@@ -4,7 +4,7 @@ Enables distributed consciousness processing through colony architecture
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import numpy as np
@@ -21,7 +21,7 @@ from core.swarm import SwarmHub
 from core.event_bus import EventBus
 from bridge.shared_state import SharedStateManager
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):

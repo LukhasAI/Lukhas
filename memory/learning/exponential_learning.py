@@ -69,7 +69,7 @@
 import structlog
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # # ExponentialLearningSystem class
 # ΛEXPOSE: This class defines a system for exponential learning, likely a key component.

@@ -21,7 +21,7 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 
 # Initialize structured logger
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 class AudioEngine:
     """

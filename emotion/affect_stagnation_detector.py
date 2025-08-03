@@ -27,12 +27,12 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

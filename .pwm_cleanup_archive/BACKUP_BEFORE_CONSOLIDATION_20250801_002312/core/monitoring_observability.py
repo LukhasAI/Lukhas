@@ -45,8 +45,8 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 # Monitoring and observability libraries
-import prometheus_client
-from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
+# import prometheus_client  # External dependency
+# from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
 import structlog
 from opentelemetry import trace, metrics
 from opentelemetry.exporter.jaeger.thrift import JaegerExporter

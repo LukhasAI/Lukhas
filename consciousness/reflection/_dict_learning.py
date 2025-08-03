@@ -35,7 +35,7 @@ import structlog # ΛTRACE: Ensure structlog is used for logging
 #TAG:colony
 
 
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 from ..base import (
     BaseEstimator,

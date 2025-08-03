@@ -22,7 +22,7 @@
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 import psutil
 import threading

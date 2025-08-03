@@ -20,7 +20,7 @@ from core.helpers import get_utc_timestamp # ΛUTIL: UTC timestamp utility
 #TAG:colony
 
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # ΛUTIL
 def create_diagnostic_payload(component_id: str, status: SystemStatus, message: str, additional_data: Optional[Dict] = None) -> Dict:

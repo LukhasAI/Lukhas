@@ -63,7 +63,7 @@ try:
     from ..spine.healix_mapper import calculate_drift_score # Conceptual, might be part of LUKHAS core
     from ..bio_core.memory.quantum_memory_manager import QuantumMemoryManager # Conceptual
     from ...brain.memory.AdvancedMemoryManager import AdvancedMemoryManager # Conceptual
-    from ...AID.dream_engine.dream_replay import replay_dream_by_id, replay_recent_dreams # Conceptual
+#     from ...AID.dream_engine.dream_replay import replay_dream_by_id, replay_recent_dreams # Conceptual  # TODO: Install or implement AID
     from ...MODULES.memoria.lukhas_replayer import LUKHASReplayer # Conceptual, 'lukhas' might be legacy
     from ..bio_symbolic.glyph_id_hash import GlyphIDHasher # Conceptual
     from ...LUKHAS_ID.backend.app.crypto import generate_collapse_hash # Conceptual

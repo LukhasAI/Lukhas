@@ -6,7 +6,7 @@ Implements scalable, fault-tolerant memory across multiple colonies
 import asyncio
 import hashlib
 import json
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime, timedelta
 from enum import Enum
@@ -19,7 +19,7 @@ from core.efficient_communication import MessagePriority
 from memory.distributed_state_manager import DistributedStateManager, StateType
 from core.event_sourcing import EventStore, EventSourcedAggregate
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MemoryType(Enum):

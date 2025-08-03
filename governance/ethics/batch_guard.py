@@ -14,7 +14,7 @@ from typing import List, Dict, Tuple, Optional
 from enum import Enum
 from dataclasses import dataclass
 import json
-import logging
+from core.common import get_logger
 
 class EthicsLevel(Enum):
     STRICT = "strict"
@@ -42,7 +42,7 @@ class EthicsBatchGuard:
 
     def __init__(self, ethics_level: EthicsLevel = EthicsLevel.BALANCED):
         self.ethics_level = ethics_level
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
         # Core ethical principles for LUKHAS ecosystem
         self.ethical_principles = {

@@ -28,7 +28,7 @@ import asyncio
 import gc
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import pickle
 import threading
 import time
@@ -44,7 +44,7 @@ import numpy as np
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 T = TypeVar('T')
 

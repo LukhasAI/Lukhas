@@ -52,7 +52,7 @@ import structlog
 from ..shared.reasoning_effort import ReasoningEffort
 
 # Initialize ΛTRACE logger for this module using structlog
-logger = structlog.get_logger("ΛTRACE.reasoning.chat_completion_reasoning_effort")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing chat_completion_reasoning_effort.py module.", module_path=__file__)
 
 __all__ = ["ChatCompletionReasoningEffort"]

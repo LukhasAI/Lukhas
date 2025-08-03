@@ -4,13 +4,13 @@ Provides the DreamBridge interface required by consciousness_hub
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional
 from datetime import datetime
 
 from .dream_bridge import DreamConsciousnessBridge
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DreamBridge:

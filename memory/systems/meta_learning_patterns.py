@@ -60,7 +60,7 @@ from pathlib import Path
 import pickle
 import math
 
-logger = structlog.get_logger("ΛTRACE.memory.meta_learning")
+from core.common import get_logger
 
 
 class PatternType(Enum):

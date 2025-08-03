@@ -17,7 +17,7 @@ from typing import Dict, List, Optional, Tuple, Any, Union
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
 from enum import Enum
-import logging
+from core.common import get_logger
 
 # Import constitutional enforcement and other core modules
 from .constitutional_gatekeeper import get_constitutional_gatekeeper, ConstitutionalLevel

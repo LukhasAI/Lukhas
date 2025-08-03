@@ -22,12 +22,10 @@ from flask_limiter.util import get_remote_address
 from flask_socketio import SocketIO, emit
 import threading
 import time
-import logging
-from utils.shared_logging import get_logger
+from core.common import get_logger
 from backend.audit_logger import AuditLogger
 
 app = Flask(__name__)
-logger = get_logger('EntropyHealthAPI')
 audit_logger = AuditLogger()
 
 # Flask-Limiter for API rate limiting

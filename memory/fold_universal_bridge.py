@@ -33,7 +33,7 @@
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple, Set
 from dataclasses import dataclass, field

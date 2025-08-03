@@ -1,5 +1,5 @@
 """Compliance engine for regulatory and ethical standards"""
-import logging
+from core.common import get_logger
 import json
 from typing import Dict, Any, List, Optional, Union, Set
 from datetime import datetime

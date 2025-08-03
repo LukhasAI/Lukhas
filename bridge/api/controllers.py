@@ -43,7 +43,7 @@ def _get_learning_service():
     return lambda: service
 
 
-logger = structlog.get_logger("ΛTRACE.core.api_controllers")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing api_controllers module.")
 
 # Add parent directory for imports if necessary, though direct relative imports are preferred.

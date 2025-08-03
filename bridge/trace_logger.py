@@ -37,7 +37,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 import json
 from typing import Dict, Any
 from dataclasses import dataclass, asdict

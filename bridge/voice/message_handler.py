@@ -17,12 +17,12 @@
 
 import queue
 import threading
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, Callable
 from dataclasses import dataclass
 from datetime import datetime
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 @dataclass
 class VoiceMessage:

@@ -13,7 +13,7 @@ Provides comprehensive monitoring, health checks, and alerting capabilities
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.orchestration.monitoring")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing orchestration.monitoring package.")
 
 # Import existing modules

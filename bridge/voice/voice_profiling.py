@@ -10,7 +10,7 @@ Integration Date: 2025-05-31T07:55:27.760932
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AGI
 
 from typing import Dict, Any, Optional, List, Tuple
-import logging
+from core.common import get_logger
 import json
 import os
 import uuid

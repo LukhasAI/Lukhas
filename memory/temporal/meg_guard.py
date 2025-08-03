@@ -29,14 +29,14 @@
 
 import asyncio
 import time
-import logging
+from core.common import get_logger
 from functools import wraps
 from typing import Any, Callable, Optional, Dict, Union
 from dataclasses import dataclass
 from contextlib import contextmanager
 import openai
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

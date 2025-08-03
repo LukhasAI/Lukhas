@@ -18,7 +18,7 @@ import structlog
 
 # Initialize logger for this module prior to placeholder definitions that might use it
 # ΛTRACE: Standard logger setup for BioSymbolicMemory.
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # --- Placeholder Imports for LUKHAS Components/Types ---
 # ΛCAUTION: The following classes are placeholders. Their actual implementation

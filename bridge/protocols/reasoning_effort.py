@@ -52,7 +52,7 @@ from typing_extensions import Literal, TypeAlias
 import structlog
 
 # Initialize ΛTRACE logger for this module
-logger = structlog.get_logger("ΛTRACE.reasoning.reasoning_effort")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing reasoning_effort.py module (TypeAlias definition).", module_path=__file__)
 
 __all__ = ["ReasoningEffort"]

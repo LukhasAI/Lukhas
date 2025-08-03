@@ -50,7 +50,7 @@ AIDEA: Implement colony consciousness evolution tracking
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Any, Optional, Tuple, Union, Set, Type

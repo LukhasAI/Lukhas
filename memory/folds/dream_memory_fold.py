@@ -17,13 +17,13 @@ introspective content with symbolic annotation.
 """
 
 import json
-import logging
+from core.common import get_logger
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

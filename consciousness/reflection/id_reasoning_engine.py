@@ -42,7 +42,7 @@ import base64
 import time # Used for unique request IDs in some methods.
 
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init time - Event) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger configuration echoes global settings)
-logger = structlog.get_logger(__name__) # Using __name__ for module-level logger.
+from core.common import get_logger
 logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing") # Standardized init log. #ΛTEMPORAL_HOOK (Log event at init time)
 
 # Quantum Security Imports (placeholder for actual quantum crypto libraries)

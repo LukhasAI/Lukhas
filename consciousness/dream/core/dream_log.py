@@ -2,7 +2,7 @@
 Mock dream_log module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
-import logging
+from core.common import get_logger
 from datetime import datetime
 
 class DreamLog:

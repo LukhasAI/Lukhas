@@ -15,7 +15,7 @@ Status: PRODUCTION READY
 import os
 import sys
 import json
-import logging
+from core.common import get_logger
 import asyncio
 import time
 import uuid

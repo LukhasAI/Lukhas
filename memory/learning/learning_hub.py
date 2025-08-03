@@ -4,11 +4,11 @@ Central coordination for learning subsystem components with meta-learning
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Import meta-learning enhancement system
 try:

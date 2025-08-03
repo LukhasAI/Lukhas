@@ -24,7 +24,7 @@ enabling quantum-enhanced dream processing and memory consolidation.
 """
 
 from typing import Dict, List, Any, Optional, Tuple
-import logging
+from core.common import get_logger
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime

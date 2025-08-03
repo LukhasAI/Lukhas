@@ -68,7 +68,7 @@ import re
 from abc import ABC, abstractmethod
 import math
 
-logger = structlog.get_logger("ΛTRACE.memory.neurosymbolic")
+from core.common import get_logger
 
 
 class SymbolicRelationType(Enum):

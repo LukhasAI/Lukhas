@@ -13,7 +13,7 @@
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.meta_cognitive")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing core.integration.meta_cognitive package.")
 
 # Define what is explicitly exported by this package

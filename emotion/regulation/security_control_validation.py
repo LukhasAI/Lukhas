@@ -18,14 +18,14 @@ Comprehensive security control testing and validation for AI systems:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple, Callable
 from datetime import datetime
 import json
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ControlCategory(Enum):
     """Security control categories"""

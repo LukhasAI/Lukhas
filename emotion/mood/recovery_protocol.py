@@ -12,7 +12,7 @@ This module provides a protocol for symbolic trauma decompression.
 """
 
 from typing import Dict, List, Any, Optional, Tuple
-import logging
+from core.common import get_logger
 import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime

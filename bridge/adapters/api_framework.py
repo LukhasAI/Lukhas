@@ -18,14 +18,14 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field, validator, root_validator
 from pydantic.generics import GenericModel
 import structlog
-from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+# from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 import redis.asyncio as redis
 from typing_extensions import Annotated
 
 # Configure structured logging
-logger = structlog.get_logger()
+from core.common import get_logger
 
 # Type variables for generic responses
 T = TypeVar('T')

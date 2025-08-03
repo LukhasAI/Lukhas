@@ -154,7 +154,8 @@ except ImportError:
     el_generate = None
     el_play = None
 try:
-    import edge_tts
+    pass
+#     import edge_tts  # TODO: Install or implement edge_tts
 except ImportError:
     edge_tts = None
 

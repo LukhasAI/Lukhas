@@ -44,8 +44,9 @@ import json
 from typing import Dict, Any, List, Optional
 from collections import deque
 import numpy as np
-import logging
+from core.common import get_logger
 
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 class MemoryDriftMirror:
     """
     Analyzes memory drift vectors to detect patterns and classify drift sequences.

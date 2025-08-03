@@ -27,7 +27,7 @@ identity, and learning systems.
 #ΛEXPOSE: Exports key classes like `ConsciousnessIntegrator` and `ConsciousnessState`.
 """
 
-import logging
+from core.common import get_logger
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness")

@@ -22,7 +22,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-import logging
+from core.common import get_logger
 
 try:
     from memory.unified_memory_manager import MemoryFoldSystem

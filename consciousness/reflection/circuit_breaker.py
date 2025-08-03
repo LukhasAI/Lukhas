@@ -17,7 +17,7 @@ and system-wide collapse.
 import asyncio
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import threading
 import time
 import weakref
@@ -36,7 +36,7 @@ except ImportError:
     class ActorRef:
         pass
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class CircuitState(Enum):

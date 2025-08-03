@@ -3,13 +3,13 @@ Memory Profiler Mock Implementation
 Provides lightweight memory profiling functionality without PyTorch dependencies
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
 from enum import Enum, auto
 from dataclasses import dataclass, field
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class Category(Enum):

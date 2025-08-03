@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 

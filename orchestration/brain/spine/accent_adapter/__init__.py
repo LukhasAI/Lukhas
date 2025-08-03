@@ -1,0 +1,4 @@
+"""
+Accent_Adapter Module
+"""
+

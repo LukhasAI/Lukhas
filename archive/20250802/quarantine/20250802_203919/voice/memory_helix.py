@@ -2,7 +2,7 @@
 LUKHAS Voice Memory Helix System
 ===============================
 
-Golden transfer from LUKHAS-Portfolio Voice_Pack.
+Golden transfer from core.common-Portfolio Voice_Pack.
 Advanced voice learning system with helix-pattern memory recursion.
 
 +===========================================================================+
@@ -20,7 +20,7 @@ DEPENDENCIES:
 """
 ===============================
 
-Golden transfer from LUKHAS Voice_Pack.
+Golden transfer from core.common Voice_Pack.
 Advanced voice learning system with helix-pattern memory recursion.
 
 # LUKHAS SYSTEM : voice_memory_helix.py

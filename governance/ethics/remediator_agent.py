@@ -41,7 +41,7 @@ import uuid
 from .sub_agents import EthicsGuardian, MemoryCleaner
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.orchestration.monitoring.RemediatorAgent")
+from core.common import get_logger
 
 class RemediationType(Enum):
     """Types of remediation that can be performed."""

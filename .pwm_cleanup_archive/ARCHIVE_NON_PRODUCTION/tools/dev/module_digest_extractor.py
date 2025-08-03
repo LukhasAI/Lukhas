@@ -32,7 +32,7 @@ class ModuleDigest:
 
 
 class ModuleDigestExtractor:
-    """Extract module metadata from LUKHAS headers/footers."""
+    """Extract module metadata from core.common headers/footers."""
 
     def __init__(self, base_path: Optional[str] = None):
         repo_root = Path(base_path) if base_path else Path(__file__).resolve().parents[2]

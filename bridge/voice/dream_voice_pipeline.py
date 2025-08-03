@@ -24,13 +24,13 @@ DESCRIPTION:
     • Emotion-aware voice profile routing
 """
 
-import logging
+from core.common import get_logger
 from core.interfaces.as_agent.sys.nias.narration_controller import fetch_narration_entries, load_user_settings, filter_narration_queue
 from core.modules.nias.__init__ import narrate_dreams
 from pathlib import Path
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

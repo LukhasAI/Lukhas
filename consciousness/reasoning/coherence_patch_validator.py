@@ -4,7 +4,7 @@ Validates reasoning coherence and applies patches to maintain logical consistenc
 """
 
 import json
-import logging
+from core.common import get_logger
 import os
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, List, Optional, Tuple, Set
@@ -13,7 +13,7 @@ import asyncio
 import numpy as np
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class CoherenceMetrics:

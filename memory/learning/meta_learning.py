@@ -24,7 +24,7 @@ from collections import defaultdict
 import structlog # ΛTRACE: Using structlog for structured logging
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # # Dataclass for tracking learning performance metrics
 # ΛEXPOSE: Defines the structure for learning metrics, used by the MetaLearningSystem.

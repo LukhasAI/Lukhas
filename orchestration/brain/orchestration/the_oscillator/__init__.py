@@ -1,0 +1,4 @@
+"""
+The_Oscillator Module
+"""
+

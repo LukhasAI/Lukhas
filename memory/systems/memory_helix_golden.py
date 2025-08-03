@@ -66,7 +66,7 @@ __module_name__ = "Golden Helix Memory Mapper"
 __version__ = "3.0.0"
 __tier__ = 5
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Union
 from datetime import datetime, timedelta
 from enum import Enum

@@ -15,7 +15,7 @@ Integration Date: 2025-05-31T07:55:30.384694
 # ║ 🔄 UPDATED: 2025-04-22                                            ║
 # ╚═══════════════════════════════════════════════════════════════════╝
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 from pathlib import Path
 from core.dashboard_settings import get_paired_apps
 

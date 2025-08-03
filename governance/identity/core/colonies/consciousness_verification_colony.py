@@ -6,7 +6,7 @@ and collective consciousness coherence checking with self-healing capabilities.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, Any, List, Optional, Tuple, Set
 from dataclasses import dataclass

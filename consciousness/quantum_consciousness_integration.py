@@ -44,7 +44,7 @@
 
 # Module imports
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from datetime import datetime

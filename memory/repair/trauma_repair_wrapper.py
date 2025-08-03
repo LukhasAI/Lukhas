@@ -3,7 +3,7 @@ Trauma Repair Wrapper
 Integration wrapper for advanced trauma repair system
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from enum import Enum
@@ -40,7 +40,7 @@ except ImportError as e:
 else:
     USING_MOCK = False
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MemoryTraumaRepair:

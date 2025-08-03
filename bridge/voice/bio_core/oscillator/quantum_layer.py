@@ -6,7 +6,7 @@ Created as mock implementation for voice system integration.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional
 from dataclasses import dataclass
 
@@ -25,7 +25,7 @@ class QuantumBioOscillator:
     Mock implementation of quantum bio-oscillator for voice processing
 
     Note: Created as temporary mock per CLAUDE.local.md guidelines.
-    Real implementation should be sourced from LUKHAS AI team.
+    Real implementation should be sourced from core.common AI team.
     """
 
     def __init__(self, base_freq: float = 10.0, quantum_config: Optional[Dict[str, Any]] = None):

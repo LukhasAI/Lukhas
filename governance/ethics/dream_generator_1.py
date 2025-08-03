@@ -15,7 +15,7 @@ Integration Date: 2025-05-31T07:55:29.970599
 # dream_generator.py
 import random
 from datetime import datetime
-import logging
+from core.common import get_logger
 from typing import Dict, Any
 
 from ethics.ethical_guardian import ethical_check

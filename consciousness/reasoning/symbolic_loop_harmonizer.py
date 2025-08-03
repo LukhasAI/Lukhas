@@ -3,7 +3,7 @@ Symbolic Loop Harmonizer
 Harmonizes reasoning loops by detecting and correcting symbolic misalignments
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 from typing import Dict, Any, List, Optional, Tuple, Set
 from datetime import datetime, timedelta
@@ -13,7 +13,7 @@ import numpy as np
 from enum import Enum
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class HarmonizerMode(Enum):

@@ -54,7 +54,7 @@ import pickle
 import threading
 import math
 
-logger = structlog.get_logger("ΛTRACE.memory.episodic_replay")
+from core.common import get_logger
 
 # Experience tuple for storing RL experiences
 Experience = namedtuple('Experience', [

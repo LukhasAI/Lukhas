@@ -1,5 +1,5 @@
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 import json
 import os
@@ -15,7 +15,7 @@ logging.basicConfig(
     ]
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Import system components
 try:
@@ -28,7 +28,7 @@ try:
     from backend.cognitive.node import Node
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
-    from AID.service.identity_manager import IdentityManager
+#     from AID.service.identity_manager import IdentityManager  # TODO: Install or implement AID
     from backend.security.privacy_manager import PrivacyManager
 
     # Utils and config

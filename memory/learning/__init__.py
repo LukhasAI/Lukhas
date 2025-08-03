@@ -6,9 +6,9 @@ Total entities: 220
 
 # Lazy imports to avoid circular dependencies
 import importlib
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Entity registry for lazy loading
 _ENTITY_REGISTRY = {

@@ -31,7 +31,7 @@ ETHICAL ARCHITECTURE:
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
@@ -58,7 +58,6 @@ from sklearn.cluster import DBSCAN
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-logger = structlog.get_logger(__name__)
 
 
 class EthicalFramework(Enum):

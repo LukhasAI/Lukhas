@@ -14,7 +14,7 @@ that can enhance external bot systems through the bridge layer.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from datetime import datetime

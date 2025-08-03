@@ -9,7 +9,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 # Import Lukhas interfaces (these would be provided by Lukhas AGI)
-from lukhas_core import (
+from core.common import (
     LUKHASPlugin,
     LUKHASMemoryInterface,
     LUKHASVoiceInterface,

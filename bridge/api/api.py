@@ -26,7 +26,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional, Callable
 from datetime import datetime
 import time

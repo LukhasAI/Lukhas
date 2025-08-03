@@ -571,16 +571,15 @@ class EnergyMonitor:
 async def demo_efficient_communication():
     """Demonstrate the efficient communication system with resource optimization"""
     # Import resource optimizer
-    from core.resource_optimization_integration import (
-        ResourceOptimizationCoordinator, OptimizationStrategy
-    )
+    from core.interfaces.dependency_injection import get_service
+    from core.interfaces.core_interface import OptimizationStrategy
 
-    # Create resource optimizer
-    optimizer = ResourceOptimizationCoordinator(
-        target_energy_budget_joules=1000.0,
-        target_memory_mb=500,
-        optimization_strategy=OptimizationStrategy.BALANCED
-    )
+    # Get resource optimizer through dependency injection
+    try:
+        optimizer = get_service("resource_optimizer")
+    except ValueError:
+        print("⚠️ Resource optimizer not available through dependency injection")
+        return
 
     # Create communication fabric for multiple nodes
     node1 = EfficientCommunicationFabric("agent-001")

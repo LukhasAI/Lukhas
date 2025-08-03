@@ -47,7 +47,7 @@ TODO: Add drift pattern library for operator training
 IDEA: Implement AR/VR mode for 3D drift space visualization
 """
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots

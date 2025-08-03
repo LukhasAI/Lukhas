@@ -657,7 +657,7 @@ class TestManagementSystem:
         """Generate module name from file path."""
 
         try:
-            # Get relative path from LUKHAS root
+            # Get relative path from core.common root
             rel_path = file_path.relative_to(self.lukhas_root)
 
             # Convert to module name

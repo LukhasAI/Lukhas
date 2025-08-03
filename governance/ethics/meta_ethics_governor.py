@@ -69,7 +69,7 @@ except ImportError:
         """Fallback function when SRD is not available"""
         return None
 
-logger = structlog.get_logger("ΛTRACE.meg")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"

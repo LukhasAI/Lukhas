@@ -78,7 +78,7 @@ except ImportError as e:
         PRIVATE = "private"
         RESTRICTED = "restricted"
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class NucleusState(Enum):

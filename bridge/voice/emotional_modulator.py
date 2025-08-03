@@ -39,11 +39,11 @@
 """
 
 from typing import Dict, Any, Optional, List, Union
-import logging
+from core.common import get_logger
 from datetime import datetime
 import numpy as np
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceEmotionalModulator:
     """Handles emotional modulation of voice parameters"""

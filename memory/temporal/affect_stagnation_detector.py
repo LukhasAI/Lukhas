@@ -34,14 +34,13 @@
 """
 
 from typing import Dict, Any, Optional
-import logging
+from core.common import get_logger
 import structlog
 from datetime import datetime, timezone
 
 from memory.emotional import EmotionalMemory
 
 # ΛTRACE: Initialize logger for stagnation detection
-logger = structlog.get_logger().bind(tag="emotion_stagnation")
 
 class AffectStagnationDetector:
     """

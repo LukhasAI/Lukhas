@@ -49,7 +49,7 @@ except ImportError:
     IDENTITY_SYMBOLIC_VOCABULARY = {}
 
 try:
-    from .voice_vocabulary import VOICE_SYMBOLIC_VOCABULARY
+    from .voice_vocabulary # import VOICE  # External dependency_SYMBOLIC_VOCABULARY
 except ImportError:
     VOICE_SYMBOLIC_VOCABULARY = {}
 

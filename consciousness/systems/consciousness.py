@@ -16,11 +16,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -34,7 +34,6 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-import logging
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 
@@ -49,7 +48,7 @@ class MetaCognition:
 
     def __init__(self, config: Optional[Dict] = None):
         self.config = config or {}
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
         self.is_initialized = False
         self.status = "inactive"
 

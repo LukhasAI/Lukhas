@@ -21,7 +21,7 @@ Date: 2025-01-27
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field

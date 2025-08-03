@@ -13,7 +13,7 @@ Specialized oscillator for coordinating abstract reasoning across brain systems
 import asyncio
 import time
 import math
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 

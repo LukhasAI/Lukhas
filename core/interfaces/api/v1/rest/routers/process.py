@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 def get_lukhas_core():
-    from orchestration.brain.lukhas_core import core_core
+    from orchestration.brain.core import core_core
     return lukhas_core
 
 

@@ -49,7 +49,7 @@ from typing import (Any, Dict, List, Optional, Set,  # Added Set, Union, Tuple
 import structlog  # Changed from logging
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.memory.MemoryManager")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"

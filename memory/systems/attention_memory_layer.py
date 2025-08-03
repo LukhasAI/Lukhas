@@ -49,7 +49,7 @@ import structlog
 
 # For production, would use PyTorch/TensorFlow
 # Here we implement attention from scratch for demonstration
-logger = structlog.get_logger("ΛTRACE.memory.attention")
+from core.common import get_logger
 
 
 @dataclass

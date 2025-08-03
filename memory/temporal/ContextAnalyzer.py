@@ -30,7 +30,7 @@ urgency, formality, and other contextual factors critical for human-centered int
 """
 from typing import Dict, Any, List
 import time
-import logging
+from core.common import get_logger
 import datetime
 from datetime import timezone as tz
 from zoneinfo import ZoneInfo

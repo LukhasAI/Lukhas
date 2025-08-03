@@ -54,7 +54,7 @@ For more information, visit: https://lukhas.ai
 import argparse
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import os
 import re
 import time
@@ -69,7 +69,6 @@ import structlog
 from hashlib import sha256
 
 # Configure structured logging
-logger = structlog.get_logger("ΛMIRROR.reflection.synthesis")
 
 
 class ReflectionType(Enum):

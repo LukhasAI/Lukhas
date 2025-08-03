@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:27.747593
 #     /tools, /docs, /governance, /assets, /visuals, and /voice.
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 from pathlib import Path
 import base64
 

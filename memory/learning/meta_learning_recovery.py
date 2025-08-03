@@ -32,7 +32,7 @@ from typing import Any, Dict, List, Optional, Tuple  # Added Any, Optional
 import structlog  # ΛTRACE: Using structlog for structured logging
 
 # ΛTRACE: Initialize logger for learning phase (or recovery tool context)
-logger = structlog.get_logger().bind(tag="meta_learning_recovery")
+from core.common import get_logger
 
 
 # # MetaLearningRecovery class

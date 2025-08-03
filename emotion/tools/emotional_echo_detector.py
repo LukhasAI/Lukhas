@@ -47,7 +47,7 @@ import sys
 import json
 import argparse
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -75,7 +75,6 @@ except ImportError as e:
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
-logger = structlog.get_logger("ΛECHO.emotion.loop_detection")
 
 
 class ArchetypePattern(Enum):

@@ -38,7 +38,7 @@
 """
 
 # Module imports
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 import json # Not directly used in current code, but often useful with complex data
 import os # Not directly used
 from datetime import datetime, timedelta # timedelta not used
@@ -53,7 +53,7 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.memory.MemoryVisualizer")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"

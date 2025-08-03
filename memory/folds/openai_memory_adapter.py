@@ -46,7 +46,7 @@ Thus, dear traveler of the digital realm, as you traverse the intricate pathways
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import openai

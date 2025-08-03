@@ -33,7 +33,7 @@ import structlog
 # Import priority API components
 from .services import ConsciousnessAPIService, EmotionAPIService, MemoryAPIService
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class APIHub:

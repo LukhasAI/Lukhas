@@ -1,0 +1,4 @@
+"""
+Ethics_Node Module
+"""
+

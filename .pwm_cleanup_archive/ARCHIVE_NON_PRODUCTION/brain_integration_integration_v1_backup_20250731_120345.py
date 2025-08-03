@@ -43,7 +43,7 @@ try:
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
-        from MultiBrainSymphony import (
+        # from MultiBrainSymphony  # External dependency import (
             MultiBrainSymphonyOrchestrator, 
             DreamsBrainSpecialist,
             MemoryBrainSpecialist, 

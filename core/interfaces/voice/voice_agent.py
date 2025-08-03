@@ -13,8 +13,8 @@
 # ===============================================================
 
 import logging
-from lukhas_core.emotional_state import get_tone
-from lukhas_core.event_bus import subscribe
+from core.emotional_state import get_tone
+from core.event_bus import subscribe
 from utils.logging import log_event
 from datetime import datetime
 

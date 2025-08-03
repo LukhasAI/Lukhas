@@ -45,7 +45,7 @@ from enum import Enum
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.context_voice")
+from core.common import get_logger
 
 
 class EmotionState(Enum):

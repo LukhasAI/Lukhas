@@ -3,9 +3,9 @@ Identity Integration - Connects auth and identity to governance
 """
 
 from typing import Dict, Any, Optional
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class IdentityGovernance:
     """Integrates identity management with governance policies"""

@@ -3,7 +3,7 @@ Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
 
-import logging
+from core.common import get_logger
 import json
 import os
 import time

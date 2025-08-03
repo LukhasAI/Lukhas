@@ -34,7 +34,7 @@ Thus, like a modern-day Orpheus descending into the depths of the digital underw
 
 import argparse
 import json
-import logging
+from core.common import get_logger
 import os
 import re
 import time
@@ -48,7 +48,6 @@ import numpy as np
 import structlog
 
 # Configure structured logging
-logger = structlog.get_logger("ΛARCHIVE.memory.forensics")
 
 
 class AnomalyType(Enum):

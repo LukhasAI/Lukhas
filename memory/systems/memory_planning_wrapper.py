@@ -3,7 +3,7 @@ Memory Planning Wrapper
 Provides integration layer for memory planning components
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 
 try:
@@ -22,7 +22,7 @@ except ImportError as e:
     MEMORY_PLANNING_AVAILABLE = False
     logging.warning(f"Memory planning components not available: {e}")
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MemoryPlanner:

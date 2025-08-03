@@ -471,7 +471,7 @@ lukhas-cli install-deps
 
 ```python
 # plugin.py - Basic plugin structure
-from lukhas_core import LucasPlugin, LucasMemoryInterface
+from core import LucasPlugin, LucasMemoryInterface
 
 class MyAwesomePlugin(LucasPlugin):
     def __init__(self, plugin_config=None):
@@ -481,7 +481,7 @@ class MyAwesomePlugin(LucasPlugin):
 
     async def execute(self, context):
         # Your plugin logic here
-        return {{"status": "success", "message": "Hello from LUKHAS!"}}
+        return {{"status": "success", "message": "Hello from core.common!"}}
 ```
 
 ### 4. **Test Your Plugin**

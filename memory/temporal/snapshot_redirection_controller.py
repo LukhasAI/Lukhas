@@ -25,9 +25,9 @@ from dream.core.dream_snapshot import DreamSnapshotStore
 from trace.drift_harmonizer import DriftHarmonizer
 
 
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class SnapshotRedirectionController:

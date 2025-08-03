@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the multimodal memory support to the
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple, Union
 from datetime import datetime
 import numpy as np
@@ -20,7 +20,7 @@ from .multimodal_memory_support import (
     create_multimodal_memory
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MultimodalMemoryIntegration:

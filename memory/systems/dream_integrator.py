@@ -16,7 +16,7 @@ Dependencies:
 """
 
 import json
-import logging
+from core.common import get_logger
 import asyncio
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple, Set
@@ -25,7 +25,7 @@ from enum import Enum
 import uuid
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

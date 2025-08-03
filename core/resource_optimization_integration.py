@@ -47,11 +47,12 @@ from memory.memory_optimization import (
     CompactList,
     BloomFilter
 )
-from .efficient_communication import (
-    EfficientCommunicationFabric,
+from core.interfaces.core_interface import (
     MessagePriority,
-    CommunicationMode
+    CommunicationMode,
+    CommunicationFabricInterface
 )
+from core.interfaces.dependency_injection import get_service
 
 logger = logging.getLogger(__name__)
 
@@ -142,8 +143,13 @@ class ResourceOptimizationCoordinator:
 
     async def initialize_communication(self, node_id: str):
         """Initialize communication fabric for a node"""
-        self.comm_fabric = EfficientCommunicationFabric(node_id)
-        await self.comm_fabric.start()
+        # Get communication fabric through dependency injection
+        try:
+            self.comm_fabric = get_service("communication_fabric")
+            await self.comm_fabric.start()
+        except ValueError:
+            logger.warning("Communication fabric not available through dependency injection")
+            self.comm_fabric = None
 
         # Set up energy tracking for communication
         self._setup_communication_energy_tracking()

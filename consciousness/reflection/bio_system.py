@@ -39,14 +39,14 @@ __tier__ = 2
 
 from typing import Dict, List, Any, Optional, Tuple
 import numpy as np
-import logging
+from core.common import get_logger
 from datetime import datetime
 
 # Use existing quantum engines - fixed import paths
 from quantum.systems.quantum_engine import Quantumoscillator as QuantumOscillator
 from bio.quantum_inspired_layer import QuantumBioOscillator
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class MitochondrialQuantumBridge:
     """

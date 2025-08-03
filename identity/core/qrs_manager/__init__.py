@@ -1,0 +1,4 @@
+"""
+Qrs_Manager Module
+"""
+

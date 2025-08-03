@@ -14,14 +14,14 @@ DEPENDENCIES:
 """
 import time
 import uuid
-import logging
+from core.common import get_logger
 import json
 from typing import Dict, Any, List, Optional, Tuple
 import os
 import hashlib
 import openai
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ComplianceEngine:
     """

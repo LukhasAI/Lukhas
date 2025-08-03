@@ -29,11 +29,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 from typing import Any, Dict, List, Optional
 from .meg_guard import meg
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Import OpenAI if available
 try:

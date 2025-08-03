@@ -24,14 +24,14 @@ Design inspired by:
 """
 
 from typing import Dict, List, Any, Optional, Union
-import logging
+from core.common import get_logger
 import time
 import hashlib
 import uuid
 import numpy as np
 import openai
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EthicsNode:
     """

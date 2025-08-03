@@ -22,7 +22,7 @@ try:
     from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult
 except ImportError:
     import structlog
-    _log_otel_fallback = structlog.get_logger(__name__)
+from core.common import get_logger
     _log_otel_fallback.warning("OpenTelemetry SDK Trace components not found. InMemorySpanExporter placeholders in use.")
     @dataclass # type: ignore
     class ReadableSpan: name: str # Simplified placeholder # type: ignore

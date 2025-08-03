@@ -10,7 +10,7 @@ import structlog
 from .LBot_reasoning_processed import ΛBotAdvancedReasoningOrchestrator
 from .ethical_reasoning_integration import create_ethical_reasoning_integration
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class ReasoningHub:

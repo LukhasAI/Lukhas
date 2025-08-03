@@ -25,7 +25,7 @@ import structlog
 
 # Initialize logger for this module
 # TRACE: Standard logger setup for AgentMemoryTraceAnimator.
-log = structlog.get_logger(__name__)
+from core.common import get_logger, GLYPHToken, create_glyph
 
 # --- LUKHAS Tier System Placeholder ---
 # NOTE: The lukhas_tier_required decorator is a placeholder for conceptual tiering.

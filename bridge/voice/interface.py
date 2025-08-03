@@ -12,7 +12,7 @@ DEPENDENCIES:
 - LUKHAS_AGI_2.CORE.voice_safety_guard.VoiceSafetyFilter
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 import os
 import json
@@ -51,7 +51,7 @@ except ImportError:
     SYMBOLIC_WORLD_AVAILABLE = False
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceNode:
     """

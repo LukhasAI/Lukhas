@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.135494
 
 # packages/core/src/nodes/dao_node.py
 from typing import Dict, List, Any, Optional
-import logging
+from core.common import get_logger
 import time
 import uuid
 import numpy as np

@@ -28,7 +28,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Tuple, Protocol, Optional, Any
 import uuid
-import logging
+from core.common import get_logger
 import json
 import asyncio
 from dataclasses import dataclass

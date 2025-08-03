@@ -20,13 +20,13 @@ import numpy as np
 from typing import Dict, List, Optional, Tuple, Any, Union
 from dataclasses import dataclass, field
 from enum import Enum
-import logging
+from core.common import get_logger
 import json
 import time
 import random
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DreamPhase(Enum):

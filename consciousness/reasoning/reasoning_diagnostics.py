@@ -3,7 +3,7 @@ Reasoning Diagnostics
 Comprehensive diagnostics and health checks for the reasoning system
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 from typing import Dict, List, Any, Optional, Tuple, Set
 from datetime import datetime, timedelta
@@ -18,7 +18,7 @@ from reasoning.adaptive_reasoning_loop import AdaptiveReasoningLoop, ReasoningCo
 from reasoning.reasoning_metrics import get_metrics_calculator, ReasoningMetrics
 from reasoning.trace_summary_builder import TraceSummaryBuilder
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DiagnosticLevel(Enum):

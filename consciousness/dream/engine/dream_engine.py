@@ -15,7 +15,7 @@ except Exception:  # pragma: no cover - optional
     np = None
 import asyncio
 import uuid
-import logging
+from core.common import get_logger
 from collections import Counter
 
 try:
@@ -32,7 +32,7 @@ except Exception:  # pragma: no cover - optional fallback
         pass
 from core.colonies.creativity_colony import CreativityColony
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class DreamEngine:
     """Dream processing and learning system"""

@@ -24,7 +24,7 @@ import structlog
 from .memory_safety_features import MemorySafetySystem, VerifoldEntry, DriftMetrics
 from .hybrid_memory_fold import HybridMemoryFold
 
-logger = structlog.get_logger("ΛTRACE.memory.integration")
+from core.common import get_logger
 
 
 class VerifoldRegistryAdapter:

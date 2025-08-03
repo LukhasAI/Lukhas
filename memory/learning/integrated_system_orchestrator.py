@@ -1,5 +1,5 @@
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 import json
 import os
@@ -15,7 +15,7 @@ logging.basicConfig(
     ]
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Import system components
 try:

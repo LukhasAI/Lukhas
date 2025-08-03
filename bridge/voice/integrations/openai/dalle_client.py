@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:29.370655
 
 import os
 from core.config import settings
-import logging
+from core.common import get_logger
 import aiohttp
 import base64
 from typing import Dict, Any, Optional, List
@@ -15,7 +15,7 @@ from datetime import datetime
 import uuid
 import openai
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class DALLEClient:
     """

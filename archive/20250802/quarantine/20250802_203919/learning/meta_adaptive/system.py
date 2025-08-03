@@ -111,7 +111,7 @@ except ImportError as e:
     CORE_COMPONENTS_AVAILABLE = False
     # Define minimal fallbacks to allow script to run for demonstration of structure
     class SpeechProcessor: pass
-    class VoiceModulator: def determine_parameters(self, context): return {}; def modulate_voice(self, text, context): return {"text":text, "parameters":{}}
+    class VoiceModulator: def determine_parameters(self, context): return {}; def modulate_voice(self, text, context): return {"text":text, "parameters":{}}:
     class VoiceSafetyGuard: def validate_response(self, r, c=None): return r; def validate_voice_parameters(self, p, c=None): return p
     class NeuroSymbolicEngine: async def process_text(self, t, u, c): return {"response": "Neuro-symbolic engine fallback."}
     class IdentityManager: pass

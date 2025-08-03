@@ -91,7 +91,7 @@ import asyncio
 import base64
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import secrets
 import structlog
 from abc import ABC, abstractmethod
@@ -114,7 +114,6 @@ from ethics.meta_ethics_governor import get_meg, EthicalDecision, CulturalContex
 from core.integration.governance.__init__ import get_srd, instrument_reasoning
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.ppmv")
 
 # Module constants
 MODULE_VERSION = "1.0.0"

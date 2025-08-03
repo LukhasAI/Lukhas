@@ -5,7 +5,7 @@ Cycles emotional states to stabilize drift feedback loops.
 """
 
 from typing import List, Optional
-import logging
+from core.common import get_logger
 
 from memory.emotional import EmotionalMemory
 

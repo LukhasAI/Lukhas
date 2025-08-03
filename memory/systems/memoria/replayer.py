@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -37,7 +37,7 @@ import uuid # For example dummy log
 # Third-Party Imports
 import structlog
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # --- Symbolic AI Component Imports (Problematic - Need Path Resolution) ---
 # AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.
@@ -66,7 +66,7 @@ except Exception as e_path_replay_cfg:
 LUKHAS_DREAM_REPLAY_EFFECTIVE_TIER = 2
 
 def load_recent_dream_logs(limit: int = 3, log_date: Optional[datetime] = None, specific_log_file: Optional[Path] = None) -> List[Dict[str, Any]]:
-    """Loads recent dream log entries from LUKHAS dream logs."""
+    """Loads recent dream log entries from core.common dream logs."""
     log.debug("Loading recent dream logs for replay.", load_limit=limit, date_filter_iso=log_date.isoformat() if log_date else "today", specific_file_path=str(specific_log_file) if specific_log_file else "None")
     target_log = specific_log_file or (DREAM_LOGS_REPLAYER_DIR / f"lukhas_dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
     if not target_log.exists(): log.warning("Dream log file not found for replay.", path=str(target_log)); return []

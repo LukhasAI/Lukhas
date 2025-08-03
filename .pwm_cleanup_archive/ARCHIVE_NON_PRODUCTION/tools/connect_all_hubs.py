@@ -5,7 +5,7 @@ from memory.memory_hub import get_memory_hub
 from consciousness.consciousness_hub import get_consciousness_hub
 from orchestration.orchestration_hub import get_orchestration_hub
 from dast.dast_integration_hub import get_dast_hub
-from abas.abas_integration_hub import get_abas_hub
+# from abas.abas_integration_hub import get_abas_hub
 from nias.integration.nias_integration_hub import get_nias_hub
 
 logging.basicConfig(level=logging.INFO)

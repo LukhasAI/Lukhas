@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -34,7 +34,7 @@ from typing import List
 # Third-Party Imports
 import structlog
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # --- Module Information ---
 __author__ = "LUKHAS AI Development Team"

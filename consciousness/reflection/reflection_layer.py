@@ -72,7 +72,7 @@ DREAM_ENGINE_AVAILABLE = DREAM_DELIVERY_AVAILABLE or DREAM_ENGINE_BASIC_AVAILABL
 
 # Initialize logger for ΛTRACE using structlog
 # This will be configured by a higher-level __init__.py or by this script if run standalone.
-logger = structlog.get_logger("ΛTRACE.core.Adaptative_AGI.GUARDIAN.ReflectionLayer")
+from core.common import get_logger
 
 
 # Core LUKHAS Infrastructure Imports
@@ -82,12 +82,12 @@ try:
     from ...spine.healix_mapper import calculate_drift_score
     from ...bio_core.memory.quantum_memory_manager import QuantumMemoryManager
     from ...integration.memory.enhanced_memory_manager import EnhancedMemoryManager
-    from ....AID.dream_engine.dream_replay import replay_dream_by_id, replay_recent_dreams
+#     from ....AID.dream_engine.dream_replay import replay_dream_by_id, replay_recent_dreams  # TODO: Install or implement AID
     from ....MODULES.memoria.lukhas_replayer import LUKHASReplayer
     from ...bio_symbolic_.glyph_id_hash import GlyphIDHasher # Note: extra underscore in original path, assuming typo and it's bio_symbolic
     from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
     from ....VOICE.voice_pack_manager import VoicePackManager
-    from ....INTENT.intent_node import IntentNode
+#     from ....INTENT.intent_node import IntentNode  # TODO: Install or implement INTENT
     logger.info("Successfully imported LUKHAS core infrastructure components for ReflectionLayer.")
 except ImportError as e:
     logger.warning("LUKHAS infrastructure import failed. Some features may be limited or non-functional.", error=str(e))
@@ -182,7 +182,6 @@ class ReflectionLayer:
         self.config = guardian_config or {}
 
         # Setup logging first
-        self.logger = structlog.get_logger(f"ΛTRACE.core.Adaptative_AGI.GUARDIAN.ReflectionLayer.{self.layer_id}") # More specific logger
 
         # Initialize paths
         self.guardian_dir = Path(__file__).parent
@@ -1336,7 +1335,6 @@ if __name__ == "__main__":
             cache_logger_on_first_use=True,
         )
         # Re-initialize module logger if we just configured
-        logger = structlog.get_logger("ΛTRACE.core.Adaptative_AGI.GUARDIAN.ReflectionLayer.Main")
 
 
     logger.info("ReflectionLayer script executed as main.")

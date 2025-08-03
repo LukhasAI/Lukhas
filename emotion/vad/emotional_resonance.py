@@ -39,7 +39,7 @@ import base64
 
 # Try importing related modules that might exist in the codebase
 try:
-    from lukhas_memory_folds import create_memory_fold, recall_by_emotion
+    from memory_folds import create_memory_fold, recall_by_emotion
 except ImportError:
     print(
         "Warning: lukhas_memory_folds module not found, memory integration will be limited"

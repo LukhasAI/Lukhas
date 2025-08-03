@@ -10,7 +10,7 @@ Date: June 2025
 Constitutional AI Guidelines: Enforced
 """
 
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict

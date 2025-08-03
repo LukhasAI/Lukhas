@@ -23,11 +23,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -37,10 +37,9 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List, Set
 from dataclasses import dataclass, field
 from datetime import datetime
-import logging
 from enum import Enum
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class RiskLevel(Enum):
@@ -96,7 +95,8 @@ class EthicsEvaluation:
             raise ValueError("Collapse risk must be between 0 and 1")
 
 
-class PolicyValidationError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class PolicyValidationError(LukhasError):
     """Raised when policy validation fails"""
     pass
 

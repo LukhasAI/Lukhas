@@ -104,7 +104,7 @@ from dream.dream_feedback_propagator import DreamFeedbackPropagator
 from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
 from memory.emotional import EmotionalMemory, EmotionVector
 
-logger = structlog.get_logger("ΛTRACE.hds")
+from core.common import get_logger
 
 
 # JULES05_NOTE: Loop-safe guard added

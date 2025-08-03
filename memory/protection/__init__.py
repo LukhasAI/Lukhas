@@ -3,9 +3,9 @@ Protection Module
 Auto-generated module initialization file
 """
 
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 try:
     from .symbolic_quarantine_sanctum import SymbolicQuarantineSanctum

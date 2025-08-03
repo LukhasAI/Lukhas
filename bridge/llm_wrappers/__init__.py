@@ -40,7 +40,7 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 import openai
 
 # Configure module logger

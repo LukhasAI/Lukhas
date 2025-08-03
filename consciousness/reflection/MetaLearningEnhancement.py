@@ -33,7 +33,7 @@ Created: January 2025
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
@@ -45,7 +45,7 @@ from .rate_modulator import DynamicLearningRateModulator, AdaptationStrategy, Co
 from .symbolic_feedback import SymbolicFeedbackSystem, IntentNodeHistory, MemoriaSnapshot
 from .federated_integration import FederatedLearningIntegration, FederationStrategy, PrivacyLevel
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EnhancementMode(Enum):
     """Modes for Meta-Learning Enhancement System operation"""

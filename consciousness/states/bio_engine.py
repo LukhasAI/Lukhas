@@ -20,7 +20,7 @@ This engine coordinates:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import Dict, Any, List, Optional, Tuple
 from enum import Enum
@@ -38,7 +38,7 @@ try:
 except ImportError:
     MitochondrialQuantumBridge = None
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class HormoneType(Enum):

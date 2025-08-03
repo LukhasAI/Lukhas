@@ -55,7 +55,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 import json
 import os
 import time
-import logging
+from core.common import get_logger
 import asyncio
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any, Union
@@ -71,7 +71,7 @@ try:
     from ...spine.healix_mapper import calculate_drift_score
     from ...bio.core.memory.quantum_memory_manager import QuantumMemoryManager
     from ...brain.memory.AdvancedMemoryManager import AdvancedMemoryManager
-    from ....AID.dream_engine.dream_replay import (
+#     from ....AID.dream_engine.dream_replay import (  # TODO: Install or implement AID
         replay_dream_by_id,
         replay_recent_dreams,
     )
@@ -79,14 +79,14 @@ try:
     from ...bio.symbolic_.glyph_id_hash import GlyphIDHasher
     from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
     from ....VOICE.voice_pack_manager import VoicePackManager
-    from ....INTENT.intent_node import IntentNode
+#     from ....INTENT.intent_node import IntentNode  # TODO: Install or implement INTENT
 except ImportError as e:
     logging.warning(f"LUKHAS infrastructure import failed: {e}. Running in standalone mode.")
     from ....MODULES.memoria.lukhas_replayer import LUKHASReplayer
     from ...bio.symbolic_.glyph_id_hash import GlyphIDHasher
     from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
     from ....VOICE.voice_pack_manager import VoicePackManager
-    from ....INTENT.intent_node import IntentNode
+#     from ....INTENT.intent_node import IntentNode  # TODO: Install or implement INTENT
 except ImportError as e:
     logging.warning(f"lukhas infrastructure import failed: {e}. Running in standalone mode.")
 

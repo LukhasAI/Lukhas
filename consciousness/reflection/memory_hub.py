@@ -16,7 +16,7 @@ a unified interface for external systems to interact with memory.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -185,7 +185,7 @@ except ImportError as e:
 # from dream.core.dream_memory_manager import DreamMemoryManager
 # from memory.services import MemoryService
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MemoryHub:

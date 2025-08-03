@@ -3,11 +3,11 @@ Memory Planning Mock Implementation
 Provides lightweight memory planning functionality without PyTorch dependencies
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

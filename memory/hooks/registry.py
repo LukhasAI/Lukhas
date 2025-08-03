@@ -7,7 +7,7 @@ providing a centralized system for extending memory operations.
 """
 
 import time
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Set, Tuple
 from enum import IntEnum
 from collections import defaultdict
@@ -15,10 +15,11 @@ from dataclasses import dataclass
 
 from .base import MemoryHook, MemoryItem, HookExecutionError
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
-class HookRegistrationError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class HookRegistrationError(LukhasError):
     """Raised when hook registration fails"""
     pass
 

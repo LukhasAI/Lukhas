@@ -16,7 +16,7 @@ Based on Lukhas repository implementation with lukhas AI integration.
 """
 
 from typing import Dict, Any, List, Optional, Tuple
-import logging
+from core.common import get_logger
 import time
 from datetime import datetime
 from enum import Enum

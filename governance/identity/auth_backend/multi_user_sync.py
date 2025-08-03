@@ -1,5 +1,4 @@
-from utils.shared_logging import get_logger
-logger = get_logger('MultiUserSync')
+from core.common import get_logger
 
 # multi_user_sync.py
 # Placeholder for Multi-User Sync module

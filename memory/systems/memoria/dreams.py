@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -45,7 +45,7 @@ try:
 
     OPENAI_AVAILABLE_DREAMS = True
 except ImportError:
-    log_init_dreams_fallback = structlog.get_logger(__name__)
+from from core.common import get_logger
     log_init_dreams_fallback.warning(
         "OpenAI library not found. Using placeholder for Dreams.",
         component="LukhasDreams",
@@ -73,7 +73,6 @@ except ImportError:
         chat: Any
 
         def __init__(self, api_key: Optional[str]):
-            _log_ph_init = structlog.get_logger("OpenAI_Dreams_Placeholder_Init_DP")
             # No api_key check for placeholder, it's not used by mock
             _log_ph_init.debug(
                 "OpenAI placeholder client for Dreams (DP variant) initialized."
@@ -94,11 +93,11 @@ except ImportError:
                 },
             )()
 
-    class APIError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+    class APIError(LukhasError):
         pass
 
 
-log = structlog.get_logger(__name__)
 
 # --- Path Configuration & LUKHAS Component Imports ---
 # CRITICAL TODO: Remove hardcoded sys.path.append. Manage paths via packaging or PYTHONPATH.
@@ -128,7 +127,7 @@ log.critical(
 
 LUKHAS_SYMBOLIC_COMPONENTS_AVAILABLE_DREAMS_FLAG = False  # Unique flag
 try:
-    from symbolic.personas.lukhas.memory.lukhas_memory import load_all_entries
+    from symbolic.personas.memory.lukhas_memory import load_all_entries
     from symbolic.traits.trait_manager import load_traits
 
     LUKHAS_SYMBOLIC_COMPONENTS_AVAILABLE_DREAMS_FLAG = True

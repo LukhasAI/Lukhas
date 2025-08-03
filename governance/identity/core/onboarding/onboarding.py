@@ -21,7 +21,7 @@
 """
 
 import time
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from enum import Enum

@@ -51,10 +51,9 @@ import structlog
 from datetime import datetime, timezone
 import time
 from typing import Dict, List, Any, Optional
-import logging
+from core.common import get_logger
 
 # Configure module logger
-logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

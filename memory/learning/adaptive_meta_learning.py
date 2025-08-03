@@ -59,7 +59,7 @@ import json
 import structlog # ΛTRACE: Using structlog for structured logging
 
 # ΛTRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # # AdaptiveMetaLearningSystem class
 # ΛEXPOSE: This class is the core of the adaptive meta-learning system and likely a key interface.

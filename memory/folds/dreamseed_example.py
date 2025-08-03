@@ -53,7 +53,7 @@
 
 # Module imports
 import json
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 
@@ -70,7 +70,6 @@ from memory.memory_dashboard import create_memory_dashboard
 import structlog
 
 # Configure module logger
-logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

@@ -9,7 +9,7 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-import logging
+from core.common import get_logger
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 

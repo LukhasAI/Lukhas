@@ -13,7 +13,7 @@ This module combines the best features from both prototypes:
 """
 
 from typing import Dict, List, Any, Optional, Tuple
-import logging
+from core.common import get_logger
 import asyncio
 import json
 from pathlib import Path

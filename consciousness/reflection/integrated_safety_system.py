@@ -51,7 +51,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional, Tuple, Set, Union
 from dataclasses import dataclass, field

@@ -31,7 +31,7 @@ import sys
 import json
 import argparse
 import asyncio
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 import time
 import re
 import hashlib
@@ -48,7 +48,6 @@ import structlog
 
 # Configure structured logging
 logging.basicConfig(level=logging.INFO)
-logger = structlog.get_logger("ΛWEAVER.narrative.symbolic_synthesis")
 
 # Add parent directories to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -1580,7 +1579,7 @@ class SymbolicWeaver:
         # Thematic drift (low symbol/emotion continuity)
         thematic_drift = 1.0 - self._calculate_thematic_coherence(thread)
 
-        # Identity drift (deviation from LUKHAS values)
+        # Identity drift (deviation from core.common values)
         identity_drift = 1.0 - thread.identity_alignment
 
         # Emotional drift (erratic emotional changes)

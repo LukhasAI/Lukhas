@@ -16,12 +16,12 @@
 """
 
 from typing import Dict, Any, Optional, List, Union
-import logging
+from core.common import get_logger
 from datetime import datetime
 
 from .voice_profiling import VoiceProfileManager, VoiceProfile
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoicePersonalityIntegrator:
     """Integrates personality traits and emotional modulation into voice synthesis"""

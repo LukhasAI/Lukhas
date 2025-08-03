@@ -55,7 +55,7 @@ import structlog
 from collections import OrderedDict
 import psutil  # For memory monitoring
 
-logger = structlog.get_logger("ΛTRACE.memory.lazy_loading")
+from core.common import get_logger
 
 
 @dataclass

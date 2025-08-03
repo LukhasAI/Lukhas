@@ -44,7 +44,7 @@ import os  # LUKHAS_TAG: file_operations
 from orchestration.brain.spine.fold_engine import AGIMemory
 
 # ΛTRACE: Initialize logger for the fold_engine module. #ΛTEMPORAL_HOOK (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger configuration echoes global settings)
-logger = structlog.get_logger(
+from core.common import get_logger
     __name__
 )  # Changed from `log` to `logger` for consistency.
 

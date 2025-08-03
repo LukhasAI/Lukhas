@@ -16,7 +16,7 @@ DEPENDENCIES:
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import mmap
 import time
 import uuid
@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Union, Tuple
 from enum import Enum
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class MemoryType(Enum):
     """Core memory types (simplified from 8 to 3)"""

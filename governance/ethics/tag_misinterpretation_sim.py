@@ -4,7 +4,7 @@ from __future__ import annotations
 
 
 from typing import Any, Dict, List
-import logging
+from core.common import get_logger
 
 # ΛTAG: ethical_tag_misinterpretation
 
@@ -14,7 +14,7 @@ import logging
 #TAG:colony
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def simulate_misinterpretation_scenarios() -> List[Dict[str, Any]]:

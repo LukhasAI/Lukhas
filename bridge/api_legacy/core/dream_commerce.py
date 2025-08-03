@@ -48,7 +48,7 @@ AIDEA: Implement dream content NFT marketplace with royalty distribution
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field

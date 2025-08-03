@@ -16,11 +16,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

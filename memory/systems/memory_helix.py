@@ -81,7 +81,7 @@ __module_name__ = "Voice Memory Helix"
 __version__ = "2.0.0"
 __tier__ = 4
 
-import logging
+from core.common import get_logger
 import asyncio
 import json
 import os
@@ -93,7 +93,7 @@ from datetime import datetime
 import random
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceMemoryHelix:
     """

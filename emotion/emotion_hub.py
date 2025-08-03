@@ -29,7 +29,7 @@ from .dreamseed_upgrade import DreamSeedEmotionEngine
 from .mood_regulator import MoodRegulator
 from .recurring_emotion_tracker import RecurringEmotionTracker
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class EmotionHub:

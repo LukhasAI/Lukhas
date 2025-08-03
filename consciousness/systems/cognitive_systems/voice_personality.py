@@ -35,14 +35,14 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 import asyncio
 import random
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

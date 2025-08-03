@@ -40,7 +40,7 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from collections import defaultdict
 from typing import Dict, Any, Optional
 

@@ -58,7 +58,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import math
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta

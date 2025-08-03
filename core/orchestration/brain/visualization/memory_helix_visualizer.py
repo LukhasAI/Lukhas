@@ -26,7 +26,7 @@ import os
 
 from ...memory.memory_manager import MemoryManager
 from ....memory.core_memory.memory_fold import MemoryType, MemoryPriority
-from ...AID.core.lambda_id import ID, AccessTier
+# from ...AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
 
 # Set up logging
 logger = logging.getLogger("v1_AGI.interface.memory_helix")

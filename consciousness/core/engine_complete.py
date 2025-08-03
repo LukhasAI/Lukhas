@@ -19,7 +19,7 @@ from dataclasses import dataclass, asdict, field
 from datetime import datetime, timedelta
 import hashlib
 from abc import ABC, abstractmethod
-import logging
+from core.common import get_logger
 from pathlib import Path
 from collections import deque
 import os

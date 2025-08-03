@@ -78,7 +78,7 @@ except ImportError as e:
         IMMEDIATE = "immediate"
         LAZY = "lazy"
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class HippocampalState(Enum):

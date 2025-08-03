@@ -57,8 +57,8 @@ class ModuleEnhancer:
             }
         }
         
-    def enhance_module(self, module_name, module_info):
-        """Enhance a single module"""
+        def enhance_module(self, module_name, module_info):
+            """Enhance a single module"""
         print(f"\n🔧 Enhancing {module_name.upper()} module...")
         
         # Create directory structure
@@ -90,8 +90,8 @@ class ModuleEnhancer:
         
         print(f"✅ {module_name.upper()} module enhanced!")
         
-    def create_directory_structure(self, module_name):
-        """Create all necessary directories"""
+            def create_directory_structure(self, module_name):
+                """Create all necessary directories"""
         directories = [
             f"{module_name}/docs",
             f"{module_name}/docs/api",
@@ -105,233 +105,233 @@ class ModuleEnhancer:
             f"{module_name}/examples/advanced"
         ]
         
-        for directory in directories:
+                for directory in directories:
             os.makedirs(directory, exist_ok=True)
             
-    def create_readme(self, module_name, module_info):
-        """Create comprehensive README.md"""
+                    def create_readme(self, module_name, module_info):
+                        """Create comprehensive README.md"""
         readme_content = f"""# {module_name.upper()} Module
 
-## Overview
+                        ## Overview
 
-{module_info['description']}
+                        {module_info['description']}
 
-The {module_name.upper()} module is a core component of the LUKHAS AI system, providing essential functionality for the neuroplastic AGI architecture.
+                        The {module_name.upper()} module is a core component of the LUKHAS AI system, providing essential functionality for the neuroplastic AGI architecture.
 
-## Features
+                        ## Features
 
-{''.join(f"- **{feature}**\\n" for feature in module_info['key_features']).rstrip()}
+                        {''.join(f"- **{feature}**" + "\\n" for feature in module_info['key_features']).rstrip()}
 
-## Architecture
+                        ## Architecture
 
-```
-{module_name}/
-├── README.md              # This file
-├── __init__.py           # Module initialization
-├── MODULE_MANIFEST.json  # Module configuration
-├── requirements.txt      # Module dependencies
-├── Makefile             # Common tasks
-├── .gitignore           # Module-specific ignores
-│
-├── docs/                # Documentation
-│   ├── api/            # API reference
-│   │   ├── index.md    # API overview
-│   │   └── ...         # API docs for each component
-│   └── guides/         # User guides
-│       ├── quickstart.md
-│       ├── advanced.md
-│       └── troubleshooting.md
-│
-├── tests/              # Test suite
-│   ├── unit/          # Unit tests
-│   ├── integration/   # Integration tests
-│   └── benchmarks/    # Performance tests
-│
-├── examples/          # Usage examples
-│   ├── basic/        # Basic examples
-│   └── advanced/     # Advanced examples
-│
-└── {'/'.join(module_info['submodules'])}  # Submodules
-```
+                        ```
+                        {module_name}/
+                        ├── README.md              # This file
+                        ├── __init__.py           # Module initialization
+                        ├── MODULE_MANIFEST.json  # Module configuration
+                        ├── requirements.txt      # Module dependencies
+                        ├── Makefile             # Common tasks
+                        ├── .gitignore           # Module-specific ignores
+                        │
+                        ├── docs/                # Documentation
+                        │   ├── api/            # API reference
+                        │   │   ├── index.md    # API overview
+                        │   │   └── ...         # API docs for each component
+                        │   └── guides/         # User guides
+                        │       ├── quickstart.md
+                        │       ├── advanced.md
+                        │       └── troubleshooting.md
+                        │
+                        ├── tests/              # Test suite
+                        │   ├── unit/          # Unit tests
+                        │   ├── integration/   # Integration tests
+                        │   └── benchmarks/    # Performance tests
+                        │
+                        ├── examples/          # Usage examples
+                        │   ├── basic/        # Basic examples
+                        │   └── advanced/     # Advanced examples
+                        │
+                        └── {'/'.join(module_info['submodules'])}  # Submodules
+                        ```
 
-## Installation
+                        ## Installation
 
-### As part of LUKHAS
-The {module_name} module is automatically available when you install LUKHAS:
+                        ### As part of LUKHAS
+                        The {module_name} module is automatically available when you install LUKHAS:
 
-```bash
-pip install -r requirements.txt
-```
+                        ```bash
+                        pip install -r requirements.txt
+                        ```
 
-### Standalone usage
-```bash
-cd {module_name}
-pip install -r requirements.txt
-```
+                        ### Standalone usage
+                        ```bash
+                        cd {module_name}
+                        pip install -r requirements.txt
+                        ```
 
-## Quick Start
+                        ## Quick Start
 
-```python
-from {module_name} import *
+                        ```python
+                        from {module_name} import *
 
-# Basic usage example
-# TODO: Add actual usage example
-```
+                        # Basic usage example
+                        # TODO: Add actual usage example
+                        ```
 
-## Submodules
+                        ## Submodules
 
-{''.join(f"### {module_name}.{submodule}\n{submodule.title()} functionality for {module_name}.\n\n" for submodule in module_info['submodules']).rstrip()}
+                        {''.join(f"### {module_name}.{submodule}\n{submodule.title()} functionality for {module_name}.\n\n" for submodule in module_info['submodules']).rstrip()}
 
-## Testing
+                        ## Testing
 
-Run all tests:
-```bash
-make test
-```
+                        Run all tests:
+                        ```bash
+                        make test
+                        ```
 
-Run specific test types:
-```bash
-make test-unit        # Unit tests only
-make test-integration # Integration tests only
-make test-benchmarks  # Performance benchmarks
-```
+                        Run specific test types:
+                        ```bash
+                        make test-unit        # Unit tests only
+                        make test-integration # Integration tests only
+                        make test-benchmarks  # Performance benchmarks
+                        ```
 
-## Documentation
+                        ## Documentation
 
-- [API Reference](docs/api/index.md)
-- [Quick Start Guide](docs/guides/quickstart.md)
-- [Advanced Usage](docs/guides/advanced.md)
-- [Troubleshooting](docs/guides/troubleshooting.md)
+                        - [API Reference](docs/api/index.md)
+                        - [Quick Start Guide](docs/guides/quickstart.md)
+                        - [Advanced Usage](docs/guides/advanced.md)
+                        - [Troubleshooting](docs/guides/troubleshooting.md)
 
-## Contributing
+                        ## Contributing
 
-1. Follow the LUKHAS coding standards
-2. Write tests for new functionality
-3. Update documentation
-4. Run `make lint` before committing
+                        1. Follow the LUKHAS coding standards
+                        2. Write tests for new functionality
+                        3. Update documentation
+                        4. Run `make lint` before committing
 
-## Neuroplastic Features
+                        ## Neuroplastic Features
 
-This module supports neuroplastic reorganization:
-- **Hormone receptors**: Cortisol, Dopamine, Serotonin, Oxytocin
-- **Emergency states**: Can reorganize under system stress
-- **Colony framework**: Supports propagation of changes
+                        This module supports neuroplastic reorganization:
+                        - **Hormone receptors**: Cortisol, Dopamine, Serotonin, Oxytocin
+                        - **Emergency states**: Can reorganize under system stress
+                        - **Colony framework**: Supports propagation of changes
 
-## License
+                        ## License
 
-Part of LUKHAS AI - see root LICENSE file.
-"""
+                        Part of LUKHAS AI - see root LICENSE file.
+                        """
         
-        with open(f"{module_name}/README.md", 'w') as f:
+                        with open(f"{module_name}/README.md", 'w') as f:
             f.write(readme_content)
             
-    def create_makefile(self, module_name):
-        """Create Makefile with common tasks"""
+                            def create_makefile(self, module_name):
+                                """Create Makefile with common tasks"""
         makefile_content = f""".PHONY: help test test-unit test-integration test-benchmarks lint format clean install dev-install docs
 
-help:
-	@echo "Available commands:"
-	@echo "  make test           - Run all tests"
-	@echo "  make test-unit      - Run unit tests"
-	@echo "  make test-integration - Run integration tests"
-	@echo "  make test-benchmarks - Run benchmarks"
-	@echo "  make lint          - Run linters"
-	@echo "  make format        - Format code"
-	@echo "  make clean         - Clean temporary files"
-	@echo "  make install       - Install dependencies"
-	@echo "  make docs          - Build documentation"
+                                help:
+                                @echo "Available commands:"
+                                @echo "  make test           - Run all tests"
+                                @echo "  make test-unit      - Run unit tests"
+                                @echo "  make test-integration - Run integration tests"
+                                @echo "  make test-benchmarks - Run benchmarks"
+                                @echo "  make lint          - Run linters"
+                                @echo "  make format        - Format code"
+                                @echo "  make clean         - Clean temporary files"
+                                @echo "  make install       - Install dependencies"
+                                @echo "  make docs          - Build documentation"
 
-test:
-	pytest tests/ -v --cov={module_name} --cov-report=html --cov-report=term
+                                test:
+                                pytest tests/ -v --cov={module_name} --cov-report=html --cov-report=term
 
-test-unit:
-	pytest tests/unit/ -v --cov={module_name}
+                                test-unit:
+                                pytest tests/unit/ -v --cov={module_name}
 
-test-integration:
-	pytest tests/integration/ -v
+                                test-integration:
+                                pytest tests/integration/ -v
 
-test-benchmarks:
-	pytest tests/benchmarks/ -v --benchmark-only
+                                test-benchmarks:
+                                pytest tests/benchmarks/ -v --benchmark-only
 
-lint:
-	flake8 . --max-line-length=100 --exclude=.venv,__pycache__
-	mypy . --ignore-missing-imports
-	pylint {module_name} --disable=C0111,R0903
+                                lint:
+                                flake8 . --max-line-length=100 --exclude=.venv,__pycache__
+                                mypy . --ignore-missing-imports
+                                pylint {module_name} --disable=C0111,R0903
 
-format:
-	black . --line-length=100
-	isort . --profile black
+                                format:
+                                black . --line-length=100
+                                isort . --profile black
 
-clean:
-	find . -type f -name "*.pyc" -delete
-	find . -type d -name "__pycache__" -delete
-	rm -rf .pytest_cache
-	rm -rf .coverage
-	rm -rf htmlcov
-	rm -rf .mypy_cache
+                                clean:
+                                find . -type f -name "*.pyc" -delete
+                                find . -type d -name "__pycache__" -delete
+                                rm -rf .pytest_cache
+                                rm -rf .coverage
+                                rm -rf htmlcov
+                                rm -rf .mypy_cache
 
-install:
-	pip install -r requirements.txt
+                                install:
+                                pip install -r requirements.txt
 
-dev-install:
-	pip install -r requirements.txt
-	pip install -r requirements-dev.txt
-	pip install -e .
+                                dev-install:
+                                pip install -r requirements.txt
+                                pip install -r requirements-dev.txt
+                                pip install -e .
 
-docs:
-	cd docs && mkdocs build
-"""
+                                docs:
+                                cd docs && mkdocs build
+                                """
         
-        with open(f"{module_name}/Makefile", 'w') as f:
+                                with open(f"{module_name}/Makefile", 'w') as f:
             f.write(makefile_content)
             
-    def create_test_structure(self, module_name, module_info):
-        """Create comprehensive test structure"""
+                                    def create_test_structure(self, module_name, module_info):
+                                        """Create comprehensive test structure"""
         # Test __init__.py
         test_init = f'''"""
-{module_name.upper()} Test Suite
+                                        {module_name.upper()} Test Suite
 
-Comprehensive tests for the {module_name} module.
-"""
+                                        Comprehensive tests for the {module_name} module.
+                                        """
 
-import pytest
-import sys
-from pathlib import Path
+                                        import pytest
+                                        import sys
+                                        from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
-'''
+                                        # Add parent directory to path for imports
+                                        sys.path.insert(0, str(Path(__file__).parent.parent))
+                                        '''
         
-        with open(f"{module_name}/tests/__init__.py", 'w') as f:
+                                        with open(f"{module_name}/tests/__init__.py", 'w') as f:
             f.write(test_init)
             
         # Unit test example
         unit_test = f'''"""
-Unit tests for {module_name} core functionality
-"""
+                                            Unit tests for {module_name} core functionality
+                                            """
 
-import pytest
-from {module_name} import *
+                                            import pytest
+                                            from {module_name} import *
 
-class Test{module_name.title()}Core:
-    """Test core {module_name} functionality"""
+                                            class Test{module_name.title()}Core:
+                                                """Test core {module_name} functionality"""
     
-    def test_module_imports(self):
-        """Test that all submodules can be imported"""
+                                                def test_module_imports(self):
+                                                    """Test that all submodules can be imported"""
         submodules = {module_info['submodules']}
-        for submodule in submodules:
+                                                    for submodule in submodules:
             # This will raise ImportError if submodule doesn't exist
             exec(f"from {module_name} import {{submodule}}")
     
-    def test_module_manifest_exists(self):
-        """Test that MODULE_MANIFEST.json exists and is valid"""
+                                                        def test_module_manifest_exists(self):
+                                                            """Test that MODULE_MANIFEST.json exists and is valid"""
         import json
         import os
         
         manifest_path = os.path.join(os.path.dirname(__file__), '..', 'MODULE_MANIFEST.json')
         assert os.path.exists(manifest_path), "MODULE_MANIFEST.json not found"
         
-        with open(manifest_path, 'r') as f:
+                                                            with open(manifest_path, 'r') as f:
             manifest = json.load(f)
         
         assert manifest['module'] == '{module_name.upper()}'
@@ -339,8 +339,8 @@ class Test{module_name.title()}Core:
         assert 'neuroplastic_config' in manifest
 
     @pytest.mark.parametrize("submodule", {module_info['submodules']})
-    def test_submodule_structure(self, submodule):
-        """Test that each submodule has proper structure"""
+                                                                def test_submodule_structure(self, submodule):
+                                                                    """Test that each submodule has proper structure"""
         import os
         
         submodule_path = os.path.join(os.path.dirname(__file__), '..', submodule)
@@ -348,59 +348,59 @@ class Test{module_name.title()}Core:
         
         init_path = os.path.join(submodule_path, '__init__.py')
         assert os.path.exists(init_path), f"Submodule {{submodule}} missing __init__.py"
-'''
+                                                                    '''
         
-        with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
+                                                                    with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
             f.write(unit_test)
             
         # Integration test example
         integration_test = f'''"""
-Integration tests for {module_name} module
-"""
+                                                                        Integration tests for {module_name} module
+                                                                        """
 
-import pytest
-from {module_name} import *
+                                                                        import pytest
+                                                                        from {module_name} import *
 
-class Test{module_name.title()}Integration:
-    """Test {module_name} integration with other modules"""
+                                                                        class Test{module_name.title()}Integration:
+                                                                            """Test {module_name} integration with other modules"""
     
     @pytest.fixture
-    def setup_{module_name}(self):
-        """Setup {module_name} for testing"""
+                                                                            def setup_{module_name}(self):
+                                                                                """Setup {module_name} for testing"""
         # TODO: Add actual setup
-        return None
+                                                                                return None
     
-    def test_neuroplastic_response(self, setup_{module_name}):
-        """Test neuroplastic response to hormone signals"""
+                                                                            def test_neuroplastic_response(self, setup_{module_name}):
+                                                                                """Test neuroplastic response to hormone signals"""
         # TODO: Implement hormone response test
-        pass
+                                                                                pass
     
-    def test_colony_propagation(self, setup_{module_name}):
-        """Test colony framework propagation"""
+                                                                            def test_colony_propagation(self, setup_{module_name}):
+                                                                                """Test colony framework propagation"""
         # TODO: Implement propagation test
-        pass
+                                                                                pass
     
-    def test_hybrid_component_access(self, setup_{module_name}):
-        """Test access to hybrid components"""
+                                                                            def test_hybrid_component_access(self, setup_{module_name}):
+                                                                                """Test access to hybrid components"""
         # TODO: Test hybrid component functionality
-        pass
-'''
+                                                                                pass
+                                                                            '''
         
-        with open(f"{module_name}/tests/integration/test_integration.py", 'w') as f:
+                                                                            with open(f"{module_name}/tests/integration/test_integration.py", 'w') as f:
             f.write(integration_test)
             
-    def create_examples(self, module_name, module_info):
-        """Create example files"""
+                                                                                def create_examples(self, module_name, module_info):
+                                                                                    """Create example files"""
         # Basic example
         basic_example = f'''#!/usr/bin/env python3
-"""
-Basic example of using the {module_name} module
-"""
+                                                                                    """
+                                                                                    Basic example of using the {module_name} module
+                                                                                    """
 
-from {module_name} import *
+                                                                                    from {module_name} import *
 
-def main():
-    """Basic {module_name} usage"""
+                                                                                    def main():
+                                                                                        """Basic {module_name} usage"""
     print(f"Using {{module_name.upper()}} module")
     
     # TODO: Add actual usage examples
@@ -413,27 +413,27 @@ def main():
     
     print("Example completed!")
 
-if __name__ == "__main__":
+                                                                                        if __name__ == "__main__":
     main()
-'''
+                                                                                            '''
         
-        with open(f"{module_name}/examples/basic/simple_usage.py", 'w') as f:
+                                                                                            with open(f"{module_name}/examples/basic/simple_usage.py", 'w') as f:
             f.write(basic_example)
             os.chmod(f"{module_name}/examples/basic/simple_usage.py", 0o755)
             
         # Advanced example
         advanced_example = f'''#!/usr/bin/env python3
-"""
-Advanced example showing neuroplastic features of {module_name}
-"""
+                                                                                                """
+                                                                                                Advanced example showing neuroplastic features of {module_name}
+                                                                                                """
 
-from {module_name} import *
-import json
+                                                                                                from {module_name} import *
+                                                                                                import json
 
-class {module_name.title()}NeuroplasticDemo:
-    """Demonstrate neuroplastic capabilities"""
+                                                                                                class {module_name.title()}NeuroplasticDemo:
+                                                                                                    """Demonstrate neuroplastic capabilities"""
     
-    def __init__(self):
+                                                                                                    def __init__(self):
         self.hormone_levels = {{
             'cortisol': 0.2,
             'dopamine': 0.5,
@@ -441,8 +441,8 @@ class {module_name.title()}NeuroplasticDemo:
             'oxytocin': 0.3
         }}
         
-    def simulate_stress_response(self):
-        """Simulate system under stress"""
+                                                                                                        def simulate_stress_response(self):
+                                                                                                            """Simulate system under stress"""
         print("Simulating stress response...")
         
         # Increase cortisol
@@ -451,15 +451,15 @@ class {module_name.title()}NeuroplasticDemo:
         # TODO: Implement actual stress response
         # This would trigger module reorganization
         
-    def demonstrate_hybrid_components(self):
-        """Show hybrid component functionality"""
+                                                                                                            def demonstrate_hybrid_components(self):
+                                                                                                                """Show hybrid component functionality"""
         print("Demonstrating hybrid components...")
         
         # Hybrid components exist in multiple modules
         # TODO: Add actual hybrid component demo
         
-    def run_demo(self):
-        """Run the full demonstration"""
+                                                                                                                def run_demo(self):
+                                                                                                                    """Run the full demonstration"""
         print(f"{{module_name.upper()}} Neuroplastic Demo")
         print("=" * 50)
         
@@ -470,155 +470,155 @@ class {module_name.title()}NeuroplasticDemo:
         
         self.demonstrate_hybrid_components()
 
-if __name__ == "__main__":
+                                                                                                                    if __name__ == "__main__":
     demo = {module_name.title()}NeuroplasticDemo()
     demo.run_demo()
-'''
+                                                                                                                        '''
         
-        with open(f"{module_name}/examples/advanced/neuroplastic_demo.py", 'w') as f:
+                                                                                                                        with open(f"{module_name}/examples/advanced/neuroplastic_demo.py", 'w') as f:
             f.write(advanced_example)
             os.chmod(f"{module_name}/examples/advanced/neuroplastic_demo.py", 0o755)
             
-    def create_api_docs(self, module_name, module_info):
-        """Create API documentation"""
+                                                                                                                            def create_api_docs(self, module_name, module_info):
+                                                                                                                                """Create API documentation"""
         api_index = f"""# {module_name.upper()} API Reference
 
-## Overview
+                                                                                                                                ## Overview
 
-Complete API reference for the {module_name} module.
+                                                                                                                                Complete API reference for the {module_name} module.
 
-## Core Components
+                                                                                                                                ## Core Components
 
-### Main Module
-- [{module_name}](./{module_name}.md) - Main module interface
+                                                                                                                                ### Main Module
+                                                                                                                                - [{module_name}](./{module_name}.md) - Main module interface
 
-### Submodules
-{''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                ### Submodules
+                                                                                                                                {''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
 
-## Quick Reference
+                                                                                                                                ## Quick Reference
 
-```python
-from {module_name} import *
+                                                                                                                                ```python
+                                                                                                                                from {module_name} import *
 
-# Core functionality
-{module_name}_core = {module_name.title()}Core()
+                                                                                                                                # Core functionality
+                                                                                                                                {module_name}_core = {module_name.title()}Core()
 
-# Submodule access
-from {module_name}.{module_info['submodules'][0]} import *
-```
+                                                                                                                                # Submodule access
+                                                                                                                                from {module_name}.{module_info['submodules'][0]} import *
+                                                                                                                                ```
 
-## Module Structure
+                                                                                                                                ## Module Structure
 
-The {module_name} module follows the LUKHAS neuroplastic architecture:
+                                                                                                                                The {module_name} module follows the LUKHAS neuroplastic architecture:
 
-1. **Colony Framework** - Each submodule can propagate changes
-2. **Hormone Response** - Responds to system hormone levels
-3. **Hybrid Components** - Some components exist in multiple modules
-4. **Emergency States** - Can reorganize under stress
+                                                                                                                                1. **Colony Framework** - Each submodule can propagate changes
+                                                                                                                                2. **Hormone Response** - Responds to system hormone levels
+                                                                                                                                3. **Hybrid Components** - Some components exist in multiple modules
+                                                                                                                                4. **Emergency States** - Can reorganize under stress
 
-## Common Patterns
+                                                                                                                                ## Common Patterns
 
-### Basic Usage
-```python
-# Initialize
-module = {module_name.title()}Core(config)
+                                                                                                                                ### Basic Usage
+                                                                                                                                ```python
+                                                                                                                                # Initialize
+                                                                                                                                module = {module_name.title()}Core(config)
 
-# Process
-result = module.process(input_data)
-```
+                                                                                                                                # Process
+                                                                                                                                result = module.process(input_data)
+                                                                                                                                ```
 
-### Neuroplastic Features
-```python
-# Check hormone levels
-hormones = module.get_hormone_levels()
+                                                                                                                                ### Neuroplastic Features
+                                                                                                                                ```python
+                                                                                                                                # Check hormone levels
+                                                                                                                                hormones = module.get_hormone_levels()
 
-# Trigger reorganization
-if hormones['cortisol'] > 0.6:
+                                                                                                                                # Trigger reorganization
+                                                                                                                                if hormones['cortisol'] > 0.6:
     module.emergency_reorganize()
-```
+                                                                                                                                    ```
 
-### Colony Propagation
-```python
-# Create signal
-signal = {{'type': 'update', 'data': changes}}
+                                                                                                                                    ### Colony Propagation
+                                                                                                                                    ```python
+                                                                                                                                    # Create signal
+                                                                                                                                    signal = {{'type': 'update', 'data': changes}}
 
-# Propagate through colony
-response = module.colony.propagate(signal)
-```
-"""
+                                                                                                                                    # Propagate through colony
+                                                                                                                                    response = module.colony.propagate(signal)
+                                                                                                                                    ```
+                                                                                                                                    """
         
-        with open(f"{module_name}/docs/api/index.md", 'w') as f:
+                                                                                                                                    with open(f"{module_name}/docs/api/index.md", 'w') as f:
             f.write(api_index)
             
         # Create quickstart guide
         quickstart = f"""# {module_name.upper()} Quick Start Guide
 
-## Installation
+                                                                                                                                        ## Installation
 
-The {module_name} module is part of LUKHAS. Install LUKHAS to use it:
+                                                                                                                                        The {module_name} module is part of LUKHAS. Install LUKHAS to use it:
 
-```bash
-git clone <lukhas-repo>
-cd lukhas
-pip install -r requirements.txt
-```
+                                                                                                                                        ```bash
+                                                                                                                                        git clone <lukhas-repo>
+                                                                                                                                        cd lukhas
+                                                                                                                                        pip install -r requirements.txt
+                                                                                                                                        ```
 
-## First Steps
+                                                                                                                                        ## First Steps
 
-### 1. Import the module
-```python
-from {module_name} import *
-```
+                                                                                                                                        ### 1. Import the module
+                                                                                                                                        ```python
+                                                                                                                                        from {module_name} import *
+                                                                                                                                        ```
 
-### 2. Basic usage
-```python
-# TODO: Add basic usage example
-```
+                                                                                                                                        ### 2. Basic usage
+                                                                                                                                        ```python
+                                                                                                                                        # TODO: Add basic usage example
+                                                                                                                                        ```
 
-### 3. Check module health
-```python
-# Load module manifest
-import json
-with open('{module_name}/MODULE_MANIFEST.json', 'r') as f:
+                                                                                                                                        ### 3. Check module health
+                                                                                                                                        ```python
+                                                                                                                                        # Load module manifest
+                                                                                                                                        import json
+                                                                                                                                        with open('{module_name}/MODULE_MANIFEST.json', 'r') as f:
     manifest = json.load(f)
 
-print(f"Module version: {{manifest['version']}}")
-print(f"Submodules: {{list(manifest['submodules'].keys())}}")
-```
+                                                                                                                                            print(f"Module version: {{manifest['version']}}")
+                                                                                                                                            print(f"Submodules: {{list(manifest['submodules'].keys())}}")
+                                                                                                                                            ```
 
-## Key Concepts
+                                                                                                                                            ## Key Concepts
 
-### Submodules
-The {module_name} module contains these submodules:
-{''.join(f"- **{sub}** - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                            ### Submodules
+                                                                                                                                            The {module_name} module contains these submodules:
+                                                                                                                                            {''.join(f"- **{sub}** - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
 
-### Neuroplastic Features
-- Responds to hormone levels (cortisol, dopamine, etc.)
-- Can reorganize under stress
-- Supports colony-based propagation
+                                                                                                                                            ### Neuroplastic Features
+                                                                                                                                            - Responds to hormone levels (cortisol, dopamine, etc.)
+                                                                                                                                            - Can reorganize under stress
+                                                                                                                                            - Supports colony-based propagation
 
-### Hybrid Components
-Some components exist in multiple modules simultaneously (quantum superposition).
+                                                                                                                                            ### Hybrid Components
+                                                                                                                                            Some components exist in multiple modules simultaneously (quantum superposition).
 
-## Next Steps
+                                                                                                                                            ## Next Steps
 
-- Read the [API Reference](../api/index.md)
-- Try the [examples](../../examples/)
-- Learn about [advanced usage](./advanced.md)
-"""
+                                                                                                                                            - Read the [API Reference](../api/index.md)
+                                                                                                                                            - Try the [examples](../../examples/)
+                                                                                                                                            - Learn about [advanced usage](./advanced.md)
+                                                                                                                                            """
         
-        with open(f"{module_name}/docs/guides/quickstart.md", 'w') as f:
+                                                                                                                                            with open(f"{module_name}/docs/guides/quickstart.md", 'w') as f:
             f.write(quickstart)
             
-    def update_manifest(self, module_name, module_info):
-        """Update MODULE_MANIFEST.json with additional info"""
+                                                                                                                                                def update_manifest(self, module_name, module_info):
+                                                                                                                                                    """Update MODULE_MANIFEST.json with additional info"""
         manifest_path = f"{module_name}/MODULE_MANIFEST.json"
         
         # Load existing manifest
-        if os.path.exists(manifest_path):
-            with open(manifest_path, 'r') as f:
+                                                                                                                                                    if os.path.exists(manifest_path):
+                                                                                                                                                        with open(manifest_path, 'r') as f:
                 manifest = json.load(f)
-        else:
+                                                                                                                                                            else:
             manifest = {
                 'module': module_name.upper(),
                 'version': '2.0.0',
@@ -648,107 +648,107 @@ Some components exist in multiple modules simultaneously (quantum superposition)
         })
         
         # Save updated manifest
-        with open(manifest_path, 'w') as f:
+                                                                                                                                                                with open(manifest_path, 'w') as f:
             json.dump(manifest, f, indent=2)
             
-    def create_gitignore(self, module_name):
-        """Create module-specific .gitignore"""
+                                                                                                                                                                    def create_gitignore(self, module_name):
+                                                                                                                                                                        """Create module-specific .gitignore"""
         gitignore_content = """# Module-specific ignores
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.pytest_cache/
-.coverage
-htmlcov/
-.mypy_cache/
-*.egg-info/
-dist/
-build/
+                                                                                                                                                                        __pycache__/
+                                                                                                                                                                        *.pyc
+                                                                                                                                                                        *.pyo
+                                                                                                                                                                        *.pyd
+                                                                                                                                                                        .pytest_cache/
+                                                                                                                                                                        .coverage
+                                                                                                                                                                        htmlcov/
+                                                                                                                                                                        .mypy_cache/
+                                                                                                                                                                        *.egg-info/
+                                                                                                                                                                        dist/
+                                                                                                                                                                        build/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+                                                                                                                                                                        # IDE
+                                                                                                                                                                        .vscode/
+                                                                                                                                                                        .idea/
+                                                                                                                                                                        *.swp
+                                                                                                                                                                        *.swo
 
-# Testing
-.tox/
-.nox/
+                                                                                                                                                                        # Testing
+                                                                                                                                                                        .tox/
+                                                                                                                                                                        .nox/
 
-# Documentation
-docs/_build/
-docs/site/
+                                                                                                                                                                        # Documentation
+                                                                                                                                                                        docs/_build/
+                                                                                                                                                                        docs/site/
 
-# Temporary
-*.tmp
-*.bak
-.DS_Store
-"""
+                                                                                                                                                                        # Temporary
+                                                                                                                                                                        *.tmp
+                                                                                                                                                                        *.bak
+                                                                                                                                                                        .DS_Store
+                                                                                                                                                                        """
         
-        with open(f"{module_name}/.gitignore", 'w') as f:
+                                                                                                                                                                        with open(f"{module_name}/.gitignore", 'w') as f:
             f.write(gitignore_content)
             
-    def ensure_submodule_init(self, module_name, module_info):
-        """Ensure all submodules have proper __init__.py"""
-        for submodule in module_info['submodules']:
+                                                                                                                                                                            def ensure_submodule_init(self, module_name, module_info):
+                                                                                                                                                                                """Ensure all submodules have proper __init__.py"""
+                                                                                                                                                                                for submodule in module_info['submodules']:
             submodule_path = os.path.join(module_name, submodule)
             init_path = os.path.join(submodule_path, '__init__.py')
             
-            if not os.path.exists(init_path):
+                                                                                                                                                                                    if not os.path.exists(init_path):
                 init_content = f'''"""
-{module_name.upper()} - {submodule.upper()} Submodule
+                                                                                                                                                                                        {module_name.upper()} - {submodule.upper()} Submodule
 
-{submodule.title()} functionality for the {module_name} module.
-Part of the LUKHAS neuroplastic architecture.
-"""
+                                                                                                                                                                                        {submodule.title()} functionality for the {module_name} module.
+                                                                                                                                                                                        Part of the LUKHAS neuroplastic architecture.
+                                                                                                                                                                                        """
 
-#TAG:{module_name}
-#TAG:{submodule}
-#TAG:neuroplastic
+                                                                                                                                                                                        #TAG:{module_name}
+                                                                                                                                                                                        #TAG:{submodule}
+                                                                                                                                                                                        #TAG:neuroplastic
 
-# Colony base for propagation
-class {submodule.title()}Colony:
-    """Colony framework for {submodule}"""
+                                                                                                                                                                                        # Colony base for propagation
+                                                                                                                                                                                        class {submodule.title()}Colony:
+                                                                                                                                                                                            """Colony framework for {submodule}"""
     
-    def __init__(self):
+                                                                                                                                                                                            def __init__(self):
         self.colony_id = "{module_name}_{submodule}"
         self.active = True
         
-    def propagate(self, signal):
-        """Propagate signal through colony"""
+                                                                                                                                                                                                def propagate(self, signal):
+                                                                                                                                                                                                    """Propagate signal through colony"""
         # TODO: Implement propagation
-        return {{'colony': self.colony_id, 'signal': signal}}
+                                                                                                                                                                                                    return {{'colony': self.colony_id, 'signal': signal}}
 
-# Initialize colony
-colony = {submodule.title()}Colony()
+                                                                                                                                                                                                # Initialize colony
+                                                                                                                                                                                                colony = {submodule.title()}Colony()
 
-# Export main functionality
-__all__ = ['colony']
-'''
+                                                                                                                                                                                                # Export main functionality
+                                                                                                                                                                                                __all__ = ['colony']
+                                                                                                                                                                                                '''
                 
-                with open(init_path, 'w') as f:
+                                                                                                                                                                                                with open(init_path, 'w') as f:
                     f.write(init_content)
                     
-    def create_requirements(self, module_name):
-        """Create module-specific requirements.txt"""
+                                                                                                                                                                                                    def create_requirements(self, module_name):
+                                                                                                                                                                                                        """Create module-specific requirements.txt"""
         # Base requirements that all modules need
         base_requirements = """# Core dependencies
-numpy>=1.21.0
-typing-extensions>=4.0.0
+                                                                                                                                                                                                        numpy>=1.21.0
+                                                                                                                                                                                                        typing-extensions>=4.0.0
 
-# Testing
-pytest>=6.0.0
-pytest-cov>=2.12.0
-pytest-benchmark>=3.4.0
+                                                                                                                                                                                                        # Testing
+                                                                                                                                                                                                        pytest>=6.0.0
+                                                                                                                                                                                                        pytest-cov>=2.12.0
+                                                                                                                                                                                                        pytest-benchmark>=3.4.0
 
-# Development
-black>=21.0
-flake8>=3.9.0
-mypy>=0.910
-pylint>=2.10.0
-isort>=5.9.0
-"""
+                                                                                                                                                                                                        # Development
+                                                                                                                                                                                                        black>=21.0
+                                                                                                                                                                                                        flake8>=3.9.0
+                                                                                                                                                                                                        mypy>=0.910
+                                                                                                                                                                                                        pylint>=2.10.0
+                                                                                                                                                                                                        isort>=5.9.0
+                                                                                                                                                                                                        """
         
         # Module-specific additions
         module_specific = {
@@ -763,17 +763,17 @@ isort>=5.9.0
         
         requirements = base_requirements + module_specific.get(module_name, '')
         
-        with open(f"{module_name}/requirements.txt", 'w') as f:
+                                                                                                                                                                                                        with open(f"{module_name}/requirements.txt", 'w') as f:
             f.write(requirements)
             
-    def run(self):
-        """Enhance all modules"""
+                                                                                                                                                                                                            def run(self):
+                                                                                                                                                                                                                """Enhance all modules"""
         print("🚀 ENHANCING ALL LUKHAS MODULES")
         print("=" * 50)
         
         enhanced_count = 0
         
-        for module_name, module_info in self.modules.items():
+                                                                                                                                                                                                                for module_name, module_info in self.modules.items():
             self.enhance_module(module_name, module_info)
             self.create_requirements(module_name)
             enhanced_count += 1
@@ -783,8 +783,8 @@ isort>=5.9.0
         # Create summary report
         self.create_enhancement_report(enhanced_count)
         
-    def create_enhancement_report(self, count):
-        """Create report of enhancement"""
+                                                                                                                                                                                                                    def create_enhancement_report(self, count):
+                                                                                                                                                                                                                        """Create report of enhancement"""
         report = {
             'timestamp': datetime.now().isoformat(),
             'modules_enhanced': count,
@@ -806,16 +806,16 @@ isort>=5.9.0
         report_path = 'docs/reports/MODULE_ENHANCEMENT_REPORT.json'
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         
-        with open(report_path, 'w') as f:
+                                                                                                                                                                                                                        with open(report_path, 'w') as f:
             json.dump(report, f, indent=2)
             
         print(f"\n📋 Enhancement report saved to: {report_path}")
 
 
-def main():
+                                                                                                                                                                                                                            def main():
     enhancer = ModuleEnhancer()
     enhancer.run()
 
 
-if __name__ == "__main__":
+                                                                                                                                                                                                                                if __name__ == "__main__":
     main()

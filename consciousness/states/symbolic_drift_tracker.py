@@ -39,7 +39,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 # ΛNOTE: Enterprise symbolic drift tracking with multi-dimensional analysis
-logger = structlog.get_logger(__name__)
+from core.common import get_logger, GLYPHToken, create_glyph
 
 class DriftPhase(Enum):
     """Symbolic drift phase classification"""

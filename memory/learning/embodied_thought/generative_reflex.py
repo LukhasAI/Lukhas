@@ -11,10 +11,10 @@
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
 import json
-import logging
+from core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for generative reflex.
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class GenerativeReflex:
     """

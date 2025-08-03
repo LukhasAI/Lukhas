@@ -4,7 +4,7 @@ streamlit_lidar.py
 Streamlit interface for visualizing Lucs' symbolic dreams and LiDAR-derived emotional states.
 """
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 # Mock implementations for missing functions
 def load_dreams():
     """Mock load_dreams function"""

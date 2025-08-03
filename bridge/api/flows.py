@@ -7,7 +7,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
+from core.common import get_logger
 from flask import Blueprint, request, jsonify # Assuming app context will be from unified_api or similar
 
 # Initialize ΛTRACE logger for this module

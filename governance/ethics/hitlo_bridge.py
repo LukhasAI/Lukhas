@@ -45,7 +45,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -57,7 +57,7 @@ from ..orchestration_src.human_in_the_loop_orchestrator import (
     ReviewResponse, DecisionRecord, DecisionStatus
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

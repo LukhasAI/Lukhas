@@ -10,7 +10,7 @@ Bio-inspired awareness system that manages consciousness, monitoring,
 and self-reflection using quantum-biological metaphors.
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 import numpy as np
 from typing import Dict, List, Any, Optional
@@ -24,7 +24,7 @@ from ..bio_symbolic import (
     CardiolipinEncoder
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class SystemAwareness:
     """

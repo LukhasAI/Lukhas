@@ -59,7 +59,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from core.config import get_config
 
-logger = structlog.get_logger("ΛTRACE.memory.distributed")
+from core.common import get_logger
 
 
 class NodeState(Enum):

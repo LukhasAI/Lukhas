@@ -32,7 +32,7 @@
 
 import asyncio
 import json
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
@@ -61,7 +61,7 @@ from .symbolic_feedback import (
     SymbolicFeedbackSystem,
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class Enhancementmode(Enum):

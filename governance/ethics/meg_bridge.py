@@ -13,7 +13,7 @@ and the Meta-Ethics Governor for comprehensive ethical governance.
 ΛTAG: ethics_meg_bridge
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from datetime import datetime
@@ -24,7 +24,7 @@ from .meta_ethics_governor import (
     EthicalVerdict, Severity, CulturalContext, EthicalFramework
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MEGPolicyBridge:

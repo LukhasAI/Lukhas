@@ -18,7 +18,7 @@ Integration Date: 2025-05-31T07:55:28.196509
 # 🔗 CONNECTS TO: lukhas_dna_link.py
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 from lukhas_dna_link import LucasDNALink
 import json
 

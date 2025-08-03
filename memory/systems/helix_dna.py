@@ -26,7 +26,7 @@ DEFAULT_STORE_PATH = os.environ.get("HELIX_MEMORY_STORE_PATH", "helix_memory_sto
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 def lukhas_tier_required(level: int): # Placeholder
     def decorator(func): func._lukhas_tier = level; return func

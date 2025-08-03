@@ -8,7 +8,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
+from core.common import get_logger
 
 # Initialize ΛTRACE logger for this controllers API package
 

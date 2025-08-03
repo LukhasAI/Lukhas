@@ -126,10 +126,10 @@ Core processing engine with LUKHAS concepts
 """
 
 from typing import Any, Dict, List, Optional
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 from ..models import {module_class_name}Model
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class {module_class_name}Engine:
@@ -255,10 +255,9 @@ Helper functions for {module_name_title}
 Preserves LUKHAS concepts and personality
 """
 
-import logging
 from typing import Any, Dict, List
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def process_with_lukhas_concepts(data: Any, concepts: List[str]) -> Dict[str, Any]:

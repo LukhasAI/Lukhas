@@ -54,7 +54,7 @@
 # Module imports
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import time
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
@@ -73,7 +73,7 @@ import queue
 import heapq
 from contextlib import asynccontextmanager
 import configparser
-from prometheus_client import Counter, Histogram, Gauge
+# from prometheus_client import Counter, Histogram, Gauge
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.consciousness.cognitive_architecture_controller")

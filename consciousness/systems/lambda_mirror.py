@@ -53,7 +53,7 @@ IDEA: Add predictive reflection modeling for proactive identity maintenance
 import argparse
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import os
 import re
 import time
@@ -121,7 +121,6 @@ except ImportError:
     DreamFeedbackController = None
 
 # Configure structured logging
-logger = structlog.get_logger("ΛMIRROR.reflection.synthesis")
 
 
 class ReflectionType(Enum):

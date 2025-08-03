@@ -6,7 +6,7 @@ manages resource allocation, and coordinates cross-tier identity migration.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Set, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta

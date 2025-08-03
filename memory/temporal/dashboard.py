@@ -72,7 +72,7 @@
 
 import json
 import os
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict, Counter
@@ -81,7 +81,6 @@ import numpy as np
 import structlog
 
 # Configure module logger
-logger = structlog.get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

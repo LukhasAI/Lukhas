@@ -20,7 +20,7 @@ DEPENDENCIES:
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AI
 
 from typing import Dict, Any, Optional, List, Tuple
-import logging
+from core.common import get_logger
 import json
 import os
 import uuid

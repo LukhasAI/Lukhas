@@ -85,14 +85,14 @@ __version__ = "4.0.0"
 __tier__ = 1  # Core consciousness system
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Any, Dict, List, Optional, Callable, Union
 from datetime import datetime
 from dataclasses import dataclass
 from enum import Enum
 
 # Set up logger first
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 🌌 Quantum-Bio Consciousness Integration Components 🌌

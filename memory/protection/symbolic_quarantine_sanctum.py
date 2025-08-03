@@ -46,7 +46,7 @@
 import argparse
 import asyncio
 import json
-import logging
+from core.common import get_logger
 import os
 import shutil
 import time
@@ -62,7 +62,6 @@ import structlog
 from hashlib import sha256
 
 # Configure structured logging
-logger = structlog.get_logger("ΛSANCTUM.memory.protection")
 
 
 class QuarantineStatus(Enum):

@@ -28,7 +28,7 @@ that make complex analytics accessible to any user, powered by symbolic AI.
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.lukhas_analyze")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing core.lukhas_analyze package.")
 
 # AIMPORT_TODO: Verify that all imported submodules (engine, processors, etc.) exist and are correctly structured.

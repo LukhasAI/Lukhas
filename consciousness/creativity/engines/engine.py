@@ -16,9 +16,9 @@ import time
 from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, field
 from enum import Enum
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class CreationType(Enum):
     """Types of content creation supported"""

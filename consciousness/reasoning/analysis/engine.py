@@ -36,7 +36,7 @@ import io
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.lukhas_analyze.Engine")
+from core.common import get_logger
 
 # AIMPORT_TODO: These relative imports assume a specific directory structure where
 # symbolic_ai, memory, identity, and config are siblings to lukhas_analyze within core.

@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 import hashlib
 import anthropic # ΛNOTE: Placeholder for potential integration with Anthropic's models or principles.
 from abc import ABC, abstractmethod
-import logging
+from core.common import get_logger
 
 # Configure logging for consciousness events
 # ΛNOTE: Centralized logger for all consciousness-related events.

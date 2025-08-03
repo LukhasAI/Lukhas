@@ -16,11 +16,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -41,7 +41,6 @@ Brain-inspired cognitive adapter implementing state management, memory integrati
 and emotional modulation for advanced cognitive processing within LUKHAS AI.
 """
 
-import logging
 from typing import Dict, Any, List, Optional, Set, Tuple, Union
 from dataclasses import dataclass, field, asdict
 import numpy as np

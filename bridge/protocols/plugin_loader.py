@@ -2,7 +2,7 @@
 import os
 import importlib
 from pathlib import Path
-import logging
+from core.common import get_logger
 
 
 #TAG:bridge
@@ -11,7 +11,7 @@ import logging
 #TAG:colony
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def load_plugins(plugin_dir: str = "core/plugins"):
     """

@@ -15,11 +15,12 @@ import subprocess
 import shlex
 import os
 from typing import Any, Dict, List, Optional, Union
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
-class SecurityError(Exception):
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+class SecurityError(LukhasError):
     """Raised when a security check fails"""
     pass
 

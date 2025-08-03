@@ -4,7 +4,7 @@
 # 🔗 CONNECTS TO: lukhas_dna_link.py
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 from lukhas_dna_link import LucasDNALink
 import json
 

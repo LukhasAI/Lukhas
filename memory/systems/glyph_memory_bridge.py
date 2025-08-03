@@ -45,7 +45,7 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 import hashlib
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Set, Any, Union, Tuple
@@ -60,7 +60,7 @@ from symbolic.glyphs.glyph import (
 from .memory_fold import MemoryFoldSystem, MemoryFoldConfig
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

@@ -13,9 +13,9 @@ import math
 from typing import Dict, List, Optional, Tuple, Any
 from enum import Enum
 from dataclasses import dataclass
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class GridPattern(Enum):
     """Grid layout patterns"""

@@ -27,7 +27,7 @@ from enum import Enum
 import hashlib
 import structlog
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # Database file for persistent storage (would be actual DB in production)
 TIER_DB_PATH = os.environ.get("LUKHAS_TIER_DB", "/tmp/lukhas_user_tiers.json")

@@ -84,7 +84,7 @@ except ImportError:
     ConscienceSeverity = None
     MoralDecisionType = None
 
-logger = structlog.get_logger("ΛTRACE.memory.fold")
+from core.common import get_logger
 
 
 @dataclass

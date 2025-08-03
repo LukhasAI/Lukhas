@@ -21,7 +21,7 @@ import time
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from core.common import get_logger
 from datetime import datetime, timedelta
 
 logger = logging.getLogger('LUKHAS_MEMORY_CONNECTOR')

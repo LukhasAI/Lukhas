@@ -69,7 +69,7 @@ brain_path = os.path.join(os.path.dirname(__file__), '..', 'brain')
 sys.path.append(brain_path)
 
 try:
-    from MultiBrainSymphony import MultiBrainSymphony
+    # from MultiBrainSymphony  # External dependency import MultiBrainSymphony
     from abstract_reasoning.bio_quantum_engine import BioQuantumSymbolicReasoner
     BRAIN_SYSTEM_AVAILABLE = True
     logger.info("🧠 Brain system available for bio-symbolic threat detection")

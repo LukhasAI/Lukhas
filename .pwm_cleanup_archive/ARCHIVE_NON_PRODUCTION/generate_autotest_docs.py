@@ -25,7 +25,7 @@ if not logging.getLogger("ΛTRACE").handlers:
 
 logger.info("ΛTRACE: Initializing generate_autotest_docs script.")
 
-# Human-readable comment: Extracts symbolic header blocks and key information from LUKHAS files.
+# Human-readable comment: Extracts symbolic header blocks and key information from core.common files.
 # TODO: Consider using the `ast` module for more robust parsing of Python code structure.
 def extract_symbolic_blocks(file_content: str) -> Dict[str, Any]:
     """

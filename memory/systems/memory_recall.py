@@ -22,7 +22,7 @@ from pathlib import Path
 import structlog
 
 # LUKHAS Core Imports / Placeholders
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 SEEDRA_CORE_AVAILABLE = False
 SEEDRA_VAULT_AVAILABLE = False
 

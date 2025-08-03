@@ -70,7 +70,7 @@ with enterprise-grade regulatory compliance.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 import time
 import hashlib

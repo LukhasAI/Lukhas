@@ -47,7 +47,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional # Added Any, Optional
 from collections import deque, defaultdict # Added defaultdict
 from datetime import datetime, timedelta

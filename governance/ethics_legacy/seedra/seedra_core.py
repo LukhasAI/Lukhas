@@ -7,14 +7,14 @@ providing ethical guardrails for ABAS, DAST, and NIAS operations.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List, Set
 from datetime import datetime, timedelta
 from enum import Enum
 import hashlib
 import json
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ConsentLevel(Enum):
     """User consent levels for data access"""

@@ -52,17 +52,16 @@ from cachetools import TTLCache
 
 # Streamlit Imports / LUKHAS Placeholders
 try:
-    from streamlit.logger import get_logger
-    from streamlit.runtime.caching import cache_utils
-    from streamlit.runtime.caching.storage.cache_storage_protocol import (
+from from core.common import get_logger
+#     from streamlit.runtime.caching import cache_utils  # TODO: Install or implement streamlit
+#     from streamlit.runtime.caching.storage.cache_storage_protocol import (  # TODO: Install or implement streamlit
         CacheStorage,
         CacheStorageContext,
         CacheStorageKeyNotFoundError,
     )
-    from streamlit.runtime.stats import CacheStat
+#     from streamlit.runtime.stats import CacheStat  # TODO: Install or implement streamlit
 except ImportError as e:
     import structlog # Use LUKHAS standard logging if Streamlit's is unavailable
-    _log_fallback = structlog.get_logger(__name__) # Name it differently to avoid conflict with _LOGGER
     _log_fallback.warning("Streamlit runtime components not found. InMemoryCacheStorageWrapper placeholders in use.", error_details=str(e))
     class CacheStorage: pass # type: ignore
     @dataclass # type: ignore
@@ -70,10 +69,8 @@ except ImportError as e:
     class CacheStorageKeyNotFoundError(KeyError): pass # type: ignore
     @dataclass # type: ignore
     class CacheStat: category_name:str; cache_name:str; byte_length:int # type: ignore
-    def get_logger(name: str): return structlog.get_logger(name) # Fallback
     class CacheUtils: TTLCACHE_TIMER = threading.Timer # type: ignore
 
-_LOGGER = get_logger(__name__)
 
 
 class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore

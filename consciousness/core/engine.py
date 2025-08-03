@@ -23,7 +23,7 @@ from dataclasses import dataclass, asdict, field # Added field
 from datetime import datetime, timedelta
 import hashlib
 from abc import ABC, abstractmethod # Was imported in original
-import logging
+from core.common import get_logger
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine")

@@ -6,7 +6,7 @@ with quantum enhancement features for improved emotional processing and voice sy
 """
 
 from typing import Dict, Any, Optional, Callable, Union
-import logging
+from core.common import get_logger
 import asyncio
 import time
 from dataclasses import dataclass

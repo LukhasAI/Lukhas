@@ -105,7 +105,7 @@ except ImportError:
 
 # Initialize logger for this module
 # ΛTRACE: Standard logger setup for EmotionalMemory.
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # Toggle compatibility behavior
 compat_mode: bool = True

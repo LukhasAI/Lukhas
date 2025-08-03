@@ -8,7 +8,7 @@ import logging
 from typing import Dict, Any, List, Optional
 
 from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
-from abas.core.abas_engine import ABASEngine
+# from abas.core.abas_engine import ABASEngine
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 from ethics.seedra.seedra_core import SEEDRACore

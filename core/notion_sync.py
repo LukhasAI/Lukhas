@@ -59,7 +59,7 @@ from security.lukhasuditor import reflection
 # Core Notion and AI imports
 from notion_client import *  # TODO: Specify imports
 from apscheduler.schedulers.background import BackgroundScheduler
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 
 # Add the current directory to the Python path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -261,7 +261,7 @@ def run_legacy_streamlit_mode():
     This consolidates the original notion_sync.py Streamlit features.
     """
     try:
-        import streamlit as st
+#         import streamlit as st  # TODO: Install or implement streamlit
 
         # Load configuration
         config_path = Path("config.json")

@@ -27,7 +27,7 @@ Integration Date: 2025-05-31T07:55:28.094841
     • Emotional context preservation during identity transitions
 """
 
-import logging
+from core.common import get_logger
 import time
 from datetime import datetime
 from enum import Enum
@@ -49,7 +49,7 @@ try:
     ID_IMPORTS_AVAILABLE = True
 except ImportError:
     logger.warning(
-        "Could not import LUKHAS_ID components. Using placeholder implementations."
+        "Could not # import LUKHAS_ID  # External dependency components. Using placeholder implementations."
     )
     ID_IMPORTS_AVAILABLE = False
 

@@ -56,7 +56,7 @@ import structlog
 
 from memory.consolidation.consolidation_orchestrator import SleepStage
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class CircadianPhase(Enum):

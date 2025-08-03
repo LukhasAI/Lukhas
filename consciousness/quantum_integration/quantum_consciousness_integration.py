@@ -16,11 +16,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -42,7 +42,6 @@ import asyncio
 import sys
 from typing import Dict, List, Optional, Any, Union
 from pathlib import Path
-import logging
 from datetime import datetime
 
 # Add parent directories for imports
@@ -99,7 +98,7 @@ class QuantumCreativeConsciousness:
         else:
             self.creative_engine = None
 
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
     async def generate_conscious_content(
         self,

@@ -23,11 +23,11 @@
 """
 
 # Module imports
-import logging
+from core.common import get_logger
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -35,7 +35,6 @@ MODULE_NAME = "gpt-4 policy"
 
 import time
 import json
-import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
@@ -46,7 +45,7 @@ from ..base import (
     PolicyValidationError
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

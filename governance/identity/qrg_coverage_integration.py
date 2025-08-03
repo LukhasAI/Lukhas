@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the comprehensive QRG test suite to 
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
@@ -22,7 +22,7 @@ from .qrg_100_percent_coverage import (
     run_100_percent_coverage_suite
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

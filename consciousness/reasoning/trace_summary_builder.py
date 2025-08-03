@@ -4,13 +4,13 @@ Converts reasoning traces and decision trees into symbolic narratives
 """
 
 import json
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
 from collections import defaultdict
 import asyncio
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TraceNode:

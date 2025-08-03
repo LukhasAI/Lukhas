@@ -87,7 +87,7 @@ from scipy.stats import (
 
 
 # Initialize ΛTRACE logger for this module using structlog
-logger = structlog.get_logger("ΛTRACE.reasoning.ethical_reasoning_system")
+from core.common import get_logger
 logger.info(
     "ΛTRACE: Initializing ethical_reasoning_system.py module.", module_path=__file__
 )

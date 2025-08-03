@@ -55,10 +55,8 @@ try:
     )
     from ..hippocampal.hippocampal_buffer import EpisodicMemory, HippocampalBuffer
     from ..neocortical.neocortical_network import NeocorticalNetwork, SemanticMemory
-    from ..systems.memory_comprehensive import (
-        test_error_conditions,
-        test_memory_lifecycle,
-    )
+    # Import through interface to break circular dependency
+    from core.interfaces.memory_interface import get_test_module
     from ..systems.trauma_lock import TraumaLockSystem
     from .colony_memory_validator import ColonyMemoryValidator, ValidationMode
     from .interfaces import (
@@ -91,7 +89,7 @@ except ImportError as e:
         return {"status": "error", "message": "Memory components not available"}
 
 
-logger = structlog.get_logger("ΛTRACE.memory.orchestrator")
+from core.common import get_logger
 
 
 class MemoryType(Enum):
@@ -261,14 +259,24 @@ class UnifiedMemoryOrchestrator:
         # Start background processes (if event loop is available)
         self._start_background_tasks()
 
-        # Initialize comprehensive memory testing system
+        # Initialize comprehensive memory testing system through dependency injection
         try:
-            self.comprehensive_memory_tester = {
-                "test_memory_lifecycle": test_memory_lifecycle,
-                "test_error_conditions": test_error_conditions,
-                "initialized": True,
-            }
-            logger.info("Comprehensive memory tester initialized")
+            test_module = get_test_module("memory_comprehensive")
+            if test_module:
+                self.comprehensive_memory_tester = {
+                    "test_memory_lifecycle": lambda orch: test_module.test_memory_lifecycle(),
+                    "test_error_conditions": lambda orch: test_module.test_error_conditions(),
+                    "initialized": True,
+                }
+                logger.info("Comprehensive memory tester initialized via dependency injection")
+            else:
+                # Fallback to local test functions
+                self.comprehensive_memory_tester = {
+                    "test_memory_lifecycle": test_memory_lifecycle,
+                    "test_error_conditions": test_error_conditions,
+                    "initialized": True,
+                }
+                logger.info("Comprehensive memory tester initialized with local functions")
         except Exception as e:
             logger.warning(f"Failed to initialize comprehensive tester: {e}")
             self.comprehensive_memory_tester = {

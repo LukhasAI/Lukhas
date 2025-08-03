@@ -3,7 +3,7 @@ TutorEngine: Intelligent tutoring system that integrates with Lukhas AI capabili
 Combines Steve Jobs' perfect UX with Sam Altman's AI vision.
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional
 from enum import Enum
 from pydantic import BaseModel, Field
@@ -11,7 +11,7 @@ from datetime import datetime
 
 from ..symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph, SKGNode
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class LearningStyle(str, Enum):
     VISUAL = "visual"

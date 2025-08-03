@@ -53,7 +53,7 @@ from .interfaces.memory_interface import (
     MemoryOperation, MemoryResponse, MemoryMetadata, ValidationResult
 )
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class ValidationMode(Enum):

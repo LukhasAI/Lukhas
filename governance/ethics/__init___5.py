@@ -42,7 +42,7 @@ advanced artificial general intelligence.
 import structlog
 
 # Initialize ΛTRACE logger for the reasoning package using structlog
-logger = structlog.get_logger("ΛTRACE.reasoning")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing LUKHAS reasoning package.", package_name="reasoning", file_path=__file__)
 
 # Define what symbols are exported when 'from reasoning import *' is used.

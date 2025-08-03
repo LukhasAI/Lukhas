@@ -103,7 +103,7 @@ async def test_basic_functionality() -> bool:
     captured_op_for_ai: Optional[TestOperation] = None # To store for AI analysis test
     try:
         captured_op_for_ai = await autotest_instance.capture_terminal_operation(
-            command_str="echo 'Hello from LUKHAS Test Validation!'", # Renamed arg
+            command_str="echo 'Hello from core.common Test Validation!'", # Renamed arg
             operation_type_str="validation_echo_test", # Renamed arg
             timeout_val_seconds=10 # Renamed arg
         )

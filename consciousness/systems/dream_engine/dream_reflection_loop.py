@@ -39,7 +39,7 @@
 
 # Module imports
 import asyncio
-import logging
+from core.common import get_logger
 import time
 import json
 import threading
@@ -56,7 +56,7 @@ except Exception:
     metrics_db_available = False
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "3.0.0"

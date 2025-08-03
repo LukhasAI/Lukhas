@@ -11,9 +11,9 @@ Unified API Router - Connects all API endpoints
 
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Create main router
 router = APIRouter(prefix="/api/v1")

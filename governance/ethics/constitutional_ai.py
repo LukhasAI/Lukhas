@@ -20,7 +20,7 @@ Features:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import json
 from typing import Dict, List, Any, Optional, Tuple, Set, Union
 from datetime import datetime, timedelta
@@ -29,7 +29,7 @@ from enum import Enum
 import re
 import math
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class SafetyLevel(Enum):

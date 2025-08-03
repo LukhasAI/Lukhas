@@ -8,7 +8,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
+from core.common import get_logger
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_limiter import Limiter

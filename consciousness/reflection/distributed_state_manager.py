@@ -50,7 +50,7 @@
 import asyncio
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import threading
 import time
 import uuid
@@ -65,7 +65,7 @@ from core.cluster_sharding import ShardManager
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class StateType(Enum):

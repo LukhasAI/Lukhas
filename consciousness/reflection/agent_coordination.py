@@ -21,7 +21,7 @@ The system is inherently flexible, scalable, and resilient.
 import asyncio
 import uuid
 import time
-import logging
+from core.common import get_logger
 from typing import Dict, List, Set, Optional, Any, Callable, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
@@ -51,7 +51,7 @@ if not hasattr(ActorRef, 'to_dict'):
 if not hasattr(ActorRef, 'from_dict'):
     ActorRef.from_dict = staticmethod(actorref_from_dict)
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TaskStatus(Enum):

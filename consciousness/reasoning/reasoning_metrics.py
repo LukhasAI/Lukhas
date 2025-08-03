@@ -3,7 +3,7 @@ Reasoning Metrics
 Comprehensive metrics for measuring reasoning performance and quality
 """
 
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import List, Dict, Any, Optional, Tuple, Set
 from datetime import datetime, timedelta
@@ -12,7 +12,7 @@ import json
 import asyncio
 from dataclasses import dataclass, field
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

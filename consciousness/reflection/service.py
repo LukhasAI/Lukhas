@@ -57,7 +57,7 @@ import time
 import asyncio
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.consciousness.consciousness_service")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"

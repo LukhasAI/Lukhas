@@ -4,9 +4,9 @@ from __future__ import annotations
 
 
 from typing import Any, Dict, List
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # ΛTAG: alignment_overseer_training
 

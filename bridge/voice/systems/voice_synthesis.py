@@ -14,7 +14,7 @@ elegant human-computer interaction with Sam Altman's vision for advanced AI capa
 """
 
 from typing import Dict, Any, Optional, List, Union
-import logging
+from core.common import get_logger
 import time
 import os
 import asyncio
@@ -25,7 +25,7 @@ from abc import ABC, abstractmethod
 import tempfile
 import requests
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceEmotion(Enum):
     """Emotional tones for voice synthesis"""
@@ -324,7 +324,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         # Lazy import edge-tts
         if not self.edge_tts:
             try:
-                import edge_tts
+#                 import edge_tts  # TODO: Install or implement edge_tts
                 self.edge_tts = edge_tts
             except ImportError:
                 self.logger.error("edge-tts package not installed")
@@ -398,7 +398,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
     def is_available(self) -> bool:
         """Check if Edge TTS is available"""
         try:
-            import edge_tts
+#             import edge_tts  # TODO: Install or implement edge_tts
             self.edge_tts = edge_tts
             return True
         except ImportError:

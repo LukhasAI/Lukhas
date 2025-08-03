@@ -56,7 +56,7 @@ from ethics.engine import QuantumEthics, EthicalFramework, EthicalRiskLevel
 
 from quantum.processing_core import QuantumProcessingCore
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 @dataclass
 class AwarenessQuantumConfig:

@@ -41,7 +41,7 @@ import sys
 import ast
 import json
 import asyncio
-import logging
+from core.common import get_logger
 from pathlib import Path
 from dataclasses import dataclass, asdict
 from typing import Dict, List, Set, Tuple, Optional, Any

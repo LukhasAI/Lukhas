@@ -35,7 +35,7 @@ from core.integration.connectivity_engine import ConnectivityEngine
 from core.integration_hub import UnifiedIntegration
 from memory.unified_memory_manager import EnhancedMemoryManager
 
-logger = structlog.get_logger("ΛTRACE.memory.integration")
+from core.common import get_logger
 
 
 class EnhancedMemoryIntegration:

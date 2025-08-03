@@ -31,7 +31,7 @@ from datetime import datetime, timezone # For consistent timestamping if needed
 import structlog
 
 # Initialize structlog logger for this module
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # --- LUKHΛS System Imports & Path Modifications ---
 # ΛIMPORT_TODO: Critical: sys.path modifications are fragile. Resolve with proper packaging.

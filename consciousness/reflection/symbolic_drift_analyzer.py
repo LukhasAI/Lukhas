@@ -42,7 +42,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum, auto
 from typing import Dict, List, Optional, Set, Tuple, Any, Callable
-import logging
+from core.common import get_logger
 import hashlib
 import statistics
 import numpy as np
@@ -74,7 +74,7 @@ except ImportError:
     EthicalDriftDetector = None
     Glyph = None
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DriftAlertLevel(Enum):

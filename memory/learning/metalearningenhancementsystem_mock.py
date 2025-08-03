@@ -3,7 +3,7 @@ Meta-Learning Enhancement System Mock Implementation
 Lightweight mock implementation without heavy dependencies
 """
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from enum import Enum
@@ -11,7 +11,7 @@ import random
 import asyncio
 from dataclasses import dataclass
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class Enhancementmode(Enum):

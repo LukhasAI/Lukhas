@@ -47,7 +47,7 @@ AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field

@@ -23,7 +23,7 @@ import base64
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from core.common import get_logger, GLYPHToken, create_glyph
 from datetime import datetime
 from PIL import Image
 import numpy as np

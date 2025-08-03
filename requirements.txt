@@ -29,6 +29,10 @@ python-jose[cryptography]>=3.3.0  # JWT handling
 passlib[bcrypt]>=1.7.4      # Password hashing
 cryptography>=44.0.3        # Cryptographic operations
 PyJWT>=2.10.1               # JSON Web Tokens
+pyotp>=2.9.0                # TOTP/HOTP for MFA
+qrcode[pil]>=7.4.2          # QR code generation for MFA setup
+python-multipart>=0.0.6     # Form parsing for auth
+argon2-cffi>=23.1.0         # Argon2 password hashing
 
 # Configuration & Environment
 python-dotenv>=1.1.0        # Environment variable management
@@ -115,3 +119,16 @@ mkdocs>=1.5.3              # Documentation generator
 mkdocs-material>=9.5.0     # Material theme for MkDocs
 mypy>=1.7.0                # Static type checking
 ruff>=0.1.6                # Fast Python linter
+
+# Added by import fixer
+prometheus_client
+asyncpg
+Pillow
+opencv-python
+anthropic
+tiktoken
+colorama
+plotly
+docker
+kubernetes
+celery

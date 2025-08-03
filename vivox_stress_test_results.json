@@ -1,0 +1,23 @@
+{
+  "memory_expansion": {
+    "creation_rate": 33100.81838485396,
+    "total_memories": 1000,
+    "veiled_memories": 500
+  },
+  "moral_alignment": {
+    "evaluations_per_second": 11395.707221648645,
+    "suppression_rate": 0.0
+  },
+  "consciousness": {
+    "states_per_second": 2328.836277019261,
+    "max_drift": 0.7324641762648304
+  },
+  "self_reflection": {
+    "events_logged": 700,
+    "events_per_second": 69888.42656510355
+  },
+  "performance": {
+    "pipeline_success_rate": 0.0,
+    "average_flow_time_ms": 0.2790403366088867
+  }
+}

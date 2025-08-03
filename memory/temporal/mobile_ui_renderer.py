@@ -23,9 +23,9 @@ from typing import Dict, List, Tuple, Optional, Any
 from datetime import datetime
 from enum import Enum
 from dataclasses import dataclass
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class TouchGesture(Enum):
     """Touch gesture types for authentication"""

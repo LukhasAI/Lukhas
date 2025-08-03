@@ -54,7 +54,7 @@ import random
 import sys
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
-import logging
+from core.common import get_logger
 from datetime import datetime
 import re
 
@@ -71,7 +71,7 @@ except ImportError:
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class AdvancedHaikuGenerator:
@@ -93,7 +93,7 @@ class AdvancedHaikuGenerator:
         self.consciousness = (
             QuantumCreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
         )
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
         # Neural federated learning integration
         self.symbolic_db = symbolic_db or self._get_default_symbolic_db()

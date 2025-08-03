@@ -15,14 +15,14 @@ flow, and user preferences to create a more natural and engaging experience.
 """
 
 from typing import Dict, Any, Optional, List, Union
-import logging
+from core.common import get_logger
 import numpy as np
 from pathlib import Path
 from dataclasses import dataclass
 import asyncio
 import os
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 @dataclass
 class VoiceProfile:

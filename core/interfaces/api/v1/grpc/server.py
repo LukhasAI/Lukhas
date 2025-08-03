@@ -5,7 +5,7 @@ from concurrent import futures
 import grpc
 
 from interfaces.api.v1.grpc.lukhas_pb2_grpc import core_pb2_grpc, lukhas_pb2
-from orchestration.brain.lukhas_core import core_core
+from orchestration.brain.core import core_core
 
 
 class LukhasServicer(lukhas_pb2_grpc.LukhasServiceServicer):

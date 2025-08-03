@@ -15,9 +15,9 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from enum import Enum
 import structlog
-from prometheus_client import Counter, Gauge, Histogram, generate_latest
+# from prometheus_client import Counter, Gauge, Histogram, generate_latest
 import redis.asyncio as redis
-import asyncpg
+# import asyncpg  # External dependency
 from motor.motor_asyncio import AsyncIOMotorClient
 
 # Configure structured logging

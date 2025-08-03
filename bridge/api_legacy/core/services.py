@@ -7,9 +7,9 @@ Provides clean service interfaces for all API endpoints.
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from hub.service_registry import get_service
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class APIServiceBase:

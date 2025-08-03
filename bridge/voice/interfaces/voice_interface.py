@@ -13,7 +13,7 @@ Handles text-to-speech synthesis with support for multiple providers (system, El
 """
 
 import os
-import logging
+from core.common import get_logger
 import subprocess
 from typing import Dict, Any, Optional, List, Callable
 from pathlib import Path

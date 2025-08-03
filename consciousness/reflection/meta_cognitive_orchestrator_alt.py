@@ -44,7 +44,7 @@ Priority: CRITICAL - Enterprise platform enhancement
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import os
 import sys
 import json

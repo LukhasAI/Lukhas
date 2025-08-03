@@ -68,7 +68,7 @@ from .fold_lineage_tracker import FoldLineageTracker, CausationType
 from ..compression.symbolic_delta import AdvancedSymbolicDeltaCompressor, SymbolicMotif
 from ..governance.ethical_drift_governor import EthicalDriftGovernor
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger, GLYPHToken, create_glyph
 
 
 class GlyphResonanceLevel(Enum):

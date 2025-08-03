@@ -20,7 +20,7 @@ Based on requirements from elite AI expert evaluation.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple, Callable, Set
 from datetime import datetime, timedelta
@@ -31,7 +31,7 @@ import math
 import pickle
 from abc import ABC, abstractmethod
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class LearningType(Enum):

@@ -21,7 +21,7 @@ from memory.memory_hub import MemoryHub
 
 # Golden Trio imports
 from dast.integration.dast_integration_hub import DASTIntegrationHub
-from abas.integration.abas_integration_hub import ABASIntegrationHub
+# from abas.integration.abas_integration_hub import ABASIntegrationHub
 from nias.integration.nias_integration_hub import NIASIntegrationHub
 
 # Ethics system imports

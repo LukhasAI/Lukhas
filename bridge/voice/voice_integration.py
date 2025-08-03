@@ -6,10 +6,10 @@ Integration Date: 2025-05-31T07:55:28.252850
 """
 
 from typing import Dict, Any
-import logging
+from core.common import get_logger
 from ..voice_profiling import VoiceProfile, VoiceProfileManager
-from FILES_LIBRARY.voice_modularity_system import LucasVoiceSystem
-from FILES_LIBRARY.voice_modulator import VoiceModulator
+# from FILES_LIBRARY.voice_modularity_system import LucasVoiceSystem  # TODO: Install or implement FILES_LIBRARY
+# from FILES_LIBRARY.voice_modulator import VoiceModulator  # TODO: Install or implement FILES_LIBRARY
 
 class VoiceIntegrationLayer:
     """Integrates all voice components into unified system"""

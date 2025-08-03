@@ -20,11 +20,11 @@ from typing import Dict, List, Any, Tuple, Optional
 import datetime
 import json
 import os
-import logging
+from core.common import get_logger
 import asyncio
 from collections import defaultdict
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class FederatedModel:
     """

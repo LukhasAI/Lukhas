@@ -3,7 +3,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from Lukhas_ID.lid_ref import sign_with_lid  # Adjust import path based on actual project structure
+# from Lukhas_ID.lid_ref import sign_with_lid  # Adjust import path based on actual project structure
 
 AUDIT_LOG_PATH = Path(__file__).parent / "audits" / "audit_log.jsonl"
 

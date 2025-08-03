@@ -18,7 +18,7 @@ import os
 import sys
 import json
 import argparse
-import logging
+from core.common import get_logger
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
@@ -60,7 +60,7 @@ except ImportError:
     QuantumEthicsMeshIntegrator = None
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class QuantumMeshVisualizer:

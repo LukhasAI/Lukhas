@@ -41,7 +41,7 @@ import structlog
 from .causal_identity_tracker import CausalIdentityTracker, IdentityAnchor, IdentityLinkType
 from .fold_lineage_tracker import FoldLineageTracker, CausationType
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 class ProtectionLevel(Enum):
     """Identity protection levels against memory operations."""

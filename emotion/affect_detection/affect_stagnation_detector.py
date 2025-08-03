@@ -10,7 +10,7 @@
 # {ΛTRACE}
 
 from typing import Dict, Any, Optional
-import logging
+from core.common import get_logger
 from datetime import datetime, timezone
 
 from memory.emotional import EmotionalMemory

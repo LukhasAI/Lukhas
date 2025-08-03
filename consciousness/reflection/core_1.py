@@ -33,7 +33,7 @@ Key Features:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 import random
 from datetime import datetime, timedelta

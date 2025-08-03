@@ -6,7 +6,7 @@ consensus-based verification, and self-healing sensor failure recovery.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import time
 from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass

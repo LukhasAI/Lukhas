@@ -43,22 +43,22 @@ All operations respect user consent, tier access, and LUKHAS identity requiremen
 """
 
 # === CONSOLIDATED IMPORTS ===
-from AID.core.lambda_identity import IdentitySystem
-from LUKHAS.CORE.dream.dream_processor import DreamEngine
-from LUKHAS.CORE.emotion.emotional_resonance import EmotionalResonanceEngine
-from LUKHAS.CORE.voice.voice_engine import VoiceEngine
-from LUKHAS.CORE_INTEGRATION.orchestrator import CoreOrchestrator
-from LUKHAS.common.logger import get_lukhas_logger
-from MODULES_GOLDEN.bio.core import BioModule
-from MODULES_GOLDEN.common.base_module import SymbolicLogger
-from MODULES_GOLDEN.core.registry import core_registry
-from MODULES_GOLDEN.dream.core import DreamModule
-from MODULES_GOLDEN.emotion.core import EmotionModule
-from MODULES_GOLDEN.governance.core import GovernanceModule
-from MODULES_GOLDEN.identity.core import IdentityModule
-from MODULES_GOLDEN.memory.core import MemoryModule
-from MODULES_GOLDEN.vision.core import VisionModule
-from MODULES_GOLDEN.voice.core import VoiceModule
+# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+# from core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+# from core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+# from core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+from core.common.CORE_INTEGRATION.orchestrator import CoreOrchestrator
+from core.common.common.logger import get_lukhas_logger
+# from MODULES_GOLDEN.bio.core import BioModule
+# from MODULES_GOLDEN.common.base_module import SymbolicLogger
+# from MODULES_GOLDEN.core.registry import core_registry
+# from MODULES_GOLDEN.dream.core import DreamModule
+# from MODULES_GOLDEN.emotion.core import EmotionModule
+# from MODULES_GOLDEN.governance.core import GovernanceModule
+# from MODULES_GOLDEN.identity.core import IdentityModule
+# from MODULES_GOLDEN.memory.core import MemoryModule
+# from MODULES_GOLDEN.vision.core import VisionModule
+# from MODULES_GOLDEN.voice.core import VoiceModule
 from agent.flagship import Agent
 from base import BaseOrchestrator
 from base import ComponentStatus
@@ -75,7 +75,7 @@ from collapse_reasoner import ReasoningChain
 from collapse_reasoner import ResolutionStrategy
 from collections import Counter
 from collections import defaultdict
-from common.config import Config
+from core.common.config import Config
 from common.exceptions import LException
 from common.exceptions import SafetyViolationError
 from core import OrchestrationCore
@@ -182,7 +182,7 @@ import ast
 import asyncio
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import numpy
 import openai
 import os

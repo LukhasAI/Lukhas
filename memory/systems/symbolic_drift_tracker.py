@@ -8,7 +8,7 @@
 import structlog
 from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 logger.debug("memory.core_memory.symbolic_drift_tracker alias loaded")
 
 __all__ = ["SymbolicDriftTracker"]

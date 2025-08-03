@@ -50,7 +50,7 @@ from core.models import BaseModel # Assuming this path is correct within the pro
 import structlog
 
 # Initialize ΛTRACE logger for this module
-logger = structlog.get_logger("ΛTRACE.reasoning.response_reasoning_summary_text_delta_event")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing response_reasoning_summary_text_delta_event.py module (Data Model Definition).", module_path=__file__)
 
 __all__ = ["ResponseReasoningSummaryTextDeltaEvent"]

@@ -20,7 +20,7 @@ Created: January 2025
 import asyncio
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -32,7 +32,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 # from .rate_modulator import DynamicLearningRateModulator, ConvergenceSignal
 # from .symbolic_feedback import SymbolicFeedbackSystem
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class FederationStrategy(Enum):

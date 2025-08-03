@@ -19,7 +19,7 @@ import structlog
 #TAG:colony
 
 
-logger = structlog.get_logger("ΛTRACE.core.integration.safety")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing core.integration.safety package.")
 
 # Define what is explicitly exported by this package

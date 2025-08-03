@@ -5,7 +5,7 @@ A working integration that uses available components and provides fallbacks for 
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
@@ -14,7 +14,7 @@ from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class SimplifiedEthicsIntegration:

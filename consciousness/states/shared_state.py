@@ -67,7 +67,7 @@ import threading
 from copy import deepcopy
 
 # Configure module logger
-logger = structlog.get_logger("ΛTRACE.bridge.SharedState")
+from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "2.0.0"

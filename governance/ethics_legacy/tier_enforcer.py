@@ -14,7 +14,7 @@ to agents, modules, and symbolic functions.
 """
 
 from functools import wraps
-import logging
+from core.common import get_logger
 
 # Default tier levels for symbolic gating
 TIERS = {

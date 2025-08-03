@@ -13,7 +13,7 @@ Enhanced REM and memory visualization system combining prot1's visualization
 capabilities with prot2's quantum features.
 """
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 import json
 import os
 from datetime import datetime, timedelta
@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import altair as alt
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
@@ -36,7 +36,7 @@ except ImportError:
         def __init__(self):
             pass
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 @dataclass
 class VisualizationConfig:

@@ -1,7 +1,7 @@
 # shared_logging.py
 # Centralized logger for LUKHAS modules
 
-import logging
+from core.common import get_logger
 import sys
 
 LOG_FORMAT = '%(asctime)s %(levelname)s %(name)s: %(message)s'
@@ -12,6 +12,5 @@ logging.basicConfig(
     stream=sys.stdout
 )
 
-def get_logger(name: str) -> logging.Logger:
     """Get a logger with a unified format and level."""
     return logging.getLogger(name)

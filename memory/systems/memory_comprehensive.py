@@ -25,7 +25,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import sys
 import time
 from pathlib import Path
@@ -35,12 +35,12 @@ current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
 try:
-    # Import MemoryType from unified orchestrator
-    from memory.core.unified_memory_orchestrator import MemoryType
+    # Import MemoryType from interface to break circular dependency
+    from core.interfaces.memory_interface import MemoryType, MemoryTestInterface, register_test_module
 
     MEMORY_CORE_AVAILABLE = True
 except ImportError:
-    print("Warning: Core memory system not available - using mock types")
+    print("Warning: Memory interface not available - using mock types")
     from enum import Enum
 
     class MemoryType(Enum):
@@ -203,6 +203,40 @@ def test_error_conditions(orchestrator):
     except Exception as e:
         print(f"❌ Error condition test failed: {e}")
         return {"status": "error", "test_type": "error_conditions", "error": str(e)}
+
+
+# Dependency injection implementation
+if MEMORY_CORE_AVAILABLE:
+    class MemoryComprehensiveTestModule(MemoryTestInterface):
+        """Implementation of MemoryTestInterface for dependency injection"""
+        
+        async def test_error_conditions(self) -> dict:
+            """Test error handling conditions"""
+            # Since the original function expects an orchestrator parameter,
+            # we'll need to get it through dependency injection
+            from core.interfaces.dependency_injection import get_service
+            try:
+                orchestrator = get_service("memory_orchestrator")
+                return test_error_conditions(orchestrator)
+            except Exception as e:
+                return {"status": "error", "test_type": "error_conditions", "error": str(e)}
+                
+        async def test_memory_lifecycle(self) -> dict:
+            """Test memory lifecycle operations"""
+            from core.interfaces.dependency_injection import get_service
+            try:
+                orchestrator = get_service("memory_orchestrator")
+                return test_memory_lifecycle(orchestrator)
+            except Exception as e:
+                return {"status": "error", "test_type": "memory_lifecycle", "error": str(e)}
+    
+    # Register the test module for dependency injection
+    try:
+        test_module = MemoryComprehensiveTestModule()
+        register_test_module("memory_comprehensive", test_module)
+        print("✅ Memory comprehensive test module registered for dependency injection")
+    except Exception as e:
+        print(f"⚠️ Failed to register test module: {e}")
 
 
 # Main execution for testing

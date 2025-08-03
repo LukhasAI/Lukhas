@@ -1,7 +1,7 @@
 """Simulate an ethical dilemma across colonies."""
 
 import asyncio
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from typing import Dict, Any, List, Tuple
 
@@ -13,7 +13,7 @@ from core.colonies.creativity_colony import CreativityColony
 from core.colonies.tensor_colony_ops import batch_propagate
 from core.symbolism.tags import TagScope, TagPermission
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

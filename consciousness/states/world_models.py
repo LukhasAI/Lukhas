@@ -22,7 +22,7 @@ Features:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple, Union
 from datetime import datetime, timedelta
@@ -31,7 +31,7 @@ from enum import Enum
 import json
 import math
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class WorldModelType(Enum):

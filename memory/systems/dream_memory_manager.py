@@ -65,7 +65,7 @@ import structlog # ΛTRACE: Standardized logging.
 # from ..core.decorators import core_tier_required # Conceptual placeholder for tier system.
 
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init time) #AIDENTITY_BRIDGE (Module identity as 'dream_memory_manager')
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.
@@ -175,6 +175,7 @@ class DreamMemoryManager:
             drift_score = self._calculate_drift_score(memories_for_dreaming)
             if drift_score > self.config.get("drift_threshold", 0.8):
                 logger.warning("DreamMemoryManager_drift_threshold_exceeded", drift_score=drift_score, tag="drift_detected")
+from from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
                 from .memory_drift_stabilizer import MemoryDriftStabilizer
                 stabilizer = MemoryDriftStabilizer()
                 stabilizer.stabilize_memory(memories_for_dreaming)

@@ -26,7 +26,7 @@ import json
 import structlog # TRACE: Using structlog for structured logging
 
 # TRACE: Initialize logger for learning phase
-logger = structlog.get_logger().bind(tag="learning_phase")
+from core.common import get_logger
 
 # Add parent directory to path for identity interface
 # AIMPORT_TODO: This sys.path manipulation is generally discouraged.

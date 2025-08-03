@@ -7,7 +7,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List
 from datetime import datetime, timedelta
 
@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 #TAG:colony
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EchoController:
     """

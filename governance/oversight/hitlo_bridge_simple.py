@@ -10,9 +10,9 @@ Simple HITLOBridge class for ethics module connectivity
 """
 
 from typing import Dict, Any
-import logging
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class HITLOBridge:

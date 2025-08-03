@@ -87,7 +87,7 @@ __tier__ = 5
 
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import sqlite3
 try:
     import numpy as np

@@ -10,13 +10,13 @@ Purpose: Validate emoji selections for cultural appropriateness and sensitivity
 """
 
 import json
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Set, Tuple, Any
 from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class CulturalContext(Enum):
     """Cultural contexts for emoji validation"""

@@ -28,7 +28,7 @@ This component handles memory functionality in the AI consciousness computing sy
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 
@@ -42,7 +42,7 @@ class MemoryProcessor:
 
     def __init__(self, config: Optional[Dict] = None):
         self.config = config or {}
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
         self.is_initialized = False
         self.status = "inactive"
 

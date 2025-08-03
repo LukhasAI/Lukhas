@@ -58,7 +58,7 @@ import zlib
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.hds")
+from core.common import get_logger
 
 
 class MemoryTier(Enum):

@@ -49,7 +49,7 @@ from .fold_engine import MemoryFoldEngine, MemoryType, MemoryPriority, MemoryFol
 # from ..core.attention_system import QuantumAttention # Conceptual #ΛLINK_CONCEPTUAL: AttentionSystem
 
 # ΛTRACE: Initialize logger for the AdvancedMemoryManager module. #ΛTEMPORAL_HOOK (Logger init time) #AIDENTITY_BRIDGE (Module identity)
-logger = structlog.get_logger(__name__) # Changed from `log` to `logger` for consistency.
+from core.common import get_logger
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.

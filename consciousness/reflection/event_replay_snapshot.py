@@ -18,7 +18,7 @@ import copy
 import gzip
 import hashlib
 import json
-import logging
+from core.common import get_logger
 import pickle
 import threading
 import time
@@ -32,7 +32,7 @@ import aiofiles
 
 from .actor_system import Actor, ActorMessage, ActorRef, ActorSystem
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class EventType(Enum):

@@ -6,7 +6,7 @@ emotional processing and voice synthesis coordination.
 """
 
 from typing import Dict, Any, Optional, Tuple, Callable
-import logging
+from core.common import get_logger
 import asyncio
 from dataclasses import dataclass
 

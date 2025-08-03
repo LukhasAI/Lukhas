@@ -24,7 +24,7 @@ License: Proprietary
 Version: 1.0.0
 """
 
-import logging
+from core.common import get_logger
 import asyncio
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
@@ -34,9 +34,9 @@ import json
 
 # Import LUKHAS core components
 try:
-    from ...CORE.ethics.ethics_engine import EthicsEngine
-    from ...CORE.memory.memory_manager import MemoryManager
-    from ...CORE.integration.integration_layer import IntegrationLayer
+#     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
+#     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
+#     from ...CORE.integration.integration_layer import IntegrationLayer  # TODO: Install or implement CORE
 except ImportError:
     # Fallback imports for standalone testing
     from unittest.mock import MagicMock
@@ -44,7 +44,7 @@ except ImportError:
     MemoryManager = MagicMock
     IntegrationLayer = MagicMock
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EthicalFramework(Enum):
     """Supported ethical frameworks for moral reasoning"""

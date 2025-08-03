@@ -48,7 +48,7 @@ except ImportError:
         LazyMemoryItem = None
         create_lazy_embedding_system = None
 
-logger = structlog.get_logger("ΛTRACE.memory.optimized_hybrid")
+from core.common import get_logger
 
 
 class OptimizedVectorStorageLayer(VectorStorageLayer):

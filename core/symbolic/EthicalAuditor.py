@@ -67,9 +67,9 @@ from dataclasses import dataclass, asdict
 
 # Import LUKHlukhasS core modules
 try:
-    from lukhas.core.elite.symbolic_trust_scorer import SymbolicTrustScorer
-    from lukhas.core.elite.ai_constitution_checker import AIConstitutionChecker
-    from lukhas.core.elite.emotional_secure_logger import EmotionalSecureLogger
+    from core.elite.symbolic_trust_scorer import SymbolicTrustScorer
+    from core.elite.ai_constitution_checker import AIConstitutionChecker
+    from core.elite.emotional_secure_logger import EmotionalSecureLogger
 except ImportError:
     print("Warning: Elite modules not found. Some features may be limited.")
     SymbolicTrustScorer = None

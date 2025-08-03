@@ -15,10 +15,10 @@ Based on the advanced implementation from Lukhas GitHub repository.
 """
 
 import datetime
-import logging
+from core.common import get_logger
 from typing import Dict, List, Any
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class CausalReasoningModule:

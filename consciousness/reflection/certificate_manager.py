@@ -69,7 +69,7 @@ except ImportError:
     pass
 
 
-log = structlog.get_logger(__name__) # Standard logger instance
+from core.common import get_logger
 
 class CertificateStatus(Enum):
     """Defines the status states of a quantum certificate."""

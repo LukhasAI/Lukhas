@@ -11,7 +11,7 @@ Provides integration wrapper for connecting the ethical reasoning system to the 
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, Optional, List
 from datetime import datetime, timezone
 
@@ -26,7 +26,7 @@ from .ethical_reasoning_system import (
     EthicalConstraint
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class EthicalReasoningIntegration:

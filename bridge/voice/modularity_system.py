@@ -15,7 +15,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
+from core.common import get_logger
 import datetime
 from typing import Dict, Any
 from orchestration_src.brain.context_analyzer import ContextAnalyzer

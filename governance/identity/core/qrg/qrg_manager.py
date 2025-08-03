@@ -31,7 +31,7 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
 from PIL import Image, ImageDraw, ImageColor, ImageFont
-import logging
+from core.common import get_logger
 
 # LUKHAS ΛiD Core Integration
 try:

@@ -22,15 +22,14 @@ import mimetypes
 import os.path
 from typing import Final, NamedTuple
 
-from streamlit.logger import get_logger
-from streamlit.runtime.media_file_storage import (
+from core.common import get_logger
+# from streamlit.runtime.media_file_storage import (  # TODO: Install or implement streamlit
     MediaFileKind,
     MediaFileStorage,
     MediaFileStorageError,
 )
-from streamlit.runtime.stats import CacheStat, CacheStatsProvider, group_stats
+# from streamlit.runtime.stats import CacheStat, CacheStatsProvider, group_stats  # TODO: Install or implement streamlit
 
-_LOGGER: Final = get_logger(__name__)
 
 # Mimetype -> filename extension map for the `get_extension_for_mimetype`
 # function. We use Python's `mimetypes.guess_extension` for most mimetypes,

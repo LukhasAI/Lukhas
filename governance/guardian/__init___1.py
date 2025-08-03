@@ -17,7 +17,7 @@ import structlog
 #TAG:colony
 
 
-logger = structlog.get_logger("ΛTRACE.orchestration.monitoring.sub_agents")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing orchestration.monitoring.sub_agents package.")
 
 """

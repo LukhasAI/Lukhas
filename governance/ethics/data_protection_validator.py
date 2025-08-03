@@ -18,14 +18,14 @@ Comprehensive GDPR compliance validation framework including:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime, timedelta
 import json
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class LawfulBasis(Enum):
     """GDPR lawful bases for processing"""

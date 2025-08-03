@@ -25,7 +25,7 @@ from functools import wraps
 import structlog
 import openai
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 class TierLevel(Enum):

@@ -52,7 +52,7 @@ from enum import Enum
 from datetime import datetime, timezone
 
 # Initialize structlog logger for this module
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 # AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type
 #               that `self.crista_optimizer` is expected to be.

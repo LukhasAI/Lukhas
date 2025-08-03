@@ -21,7 +21,7 @@ Features:
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple, Set
@@ -32,7 +32,7 @@ import re
 from collections import defaultdict, Counter
 import statistics
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class AnalyticsType(Enum):
     """Types of analytics"""

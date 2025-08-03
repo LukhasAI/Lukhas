@@ -5,7 +5,7 @@ import structlog
 
 from bio.base_oscillator import OscillationType
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 class OscillatingConscience:
     """Simple conscience wave adjusting an ethical threshold."""

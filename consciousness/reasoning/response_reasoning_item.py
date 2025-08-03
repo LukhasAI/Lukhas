@@ -52,7 +52,7 @@ from core.models import BaseModel
 import structlog
 
 # Initialize ΛTRACE logger for this module
-logger = structlog.get_logger("ΛTRACE.reasoning.response_reasoning_item")
+from core.common import get_logger
 logger.info("ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition).", module_path=__file__)
 
 __all__ = ["ResponseReasoningItem", "Summary"]

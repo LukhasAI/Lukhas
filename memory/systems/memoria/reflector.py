@@ -19,7 +19,7 @@
 from typing import Optional, Dict, Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Module constants
 
@@ -36,7 +36,7 @@ from typing import List, Dict, Any, Optional
 # Third-Party Imports
 import structlog
 
-log = structlog.get_logger(__name__)
+from core.common import get_logger
 
 try:
     # Consistent with lukhas_dreams.py log directory
@@ -49,7 +49,7 @@ except Exception as e_path_reflect_cfg:
 LUKHAS_REFLECTION_PROCESS_EFFECTIVE_TIER = 2
 
 def load_dream_memories_from_log(limit: int = 5, log_date: Optional[datetime] = None, specific_log_file: Optional[Path] = None) -> List[Dict[str, Any]]:
-    """Loads recent dream memory entries from LUKHAS dream log file(s)."""
+    """Loads recent dream memory entries from core.common dream log file(s)."""
     log.debug("Loading dream memories for reflection.", load_limit=limit, date_filter=log_date.isoformat() if log_date else "today", file_override=str(specific_log_file) if specific_log_file else "None")
 
     target_log_path = specific_log_file or (DREAM_LOGS_REFLECTOR_DIR_CONFIG / f"lukhas_dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")

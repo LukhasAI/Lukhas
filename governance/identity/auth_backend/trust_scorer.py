@@ -8,7 +8,7 @@ import json
 import hashlib
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
-import logging
+from core.common import get_logger
 
 class LukhasTrustScorer:
     """
@@ -46,7 +46,7 @@ class LukhasTrustScorer:
             'suspicious': 30.0
         }
 
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
     def validate_entropy_data(self, entropy_data: Dict[str, Any]) -> bool:
         """

@@ -74,7 +74,7 @@ from collections import defaultdict, deque
 from enum import Enum
 import structlog
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 # JULES05_NOTE: Loop-safe guard added

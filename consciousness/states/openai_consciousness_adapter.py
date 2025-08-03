@@ -19,7 +19,7 @@
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import openai

@@ -63,7 +63,7 @@ import structlog
 from pathlib import Path
 
 # Configure structured logging
-logger = structlog.get_logger("ΛGOVERNOR.ethics.arbitration")
+from core.common import get_logger
 
 
 class ActionDecision(Enum):

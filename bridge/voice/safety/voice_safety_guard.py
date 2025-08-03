@@ -7,11 +7,11 @@ Integration Date: 2025-05-31T07:55:28.354454
 
 import unittest
 from core.interfaces.voice.core.sayit import SafetyGuard
-import logging
+from core.common import get_logger
 import re
 from typing import Dict, Any, List, Optional, Tuple
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class VoiceSafetyGuard:
     """

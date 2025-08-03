@@ -4,13 +4,13 @@ Dynamic reasoning system that adapts strategies based on context and feedback
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime
 from enum import Enum
 import json
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ReasoningStrategy(Enum):

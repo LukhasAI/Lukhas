@@ -13,7 +13,7 @@ Ensures consistent ethical decisions across all systems.
 """
 
 import asyncio
-import logging
+from core.common import get_logger
 from typing import Dict, Any, List, Optional, Tuple, Set
 from dataclasses import dataclass, field
 from enum import Enum, auto
@@ -26,7 +26,7 @@ from symbolic.core import (
     SymbolicExpression, get_symbolic_vocabulary
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class EthicalPrinciple(Enum):
     """Core ethical principles"""

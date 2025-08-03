@@ -22,7 +22,7 @@ import math
 import re
 
 # Initialize structured logger for this module
-logger = structlog.get_logger("ΛTRACE.reasoning.conflict_resolver")
+from core.common import get_logger, GLYPHToken, create_glyph
 logger.info("Initializing conflict_resolver module.", module_path=__file__)
 
 
@@ -484,16 +484,12 @@ class SymbolicConflictResolver:
 
             # Emit different trace types based on resolution mode
             if result.resolution_mode == ResolutionMode.MERGE:
-                reconcile_logger = structlog.get_logger("ΛRECONCILE.conflict_resolution")
                 reconcile_logger.info("Conflict merge resolution", **trace_record)
             elif result.resolution_mode == ResolutionMode.SUPPRESS:
-                suppress_logger = structlog.get_logger("ΛSUPPRESS.conflict_resolution")
                 suppress_logger.info("Conflict suppression", **trace_record)
             elif result.resolution_mode == ResolutionMode.ESCALATE:
-                escalate_logger = structlog.get_logger("ΛESCALATE.conflict_resolution")
                 escalate_logger.warning("Conflict escalation", **trace_record)
             else:
-                resolve_logger = structlog.get_logger("ΛRESOLVE.conflict_resolution")
                 resolve_logger.info("Conflict resolution", **trace_record)
 
             # Write to JSON audit log
@@ -1073,7 +1069,6 @@ class SymbolicConflictResolver:
 
             # In a real implementation, this would write to actual files
             # For now, use structured logging
-            audit_logger = structlog.get_logger("ΛAUDIT.conflict_resolution")
             audit_logger.info("Conflict resolution audit", **trace_record)
 
         except Exception as e:
@@ -1082,7 +1077,6 @@ class SymbolicConflictResolver:
     def _notify_mesh_components(self, result: ConflictResolutionResult) -> None:
         """Notify relevant mesh components about resolution."""
         # Placeholder for mesh integration
-        mesh_logger = structlog.get_logger("ΛMESH.conflict_notification")
         mesh_logger.info(
             "Conflict resolution notification",
             resolution_id=result.resolution_id,

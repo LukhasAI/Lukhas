@@ -77,7 +77,7 @@ from collections import OrderedDict, defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Any, Dict, Generic, List, Optional, Set, Tuple, TypeVar, Union, Callable
-import logging
+from core.common import get_logger
 import pickle
 from functools import lru_cache
 import struct
@@ -95,7 +95,7 @@ try:
 except ImportError:
     HAS_PSUTIL = False
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 T = TypeVar('T')
 

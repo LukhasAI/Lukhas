@@ -3,12 +3,12 @@
 # Purpose: To trace and log memory collapse events, where multiple memory states are resolved into a singular state.
 # ΛPLACEHOLDER_FILLED
 
-import logging
+from core.common import get_logger
 import uuid
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class CollapseTrace:

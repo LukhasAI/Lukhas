@@ -8,7 +8,7 @@ import sys
 import os
 import json
 import asyncio
-import logging
+from core.common import get_logger
 from pathlib import Path
 from typing import Dict, Any, Optional
 
@@ -25,7 +25,7 @@ logging.basicConfig(
     ]
 )
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class LukhasFlagshipSecurityEngine:
     """Main system orchestrator for Lukhas AI Flagship environment."""

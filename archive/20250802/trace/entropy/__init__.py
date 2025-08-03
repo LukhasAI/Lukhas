@@ -1,0 +1,4 @@
+"""
+Entropy Module
+"""
+

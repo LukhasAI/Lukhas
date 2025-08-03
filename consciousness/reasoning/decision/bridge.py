@@ -63,9 +63,8 @@ try:
     from memory.governance.ethical_drift_governor import EthicalDriftGovernor
     from reasoning.symbolic_reasoning import SymbolicEngine
 except ImportError as e:
-    structlog.get_logger().warning(f"Missing dependencies: {e}")
+from from core.common import get_logger
 
-logger = structlog.get_logger("strategy_engine.dmb")
 
 class DecisionType(Enum):
     """Types of decisions that can be processed by the bridge"""
@@ -311,7 +310,6 @@ class DecisionMakingBridge:
             config: Configuration dictionary with decision-making parameters
         """
         self.config = config or self._default_config()
-        self.logger = structlog.get_logger("dmb.core")
 
         # Initialize integrated components
         self.neuro_symbolic_layer = None

@@ -41,7 +41,7 @@
 
 # Module imports
 import os
-import logging
+from core.common import get_logger
 import requests
 from typing import Optional
 from .env_loader import get_api_key

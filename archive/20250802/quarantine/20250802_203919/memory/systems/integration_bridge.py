@@ -26,7 +26,7 @@ try:
     from ..quantum_memory_manager import QuantumMemoryManager
 except ImportError:
     log.warning("QuantumMemoryManager not found. Using placeholder.", path_tried="memory.quantum_memory_manager")
-    class QuantumMemoryManager: async def perform_operation(self, op: str, data: Any, ctx: Optional[Any]=None) -> Dict: return {"status":"quantum_stub", "op":op} # type: ignore
+    class QuantumMemoryManager: async def perform_operation(self, op: str, data: Any, ctx: Optional[Any]=None) -> Dict: return {"status":"quantum_stub", "op":op} # type: ignore:
 
 try:
     from .learning_systems.memory_learning_system import MemoryLearningSystem

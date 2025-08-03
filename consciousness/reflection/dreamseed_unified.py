@@ -69,7 +69,7 @@ from core.identity_integration import (
 from memory.emotional import EmotionalMemory, EmotionVector
 from memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
 
-logger = structlog.get_logger(__name__)
+from core.common import get_logger
 
 
 # Backward compatibility enum (will be deprecated)
