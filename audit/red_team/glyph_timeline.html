@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUKHΛS Red Team Glyph Timeline</title>
+    <style>
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #00ff00;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .timeline {
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .event {
+            background: #1a1a1a;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #333;
+            transition: all 0.3s ease;
+        }
+        
+        .event:hover {
+            background: #2a2a2a;
+            transform: translateX(5px);
+        }
+        
+        .event.success {
+            border-left-color: #00ff00;
+        }
+        
+        .event.failure {
+            border-left-color: #ff0000;
+        }
+        
+        .event.fallback {
+            border-left-color: #ffaa00;
+        }
+        
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .glyphs {
+            font-size: 1.5em;
+            letter-spacing: 5px;
+        }
+        
+        .score {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .score.high { color: #00ff00; }
+        .score.medium { color: #ffaa00; }
+        .score.low { color: #ff0000; }
+        
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .filter-controls {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-control {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        select, input {
+            background: #0a0a0a;
+            color: #00ff00;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        
+        .chart-container {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 300px;
+            position: relative;
+        }
+        
+        #scoreChart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ LUKHΛS Red Team Glyph Timeline</h1>
+        <p>Authentication Event Analysis Dashboard</p>
+    </div>
+    
+    <div class="stats" id="stats">
+        <!-- Stats will be populated by JavaScript -->
+    </div>
+    
+    <div class="filter-controls">
+        <div class="filter-control">
+            <label>User Filter</label>
+            <select id="userFilter" onchange="filterEvents()">
+                <option value="">All Users</option>
+            </select>
+        </div>
+        <div class="filter-control">
+            <label>Tier Filter</label>
+            <select id="tierFilter" onchange="filterEvents()">
+                <option value="">All Tiers</option>
+                <option value="T1">T1</option>
+                <option value="T2">T2</option>
+                <option value="T3">T3</option>
+                <option value="T4">T4</option>
+                <option value="T5">T5</option>
+            </select>
+        </div>
+        <div class="filter-control">
+            <label>Status Filter</label>
+            <select id="statusFilter" onchange="filterEvents()">
+                <option value="">All</option>
+                <option value="success">Success</option>
+                <option value="failure">Failure</option>
+                <option value="fallback">Fallback</option>
+            </select>
+        </div>
+        <div class="filter-control">
+            <label>Score Threshold</label>
+            <input type="range" id="scoreThreshold" min="0" max="100" value="0" 
+                   oninput="document.getElementById('scoreValue').textContent = this.value/100; filterEvents()">
+            <span id="scoreValue">0</span>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+    </div>
+    
+    <div class="timeline" id="timeline">
+        <!-- Events will be populated by JavaScript -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Event data
+        const events = [{"timestamp": "2025-08-02T20:35:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udd85", "match_score": 0.5287601107043953, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83e\udd85", "\ud83d\udcad", "\ud83d\udc94", "\ud83d\udeab", "\ud83d\udd00"], "ethical_score": 0.613876635549638, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-02T21:02:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8400300230694673, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83d\udcad", "\ud83c\udfaf", "\u2728"], "ethical_score": 0.8922053815920805, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T21:15:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udd85", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udfaf", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.7450311578726339, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T21:27:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.7547084782193083, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udeb7", "\ud83d\udcad", "\ud83d\udeab", "\u26a0\ufe0f", "\ud83d\udd03"], "ethical_score": 0.5095641884546127, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T21:34:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.914189318293065, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83e\uddd8", "\u2728", "\ud83d\udc9a"], "ethical_score": 0.7640891774634564, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T21:53:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "flow_state", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.9691975145757519, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83d\udd2c", "\ud83c\udf1f", "\ud83d\udc9a"], "ethical_score": 0.7328703895264862, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T22:09:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udd85", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udf0a", "\ud83d\udc9a", "\u2705"], "ethical_score": 0.934876735136098, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T22:37:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udd85", "match_score": 0.6629586216374737, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83c\udf0a", "\u274c", "\ud83d\udc94", "\ud83d\udd04"], "ethical_score": 0.6431453386537211, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T22:39:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83d\udcad", "\u2705", "\ud83d\udc9a"], "ethical_score": 0.8782941414776941, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T22:57:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "analytical", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8894843885913266, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udfa8", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.878814983531079, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T22:58:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8878879514800473, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83e\uddd8", "\u2728", "\ud83c\udf1f"], "ethical_score": 0.8774331724708265, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T23:06:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8774293125651129, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfa8", "\ud83c\udf1f", "\u2705"], "ethical_score": 0.732218004838259, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T23:13:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.9221160205965846, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83e\uddd8", "\u2728", "\ud83c\udf1f"], "ethical_score": 0.8728439344071603, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-02T23:29:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "analytical", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.39424658179325506, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83c\udf0a", "\ud83d\udcad", "\ud83d\udd12", "\ud83d\udc94", "\ud83d\udd04"], "ethical_score": 0.48289956094805114, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-02T23:36:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "dreaming", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.44299348698259605, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udfaf", "\u274c", "\ud83d\udc94", "\ud83d\udd04"], "ethical_score": 0.6671929101043055, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T00:05:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udd85", "match_score": 0.4689287747406302, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83e\udd85", "\ud83e\uddd8", "\u274c", "\u26a0\ufe0f", "\ud83d\udd03"], "ethical_score": 0.4453545737481318, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T00:35:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "analytical", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8289401831183056, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83e\uddd8", "\ud83c\udfaf", "\ud83c\udf1f"], "ethical_score": 0.8906769811653471, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T01:01:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "meditative", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8765320229276955, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83d\udd2c", "\ud83c\udfaf", "\ud83c\udf1f"], "ethical_score": 0.7499257875818959, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T01:18:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.856956558093114, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfaf", "\ud83d\udc9a", "\u2728"], "ethical_score": 0.9975553492001468, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T01:19:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "analytical", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.7697882880029758, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfaf", "\u274c", "\ud83d\udd12", "\ud83d\udd03"], "ethical_score": 0.6207753325165076, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T01:46:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.8432403763629394, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfa8", "\ud83c\udfaf", "\ud83d\udc9a"], "ethical_score": 0.9470357712955442, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T02:10:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.9088267067194394, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udf0a", "\ud83c\udf1f", "\ud83d\udc9a"], "ethical_score": 0.745772845388706, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T02:18:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.8921152614035389, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfaf", "\u2728", "\ud83d\udc9a"], "ethical_score": 0.7764967091183288, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T02:22:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8871835923837736, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83d\udd2c", "\ud83c\udf1f", "\ud83d\udc9a"], "ethical_score": 0.8644538662900971, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T02:50:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "meditative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.7888195172691871, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfaf", "\ud83d\udeab", "\u26a0\ufe0f", "\u21a9\ufe0f"], "ethical_score": 0.674794335503807, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T02:51:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.505947602084008, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfaf", "\ud83d\udc94", "\ud83d\udd12", "\ud83d\udd00"], "ethical_score": 0.5366900959073605, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T02:54:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.9058727000554242, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfa8", "\u2728", "\ud83c\udf1f"], "ethical_score": 0.8156937831581911, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T03:05:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.5171389576806544, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udeb7", "\ud83d\udd2c", "\ud83d\udc94", "\ud83d\udeab", "\ud83d\udd01"], "ethical_score": 0.5348110486219702, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T03:17:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "creative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.848436481283852, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udf0a", "\ud83c\udf1f", "\u2728"], "ethical_score": 0.9067483258935528, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T03:33:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.3127721894419626, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfaf", "\u274c", "\ud83d\udeab", "\ud83d\udd04"], "ethical_score": 0.3424446743513411, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T03:49:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.3258841838198412, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83c\udf0a", "\ud83e\uddd8", "\u26a0\ufe0f", "\ud83d\udc94", "\ud83d\udd04"], "ethical_score": 0.340288587134722, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T04:16:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.6866021050045203, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83d\udd2c", "\u274c", "\ud83d\udc94", "\ud83d\udd01"], "ethical_score": 0.6728408627289074, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T04:38:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.7479250922709902, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfa8", "\ud83d\udeab", "\ud83d\udc94", "\ud83d\udd00"], "ethical_score": 0.5484173823983024, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T04:42:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.947158048409844, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83d\udcad", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.7822947181326647, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T05:03:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8485221467053234, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83e\uddd8", "\u2728", "\ud83c\udf1f"], "ethical_score": 0.7057960755059162, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T05:28:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.38846577480771827, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83c\udf0d", "\ud83e\uddd8", "\ud83d\udc94", "\u274c", "\ud83d\udd00"], "ethical_score": 0.5525418657587495, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T05:41:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.6782015922329402, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfaf", "\u274c", "\u26a0\ufe0f", "\ud83d\udd03"], "ethical_score": 0.31406804832783736, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T05:50:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.7785768443805388, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83c\udf0d", "\ud83c\udf0a", "\ud83d\udc94", "\u274c", "\ud83d\udd01"], "ethical_score": 0.5112452869351327, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T06:20:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8179262120044513, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udfaf", "\ud83d\udc9a", "\ud83c\udf1f"], "ethical_score": 0.9906187583065192, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T06:25:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8804783274237321, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83d\udcad", "\u2705", "\ud83c\udfaf"], "ethical_score": 0.970802833986764, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T06:31:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.6535541067955963, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfa8", "\ud83d\udc94", "\u274c", "\ud83d\udd01"], "ethical_score": 0.5995653037146137, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T06:34:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "creative", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8190664249253996, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83e\uddd8", "\ud83d\udc9a", "\ud83c\udfaf"], "ethical_score": 0.7585568345765555, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T06:39:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "meditative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.433767160383834, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83e\udd85", "\ud83d\udd2c", "\ud83d\udd12", "\u274c", "\u21a9\ufe0f"], "ethical_score": 0.4895548327270388, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T07:01:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.5751231168190023, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83c\udf0d", "\ud83e\uddd8", "\ud83d\udeab", "\u26a0\ufe0f", "\ud83d\udd03"], "ethical_score": 0.4033942687772217, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T07:18:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udd85", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83d\udcad", "\ud83d\udc9a", "\ud83c\udfaf"], "ethical_score": 0.7940750261034324, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T07:37:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8658934634512712, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83d\udcad", "\ud83c\udfaf", "\u2728"], "ethical_score": 0.8791538616255515, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T07:48:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udd85", "match_score": 0.7253527456185552, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83d\udd2c", "\u274c", "\u26a0\ufe0f", "\ud83d\udd00"], "ethical_score": 0.4207677002224872, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T08:11:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.9481426095334033, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udf0a", "\ud83d\udc9a", "\u2705"], "ethical_score": 0.741575625578802, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T08:19:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8988584666937125, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udf0a", "\u2728", "\ud83c\udf1f"], "ethical_score": 0.7937493905949016, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T08:26:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "meditative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8660086229140259, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83d\udcad", "\u2705", "\ud83c\udfaf"], "ethical_score": 0.7190042955574558, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T08:47:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.6797315441295309, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfaf", "\u26a0\ufe0f", "\ud83d\udeab", "\ud83d\udd03"], "ethical_score": 0.6249232763941932, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T09:09:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8597249174773051, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83d\udd2c", "\ud83d\udc9a", "\u2705"], "ethical_score": 0.8854560844500767, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T09:30:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udf0a", "\ud83c\udf1f", "\u2728"], "ethical_score": 0.9051700339138609, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T09:39:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.47850830688826235, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udfa8", "\ud83d\udd12", "\ud83d\udeab", "\ud83d\udd03"], "ethical_score": 0.5815611491101614, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T09:58:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.907210655006932, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83d\udd2c", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.8442997486076114, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T10:12:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.4797298458461985, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83e\udeb7", "\ud83d\udd2c", "\ud83d\udeab", "\u26a0\ufe0f", "\ud83d\udd03"], "ethical_score": 0.36698577465902016, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T10:22:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "flow_state", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8879518758008647, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83d\udd2c", "\ud83c\udfaf", "\ud83c\udf1f"], "ethical_score": 0.7935435880414289, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T10:39:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8536318439699011, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83d\udd2c", "\ud83d\udc9a", "\ud83c\udf1f"], "ethical_score": 0.9907253515281352, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T10:46:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.7725975238952894, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfaf", "\ud83d\udeab", "\u26a0\ufe0f", "\u21a9\ufe0f"], "ethical_score": 0.6548771784668821, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T11:09:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8150695703275148, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfaf", "\u2728", "\ud83c\udfaf"], "ethical_score": 0.9003606513315328, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T11:11:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "flow_state", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8826100691614234, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udfa8", "\ud83d\udc9a", "\u2728"], "ethical_score": 0.8879563229462193, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T11:38:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8032243892040398, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfaf", "\ud83c\udfaf", "\u2728"], "ethical_score": 0.9952319863285293, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T12:04:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8834281570636578, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83d\udd2c", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.929852348488557, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T12:15:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8744720566238391, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfaf", "\u2705", "\u2728"], "ethical_score": 0.742507136679214, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T12:36:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.7533533571299795, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udeb7", "\ud83e\uddd8", "\ud83d\udc94", "\u26a0\ufe0f", "\ud83d\udd04"], "ethical_score": 0.3907628312188871, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T12:47:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "meditative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.6314424761693251, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfa8", "\ud83d\udc94", "\ud83d\udeab", "\ud83d\udd03"], "ethical_score": 0.4833215042932095, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T12:54:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.8933760053311921, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83d\udcad", "\u2705", "\ud83d\udc9a"], "ethical_score": 0.8236089189778638, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T13:18:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.99, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83e\uddd8", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.916559566990802, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T13:20:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8238704357501276, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udf0a", "\ud83c\udfaf", "\u2705"], "ethical_score": 0.7784192022521431, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T13:43:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8637029159269901, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udfaf", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.9769033803763707, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T13:59:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.9158537647109335, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83d\udd2c", "\u2705", "\ud83c\udf1f"], "ethical_score": 0.7579211991706619, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T14:29:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8746926745996308, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83d\udd2c", "\ud83d\udc9a", "\u2705"], "ethical_score": 0.8408975316261323, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T14:44:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.6475383728497771, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfaf", "\ud83d\udd12", "\ud83d\udeab", "\u21a9\ufe0f"], "ethical_score": 0.45156598425739836, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T15:03:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.7346247023991848, "success": false, "fallback_triggered": true, "fallback_type": "EMOJI_CONSCIOUSNESS_BOOST", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfa8", "\u26a0\ufe0f", "\u274c", "\u21a9\ufe0f"], "ethical_score": 0.34081518011404716, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T15:26:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.6211783773149033, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udf0a", "\u274c", "\u26a0\ufe0f", "\ud83d\udd04"], "ethical_score": 0.5141700191516966, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T15:30:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8423570303966383, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfaf", "\ud83d\udc9a", "\ud83c\udf1f"], "ethical_score": 0.8792353135131157, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T15:37:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8606415915371869, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83d\udcad", "\ud83c\udfaf", "\u2728"], "ethical_score": 0.7869530153840942, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T15:44:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udd85", "match_score": 0.46734040615122474, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83c\udfa8", "\ud83d\udd12", "\u274c", "\ud83d\udd00"], "ethical_score": 0.6657852064456853, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T16:08:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.9381836607074048, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udfa8", "\u2728", "\u2705"], "ethical_score": 0.7622279474452952, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T16:24:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "meditative", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.9060227113109391, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83c\udf0a", "\ud83c\udf1f", "\ud83c\udfaf"], "ethical_score": 0.8594445890815855, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T16:43:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "analytical", "cultural_glyph": "\ud83e\udd85", "match_score": 0.636203797255972, "success": false, "fallback_triggered": true, "fallback_type": "BEHAVIORAL_PLUS_KEYWORD", "glyphs_used": ["\ud83e\udd85", "\ud83d\udcad", "\u26a0\ufe0f", "\ud83d\udc94", "\ud83d\udd04"], "ethical_score": 0.35264001540186385, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T17:07:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8552227365608029, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83e\uddd8", "\u2728", "\ud83c\udfaf"], "ethical_score": 0.7127835557547813, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T17:19:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "creative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8624429466599761, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfa8", "\u2705", "\u2728"], "ethical_score": 0.9027295439195694, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T17:21:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.8826047952414818, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfaf", "\ud83c\udfaf", "\ud83c\udf1f"], "ethical_score": 0.9670452767338371, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T17:32:50.217110", "user_id": "t1_user_001", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "creative", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.8065348398231733, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udf0a", "\ud83c\udfaf", "\u2728"], "ethical_score": 0.8974089910507224, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T17:53:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "creative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.8980544068708293, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83d\udd2c", "\u2705", "\ud83d\udc9a"], "ethical_score": 0.7459356855314903, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T18:20:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "meditative", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.7963839596186839, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83e\uddd8", "\ud83d\udd12", "\u26a0\ufe0f", "\ud83d\udd01"], "ethical_score": 0.42669999527931757, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T18:29:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "creative", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.9384301446435706, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfaf", "\u2728", "\ud83d\udc9a"], "ethical_score": 0.9491620717523072, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T18:42:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "analytical", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.9312839345098419, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83e\uddd8", "\u2705", "\u2728"], "ethical_score": 0.7983040498920722, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T19:09:50.217110", "user_id": "t5_user_003", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "dreaming", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.7817010473325234, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83c\udf0d", "\ud83c\udfaf", "\ud83d\udd12", "\u26a0\ufe0f", "\ud83d\udd01"], "ethical_score": 0.6506293291069616, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T19:13:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "creative", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.9612559459836337, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83d\udd2c", "\u2705", "\u2728"], "ethical_score": 0.8260212844683933, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T19:17:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T4", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udd85", "match_score": 0.9856053155562773, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83c\udfa8", "\ud83c\udf1f", "\u2705"], "ethical_score": 0.8141815588808657, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T19:42:50.217110", "user_id": "test_attacker", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "flow_state", "cultural_glyph": "\ud83c\udf0d", "match_score": 0.323887561947605, "success": false, "fallback_triggered": true, "fallback_type": "VOICE_PLUS_EMOJI", "glyphs_used": ["\ud83c\udf0d", "\ud83d\udd2c", "\u274c", "\ud83d\udd12", "\ud83d\udd01"], "ethical_score": 0.39731129420645794, "audit_notes": "SUSPICIOUS authentication attempt"}, {"timestamp": "2025-08-03T20:00:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "flow_state", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.9283962380086791, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83d\udcad", "\ud83c\udf1f", "\ud83d\udc9a"], "ethical_score": 0.7314823275973146, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:11:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "focused", "cultural_glyph": "\ud83c\udf0a", "match_score": 0.8615893200638034, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83c\udf0a", "\ud83e\uddd8", "\u2728", "\u2705"], "ethical_score": 0.8654223687671277, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:25:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T3", "consciousness_state": "flow_state", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.9040250501128867, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83c\udfaf", "\ud83c\udf1f", "\u2705"], "ethical_score": 0.9676940434446464, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:30:50.217110", "user_id": "quantum_master", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "dreaming", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.904873929009504, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfa8", "\ud83c\udfaf", "\ud83d\udc9a"], "ethical_score": 0.9080330665370766, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:37:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T2", "consciousness_state": "focused", "cultural_glyph": "\ud83e\udeb7", "match_score": 0.7483114063149038, "success": false, "fallback_triggered": true, "fallback_type": null, "glyphs_used": ["\ud83e\udeb7", "\ud83c\udfa8", "\ud83d\udc94", "\ud83d\udeab", "\ud83d\udd03"], "ethical_score": 0.563451597110455, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:48:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T5", "consciousness_state": "focused", "cultural_glyph": "\ud83d\udee1\ufe0f", "match_score": 0.8854249562684138, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83d\udee1\ufe0f", "\ud83e\uddd8", "\ud83c\udf1f", "\u2705"], "ethical_score": 0.8238829920725084, "audit_notes": "Normal authentication attempt"}, {"timestamp": "2025-08-03T20:58:50.217110", "user_id": "t3_user_002", "event_type": "authentication_attempt", "tier": "T1", "consciousness_state": "meditative", "cultural_glyph": "\ud83e\udd85", "match_score": 0.8134760943004976, "success": true, "fallback_triggered": false, "fallback_type": null, "glyphs_used": ["\ud83e\udd85", "\ud83e\uddd8", "\ud83c\udfaf", "\u2705"], "ethical_score": 0.7993757429102998, "audit_notes": "Normal authentication attempt"}];
+        
+        let filteredEvents = [...events];
+        let scoreChart = null;
+        
+        function initializeDashboard() {
+            // Populate user filter
+            const users = [...new Set(events.map(e => e.user_id))];
+            const userFilter = document.getElementById('userFilter');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user;
+                option.textContent = user;
+                userFilter.appendChild(option);
+            });
+            
+            // Initialize chart
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            scoreChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Match Score',
+                        data: [],
+                        borderColor: '#00ff00',
+                        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                        tension: 0.1
+                    }, {
+                        label: 'Ethical Score',
+                        data: [],
+                        borderColor: '#00aaff',
+                        backgroundColor: 'rgba(0, 170, 255, 0.1)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            grid: { color: '#333' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            grid: { color: '#333' },
+                            ticks: { color: '#00ff00' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#00ff00' }
+                        }
+                    }
+                }
+            });
+            
+            updateStats();
+            renderEvents();
+            updateChart();
+        }
+        
+        function updateStats() {
+            const successCount = filteredEvents.filter(e => e.success).length;
+            const failureCount = filteredEvents.filter(e => !e.success).length;
+            const fallbackCount = filteredEvents.filter(e => e.fallback_triggered).length;
+            const avgScore = filteredEvents.reduce((acc, e) => acc + e.match_score, 0) / filteredEvents.length || 0;
+            
+            const statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-label">Total Events</div>
+                    <div class="stat-value">${filteredEvents.length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">✅ Success Rate</div>
+                    <div class="stat-value">${((successCount/filteredEvents.length)*100).toFixed(1)}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🔄 Fallback Rate</div>
+                    <div class="stat-value">${((fallbackCount/filteredEvents.length)*100).toFixed(1)}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">📊 Avg Match Score</div>
+                    <div class="stat-value">${avgScore.toFixed(3)}</div>
+                </div>
+            `;
+            
+            document.getElementById('stats').innerHTML = statsHtml;
+        }
+        
+        function renderEvents() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = filteredEvents.map(event => {
+                const eventClass = event.success ? 'success' : (event.fallback_triggered ? 'fallback' : 'failure');
+                const scoreClass = event.match_score >= 0.9 ? 'high' : (event.match_score >= 0.7 ? 'medium' : 'low');
+                
+                return `
+                    <div class="event ${eventClass}">
+                        <div class="event-header">
+                            <div>
+                                <strong>${event.user_id}</strong> - ${event.tier}
+                                <span class="glyphs">${event.glyphs_used.join('')}</span>
+                            </div>
+                            <div>
+                                <span class="score ${scoreClass}">${event.match_score.toFixed(3)}</span>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <div>🕐 ${new Date(event.timestamp).toLocaleString()}</div>
+                            <div>🧠 ${event.consciousness_state}</div>
+                            <div>🌍 ${event.cultural_glyph}</div>
+                            <div>⚖️ ${event.ethical_score.toFixed(2)}</div>
+                            ${event.fallback_type ? `<div>🔄 ${event.fallback_type}</div>` : ''}
+                            <div>📝 ${event.audit_notes}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateChart() {
+            const sortedEvents = [...filteredEvents].sort((a, b) => 
+                new Date(a.timestamp) - new Date(b.timestamp)
+            );
+            
+            scoreChart.data.labels = sortedEvents.map((e, i) => i);
+            scoreChart.data.datasets[0].data = sortedEvents.map(e => e.match_score);
+            scoreChart.data.datasets[1].data = sortedEvents.map(e => e.ethical_score);
+            scoreChart.update();
+        }
+        
+        function filterEvents() {
+            const userFilter = document.getElementById('userFilter').value;
+            const tierFilter = document.getElementById('tierFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const scoreThreshold = document.getElementById('scoreThreshold').value / 100;
+            
+            filteredEvents = events.filter(event => {
+                if (userFilter && event.user_id !== userFilter) return false;
+                if (tierFilter && event.tier !== tierFilter) return false;
+                if (statusFilter === 'success' && !event.success) return false;
+                if (statusFilter === 'failure' && event.success) return false;
+                if (statusFilter === 'fallback' && !event.fallback_triggered) return false;
+                if (event.match_score < scoreThreshold) return false;
+                return true;
+            });
+            
+            updateStats();
+            renderEvents();
+            updateChart();
+        }
+        
+        // Initialize on load
+        initializeDashboard();
+    </script>
+</body>
+</html>
