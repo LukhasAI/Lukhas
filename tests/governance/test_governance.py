@@ -14,7 +14,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'governance'))
 
 try:
-    from pwm_workspace_guardian import PWMWorkspaceGuardian, protect_my_workspace
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'governance', 'guardian'))
+    from pwm_workspace_guardian import PWMWorkspaceGuardian
+    # protect_my_workspace is in the same guardian.core module
     print("✅ Governance modules imported successfully")
 except ImportError as e:
     print(f"❌ Import error: {e}")

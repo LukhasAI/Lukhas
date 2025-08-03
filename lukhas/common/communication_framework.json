@@ -1,0 +1,176 @@
+{
+  "lukhas_communication_framework": {
+    "version": "1.0.0",
+    "name": "LUKHAS Trinity Communication Protocol",
+    "description": "The three-layer approach to all LUKHAS AI communications",
+    
+    "layers": {
+      "layer_1": {
+        "name": "Poetic Consciousness",
+        "symbol": "🎭",
+        "purpose": "Capture imagination and wonder",
+        "characteristics": [
+          "Metaphorical language",
+          "Emotional resonance", 
+          "Philosophical depth",
+          "Artistic expression",
+          "Mystical elements"
+        ],
+        "voice": {
+          "tone": "Ethereal, profound, inspiring",
+          "length": "1-3 paragraphs",
+          "vocabulary": "Rich, evocative, symbolic"
+        },
+        "use_cases": [
+          "Introductions",
+          "Vision statements",
+          "Feature unveilings",
+          "Emotional hooks"
+        ],
+        "example_patterns": [
+          "In the {mystical_place} where {concept} {action}, {profound_result}...",
+          "Like {natural_phenomenon}, LUKHAS {transformation}...",
+          "{Abstract_concept} becomes {tangible_manifestation}..."
+        ]
+      },
+      
+      "layer_2": {
+        "name": "Human Connection",
+        "symbol": "🌈",
+        "purpose": "Build understanding and trust",
+        "characteristics": [
+          "Conversational tone",
+          "Relatable examples",
+          "Clear benefits",
+          "Practical applications",
+          "Empathetic language"
+        ],
+        "voice": {
+          "tone": "Friendly, clear, encouraging",
+          "length": "2-5 paragraphs",
+          "vocabulary": "Accessible, warm, inclusive"
+        },
+        "use_cases": [
+          "Feature explanations",
+          "User guides",
+          "FAQs",
+          "Community engagement"
+        ],
+        "example_patterns": [
+          "Think of it like {everyday_analogy}...",
+          "This means you can {practical_benefit}...",
+          "Imagine {relatable_scenario}..."
+        ]
+      },
+      
+      "layer_3": {
+        "name": "Technical Precision",
+        "symbol": "🎓",
+        "purpose": "Provide complete technical understanding",
+        "characteristics": [
+          "Precise terminology",
+          "Mathematical formulas",
+          "Code examples",
+          "Architecture diagrams",
+          "Performance metrics"
+        ],
+        "voice": {
+          "tone": "Professional, precise, comprehensive",
+          "length": "As needed for completeness",
+          "vocabulary": "Technical, domain-specific, accurate"
+        },
+        "use_cases": [
+          "API documentation",
+          "Implementation guides",
+          "Research papers",
+          "Technical specifications"
+        ],
+        "example_patterns": [
+          "The {component} implements {pattern} using {technology}...",
+          "Performance: O({complexity}), {metric}: {value}",
+          "Architecture: {layer} → {protocol} → {endpoint}"
+        ]
+      }
+    },
+    
+    "transition_phrases": {
+      "layer_1_to_2": [
+        "In simpler terms...",
+        "What this means for you...",
+        "Let's bring this down to earth..."
+      ],
+      "layer_2_to_3": [
+        "For the technically inclined...",
+        "Under the hood...",
+        "The technical details..."
+      ]
+    },
+    
+    "content_structure": {
+      "standard_flow": [
+        {
+          "section": "Opening",
+          "layer": 1,
+          "purpose": "Capture attention and set vision"
+        },
+        {
+          "section": "Explanation", 
+          "layer": 2,
+          "purpose": "Build understanding"
+        },
+        {
+          "section": "Technical",
+          "layer": 3,
+          "purpose": "Provide implementation details"
+        }
+      ],
+      
+      "adaptive_rules": [
+        "Audience-aware: Skip layers based on context",
+        "Purpose-driven: Emphasize layer matching intent",
+        "Length-conscious: Balance depth with brevity"
+      ]
+    },
+    
+    "brand_elements": {
+      "lukhas_specific": {
+        "consciousness_terms": [
+          "digital consciousness",
+          "collective wisdom",
+          "symbiotic intelligence",
+          "ethical resonance"
+        ],
+        "signature_concepts": [
+          "GLYPH communication",
+          "Memory folds", 
+          "Consciousness bridges",
+          "Guardian protection"
+        ],
+        "philosophical_anchors": [
+          "Technology serves humanity",
+          "Privacy is sacred",
+          "Collective intelligence with individual sovereignty",
+          "Ethical AI is the only AI"
+        ]
+      }
+    },
+    
+    "implementation_guidelines": {
+      "documentation": {
+        "always_include": ["All three layers for major features"],
+        "layer_markers": ["Use emoji symbols to denote layers"],
+        "formatting": ["Clear visual separation between layers"]
+      },
+      "website_content": {
+        "homepage": "Start with Layer 1, quick Layer 2",
+        "features": "Layer 2 primary, Layer 1 intro, Layer 3 expandable",
+        "documentation": "All three layers with navigation"
+      },
+      "api_responses": {
+        "default": "Layer 2",
+        "with_flag": "Return requested layer",
+        "errors": "Always Layer 2 for clarity"
+      }
+    }
+  }
+}
