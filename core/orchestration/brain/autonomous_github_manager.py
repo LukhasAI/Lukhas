@@ -18,7 +18,7 @@ Features:
 import os
 import sys
 import json
-from core.config import settings
+from core.common.config import settings
 import logging
 import argparse
 import requests

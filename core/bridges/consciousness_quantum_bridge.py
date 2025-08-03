@@ -40,7 +40,7 @@ class ConsciousnessQuantumBridge:
         """Establish connection between Consciousness and Quantum systems"""
         try:
             # Get system hubs
-            from consciousness.consciousness_hub import get_consciousness_hub
+            from consciousness.reflection.consciousness_hub import get_consciousness_hub
             from quantum.quantum_hub import get_quantum_hub
 
             self.consciousness_hub = get_consciousness_hub()

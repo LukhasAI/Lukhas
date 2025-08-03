@@ -226,7 +226,7 @@ class QuantumHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.service_discovery import get_service_discovery
+            from core.integration.service_discovery import get_service_discovery
 
             discovery = get_service_discovery()
 

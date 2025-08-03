@@ -365,7 +365,7 @@ if __name__ == "__main__":
 # LOGGING: ΛTRACE_ENABLED using hierarchical loggers for engine operations.
 # AUTHENTICATION: Tier checks are conceptual; methods and factories take user_id.
 # HOW TO USE:
-#   from consciousness.core_consciousness.awareness_engine import create_and_initialize_awareness_component
+#   from consciousness.awareness.awareness_engine import create_and_initialize_awareness_component
 #   engine = await create_and_initialize_awareness_component(config_dict, user_id="user123")
 #   result = await engine.process(data_dict, user_id="user123")
 # INTEGRATION NOTES: This engine is a key part of the consciousness system. Its internal

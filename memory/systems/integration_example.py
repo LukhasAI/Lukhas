@@ -33,7 +33,7 @@ from memory.systems.attention_memory_layer import create_attention_orchestrator
 # Existing systems to integrate with
 from core.integration.connectivity_engine import ConnectivityEngine
 from core.integration_hub import UnifiedIntegration
-from memory.unified_memory_manager import EnhancedMemoryManager
+from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
 from core.common import get_logger
 

@@ -26,7 +26,7 @@ from typing import (
 from core.common import get_logger
 
 # ΛTAG: core, router, config
-from core.config import config
+from core.common.config import config
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.direct_ai_router")

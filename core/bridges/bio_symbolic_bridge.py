@@ -6,7 +6,7 @@ Bidirectional communication bridge between Bio and Symbolic systems
 from typing import Any, Dict, Optional, List
 import asyncio
 import logging
-from core.hub_registry import HubRegistry
+from core.integration.hub_registry import HubRegistry
 from core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
 from symbolic.symbolic_hub import SymbolicHub
 

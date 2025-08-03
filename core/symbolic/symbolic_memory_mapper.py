@@ -53,8 +53,8 @@ import logging
 from typing import Dict, Any
 from dataclasses import dataclass
 from enum import Enum
-from core.hub_registry import HubRegistry
-from memory.memory_hub import MemoryHub
+from core.integration.hub_registry import HubRegistry
+from consciousness.reflection.memory_hub import MemoryHub
 from symbolic.symbolic_hub import SymbolicHub
 
 # ΛTRACE injection point

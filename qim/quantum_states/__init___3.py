@@ -60,7 +60,7 @@ except ImportError as e:
 
 # Tight integration with symbolic state
 try:
-    from core.symbolic_boot import GLYPH_MAP
+    from core.symbolic.symbolic_boot import GLYPH_MAP
     from core.symbolic.drift.symbolic_drift_tracker import get_drift_status
     SYMBOLIC_INTEGRATION_ENABLED = True
 except ImportError:

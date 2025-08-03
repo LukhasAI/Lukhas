@@ -98,7 +98,7 @@ class DreamDataCollector:
 
         try:
             # Import memory manager if available
-            from memory.unified_memory_manager import EnhancedMemoryManager
+            from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
             memory_mgr = EnhancedMemoryManager()
 
             # Get recent memories

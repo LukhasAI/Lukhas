@@ -17,7 +17,7 @@ Runs consistency checks on DriftScore deltas and collapse recovery logic.
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 
-from core.symbolic.drift.drift_score import DriftScore  # CLAUDE_EDIT_v0.1: Updated import path
+from consciousness.dream.oneiric.oneiric_core.analysis.drift_score import DriftScore  # CLAUDE_EDIT_v0.1: Updated import path
 from memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
 from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 

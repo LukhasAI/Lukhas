@@ -892,7 +892,7 @@ class SymbolicNetwork:
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
 #   from core.adaptive_systems.crista_optimizer.symbolic_network import SymbolicNetwork, SymbolicNode, NodeType
-#   from core.adaptive_systems.crista_optimizer.crista_optimizer import NetworkConfig # Or from common config
+#   from core.symbolic_legacy.bio.crista_optimizer import NetworkConfig # Or from common config
 #   net_conf = NetworkConfig()
 #   network = SymbolicNetwork(config=net_conf)
 #   node1 = SymbolicNode(node_id="n1", node_type=NodeType.PROCESSING)

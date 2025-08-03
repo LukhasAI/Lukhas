@@ -43,7 +43,7 @@ except ImportError as e:
 
 # Symbolic integration - import GLYPHs for memory encoding
 try:
-    from core.symbolic_boot import GLYPH_MAP, get_glyph_meaning
+    from core.symbolic.symbolic_boot import GLYPH_MAP, get_glyph_meaning
     SYMBOLIC_INTEGRATION_ENABLED = True
 except ImportError:
     log.warning("Symbolic integration not available - memory folds will operate without GLYPH encoding")

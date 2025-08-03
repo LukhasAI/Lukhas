@@ -55,7 +55,7 @@ class ReasoningHub:
     async def _register_with_service_discovery(self) -> None:
         """Register services globally for cross-hub access"""
         try:
-            from core.service_discovery import get_service_discovery
+            from core.integration.service_discovery import get_service_discovery
             discovery = get_service_discovery()
             discovery.register_service_globally(
                 "advanced_orchestrator", self.advanced_orchestrator, "reasoning"

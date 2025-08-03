@@ -332,7 +332,7 @@ class DreamMemoryManager(BaseMemoryManager):
                     self._memory_index[memory_id]["deleted"] = True
                     self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
-                    from memory.fold_engine import MemoryIntegrityLedger
+                    from memory.folds.fold_engine import MemoryIntegrityLedger
                     MemoryIntegrityLedger.log_fold_transition(
                         memory_id,
                         "delete",

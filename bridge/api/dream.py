@@ -28,7 +28,7 @@ from datetime import datetime
 from core.common import get_logger
 
 try:
-    from memory.unified_memory_manager import MemoryFoldSystem
+    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

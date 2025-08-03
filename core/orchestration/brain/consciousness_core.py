@@ -10,7 +10,7 @@ from enum import Enum
 from dataclasses import dataclass, asdict
 
 from orchestration.core_modules.orchestration_service import ConsciousnessLevel
-from core.config import LukhasConfig
+from core.common.config import LukhasConfig
 
 logger = logging.getLogger("LukhasConsciousness")
 

@@ -3,7 +3,7 @@ Consolidated module for better performance
 """
 
 from core.swarm import AgentColony
-from core.symbolic.drift.drift_score import DriftScore
+from consciousness.dream.oneiric.oneiric_core.analysis.drift_score import DriftScore
 from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 from core.tiered_state_management import TieredStateManager, StateType
 from dataclasses import dataclass, field

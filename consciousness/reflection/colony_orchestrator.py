@@ -98,7 +98,7 @@ except ImportError as e:
 # Import quantum identity integration
 try:
     from core.tier_aware_colony_proxy import TierAwareColonyProxy
-    from core.quantum_identity_manager import QuantumUserContext
+    from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import QuantumUserContext
     QUANTUM_IDENTITY_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Quantum identity system not available: {e}")

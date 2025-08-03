@@ -52,7 +52,7 @@ MODULE_NAME = "orchestration_core"
 # Integration imports (TODO: Update paths per CODEX_ENHANCEMENT_PLAN.md)
 # Updated imports for lukhas namespace
 try:
-    from consciousness.systems.awareness_engine import ΛAwarenessEngine as BioAwarenessSystem
+    from consciousness.awareness.awareness_engine import ΛAwarenessEngine as BioAwarenessSystem
 except ImportError:
     BioAwarenessSystem = None
 

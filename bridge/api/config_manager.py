@@ -9,7 +9,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 from core.common import get_logger
-from core.config import config, LukhasConfig # Import LukhasConfig for type hinting if needed
+from core.common.config import config, LukhasConfig # Import LukhasConfig for type hinting if needed
 
 # Initialize logger for ΛTRACE
 

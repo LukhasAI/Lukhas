@@ -23,7 +23,7 @@ class QuantumMemoryBridge:
         """Establish connection between systems"""
         try:
             from quantum.quantum_hub import get_quantum_hub
-            from memory.memory_hub import get_memory_hub
+            from consciousness.reflection.memory_hub import get_memory_hub
 
             self.quantum_hub = get_quantum_hub()
             self.memory_hub = get_memory_hub()

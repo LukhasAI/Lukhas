@@ -62,7 +62,7 @@ from core.identity.identity_engine import QuantumIdentityEngine
 from core.testing.plugin_test_framework import QuantumTestOracle
 from core.integration.governance.__init__ import QuantumEthicsEngine
 from quantum.quantum_processing_core import BaseOscillator
-from core.docututor.symbolic_knowledge_core.knowledge_graph import MultiverseKnowledgeWeb
+from tools.documentation.symbolic_knowledge_core.knowledge_graph import MultiverseKnowledgeWeb
 
 
 class QuantumIntegrationTestSuite:

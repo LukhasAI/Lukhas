@@ -10,7 +10,7 @@ without risking the integrity of the live system.
 
 from typing import Optional, Dict, Any
 from .symbolic.tracer import SymbolicTracer, DecisionTrail
-from memory.unified_memory_manager import EnhancedMemoryManager as MemoryManager
+from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager as MemoryManager
 
 class Observatory:
     """

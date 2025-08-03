@@ -20,7 +20,7 @@ from core.common import get_logger
 import openai
 
 try:
-    from memory.unified_memory_manager import MemoryFoldSystem
+    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
     from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 except ImportError:
     MemoryFoldSystem = None

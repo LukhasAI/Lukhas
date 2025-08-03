@@ -59,7 +59,7 @@ try:
     from memory_manager import MemoryManager
     
     # Utils and config
-    from core.config.settings import load_settings
+    from core.orchestration.brain.config.settings import load_settings
     
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

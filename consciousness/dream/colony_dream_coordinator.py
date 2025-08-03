@@ -60,7 +60,7 @@ try:
     from orchestration.colony_orchestrator import (
         ColonyOrchestrator, ColonyType, ColonyTask, ColonyPriority
     )
-    from core.quantum_identity_manager import QuantumUserContext
+    from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import QuantumUserContext
     COLONY_SYSTEM_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Colony orchestration system not available: {e}")

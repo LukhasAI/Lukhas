@@ -79,10 +79,10 @@ from core.common.config import Config
 from common.exceptions import LException
 from common.exceptions import SafetyViolationError
 from core import OrchestrationCore
-from core.adaptive_systems.crista_optimizer.crista_optimizer import CristaOptimizer
+from core.symbolic_legacy.bio.crista_optimizer import CristaOptimizer
 from core.bridges.orchestration_core_bridge import OrchestrationCoreBridge
 from core.core_utilities import ResourceEfficiencyAnalyzer
-from core.hub_registry import HubRegistry
+from core.integration.hub_registry import HubRegistry
 from core.interfaces.voice.core.sayit import EnhancedCoreIntegrator
 from core.learning.meta_learning.meta_learning_enhancement_system import MetaLearningEnhancementSystem
 from core.monitoring_observability import AlertManager
@@ -106,7 +106,7 @@ from core.safety.predictive_harm_prevention import HarmPrediction
 from core.safety.predictive_harm_prevention import HarmType
 from core.safety.predictive_harm_prevention import PredictiveHarmPrevention
 from core.safety.predictive_harm_prevention import get_predictive_harm_prevention
-from core.service_discovery import ServiceDiscovery
+from core.integration.service_discovery import ServiceDiscovery
 from cryptography.fernet import Fernet
 from dataclasses import dataclass
 from dataclasses import field
@@ -126,7 +126,7 @@ from interfaces.voice_interface import *
 from meg_bridge import MEGPolicyBridge
 from memory.memory_manager import MemoryManager
 from memory.systems.helix_dna import HelixMemory
-from memory.unified_memory_manager import MemoryManager
+from consciousness.reflection.unified_memory_manager import MemoryManager
 from module_orchestrator import ModuleOrchestrator
 from nodes.ethics_node import EthicsNode
 from openai import AsyncOpenAI

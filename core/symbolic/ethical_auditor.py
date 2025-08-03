@@ -67,9 +67,9 @@ from dataclasses import dataclass, asdict
 
 # Import LUKHAS core modules
 try:
-    from core.symbolic.drift.drift_score import SymbolicTrustScorer
-    from core.docututor.symbolic_knowledge_core.knowledge_graph import AIConstitutionChecker
-    from core.docututor.symbolic_knowledge_core.knowledge_graph import EmotionalSecureLogger
+    from consciousness.dream.oneiric.oneiric_core.analysis.drift_score import SymbolicTrustScorer
+    from tools.documentation.symbolic_knowledge_core.knowledge_graph import AIConstitutionChecker
+    from tools.documentation.symbolic_knowledge_core.knowledge_graph import EmotionalSecureLogger
 except ImportError:
     print("Warning: Elite modules not found. Some features may be limited.")
     SymbolicTrustScorer = None

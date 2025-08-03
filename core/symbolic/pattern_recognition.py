@@ -38,7 +38,7 @@ class UnifiedPatternRecognition:
 
     def _initialize_optimizers(self):
         """Initialize optimization components"""
-        from core.adaptive_systems.crista_optimizer.crista_optimizer import CristaOptimizer
+        from core.symbolic_legacy.bio.crista_optimizer import CristaOptimizer
         self.topology_optimizer = CristaOptimizer(self)
 
     def register_pattern(self, 

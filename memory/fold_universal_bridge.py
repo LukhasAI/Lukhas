@@ -46,7 +46,7 @@ from memory.systems.dream_memory_fold import DreamMemoryFold, DreamSnapshot
 # Consciousness systems
 try:
     from consciousness.core_consciousness.lambda_mirror import LambdaMirror
-    from consciousness.core_consciousness.awareness_engine import AwarenessEngine
+    from consciousness.awareness.awareness_engine import AwarenessEngine
 
     lambda_mirror_available = True
 except ImportError:

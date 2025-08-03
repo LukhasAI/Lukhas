@@ -197,7 +197,7 @@ try:
 
         # Check if Ollama is running
         try:
-            from core.config import get_config
+            from core.common.config import get_config
             config = get_config()
             response = requests.get(f"{config.ollama_url}/api/tags", timeout=2)
             if response.status_code == 200:
@@ -1536,7 +1536,7 @@ class OllamaCodeFixer(CodeFixerBase):
     """Ollama-based code fixing engine."""
 
     def __init__(self):
-        from core.config import get_config
+        from core.common.config import get_config
         config = get_config()
         self.base_url = config.ollama_url
         self.model = "deepseek-coder:6.7b"  # Default code model

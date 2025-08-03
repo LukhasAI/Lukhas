@@ -28,7 +28,7 @@ from creativity.emotional_resonance import EmotionalResonance
 from .voice_parameter import VoiceParameter
 
 try:
-    from core.docututor.memory_evolution.voice_synthesis import (
+    from tools.documentation.memory_evolution.voice_synthesis import (
         VoiceSynthesisAdapter,
     )
 except ImportError:

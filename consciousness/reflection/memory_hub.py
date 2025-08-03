@@ -48,7 +48,7 @@ from memory.distributed_state_manager import (
 )
 from dream.core.dream_memory_manager import DreamMemoryManager
 from memory.quantum_manager import EnhancedMemoryManager
-from memory.unified_memory_manager import (
+from consciousness.reflection.unified_memory_manager import (
     DriftMemoryManager,
     EnhancedMemoryManager,
     QuantumMemoryManager,
@@ -564,7 +564,7 @@ class MemoryHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.service_discovery import get_service_discovery
+            from core.integration.service_discovery import get_service_discovery
 
             discovery = get_service_discovery()
 

@@ -142,7 +142,7 @@ def get_config() -> LukhasConfig:
 
 # ═══════════════════════════════════════════════════════════════════════════
 # HOW TO USE:
-#   from core.config import get_config
+#   from core.common.config import get_config
 #
 #   config = get_config()
 #   db_url = config.database_url

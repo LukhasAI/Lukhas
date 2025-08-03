@@ -48,7 +48,7 @@ except ImportError:
 
 # Import quantum identity management
 try:
-    from core.quantum_identity_manager import (
+    from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
         QuantumIdentityManager,
         QuantumUserContext,
         QuantumTierLevel,

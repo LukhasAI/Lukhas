@@ -138,7 +138,7 @@ class GlobalSystemInitializer:
     async def _cross_register_services(self):
         """Perform cross-hub service registration"""
         try:
-            from core.service_discovery import get_service_discovery
+            from core.integration.service_discovery import get_service_discovery
             discovery = get_service_discovery()
 
             # Get all registered services

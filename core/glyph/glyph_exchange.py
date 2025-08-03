@@ -25,7 +25,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from symbolic.features.glyphs import GLYPH_MAP
-from memory.glyph_memory_integration import get_glyph_memory_system
+from core.glyph.glyph_memory_integration import get_glyph_memory_system
 
 logger = logging.getLogger("api.glyph_exchange")
 

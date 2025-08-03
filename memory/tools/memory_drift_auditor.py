@@ -54,7 +54,7 @@ import structlog
 
 # LUKHAS Imports
 try:
-    from memory.fold_engine import MemoryFold
+    from memory.folds.fold_engine import MemoryFold
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     MemoryFold = None

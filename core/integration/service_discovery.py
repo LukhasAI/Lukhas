@@ -12,7 +12,7 @@ Enables cross-system service discovery and communication
 
 from typing import Any, Optional, Dict, List
 import logging
-from core.hub_registry import get_hub_registry
+from core.integration.hub_registry import get_hub_registry
 
 logger = logging.getLogger(__name__)
 

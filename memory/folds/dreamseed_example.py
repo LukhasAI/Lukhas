@@ -59,7 +59,7 @@ from typing import Dict, Any, List, Optional
 
 # Import DREAMSEED components
 from memory.core_memory.dream_trace_linker import create_dream_trace_linker
-from memory.fold_engine import (
+from memory.folds.fold_engine import (
     fold_dream_experience,
     MemoryFold,
     MemoryType,

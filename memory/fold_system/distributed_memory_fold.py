@@ -57,7 +57,7 @@ import aiohttp
 import aiofiles
 from concurrent.futures import ThreadPoolExecutor
 
-from core.config import get_config
+from core.common.config import get_config
 
 from core.common import get_logger
 

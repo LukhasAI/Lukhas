@@ -52,9 +52,9 @@ from datetime import datetime, timezone
 
 # Import Lukhas core components
 try:
-    from core.bio_symbolic import ProtonGradient, QuantumAttentionGate, CristaFilter
+    from core.symbolic_legacy.bio.bio_symbolic import ProtonGradient, QuantumAttentionGate, CristaFilter
     from reasoning.symbolic_reasoning import SymbolicEngine
-    from memory.core_memory.memoria import MemoryManager
+    from core.memoria import MemoryManager
 except ImportError as e:
     # Graceful fallback for missing dependencies
     structlog.get_logger().warning(f"Missing dependencies: {e}")

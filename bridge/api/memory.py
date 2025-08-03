@@ -57,7 +57,7 @@ import numpy as np
 from typing import Any, Dict, List, Union
 
 try:
-    from memory.unified_memory_manager import MemoryFoldSystem
+    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

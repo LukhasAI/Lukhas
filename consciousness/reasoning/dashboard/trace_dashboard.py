@@ -1,6 +1,6 @@
 # import streamlit as st  # TODO: Install or implement streamlit
 from reasoning.reasoning_metrics import logic_drift_index, recall_efficiency_score
-from memory.fold_engine import AGIMemory
+from memory.folds.fold_engine import AGIMemory
 
 def render_dashboard():
     """

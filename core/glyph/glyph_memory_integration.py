@@ -72,8 +72,8 @@ import numpy as np
 
 # Internal imports
 try:
-    from core.symbolic.glyphs import GLYPH_MAP, get_glyph_meaning
-    from core.symbolic.glyphs.glyph import Glyph, GlyphType, GlyphFactory, EmotionVector
+    from core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
+    from core.common.glyph import Glyph, GlyphType, GlyphFactory, EmotionVector
 except ImportError:
     # Fallback imports if core modules not available
     GLYPH_MAP = {}
@@ -84,10 +84,10 @@ except ImportError:
     EmotionVector = None
 
 try:
-    from memory.core_memory.memory_fold import MemoryFoldSystem, MemoryFoldConfig
+    from memory.folds.memory_fold import MemoryFoldSystem, MemoryFoldConfig
 except ImportError:
     try:
-        from memory.unified_memory_manager import MemoryFoldSystem
+        from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
         MemoryFoldConfig = None
     except ImportError:
         MemoryFoldSystem = None

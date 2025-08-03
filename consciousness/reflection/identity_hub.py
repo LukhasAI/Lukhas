@@ -211,7 +211,7 @@ except ImportError:
     logging.warning("CoreHub not available")
 
 try:
-    from memory.memory_hub import MemoryHub
+    from consciousness.reflection.memory_hub import MemoryHub
 except ImportError:
     MemoryHub = None
     logging.warning("MemoryHub not available")

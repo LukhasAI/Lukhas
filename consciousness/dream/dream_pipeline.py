@@ -44,7 +44,7 @@ from .openai_dream_integration import OpenAIDreamIntegration
 
 # Try to import memory and emotion systems
 try:
-    from memory.unified_memory_manager import EnhancedMemoryManager
+    from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False

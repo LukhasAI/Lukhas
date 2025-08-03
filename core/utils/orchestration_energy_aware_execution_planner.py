@@ -58,9 +58,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 # Import Lukhas bio-symbolic components
 try:
-    from core.bio_symbolic import ProtonGradient
+    from core.symbolic_legacy.bio.bio_symbolic import ProtonGradient
     from orchestration.orchestrator import SystemOrchestrator
-    from memory.core_memory.memoria import MemoryManager
+    from core.memoria import MemoryManager
 except ImportError as e:
     structlog.get_logger().warning(f"Missing dependencies: {e}")
 

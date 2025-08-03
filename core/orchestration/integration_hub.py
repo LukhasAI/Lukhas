@@ -15,9 +15,9 @@ from enum import Enum
 # Core system imports (verified paths)
 from core.core_hub import CoreHub
 from quantum.quantum_hub import QuantumHub
-from consciousness.consciousness_hub import ConsciousnessHub
+from consciousness.reflection.consciousness_hub import ConsciousnessHub
 from identity.identity_hub import IdentityHub
-from memory.memory_hub import MemoryHub
+from consciousness.reflection.memory_hub import MemoryHub
 
 # Golden Trio imports
 from dast.integration.dast_integration_hub import DASTIntegrationHub

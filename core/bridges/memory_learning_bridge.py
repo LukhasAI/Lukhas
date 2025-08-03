@@ -38,7 +38,7 @@ class MemoryLearningBridge:
         """Establish connection between Memory and Learning systems"""
         try:
             # Get system hubs
-            from memory.memory_hub import get_memory_hub
+            from consciousness.reflection.memory_hub import get_memory_hub
             from learning.learning_hub import get_learning_hub
 
             self.memory_hub = get_memory_hub()

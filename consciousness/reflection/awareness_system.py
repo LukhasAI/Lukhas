@@ -50,7 +50,7 @@ from bio.quantum_inspired_layer import QuantumBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from core.unified.integration import UnifiedIntegration
 
-from consciousness.systems.awareness_engine import AwarenessEngine
+from consciousness.awareness.awareness_engine import AwarenessEngine
 from dream.core import DreamPhase, DreamType
 from ethics.engine import QuantumEthics, EthicalFramework, EthicalRiskLevel
 

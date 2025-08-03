@@ -68,18 +68,18 @@ class AdaptiveAGISystem:
         try:
             # Frontend components
             from voice.speech_processor import SpeechProcessor
-            from core.interfaces.ui.multimodal.image_generator import AdaptiveImageGenerator
-            from core.interfaces.ui.adaptive.adaptive_interface_generator import AdaptiveInterfaceGenerator
+            from core.common.interfaces.ui.multimodal.image_generator import AdaptiveImageGenerator
+            from core.common.interfaces.ui.adaptive.adaptive_interface_generator import AdaptiveInterfaceGenerator
 
             # Backend components
-            from core.cognitive.node import Node
+            from memory.node import Node
             from learning.meta_learning import MetaLearningSystem
-            from core.engine.neuro_symbolic_engine import NeuroSymbolicEngine
+            from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
             from identity.core.id_service.identity_manager import IdentityManager
             from orchestration.brain.privacy_manager import PrivacyManager
 
             # Utils and config
-            from core.config.settings import load_settings
+            from core.orchestration.brain.config.settings import load_settings
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator

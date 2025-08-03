@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:29.370655
 """
 
 import os
-from core.config import settings
+from core.common.config import settings
 from core.common import get_logger
 import aiohttp
 import base64

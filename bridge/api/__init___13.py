@@ -52,7 +52,7 @@ logger.info("ΛTRACE: core.config package initialized.", exports=__all__)
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable at package initialization.
 # HOW TO USE:
-#   from core.config import settings_loader
+#   from core.common.config import settings_loader
 #   main_db_uri = settings_loader.get_setting("DATABASE_URI") # Example
 # INTEGRATION NOTES: This package is fundamental for the operation of all other core modules.
 #                    Ensure robust parsing and validation of any configuration files.

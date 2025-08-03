@@ -65,7 +65,7 @@ try:
     from dream.core.dream_memory_manager import DreamMemoryManager
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
     from ethics.ethical_drift_detector import EthicalDriftDetector
-    from core.symbolic.glyphs import Glyph
+    from core.glyph.glyphs import Glyph
 except ImportError:
     # Mock imports for standalone testing
     DreamMemoryManager = None

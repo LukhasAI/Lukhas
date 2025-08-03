@@ -56,11 +56,11 @@ from typing import Dict, Any, Optional, List
 from datetime import datetime
 import uuid
 
-from consciousness.core_consciousness.awareness_engine import ΛAwarenessEngine as BioAwarenessSystem
-from consciousness.core_consciousness.awareness_engine import coreAwarenessEngine as BioAwarenessSystem
+from consciousness.awareness.awareness_engine import ΛAwarenessEngine as BioAwarenessSystem
+from consciousness.awareness.awareness_engine import coreAwarenessEngine as BioAwarenessSystem
 from memory.core_memory.MemoryManager import MemoryManager
 from ..bio.symbolic.bio.core import BioCore # Assuming this path is correct or will be handled by general fixes
-from consciousness.core_consciousness.dream_engine.__init__ import DreamEngineMerged as DreamEngine
+from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
 from governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
 from identity.backend.app.compliance import ComplianceEngine # Sourced from ethical_engine.py via __init__.py
 # TODO: Create or find existing ModuleRegistry and uncomment.
