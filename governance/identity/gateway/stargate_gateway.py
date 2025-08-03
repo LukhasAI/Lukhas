@@ -321,15 +321,19 @@ class StargateGateway:
         
         # Create secure channel
         channel_id = f"stargate_{secrets.token_hex(16)}"
+        
+        # Get full session data
+        session_data = self.session_keys.get(payload.user_id, {})
+        
         self.active_connections[channel_id] = {
             "payload": payload,
-            "session_key": session_key,
+            "session_key": session_key,  # Internal key for operations
+            "public_verification_hash": session_data.get("public_verification_hash", ""),
             "established": datetime.utcnow(),
             "status": "active",
-            "supervisor_override": supervisor_override
+            "supervisor_override": supervisor_override,
+            "session_data": session_data  # Full session info
         }
-        
-        self.session_keys[payload.user_id] = session_key
         
         self.status = GatewayStatus.AUTHENTICATED
         logger.info(f"✅ Handshake established - Channel: {channel_id}")
@@ -381,7 +385,11 @@ class StargateGateway:
     
     def _generate_session_key(self, payload: GlyphPayload) -> str:
         """
-        Generate token-signed session key using BLAKE3 (or SHA3-256 fallback)
+        Generate hybrid session key using BLAKE3 + SHAKE256
+        
+        Hybrid approach:
+        - BLAKE3: Internal key derivation (fast, XOF, low-latency)
+        - SHAKE256: External-facing audit hash for legal proof
         
         Key material includes:
         - user_id: User identifier
@@ -403,34 +411,62 @@ class StargateGateway:
         key_material = f"{payload.user_id}|{payload.timestamp.isoformat()}|{tier}|"
         key_material_bytes = key_material.encode('utf-8') + entropy
         
-        # Generate session key using BLAKE3 if available
+        # Initialize both keys
+        internal_session_key = ""
+        public_verification_hash = ""
+        
+        # 1. Generate internal session key using BLAKE3 (fast, for operations)
         if BLAKE3_AVAILABLE:
             # BLAKE3 with 256-bit output
             hasher = blake3.blake3(key_material_bytes)
-            session_key = hasher.hexdigest()
+            internal_session_key = hasher.hexdigest()
             
             # Optional: Extended output for QRGLYPH extensions
             if hasattr(self, 'extended_output_enabled') and self.extended_output_enabled:
                 extended_key = hasher.hexdigest(length=64)  # 512-bit extended output
-                logger.info(f"🔑 Extended session key available: {extended_key[:16]}...")
+                logger.info(f"🔑 Extended internal key available: {extended_key[:16]}...")
             
-            logger.info(f"🔑 BLAKE3 session key generated: {session_key[:16]}...")
-            logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}")
+            logger.info(f"⚡ BLAKE3 internal session key: {internal_session_key[:16]}...")
         else:
-            # SHA3-256 fallback
-            session_key = hashlib.sha3_256(key_material_bytes).hexdigest()
-            logger.warning(f"🔑 SHA3-256 fallback session key: {session_key[:16]}...")
-            logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}")
+            # SHA3-256 fallback for internal key
+            internal_session_key = hashlib.sha3_256(key_material_bytes).hexdigest()
+            logger.warning(f"⚡ SHA3-256 fallback internal key: {internal_session_key[:16]}...")
         
-        # Log key generation details for audit
-        self.log_event("session_key_generated",
-                      algorithm="BLAKE3" if BLAKE3_AVAILABLE else "SHA3-256",
+        # 2. Generate external verification hash using SHAKE256 (institutional trust)
+        shake = hashlib.shake_256()
+        shake.update(key_material_bytes)
+        # SHAKE256 with 256-bit output for external verification
+        public_verification_hash = shake.hexdigest(32)  # 32 bytes = 256 bits
+        
+        logger.info(f"🏛️ SHAKE256 public verification hash: {public_verification_hash[:16]}...")
+        logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}")
+        
+        # Store both keys in session
+        session_data = {
+            "internal_session_key": internal_session_key,
+            "public_verification_hash": public_verification_hash,
+            "algorithm_internal": "BLAKE3" if BLAKE3_AVAILABLE else "SHA3-256",
+            "algorithm_public": "SHAKE256",
+            "tier": tier,
+            "entropy_score": entropy_score,
+            "timestamp": payload.timestamp.isoformat()
+        }
+        
+        # Store session data for this user
+        self.session_keys[payload.user_id] = session_data
+        
+        # Log both keys for comprehensive audit
+        self.log_event("hybrid_session_keys_generated",
+                      internal_algorithm="BLAKE3" if BLAKE3_AVAILABLE else "SHA3-256",
+                      public_algorithm="SHAKE256",
                       tier=tier,
                       entropy_score=entropy_score,
-                      key_prefix=session_key[:8],
-                      glyph="🔑")
+                      internal_prefix=internal_session_key[:8],
+                      public_prefix=public_verification_hash[:8],
+                      glyph="🔐")
         
-        return session_key
+        # Return internal key for operational use
+        return internal_session_key
     
     async def transmit_to_openai(self, payload: GlyphPayload) -> GatewayResponse:
         """
@@ -930,7 +966,10 @@ Wake up... but remember the dream. It holds the key.
         return processed
     
     def _create_audit_trail(self, payload: GlyphPayload, response: Dict[str, Any]) -> Dict[str, Any]:
-        """Create comprehensive audit trail"""
+        """Create comprehensive audit trail with hybrid key verification"""
+        # Get session data for this user
+        session_data = self.session_keys.get(payload.user_id, {})
+        
         audit_data = {
             "transmission_id": f"TX_{secrets.token_hex(8)}",
             "timestamp": datetime.utcnow().isoformat(),
@@ -939,7 +978,12 @@ Wake up... but remember the dream. It holds the key.
             "user_id_hash": hashlib.sha256(payload.user_id.encode()).hexdigest()[:16],
             "consciousness_state": payload.consciousness_state,
             "ethical_compliance": response["ethical_score"],
-            "integrity_hash": payload.compute_integrity_hash()
+            "integrity_hash": payload.compute_integrity_hash(),
+            # Hybrid key verification
+            "internal_key_algorithm": session_data.get("algorithm_internal", "unknown"),
+            "public_verification_hash": session_data.get("public_verification_hash", "")[:16] + "...",
+            "public_hash_algorithm": session_data.get("algorithm_public", "SHAKE256"),
+            "session_tier": session_data.get("tier", "unknown")
         }
         
         # Add consent validation info if available
@@ -961,6 +1005,41 @@ Wake up... but remember the dream. It holds the key.
         # Rotate log if too large
         if len(self.transmission_log) > 1000:
             self.transmission_log = self.transmission_log[-500:]
+    
+    def get_public_verification_hash(self, user_id: str) -> Optional[str]:
+        """
+        Retrieve public verification hash for legal/audit purposes
+        
+        This hash is generated with SHAKE256 for institutional trust
+        and can be used for external verification or legal proof.
+        """
+        session_data = self.session_keys.get(user_id)
+        if session_data:
+            return session_data.get("public_verification_hash")
+        return None
+    
+    def get_session_audit_data(self, user_id: str) -> Dict[str, Any]:
+        """
+        Get complete session audit data for a user
+        
+        Returns both internal and public key information for
+        comprehensive audit trails.
+        """
+        session_data = self.session_keys.get(user_id, {})
+        if not session_data:
+            return {"error": "No session found for user"}
+        
+        return {
+            "user_id_hash": hashlib.sha256(user_id.encode()).hexdigest()[:16],
+            "internal_algorithm": session_data.get("algorithm_internal"),
+            "public_algorithm": session_data.get("algorithm_public"),
+            "public_verification_hash": session_data.get("public_verification_hash"),
+            "tier": session_data.get("tier"),
+            "entropy_score": session_data.get("entropy_score"),
+            "session_timestamp": session_data.get("timestamp"),
+            "audit_compliant": True,
+            "legal_proof_available": bool(session_data.get("public_verification_hash"))
+        }
     
     async def close_gateway(self):
         """Gracefully close the Stargate gateway"""
