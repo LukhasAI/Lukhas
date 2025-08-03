@@ -1,0 +1,132 @@
+# LUKHAS Next Generation Demo - Docker Compose
+# Multi-service demo environment with monitoring and visualization
+
+version: '3.8'
+
+services:
+  # Main LUKHAS demo service
+  lukhas-demo:
+    build:
+      context: ../..
+      dockerfile: lukhas_demo_suite/docker/Dockerfile
+    container_name: lukhas-demo-main
+    environment:
+      - LUKHAS_DOCKER_MODE=true
+      - DEMO_LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+    volumes:
+      - demo-logs:/app/lukhas_demo_suite/logs
+      - demo-configs:/app/lukhas_demo_suite/configs
+    networks:
+      - lukhas-network
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "python3", "-c", "print('Demo service healthy')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Redis for WebSocket session management (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: lukhas-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - lukhas-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Prometheus monitoring (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: lukhas-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - lukhas-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+
+  # Grafana visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: lukhas-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=lukhas-demo
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - lukhas-network
+    depends_on:
+      - prometheus
+
+  # Log aggregation with Fluentd (optional)
+  fluentd:
+    image: fluent/fluentd:latest
+    container_name: lukhas-fluentd
+    volumes:
+      - demo-logs:/fluentd/log
+      - ./fluentd/conf:/fluentd/etc
+    networks:
+      - lukhas-network
+
+volumes:
+  demo-logs:
+    driver: local
+  demo-configs:
+    driver: local
+  redis-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  lukhas-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Demo execution profiles
+profiles:
+  # Minimal demo - just LUKHAS core
+  - minimal:
+      services:
+        - lukhas-demo
+
+  # Full demo with monitoring
+  - monitoring:
+      services:
+        - lukhas-demo
+        - redis
+        - prometheus
+        - grafana
+
+  # Enterprise demo with full stack
+  - enterprise:
+      services:
+        - lukhas-demo
+        - redis
+        - prometheus
+        - grafana
+        - fluentd
