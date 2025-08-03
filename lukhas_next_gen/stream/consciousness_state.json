@@ -1,0 +1,20 @@
+{
+  "current_state": "focused",
+  "timestamp": "2025-08-03T23:00:00Z",
+  "confidence": 0.92,
+  "transitions": {
+    "previous": "analytical",
+    "duration_ms": 3000
+  },
+  "biometric_hints": {
+    "heart_coherence": "high",
+    "attention_score": 0.87,
+    "stress_level": "low"
+  },
+  "symbolic_representation": "🎯",
+  "privacy_mask": "SHA3-256:a7f4e9b21c3d5f8e2b9a7c4d1e3f6a8b",
+  "gdpr_consent": {
+    "streaming_authorized": true,
+    "expires": "2025-08-04T23:00:00Z"
+  }
+}
