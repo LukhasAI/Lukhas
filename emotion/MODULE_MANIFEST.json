@@ -1,0 +1,71 @@
+{
+  "module": "EMOTION",
+  "version": "2.0.0",
+  "description": "VAD affect and mood regulation",
+  "path": "emotion/",
+  "submodules": {
+    "vad": {
+      "description": "vad subsystem of EMOTION",
+      "is_hybrid": false,
+      "path": "emotion/vad/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_vad_colony.py"
+      }
+    },
+    "mood": {
+      "description": "mood subsystem of EMOTION",
+      "is_hybrid": true,
+      "path": "emotion/mood/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_mood_colony.py"
+      }
+    },
+    "empathy": {
+      "description": "empathy subsystem of EMOTION",
+      "is_hybrid": true,
+      "path": "emotion/empathy/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_empathy_colony.py"
+      }
+    },
+    "regulation": {
+      "description": "regulation subsystem of EMOTION",
+      "is_hybrid": false,
+      "path": "emotion/regulation/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_regulation_colony.py"
+      }
+    }
+  },
+  "hybrid_components": [
+    "empathy",
+    "mood"
+  ],
+  "dependencies": [],
+  "exports": [],
+  "neuroplastic_config": {
+    "can_reorganize": true,
+    "stress_priority": 1,
+    "hormone_receptors": [
+      "cortisol",
+      "dopamine",
+      "serotonin",
+      "oxytocin"
+    ]
+  },
+  "tags": [
+    "#TAG:emotion",
+    "#TAG:neuroplastic",
+    "#TAG:colony"
+  ],
+  "enhanced": true,
+  "enhancement_date": "2025-08-02T21:08:24.691443"
+}

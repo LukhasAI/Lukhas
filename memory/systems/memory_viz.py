@@ -223,9 +223,7 @@ def _report_free(free_external, free_internal):
 
 
 PAGE_SIZE = 1024 * 1024 * 20
-legend = f"""\
-
-Legend:
+legend = f"""" + "Legend:
     [a     ] - a segment in the allocator
      ^-- a page {Bytes(PAGE_SIZE)} of memory in the segment
     a-z: pages filled with a single block's content

@@ -1,0 +1,75 @@
+{
+  "module": "QIM",
+  "version": "2.0.0",
+  "description": "Quantum-Inspired Metaphors for advanced processing",
+  "path": "qim/",
+  "submodules": {
+    "quantum_states": {
+      "description": "quantum_states subsystem of QIM",
+      "is_hybrid": false,
+      "path": "qim/quantum_states/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_quantum_states_colony.py"
+      }
+    },
+    "entanglement": {
+      "description": "entanglement subsystem of QIM",
+      "is_hybrid": true,
+      "path": "qim/entanglement/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_entanglement_colony.py"
+      }
+    },
+    "superposition": {
+      "description": "superposition subsystem of QIM",
+      "is_hybrid": true,
+      "path": "qim/superposition/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_superposition_colony.py"
+      }
+    },
+    "bio": {
+      "description": "bio subsystem of QIM",
+      "is_hybrid": false,
+      "path": "qim/bio/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_bio_colony.py"
+      }
+    }
+  },
+  "hybrid_components": [
+    "superposition",
+    "entanglement"
+  ],
+  "dependencies": [],
+  "exports": [],
+  "neuroplastic_config": {
+    "can_reorganize": true,
+    "stress_priority": 1,
+    "hormone_receptors": [
+      "cortisol",
+      "dopamine",
+      "serotonin",
+      "oxytocin"
+    ]
+  },
+  "tags": [
+    "#TAG:qim",
+    "#TAG:neuroplastic",
+    "#TAG:colony"
+  ],
+  "enhanced": true,
+  "enhancement_date": "2025-08-02T21:08:24.689636",
+  "integrated_directories": [
+    "bio_legacy"
+  ],
+  "last_reorganization": "2025-08-02T21:13:28.017432"
+}

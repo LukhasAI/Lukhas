@@ -1,0 +1,77 @@
+{
+  "module": "CORE",
+  "version": "2.0.0",
+  "description": "Central nervous system - GLYPH engine, symbolic processing",
+  "path": "core/",
+  "submodules": {
+    "glyph": {
+      "description": "glyph subsystem of CORE",
+      "is_hybrid": false,
+      "path": "core/glyph/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_glyph_colony.py"
+      }
+    },
+    "symbolic": {
+      "description": "symbolic subsystem of CORE",
+      "is_hybrid": true,
+      "path": "core/symbolic/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_symbolic_colony.py"
+      }
+    },
+    "neural": {
+      "description": "neural subsystem of CORE",
+      "is_hybrid": true,
+      "path": "core/neural/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_neural_colony.py"
+      }
+    },
+    "integration": {
+      "description": "integration subsystem of CORE",
+      "is_hybrid": false,
+      "path": "core/integration/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_integration_colony.py"
+      }
+    }
+  },
+  "hybrid_components": [
+    "symbolic",
+    "neural"
+  ],
+  "dependencies": [],
+  "exports": [],
+  "neuroplastic_config": {
+    "can_reorganize": true,
+    "stress_priority": 1,
+    "hormone_receptors": [
+      "cortisol",
+      "dopamine",
+      "serotonin",
+      "oxytocin"
+    ]
+  },
+  "tags": [
+    "#TAG:core",
+    "#TAG:neuroplastic",
+    "#TAG:colony"
+  ],
+  "enhanced": true,
+  "enhancement_date": "2025-08-02T21:08:24.685720",
+  "integrated_directories": [
+    "architectures",
+    "orchestration",
+    "symbolic_legacy"
+  ],
+  "last_reorganization": "2025-08-02T21:13:28.016263"
+}

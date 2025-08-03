@@ -1,0 +1,10 @@
+{
+  "component": "neural",
+  "type": "hybrid",
+  "primary_module": "core",
+  "also_exists_in": [
+    "bridge"
+  ],
+  "quantum_state": "superposition",
+  "description": "This component exists in multiple modules simultaneously"
+}

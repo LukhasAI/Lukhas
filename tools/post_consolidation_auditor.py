@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-🔍 Λ Post-Consolidation Audit System
-=======
 🔍 lukhas Post-Consolidation Audit System
->>>>>>> jules/ecosystem-consolidation-2025
 Comprehensive audit of remaining components in core and core_systems after consolidation
 
 This script will:
@@ -14,11 +10,7 @@ This script will:
 4. Identify potential missed consolidation opportunities
 5. Provide recommendations for final cleanup
 
-<<<<<<< HEAD
-Author: Λ AI Enhancement Team
-=======
 Author: lukhas AI Enhancement Team
->>>>>>> jules/ecosystem-consolidation-2025
 Date: 2025-06-05
 Version: 1.0.0
 """
@@ -32,11 +24,7 @@ from datetime import datetime
 from collections import defaultdict
 
 class PostConsolidationAuditor:
-<<<<<<< HEAD
-    """Comprehensive Λuditor for post-consolidation workspace analysis"""
-=======
     """Comprehensive lukhasuditor for post-consolidation workspace analysis"""
->>>>>>> jules/ecosystem-consolidation-2025
 
     def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
@@ -507,11 +495,7 @@ class PostConsolidationAuditor:
         """Generate comprehensive audit report"""
 
         report = f"""
-<<<<<<< HEAD
-# 🔍 Λ Post-Consolidation Comprehensive Audit Report
-=======
 # 🔍 lukhas Post-Consolidation Comprehensive Audit Report
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Generated:** {audit_results['audit_metadata']['timestamp']}
 **Workspace:** {audit_results['audit_metadata']['workspace_root']}
@@ -711,11 +695,7 @@ class PostConsolidationAuditor:
         report += f"""
 ---
 
-<<<<<<< HEAD
-*Λ Post-Consolidation Audit Report*
-=======
 *lukhas Post-Consolidation Audit Report*
->>>>>>> jules/ecosystem-consolidation-2025
 *Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
 """
 
@@ -746,16 +726,6 @@ def main():
 
     workspace_root = "/Users/A_G_I/CodexGPT_Lukhas"
 
-<<<<<<< HEAD
-    print("🔍 Λ Post-Consolidation Comprehensive Audit")
-    print("=" * 60)
-
-    Λuditor = PostConsolidationAuditor(workspace_root)
-    audit_results = Λuditor.perform_comprehensive_audit()
-
-    # Save results
-    json_path, report_path = Λuditor.save_audit_results(audit_results)
-=======
     print("🔍 lukhas Post-Consolidation Comprehensive Audit")
     print("=" * 60)
 
@@ -764,7 +734,6 @@ def main():
 
     # Save results
     json_path, report_path = lukhasuditor.save_audit_results(audit_results)
->>>>>>> jules/ecosystem-consolidation-2025
 
     # Display summary
     print("\n" + "=" * 60)
@@ -792,8 +761,4 @@ if __name__ == "__main__":
     main()
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

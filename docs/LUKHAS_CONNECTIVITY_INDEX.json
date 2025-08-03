@@ -1,0 +1,326 @@
+{
+  "generated_at": "2025-08-02T19:51:57.737381",
+  "system_name": "LUKHAS AI - Neuroplastic Architecture",
+  "total_modules": 7,
+  "total_hybrid_components": 203,
+  "modules": {
+    "CORE": {
+      "role": "Brain Stem - Foundation",
+      "status": "always_active",
+      "hybrid_subdirs": [
+        "nervous_system/tagging",
+        "nervous_system/colony_base",
+        "nervous_system/propagation",
+        "hybrid_components/*"
+      ],
+      "connections": {
+        "outgoing": [
+          "consciousness",
+          "memory",
+          "quantum",
+          "emotion",
+          "governance",
+          "bridge"
+        ],
+        "incoming": [
+          "all_modules"
+        ],
+        "bidirectional": [
+          "consciousness",
+          "memory",
+          "quantum"
+        ]
+      },
+      "hormone_production": [
+        "GABA",
+        "Glutamate"
+      ],
+      "stress_response": "maintain_basics"
+    },
+    "CONSCIOUSNESS": {
+      "role": "Cortex - Awareness & Decision",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "quantum_integration",
+        "awareness",
+        "systems/dream_engine",
+        "meta_cognitive"
+      ],
+      "connections": {
+        "outgoing": [
+          "memory",
+          "emotion",
+          "quantum",
+          "governance"
+        ],
+        "incoming": [
+          "core",
+          "memory",
+          "emotion"
+        ],
+        "bidirectional": [
+          "memory",
+          "emotion",
+          "quantum"
+        ]
+      },
+      "hormone_production": [
+        "Dopamine",
+        "Serotonin"
+      ],
+      "stress_response": "delegate_to_governance"
+    },
+    "MEMORY": {
+      "role": "Hippocampus - Storage & Recall",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "emotional_memory_manager",
+        "fold_system",
+        "trauma_repair",
+        "systems/dream_memory"
+      ],
+      "connections": {
+        "outgoing": [
+          "consciousness",
+          "emotion",
+          "quantum"
+        ],
+        "incoming": [
+          "all_modules"
+        ],
+        "bidirectional": [
+          "consciousness",
+          "emotion"
+        ]
+      },
+      "hormone_production": [
+        "Oxytocin"
+      ],
+      "stress_response": "activate_compression"
+    },
+    "QUANTUM": {
+      "role": "Quantum Processor - Computation",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "processing",
+        "bio_integration",
+        "consciousness_collapse",
+        "pattern_recognition"
+      ],
+      "connections": {
+        "outgoing": [
+          "consciousness",
+          "memory",
+          "bio"
+        ],
+        "incoming": [
+          "core",
+          "consciousness",
+          "governance"
+        ],
+        "bidirectional": [
+          "consciousness",
+          "memory",
+          "bio"
+        ]
+      },
+      "hormone_production": [
+        "Glutamate"
+      ],
+      "stress_response": "crisis_acceleration"
+    },
+    "EMOTION": {
+      "role": "Limbic System - Affect & Mood",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "affect_detection",
+        "mood_regulation",
+        "colony_emotions",
+        "memory_emotions"
+      ],
+      "connections": {
+        "outgoing": [
+          "memory",
+          "consciousness",
+          "governance"
+        ],
+        "incoming": [
+          "consciousness",
+          "memory",
+          "core"
+        ],
+        "bidirectional": [
+          "memory",
+          "consciousness"
+        ]
+      },
+      "hormone_production": [
+        "Cortisol",
+        "Serotonin",
+        "Oxytocin"
+      ],
+      "stress_response": "trauma_processing"
+    },
+    "GOVERNANCE": {
+      "role": "Immune System - Protection & Ethics",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "guardian_system",
+        "ethics_engine",
+        "drift_detection",
+        "emergency_protocols"
+      ],
+      "connections": {
+        "outgoing": [
+          "all_modules"
+        ],
+        "incoming": [
+          "core",
+          "consciousness"
+        ],
+        "bidirectional": [
+          "core"
+        ]
+      },
+      "hormone_production": [
+        "Cortisol",
+        "Adrenaline",
+        "GABA"
+      ],
+      "stress_response": "assume_control"
+    },
+    "BRIDGE": {
+      "role": "Peripheral Nervous - I/O",
+      "status": "adaptive",
+      "hybrid_subdirs": [
+        "api_gateway",
+        "llm_wrappers",
+        "emergency_channel",
+        "human_interface"
+      ],
+      "connections": {
+        "outgoing": [
+          "core",
+          "consciousness",
+          "memory"
+        ],
+        "incoming": [
+          "all_modules"
+        ],
+        "bidirectional": [
+          "core"
+        ]
+      },
+      "hormone_production": [
+        "Dopamine"
+      ],
+      "stress_response": "lockdown_mode"
+    }
+  },
+  "hybrid_relationships": {
+    "memory-emotion": {
+      "shared_components": [
+        "emotional_memory_manager",
+        "affect_detection",
+        "mood_memory_coupling"
+      ],
+      "signal_types": [
+        "Oxytocin",
+        "Serotonin"
+      ],
+      "strength": 0.85
+    },
+    "consciousness-quantum": {
+      "shared_components": [
+        "quantum_integration",
+        "conscious_collapse",
+        "awareness_superposition"
+      ],
+      "signal_types": [
+        "Glutamate",
+        "GABA"
+      ],
+      "strength": 0.75
+    },
+    "governance-all": {
+      "shared_components": [
+        "ethics_enforcement",
+        "drift_monitoring",
+        "guardian_oversight"
+      ],
+      "signal_types": [
+        "Cortisol",
+        "Adrenaline"
+      ],
+      "strength": 0.95
+    }
+  },
+  "neuroplastic_states": {
+    "normal": {
+      "hierarchy": [
+        "core",
+        "consciousness",
+        "memory",
+        "quantum",
+        "emotion",
+        "governance",
+        "bridge"
+      ],
+      "active_hormones": [
+        "Serotonin",
+        "Dopamine",
+        "Glutamate"
+      ]
+    },
+    "stress": {
+      "hierarchy": [
+        "governance",
+        "core",
+        "quantum",
+        "consciousness"
+      ],
+      "active_hormones": [
+        "Cortisol",
+        "Adrenaline",
+        "GABA"
+      ],
+      "suppressed": [
+        "emotion",
+        "creativity",
+        "bridge"
+      ]
+    },
+    "trauma": {
+      "hierarchy": [
+        "emotion",
+        "memory",
+        "governance",
+        "core"
+      ],
+      "active_hormones": [
+        "Cortisol",
+        "Oxytocin",
+        "GABA"
+      ],
+      "enhanced": [
+        "trauma_vault",
+        "repair_mechanisms"
+      ]
+    },
+    "overload": {
+      "hierarchy": [
+        "memory",
+        "quantum",
+        "core"
+      ],
+      "active_hormones": [
+        "Adrenaline",
+        "Glutamate"
+      ],
+      "enhanced": [
+        "compression",
+        "folding"
+      ]
+    }
+  }
+}

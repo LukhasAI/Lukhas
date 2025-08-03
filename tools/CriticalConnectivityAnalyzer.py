@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-Λ SYSTEM CRITICAL CONNECTIVITY ISSUES ANALYZER
-==============================================
-Identifies and categorizes the most critical connectivity issues in the Λ system.
-=======
 lukhas SYSTEM CRITICAL CONNECTIVITY ISSUES ANALYZER
 ==============================================
 Identifies and categorizes the most critical connectivity issues in the lukhas system.
->>>>>>> jules/ecosystem-consolidation-2025
 """
 
 import json
@@ -127,11 +121,7 @@ class CriticalConnectivityAnalyzer:
     def print_analysis(self, critical_issues, isolation_patterns, action_plan):
         """Print comprehensive analysis."""
         print("\n" + "="*80)
-<<<<<<< HEAD
-        print("🎯 Λ SYSTEM CRITICAL CONNECTIVITY ANALYSIS")
-=======
         print("🎯 lukhas SYSTEM CRITICAL CONNECTIVITY ANALYSIS")
->>>>>>> jules/ecosystem-consolidation-2025
         print("="*80)
 
         print(f"\n📊 OVERVIEW:")

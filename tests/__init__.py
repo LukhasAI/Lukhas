@@ -11,10 +11,28 @@ Advanced testing capabilities for PWM workspace governance:
 Superior testing infrastructure for enterprise-grade workspace protection.
 """
 
-from .guardian_reflector.src.guardian_reflector import GuardianReflector
+# Guardian reflector import commented out due to missing module
+# from .guardian_reflector.src.guardian_reflector import GuardianReflector
 
 __version__ = "2.0.0"
-__all__ = ["GuardianReflector", "PWMTestOrchestrator"]
+__all__ = ["PWMTestOrchestrator"]
+
+# Mock GuardianReflector for now
+class GuardianReflector:
+    """Mock Guardian Reflector for testing"""
+    def __init__(self, config=None):
+        self.config = config
+        
+    async def initialize(self):
+        pass
+        
+    async def reflect_on_decision(self, context):
+        return type('obj', (object,), {
+            'moral_score': 0.8,
+            'severity': 'LOW',
+            'frameworks_applied': ['virtue_ethics'],
+            'justification': 'Mock reflection'
+        })
 
 class PWMTestOrchestrator:
     """

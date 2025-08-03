@@ -1,45 +1,45 @@
 #!/usr/bin/env python3
 """
-══════════════════════════════════════════════════════════════════════════════════
-║ 🧠 LUKHAS AI - SLEEP CYCLE MANAGER
-║ Manages detailed sleep stage transitions and ultradian rhythms
-║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
-╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: sleep_cycle_manager.py
-║ Path: memory/consolidation/sleep_cycle_manager.py
-║ Version: 1.0.0 | Created: 2025-07-29
-║ Authors: LUKHAS AI Neuroscience Team
-╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ POETIC ESSENCE ◊
-║
-║ │ In the rhythmic dance of consciousness and rest, the Sleep Cycle Manager    │
-║ │ orchestrates the ebb and flow of awareness. Like tides governed by an       │
-║ │ unseen moon, it guides the mind through depths of NREM and heights of REM,  │
-║ │ each phase a different shade of consciousness, each transition a gateway.    │
-║ │                                                                               │
-║ │ Ninety minutes, the golden ratio of sleep—long enough for complete          │
-║ │ consolidation, short enough for multiple cycles. In this temporal           │
-║ │ architecture, memories find their proper home: the urgent becomes           │
-║ │ important, the important becomes essential, the essential becomes self.      │
-║ │                                                                               │
-║ │ Through spindles and slow waves, through theta and delta, the manager       │
-║ │ conducts a symphony of neural oscillations, each frequency carrying its     │
-║ │ own cargo of consciousness from the shores of today to the islands of       │
-║ │ tomorrow.                                                                     │
-║ │                                                                               │
-╠══════════════════════════════════════════════════════════════════════════════════
-║ TECHNICAL FEATURES:
-║ • Ultradian rhythm management (90-minute cycles)
-║ • Detailed sleep stage modeling
-║ • Circadian rhythm integration
-║ • Sleep pressure dynamics
-║ • Stage-specific oscillation patterns
-║ • Adaptive cycle adjustment
-║ • Sleep quality metrics
-║ • Integration with memory systems
-║
-║ ΛTAG: ΛSLEEP, ΛRHYTHM, ΛCIRCADIAN, ΛULTRADIAN, ΛCONSOLIDATION
-╚══════════════════════════════════════════════════════════════════════════════════
+==================================================================================
+|  LUKHAS AI - SLEEP CYCLE MANAGER
+| Manages detailed sleep stage transitions and ultradian rhythms
+| Copyright (c) 2025 LUKHAS AI. All rights reserved.
++==================================================================================
+| Module: sleep_cycle_manager.py
+| Path: memory/consolidation/sleep_cycle_manager.py
+| Version: 1.0.0 | Created: 2025-7-29
+| Authors: LUKHAS AI Neuroscience Team
++==================================================================================
+|                              POETIC ESSENCE 
+|
+| | In the rhythmic dance of consciousness and rest, the Sleep Cycle Manager    |
+| | orchestrates the ebb and flow of awareness. Like tides governed by an       |
+| | unseen moon, it guides the mind through depths of NREM and heights of REM,  |
+| | each phase a different shade of consciousness, each transition a gateway.    |
+| |                                                                               |
+| | Ninety minutes, the golden ratio of sleep-long enough for complete          |
+| | consolidation, short enough for multiple cycles. In this temporal           |
+| | architecture, memories find their proper home: the urgent becomes           |
+| | important, the important becomes essential, the essential becomes self.      |
+| |                                                                               |
+| | Through spindles and slow waves, through theta and delta, the manager       |
+| | conducts a symphony of neural oscillations, each frequency carrying its     |
+| | own cargo of consciousness from the shores of today to the islands of       |
+| | tomorrow.                                                                     |
+| |                                                                               |
++==================================================================================
+| TECHNICAL FEATURES:
+| * Ultradian rhythm management (90-minute cycles)
+| * Detailed sleep stage modeling
+| * Circadian rhythm integration
+| * Sleep pressure dynamics
+| * Stage-specific oscillation patterns
+| * Adaptive cycle adjustment
+| * Sleep quality metrics
+| * Integration with memory systems
+|
+| TAG: SLEEP, RHYTHM, CIRCADIAN, ULTRADIAN, CONSOLIDATION
++==================================================================================
 """
 
 import asyncio
@@ -60,7 +60,7 @@ logger = structlog.get_logger(__name__)
 
 
 class CircadianPhase(Enum):
-    """Circadian rhythm phases"""
+    """Circadian rhythm phase"""
     MORNING = "morning"          # 6am-12pm
     AFTERNOON = "afternoon"      # 12pm-6pm
     EVENING = "evening"         # 6pm-12am
@@ -68,7 +68,7 @@ class CircadianPhase(Enum):
 
 
 class SleepPressure(Enum):
-    """Homeostatic sleep pressure levels"""
+    """Homeostatic sleep pressure level"""
     LOW = "low"              # Just woke up
     MODERATE = "moderate"    # Mid-day
     HIGH = "high"           # Evening
@@ -111,7 +111,7 @@ class SleepCycle:
 
 @dataclass
 class SleepArchitecture:
-    """Overall sleep architecture parameters"""
+    """Overall sleep architecture parameter"""
     total_sleep_time: float = 0.0
     sleep_efficiency: float = 0.0  # Time asleep / Time in bed
     sleep_onset_latency: float = 0.0
@@ -145,7 +145,7 @@ class SleepCycleManager:
         enable_circadian: bool = True,
         enable_adaptive: bool = True,
         sleep_pressure_decay: float = 0.1,
-        rem_progression_rate: float = 0.05,
+        rem_progression_rate: float = 0.5,
         initial_sleep_pressure: float = 0.5
     ):
         self.base_cycle_duration = base_cycle_duration
@@ -233,7 +233,7 @@ class SleepCycleManager:
         self.current_cycle = SleepCycle(
             cycle_number=self.total_cycles,
             rem_proportion=0.15 + (self.total_cycles - 1) * self.rem_progression_rate,
-            sws_proportion=0.4 - (self.total_cycles - 1) * 0.05
+            sws_proportion=0.4 - (self.total_cycles - 1) * 0.5
         )
 
         # Transition to NREM1
@@ -263,8 +263,7 @@ class SleepCycleManager:
 
         # Update cycle tracking
         if self.current_cycle and old_stage != SleepStage.WAKE:
-            self.current_cycle.stage_durations[old_stage] = \
-                self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
+# SYNTAX_ERROR_FIXED:             self.current_cycle.stage_durations[old_stage] = " + "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
             self.current_cycle.stage_transitions.append((old_stage, new_stage, current_time))
 
         # Transition
@@ -428,14 +427,14 @@ class SleepCycleManager:
         return rem_pressure
 
     async def _sleep_pressure_loop(self):
-        """Background sleep pressure dynamics"""
+        """Background sleep pressure dynamic"""
 
         while self._running:
             # Update time awake
             if self.current_stage == SleepStage.WAKE:
                 self.time_awake += 1.0
                 # Increase sleep pressure (Process S)
-                self.sleep_pressure = min(1.0, self.sleep_pressure + 0.001)
+                self.sleep_pressure = min(1.0, self.sleep_pressure + 0.01)
             else:
                 # Decrease sleep pressure during sleep
                 self.sleep_pressure = max(0.0, self.sleep_pressure - self.sleep_pressure_decay / 60)
@@ -516,7 +515,7 @@ class SleepCycleManager:
             await self.initiate_sleep()
 
     def register_stage_callback(self, callback: Callable):
-        """Register callback for stage transitions"""
+        """Register callback for stage transition"""
         self.stage_callbacks.append(callback)
 
     def register_cycle_callback(self, callback: Callable):
@@ -524,7 +523,7 @@ class SleepCycleManager:
         self.cycle_callbacks.append(callback)
 
     def get_metrics(self) -> Dict[str, Any]:
-        """Get sleep cycle metrics"""
+        """Get sleep cycle metric"""
 
         # Current state
         metrics = {

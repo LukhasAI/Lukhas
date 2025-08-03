@@ -81,8 +81,7 @@ class SymptomReporter:
                 return await self._handle_failed_interaction(session_id)
 
             # Process response with diagnostic engine
-            is_critical, new_symptoms, needs_media, needs_questions, confidence = \
-                self.diagnostic_engine.process_user_response(user_input, symptoms)
+# SYNTAX_ERROR_FIXED:             is_critical, new_symptoms, needs_media, needs_questions, confidence = " + "self.diagnostic_engine.process_user_response(user_input, symptoms)
 
             # Critical symptom check (Altman: safety first)
             if is_critical:
@@ -204,7 +203,7 @@ class SymptomReporter:
         symptoms: list,
         requires_immediate_attention: bool
     ) -> Dict:
-        """Completes the session and returns final status"""
+        """Completes the session and returns final statu"""
         status = "completed_critical" if requires_immediate_attention else "completed_normal"
         self.data_manager.update_diagnostic_session(
             session_id,

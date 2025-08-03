@@ -532,8 +532,7 @@ class EnergyAwareExecutionPlanner:
                 self._update_energy_budget()
 
                 # Perform periodic optimization
-                if len(self.optimization_history) == 0 or \
-                   (datetime.now(timezone.utc) - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])).total_seconds() > self.config["optimization_interval"]:
+                if len(self.optimization_history) == 0 or " + "(datetime.now(timezone.utc) - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])).total_seconds() > self.config["optimization_interval"]:
                     self.optimize_energy_allocation()
 
                 # Short sleep to prevent busy waiting

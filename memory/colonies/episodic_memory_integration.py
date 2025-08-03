@@ -99,7 +99,7 @@ class EpisodicMemoryIntegration:
             raise
 
     async def _initialize_processing_systems(self):
-        """Initialize episodic memory processing systems"""
+        """Initialize episodic memory processing system"""
         logger.info("Initializing episodic processing systems...")
 
         # Configure colony settings if available
@@ -536,8 +536,7 @@ class EpisodicMemoryIntegration:
         replayed_count = 0
         for memory_id in memory_ids:
             if memory_id in self.episode_registry:
-                self.episode_registry[memory_id]['replay_count'] = \
-                    self.episode_registry[memory_id].get('replay_count', 0) + 1
+# SYNTAX_ERROR_FIXED:                 self.episode_registry[memory_id]['replay_count'] = " + "self.episode_registry[memory_id].get('replay_count', 0) + 1
                 replayed_count += 1
 
         return {
@@ -548,7 +547,7 @@ class EpisodicMemoryIntegration:
         }
 
     def _get_fallback_consolidation_candidates(self) -> List[Dict[str, Any]]:
-        """Get fallback consolidation candidates"""
+        """Get fallback consolidation candidate"""
         candidates = []
 
         for memory_id, episode in self.episode_registry.items():

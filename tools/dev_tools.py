@@ -1,10 +1,6 @@
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
-<<<<<<< HEAD
-║ Λ CLI Developer Tools Commands                            table = formatter.create_table(
-=======
 ║ lukhas CLI Developer Tools Commands                            table = formatter.create_table(
->>>>>>> jules/ecosystem-consolidation-2025
             title="Available Developer Commands",
             style="cyan"
         )
@@ -150,11 +146,7 @@ class DeveloperTools(BaseCommand):
         print(formatter.create_table(
             table_data,
             title="Available Developer Commands",
-<<<<<<< HEAD
-            style="Λ"
-=======
             style="lukhas"
->>>>>>> jules/ecosystem-consolidation-2025
         ))
 
     async def analyze_code(self, args: List[str]) -> bool:
@@ -210,11 +202,7 @@ class DeveloperTools(BaseCommand):
     async def profile_application(self, args: List[str]) -> bool:
         """Application profiling"""
         if not args:
-<<<<<<< HEAD
-            print_error("Usage: λ dev profile <script/module>")
-=======
             print_error("Usage: lukhas dev profile <script/module>")
->>>>>>> jules/ecosystem-consolidation-2025
             return False
 
         target = args[0]
@@ -358,11 +346,7 @@ class DeveloperTools(BaseCommand):
     async def debug_session(self, args: List[str]) -> bool:
         """Interactive debugging session"""
         if not args:
-<<<<<<< HEAD
-            print_error("Usage: λ dev debug <script>")
-=======
             print_error("Usage: lukhas dev debug <script>")
->>>>>>> jules/ecosystem-consolidation-2025
             return False
 
         script = args[0]
@@ -470,11 +454,7 @@ class DeveloperTools(BaseCommand):
         ]
 
         formatter = TableFormatter()
-<<<<<<< HEAD
-        print(formatter.format_table(data, title="Code Metrics", style="Λ"))
-=======
         print(formatter.format_table(data, title="Code Metrics", style="lukhas"))
->>>>>>> jules/ecosystem-consolidation-2025
 
     async def _is_tool_available(self, tool: str) -> bool:
         """Check if development tool is available"""

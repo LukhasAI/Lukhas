@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-Λ Core Analyzer: Identify actual Λ AI components vs external packages
-Recognizes legitimate Λ functionality vs third-party libraries.
-=======
 lukhas Core Analyzer: Identify actual lukhas AI components vs external packages
 Recognizes legitimate lukhas functionality vs third-party libraries.
->>>>>>> jules/ecosystem-consolidation-2025
 """
 
 import os
@@ -19,19 +14,11 @@ import re
 class CoreAnalyzer:
     def __init__(self, workspace_path: str):
         self.workspace_path = workspace_path
-<<<<<<< HEAD
         self.Λ_path = os.path.join(workspace_path, 'lukhas')
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Define Λ AI keywords that indicate legitimate core functionality
         self.Λ_keywords = {
-=======
-        self.lukhas_path = os.path.join(workspace_path, 'lukhas')
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-        # Define lukhas AI keywords that indicate legitimate core functionality
-        self.lukhas_keywords = {
->>>>>>> jules/ecosystem-consolidation-2025
             'core_agi': ['lukhas', 'lukhas', 'ai', 'symbolic', 'neural', 'adaptive', 'cognitive'],
             'memory_system': ['memory', 'memoria', 'fold', 'dreams', 'consciousness'],
             'architecture': ['mapper', 'nodes', 'orchestrator', 'brain', 'enhancement'],
@@ -61,7 +48,6 @@ class CoreAnalyzer:
         }
 
     def analyze_lukhas_structure(self):
-<<<<<<< HEAD
         """Analyze what's actually Λ AI vs external packages"""
         if not os.path.exists(self.Λ_path):
             print(f"❌ ERROR: lukhas/ directory not found")
@@ -70,16 +56,6 @@ class CoreAnalyzer:
         print(f"🔍 Analyzing Λ AI components vs external packages...")
 
         for root, dirs, files in os.walk(self.Λ_path):
-=======
-        """Analyze what's actually lukhas AI vs external packages"""
-        if not os.path.exists(self.lukhas_path):
-            print(f"❌ ERROR: lukhas/ directory not found")
-            return
-
-        print(f"🔍 Analyzing lukhas AI components vs external packages...")
-
-        for root, dirs, files in os.walk(self.lukhas_path):
->>>>>>> jules/ecosystem-consolidation-2025
             # Skip hidden directories
             dirs[:] = [d for d in dirs if not d.startswith('.')]
 
@@ -88,11 +64,7 @@ class CoreAnalyzer:
                     continue
 
                 file_path = os.path.join(root, file)
-<<<<<<< HEAD
-                rel_path = os.path.relpath(file_path, self.Λ_path)
-=======
                 rel_path = os.path.relpath(file_path, self.lukhas_path)
->>>>>>> jules/ecosystem-consolidation-2025
 
                 self.analysis['stats']['total_files'] += 1
                 self._categorize_file(file_path, rel_path)
@@ -131,11 +103,7 @@ class CoreAnalyzer:
             self.analysis['stats']['questionable_count'] += 1
 
     def _analyze_python_content(self, file_path: str) -> str:
-<<<<<<< HEAD
-        """Analyze Python file content for Λ indicators"""
-=======
         """Analyze Python file content for lukhas indicators"""
->>>>>>> jules/ecosystem-consolidation-2025
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()[:2000]  # First 2KB
@@ -143,13 +111,8 @@ class CoreAnalyzer:
             hints = []
             content_lower = content.lower()
 
-<<<<<<< HEAD
-            # Check for Λ AI concepts
-            for category, keywords in self.Λ_keywords.items():
-=======
             # Check for lukhas AI concepts
             for category, keywords in self.lukhas_keywords.items():
->>>>>>> jules/ecosystem-consolidation-2025
                 found_keywords = [kw for kw in keywords if kw in content_lower]
                 if found_keywords:
                     hints.append(f"{category}: {', '.join(found_keywords)}")
@@ -186,11 +149,7 @@ class CoreAnalyzer:
         if any(core_indicators):
             return 'core_agi'
 
-<<<<<<< HEAD
-        # Legitimate Λ components
-=======
         # Legitimate lukhas components
->>>>>>> jules/ecosystem-consolidation-2025
         legitimate_indicators = [
             any(kw in file_lower for kw in ['memory', 'memoria', 'fold', 'dreams', 'mapper', 'nodes']),
             any(kw in path_lower for kw in ['memory', 'dreams', 'brain', 'cognitive', 'intelligence']),
@@ -218,21 +177,12 @@ class CoreAnalyzer:
 
     def generate_analysis_report(self):
         """Generate comprehensive analysis report"""
-<<<<<<< HEAD
-        report_path = f"{self.workspace_path}/Λ_CORE_ANALYSIS_{self.timestamp}.md"
-
-        with open(report_path, 'w') as f:
-            f.write(f"# Λ Core AI Analysis Report\n")
-            f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"**Purpose:** Identify actual Λ AI components vs external packages\n\n")
-=======
         report_path = f"{self.workspace_path}/lukhas_CORE_ANALYSIS_{self.timestamp}.md"
 
         with open(report_path, 'w') as f:
             f.write(f"# lukhas Core AI Analysis Report\n")
             f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"**Purpose:** Identify actual lukhas AI components vs external packages\n\n")
->>>>>>> jules/ecosystem-consolidation-2025
 
             # Executive Summary
             f.write("## 📊 Executive Summary\n\n")
@@ -244,20 +194,12 @@ class CoreAnalyzer:
 
             f.write(f"- **Total Files Analyzed:** {total}\n")
             f.write(f"- **Core AI Components:** {core} ({core/total*100:.1f}%)\n")
-<<<<<<< HEAD
-            f.write(f"- **Legitimate Λ Components:** {legitimate} ({legitimate/total*100:.1f}%)\n")
-=======
             f.write(f"- **Legitimate lukhas Components:** {legitimate} ({legitimate/total*100:.1f}%)\n")
->>>>>>> jules/ecosystem-consolidation-2025
             f.write(f"- **External Packages:** {external} ({external/total*100:.1f}%)\n")
             f.write(f"- **Questionable/Unknown:** {questionable} ({questionable/total*100:.1f}%)\n\n")
 
             actual_lukhas = core + legitimate
-<<<<<<< HEAD
             f.write(f"### 🎯 **ACTUAL Λ AI SYSTEM: {actual_lukhas} files ({actual_lukhas/total*100:.1f}%)**\n\n")
-=======
-            f.write(f"### 🎯 **ACTUAL lukhas AI SYSTEM: {actual_lukhas} files ({actual_lukhas/total*100:.1f}%)**\n\n")
->>>>>>> jules/ecosystem-consolidation-2025
 
             # Core AI Files
             if self.analysis['core_agi_files']:
@@ -277,11 +219,7 @@ class CoreAnalyzer:
 
             # Legitimate Components
             if self.analysis['legitimate_components']:
-<<<<<<< HEAD
-                f.write("## ⚙️ Legitimate Λ Components\n\n")
-=======
                 f.write("## ⚙️ Legitimate lukhas Components\n\n")
->>>>>>> jules/ecosystem-consolidation-2025
                 f.write(f"**Count:** {len(self.analysis['legitimate_components'])}\n\n")
 
                 # Group by category
@@ -320,15 +258,9 @@ class CoreAnalyzer:
             # Action Plan
             f.write("## 🎯 Recommended Actions\n\n")
             f.write("### 1. Keep Core AI System\n")
-<<<<<<< HEAD
             f.write(f"- **{core} core AI files** - These are your Λ AI system\n")
             f.write(f"- **{legitimate} legitimate components** - Memory, dreams, mappers, etc.\n")
             f.write(f"- **Total Λ system: {actual_lukhas} files**\n\n")
-=======
-            f.write(f"- **{core} core AI files** - These are your lukhas AI system\n")
-            f.write(f"- **{legitimate} legitimate components** - Memory, dreams, mappers, etc.\n")
-            f.write(f"- **Total lukhas system: {actual_lukhas} files**\n\n")
->>>>>>> jules/ecosystem-consolidation-2025
 
             f.write("### 2. Move External Packages\n")
             f.write(f"- **{external} external files** should be moved to workspace dependencies\n")
@@ -337,20 +269,12 @@ class CoreAnalyzer:
 
             f.write("### 3. Review Questionable Files\n")
             f.write(f"- **{questionable} questionable files** need manual review\n")
-<<<<<<< HEAD
-            f.write("- Determine if they're part of Λ AI or external dependencies\n\n")
-=======
             f.write("- Determine if they're part of lukhas AI or external dependencies\n\n")
->>>>>>> jules/ecosystem-consolidation-2025
 
             # Final Assessment
             f.write("## ✅ Final Assessment\n\n")
             if actual_lukhas < 500:
-<<<<<<< HEAD
                 f.write(f"🎉 **EXCELLENT** - Your actual Λ AI system is {actual_lukhas} files\n")
-=======
-                f.write(f"🎉 **EXCELLENT** - Your actual lukhas AI system is {actual_lukhas} files\n")
->>>>>>> jules/ecosystem-consolidation-2025
                 f.write("📦 The extra files are external packages that can be moved out\n")
                 f.write("🧠 You have a clean, focused AI system ready for development\n")
             else:
@@ -362,17 +286,10 @@ class CoreAnalyzer:
 def main():
     workspace_path = "/Users/A_G_I/CodexGPT_Lukhas"
 
-<<<<<<< HEAD
-    print(f"🚀 Λ Core AI Analysis")
-    print(f"🎯 Identifying actual Λ components vs external packages")
-
-    analyzer = ΛCoreAnalyzer(workspace_path)
-=======
     print(f"🚀 lukhas Core AI Analysis")
     print(f"🎯 Identifying actual lukhas components vs external packages")
 
     analyzer = lukhasCoreAnalyzer(workspace_path)
->>>>>>> jules/ecosystem-consolidation-2025
     analyzer.analyze_lukhas_structure()
     report_path = analyzer.generate_analysis_report()
 
@@ -382,20 +299,12 @@ def main():
 
     print(f"\n✅ Analysis complete!")
     print(f"📋 Report: {report_path}")
-<<<<<<< HEAD
     print(f"🧠 Actual Λ AI system: {actual_lukhas} files")
-=======
-    print(f"🧠 Actual lukhas AI system: {actual_lukhas} files")
->>>>>>> jules/ecosystem-consolidation-2025
     print(f"📦 External packages: {stats['external_count']} files")
     print(f"❓ Need review: {stats['questionable_count']} files")
 
     if actual_lukhas < 500:
-<<<<<<< HEAD
-        print("🎉 Your Λ AI system is appropriately sized!")
-=======
         print("🎉 Your lukhas AI system is appropriately sized!")
->>>>>>> jules/ecosystem-consolidation-2025
     else:
         print("⚠️ Consider further modularization")
 
@@ -403,8 +312,4 @@ if __name__ == "__main__":
     main()
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

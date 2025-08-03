@@ -249,8 +249,7 @@ class ConsciousnessPattern: # Continuing class definition
         pressure_data_points: List[Union[float, int]] = data.get('pressure_patterns', [])
         velocity_data_points: List[Union[float, int]] = data.get('velocity_patterns', [])
 
-        if not isinstance(pressure_data_points, list) or not isinstance(velocity_data_points, list) or \
-           (not pressure_data_points and not velocity_data_points):
+        if not isinstance(pressure_data_points, list) or not isinstance(velocity_data_points, list) or (not pressure_data_points and not velocity_data_points):
             self.instance_logger.debug("ΛTRACE: Insufficient pressure/velocity data for emotional context. Returning default 0.5.")
             return 0.5
 

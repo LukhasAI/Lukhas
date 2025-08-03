@@ -317,9 +317,7 @@ class DreamEthicsInjector:
             filtered = f"[Ethically Filtered Dream]\n{filtered}"
 
             # Add transformation note
-            filtered += f"\n\n[Note: This dream contained elements tagged as " \
-                       f"{', '.join(high_risk_tags)} which have been noted for " \
-                       f"ethical consideration]"
+            filtered += f"\n\n[Note: This dream contained elements tagged as " " + "f"{', '.join(high_risk_tags)} which have been noted for " " + "f"ethical consideration]"
 
         return filtered
 

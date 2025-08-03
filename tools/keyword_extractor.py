@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-🔍 Λ Keyword Extractor
-📦 Purpose: Extract domain-specific keywords from Λ codebase and documentation
-=======
 🔍 lukhas Keyword Extractor
 📦 Purpose: Extract domain-specific keywords from lukhas codebase and documentation
->>>>>>> jules/ecosystem-consolidation-2025
 🎯 Goal: Build comprehensive thematic classification for modularization
 """
 
@@ -124,11 +119,7 @@ class KeywordExtractor:
 
     def print_summary(self):
         """Print a summary of extracted keywords"""
-<<<<<<< HEAD
-        print("\n🎯 Λ Domain Keywords Summary")
-=======
         print("\n🎯 lukhas Domain Keywords Summary")
->>>>>>> jules/ecosystem-consolidation-2025
         print("=" * 50)
 
         for domain in sorted(self.keywords.keys()):
@@ -140,15 +131,9 @@ class KeywordExtractor:
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    print("🚀 Starting Λ Keyword Extraction...")
-
-    extractor = ΛKeywordExtractor()
-=======
     print("🚀 Starting lukhas Keyword Extraction...")
 
     extractor = lukhasKeywordExtractor()
->>>>>>> jules/ecosystem-consolidation-2025
     keywords = extractor.scan_workspace()
     extractor.print_summary()
     results = extractor.save_results()
@@ -157,8 +142,4 @@ if __name__ == "__main__":
     print("🔧 Use these results to enhance core_mapper.py")
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

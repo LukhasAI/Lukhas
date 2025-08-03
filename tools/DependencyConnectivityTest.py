@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-Λ SYSTEM DEPENDENCY & CONNECTIVITY TEST
-=======================================
-Analyzes the Λ system for dependency issues and connectivity problems.
-=======
 lukhas SYSTEM DEPENDENCY & CONNECTIVITY TEST
 =======================================
 Analyzes the lukhas system for dependency issues and connectivity problems.
->>>>>>> jules/ecosystem-consolidation-2025
 """
 
 import os
@@ -31,13 +25,8 @@ class LambdaDependencyAnalyzer:
         self.connectivity_map = defaultdict(set)
 
     def scan_python_files(self):
-<<<<<<< HEAD
-        """Scan all Python files in the Λ system."""
-        print("🔍 Scanning Python files in Λ system...")
-=======
         """Scan all Python files in the lukhas system."""
         print("🔍 Scanning Python files in lukhas system...")
->>>>>>> jules/ecosystem-consolidation-2025
         for file_path in self.lambda_root.rglob("*.py"):
             if "__pycache__" not in str(file_path):
                 self.python_files.append(file_path)
@@ -107,19 +96,11 @@ class LambdaDependencyAnalyzer:
                     self.external_imports[str(rel_path)].add(imp)
 
     def is_local_import(self, import_name, file_path):
-<<<<<<< HEAD
-        """Check if import is local to the Λ system."""
-        # Common Λ system module prefixes
-        unicode_prefixes = [
-            'agent', 'auth', 'bio', 'brain', 'connectivity', 'governance',
-            'ΛiD', 'interface', 'orchestration', 'vision', 'voice',
-=======
         """Check if import is local to the lukhas system."""
         # Common lukhas system module prefixes
         unicode_prefixes = [
             'agent', 'auth', 'bio', 'brain', 'connectivity', 'governance',
             'Lukhas_ID', 'interface', 'orchestration', 'vision', 'voice',
->>>>>>> jules/ecosystem-consolidation-2025
             'applications', 'tests', 'config', 'shared', 'meta'
         ]
 
@@ -240,11 +221,7 @@ class LambdaDependencyAnalyzer:
     def print_summary(self, report):
         """Print a summary of the analysis."""
         print("\n" + "="*60)
-<<<<<<< HEAD
-        print("🎯 Λ SYSTEM DEPENDENCY & CONNECTIVITY ANALYSIS")
-=======
         print("🎯 lukhas SYSTEM DEPENDENCY & CONNECTIVITY ANALYSIS")
->>>>>>> jules/ecosystem-consolidation-2025
         print("="*60)
         print(f"📊 Total Python Files: {report['total_files']}")
         print(f"🔗 Total Imports: {report['total_imports']}")
@@ -271,11 +248,7 @@ class LambdaDependencyAnalyzer:
             print(f"   📄 {file}: {count} imports")
 
 def main():
-<<<<<<< HEAD
-    lambda_root = Path.cwd()  # Assumes we're running from Λ directory
-=======
     lambda_root = Path.cwd()  # Assumes we're running from lukhas directory
->>>>>>> jules/ecosystem-consolidation-2025
 
     analyzer = LambdaDependencyAnalyzer(lambda_root)
 

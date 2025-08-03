@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
-<<<<<<< HEAD
-║ MODULE: ΛI Syntax Fixer Bot                                               ║
-=======
 ║ MODULE: lukhasI Syntax Fixer Bot                                               ║
->>>>>>> jules/ecosystem-consolidation-2025
 ║ DESCRIPTION: Autonomous AI bot for fixing Python syntax errors            ║
 ║                                                                             ║
 ║ FUNCTIONALITY: Automated syntax error detection and correction             ║
 ║ IMPLEMENTATION: AST parsing • Error pattern matching • Auto-correction    ║
-<<<<<<< HEAD
-║ INTEGRATION: ΛI System Health • Code Quality • Batch Processing          ║
-=======
 ║ INTEGRATION: lukhasI System Health • Code Quality • Batch Processing          ║
->>>>>>> jules/ecosystem-consolidation-2025
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
 
@@ -346,11 +338,7 @@ class SyntaxFixerBot:
 
     def run_comprehensive_fix(self) -> Dict[str, int]:
         """Run comprehensive syntax fixing across the workspace."""
-<<<<<<< HEAD
-        logger.info("🚀 Starting ΛI Syntax Fixer Bot...")
-=======
         logger.info("🚀 Starting lukhasI Syntax Fixer Bot...")
->>>>>>> jules/ecosystem-consolidation-2025
 
         # Scan for errors
         error_files = self.scan_workspace()
@@ -385,11 +373,7 @@ class SyntaxFixerBot:
         """Generate a comprehensive fix report."""
         report = f"""
 ╔═══════════════════════════════════════════════════════════════════════════╗
-<<<<<<< HEAD
-║                     ΛI SYNTAX FIXER BOT REPORT                          ║
-=======
 ║                     lukhasI SYNTAX FIXER BOT REPORT                          ║
->>>>>>> jules/ecosystem-consolidation-2025
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 📊 STATISTICS:
@@ -407,19 +391,11 @@ class SyntaxFixerBot:
 
 
 def main():
-<<<<<<< HEAD
-    """Main entry point for the ΛI Syntax Fixer Bot."""
-    workspace = Path("/Users/A_G_I/Λ")
-
-    # Initialize the bot
-    bot = ΛSyntaxFixerBot(workspace)
-=======
     """Main entry point for the lukhasI Syntax Fixer Bot."""
-    workspace = Path("/Users/A_G_I/lukhas")
+    workspace = Path("/Users/agi_dev/Lukhas_PWM")
 
     # Initialize the bot
-    bot = lukhasSyntaxFixerBot(workspace)
->>>>>>> jules/ecosystem-consolidation-2025
+    bot = SyntaxFixerBot(workspace)
 
     # Run comprehensive fix
     stats = bot.run_comprehensive_fix()
@@ -436,13 +412,8 @@ def main():
                 "python3",
                 "-c",
                 "import sys; sys.path.append('.'); "
-<<<<<<< HEAD
-                "from tools.ΛHealthMonitor import ΛHealthMonitor; "
-                "monitor = ΛHealthMonitor('.'); "
-=======
                 "from tools.lukhasHealthMonitor import lukhasHealthMonitor; "
                 "monitor = lukhasHealthMonitor('.'); "
->>>>>>> jules/ecosystem-consolidation-2025
                 "health = monitor.comprehensive_health_check(); "
                 "print(f'System Health: {health[\"overall_health\"]:.1%}')",
             ],

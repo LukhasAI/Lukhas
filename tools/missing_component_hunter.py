@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-Λ Missing Component Hunter
-=======
 lukhas Missing Component Hunter
->>>>>>> jules/ecosystem-consolidation-2025
 Advanced search for the 6 remaining specialized components
 """
 
@@ -55,11 +51,7 @@ class MissingComponentHunter:
                     r'empathy.*\.py'
                 ]
             },
-<<<<<<< HEAD
-            'Λ_sibling': {
-=======
             'lukhas_sibling': {
->>>>>>> jules/ecosystem-consolidation-2025
                 'patterns': [
                     r'lukhas.*sibling',
                     r'sibling.*lukhas',
@@ -398,8 +390,4 @@ if __name__ == "__main__":
     main()
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

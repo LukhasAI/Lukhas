@@ -43,8 +43,8 @@ from .registries import (
     get_global_registry,
 )
 
-# Interface Nodes
-from .nodes import IntentNode, VoiceNode, NodeManager
+# Interface Nodes - commented out due to missing module
+# from .nodes import IntentNode, VoiceNode, NodeManager
 
 __all__ = [
     # Awareness Protocol
@@ -73,7 +73,7 @@ __all__ = [
     "create_engine_info",
     "create_capability",
     # Interface Nodes
-    "IntentNode",
-    "VoiceNode",
-    "NodeManager",
+    # "IntentNode",
+    # "VoiceNode",
+    # "NodeManager",
 ]

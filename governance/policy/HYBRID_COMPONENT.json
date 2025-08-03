@@ -1,0 +1,10 @@
+{
+  "component": "policy",
+  "type": "hybrid",
+  "primary_module": "governance",
+  "also_exists_in": [
+    "bridge"
+  ],
+  "quantum_state": "superposition",
+  "description": "This component exists in multiple modules simultaneously"
+}

@@ -1,1 +1,1 @@
- /utils/image_parser.py
+# SYNTAX_ERROR_FIXED: /utils/image_parser.py

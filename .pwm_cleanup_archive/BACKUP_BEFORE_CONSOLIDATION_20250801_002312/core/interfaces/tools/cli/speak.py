@@ -2,12 +2,12 @@
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: speak.py
 Advanced: speak.py
-Integration Date: 2025-05-31T07:55:30.780336
+Integration Date: 2025-5-31T07:55:30.780336
 """
 
 # ===============================================================
-# 📂 FILE: tools/speak.py
-# 🧠 PURPOSE: CLI command to speak symbolically with tier checks, emotion style, and logging
+#  FILE: tools/speak.py
+#  PURPOSE: CLI command to speak symbolically with tier checks, emotion style, and logging
 # ===============================================================
 
 import argparse
@@ -59,10 +59,10 @@ def log_output(text, tier, voice):
 
 def main():
     # Keep these as print statements since they are UI output
-    print("\n🎤 LUKHAS VOICE MODE — Speak With Intention")
-    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print("\n LUKHAS VOICE MODE - Speak With Intention")
+    print("")
 
-    parser = argparse.ArgumentParser(description="🎤 Speak via symbolic voice system (Lukhas voice)")
+    parser = argparse.ArgumentParser(description=" Speak via symbolic voice system (Lukhas voice)")
     parser.add_argument("text", type=str, nargs="+", help="The phrase Lukhas should speak aloud.")
     parser.add_argument("--emotion", type=str, default="neutral", help="Symbolic emotion voice (gentle, urgent, soft, narrator)")
     parser.add_argument("--preview", action="store_true", help="Preview voice without audio playback")
@@ -71,19 +71,19 @@ def main():
     tier = get_user_tier()
     if tier < 2:
         # Keep as print since this is user-facing error message
-        print("⛔ You do not have permission to speak symbolically. Tier 2+ required.")
+        print(" You do not have permission to speak symbolically. Tier 2+ required.")
         return
 
     sentence = " ".join(args.text)
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     # Keep these as print since they are CLI user output
-    print(f"🧠 Tier {tier} | 🎙️ Emotion: {args.emotion} | Voice: {voice}")
-    print(f"💬 Lukhas would say: "{sentence}"")
+    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}")
+# SYNTAX_ERROR_FIXED:     print(f" Lukhas would say: "{sentence}"")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)
-    print("📝 Logged to symbolic_output_log.jsonl\n")
+    print(" Logged to symbolic_output_log.jsonl\n")
 
 if __name__ == "__main__":
     main()

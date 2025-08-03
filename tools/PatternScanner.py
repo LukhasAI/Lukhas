@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-🔍 Λ FUNCTION PATTERN SCANNER
-=================================
-
-Simple pattern-based scanner that identifies specialized Λ functions
-=======
 🔍 lukhas FUNCTION PATTERN SCANNER
 =================================
 
 Simple pattern-based scanner that identifies specialized lukhas functions
->>>>>>> jules/ecosystem-consolidation-2025
 without importing modules (to avoid dependency issues).
 """
 
@@ -29,19 +22,11 @@ class FunctionMatch:
     context: str  # Surrounding code context
 
 class FunctionScanner:
-<<<<<<< HEAD
     """Pattern-based scanner for Λ specialized functions."""
 
     def __init__(self):
         self.project_root = Path(__file__).parent
         self.Λ_root = self.project_root / "lukhas"
-=======
-    """Pattern-based scanner for lukhas specialized functions."""
-
-    def __init__(self):
-        self.project_root = Path(__file__).parent
-        self.lukhas_root = self.project_root / "lukhas"
->>>>>>> jules/ecosystem-consolidation-2025
 
         # Patterns to search for (expanded list)
         self.function_patterns = {
@@ -91,19 +76,11 @@ class FunctionScanner:
             "orchestrator": [r"orchestrat", r"coordination", r"system_integration"],
             "demo_orchestrator": [r"demo.*orchestrat", r"showcase", r"integration_demo"],
 
-<<<<<<< HEAD
             # Specialized Λ Components
             "nias_scheduler": [r"nias", r"attention.*scheduler", r"non_intrusive"],
             "dast_tracker": [r"dast", r"dynamic_ai", r"solution_tracker"],
             "abas_arbitrator": [r"abas", r"arbitrator", r"consensus.*decision"],
             "Λ_sibling": [r"lukhas.*sibling", r"sibling.*agent", r"companion"],
-=======
-            # Specialized lukhas Components
-            "nias_scheduler": [r"nias", r"attention.*scheduler", r"non_intrusive"],
-            "dast_tracker": [r"dast", r"dynamic_ai", r"solution_tracker"],
-            "abas_arbitrator": [r"abas", r"arbitrator", r"consensus.*decision"],
-            "lukhas_sibling": [r"lukhas.*sibling", r"sibling.*agent", r"companion"],
->>>>>>> jules/ecosystem-consolidation-2025
             "consent_engine": [r"consent.*engine", r"permission.*control", r"user_control"],
             "tier_mapper": [r"tier.*mapper", r"access_control", r"permission_level"]
         }
@@ -113,17 +90,6 @@ class FunctionScanner:
             self.matches[pattern_type] = []
 
     def scan_lukhas_ecosystem(self) -> Dict[str, List[FunctionMatch]]:
-<<<<<<< HEAD
-        """Scan the Λ ecosystem for specialized function patterns."""
-        print("🔍 Scanning Λ ecosystem for specialized function patterns...")
-
-        # Areas to scan
-        areas = {
-            "core": self.Λ_root / "core",
-            "bio": self.Λ_root / "bio",
-            "cognitive": self.Λ_root / "cognitive",
-            "sensors": self.Λ_root / "sensors"
-=======
         """Scan the lukhas ecosystem for specialized function patterns."""
         print("🔍 Scanning lukhas ecosystem for specialized function patterns...")
 
@@ -133,7 +99,6 @@ class FunctionScanner:
             "bio": self.lukhas_root / "bio",
             "cognitive": self.lukhas_root / "cognitive",
             "sensors": self.lukhas_root / "sensors"
->>>>>>> jules/ecosystem-consolidation-2025
         }
 
         total_files = 0
@@ -201,11 +166,7 @@ class FunctionScanner:
     def print_summary(self):
         """Print a summary of discovered specialized functions."""
         print("\n" + "="*80)
-<<<<<<< HEAD
-        print("🎯 Λ SPECIALIZED FUNCTIONS DISCOVERY REPORT")
-=======
         print("🎯 lukhas SPECIALIZED FUNCTIONS DISCOVERY REPORT")
->>>>>>> jules/ecosystem-consolidation-2025
         print("="*80)
 
         # Count totals
@@ -266,11 +227,7 @@ class FunctionScanner:
             ]
 
         import json
-<<<<<<< HEAD
-        report_file = "Λ_specialized_functions_report.json"
-=======
         report_file = "lukhas_specialized_functions_report.json"
->>>>>>> jules/ecosystem-consolidation-2025
         with open(report_file, "w") as f:
             json.dump(report_data, f, indent=2)
 
@@ -278,17 +235,10 @@ class FunctionScanner:
 
 def main():
     """Main scanning function."""
-<<<<<<< HEAD
-    print("🚀 Starting Λ Specialized Function Pattern Scan")
-    print("=" * 55)
-
-    scanner = ΛFunctionScanner()
-=======
     print("🚀 Starting lukhas Specialized Function Pattern Scan")
     print("=" * 55)
 
     scanner = lukhasFunctionScanner()
->>>>>>> jules/ecosystem-consolidation-2025
 
     try:
         # Scan for patterns
@@ -318,8 +268,4 @@ if __name__ == "__main__":
     main()
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

@@ -3,11 +3,7 @@
 🔍 COMPREHENSIVE ORGANIZATIONAL AUDIT
 ====================================
 
-<<<<<<< HEAD
-Performs a thorough analysis of the Λ workspace to identify
-=======
 Performs a thorough analysis of the lukhas workspace to identify
->>>>>>> jules/ecosystem-consolidation-2025
 all organizational debt and structural issues that prevent
 commercial deployment readiness.
 """
@@ -170,48 +166,30 @@ class OrganizationalAuditor:
         dream_files = list(self.workspace.glob('**/dream*'))
         for file in dream_files:
             relative_path = file.relative_to(self.workspace)
-<<<<<<< HEAD
-            if 'dream' not in str(relative_path.parent) and 'Λ/core/dream' not in str(relative_path):
-=======
             if 'dream' not in str(relative_path.parent) and 'lukhas/core/dream' not in str(relative_path):
->>>>>>> jules/ecosystem-consolidation-2025
                 self.issues['misplaced_dream_files'].append(str(relative_path))
 
         # Find voice-related files outside voice modules
         voice_files = list(self.workspace.glob('**/voice*'))
         for file in voice_files:
             relative_path = file.relative_to(self.workspace)
-<<<<<<< HEAD
-            if 'voice' not in str(relative_path.parent) and 'Λ/core/voice' not in str(relative_path):
-=======
             if 'voice' not in str(relative_path.parent) and 'lukhas/core/voice' not in str(relative_path):
->>>>>>> jules/ecosystem-consolidation-2025
                 self.issues['misplaced_voice_files'].append(str(relative_path))
 
         # Find memory-related files outside memory modules
         memory_files = list(self.workspace.glob('**/memory*'))
         for file in memory_files:
             relative_path = file.relative_to(self.workspace)
-<<<<<<< HEAD
-            if 'memory' not in str(relative_path.parent) and 'Λ/core/memory' not in str(relative_path):
-=======
             if 'memory' not in str(relative_path.parent) and 'lukhas/core/memory' not in str(relative_path):
->>>>>>> jules/ecosystem-consolidation-2025
                 self.issues['misplaced_memory_files'].append(str(relative_path))
 
     def _check_module_organization(self):
         """Check modular organization quality."""
         logger.info("🧩 Checking module organization...")
 
-<<<<<<< HEAD
         Λ_core = self.workspace / 'lukhas' / 'core'
         if Λ_core.exists():
             for module_dir in Λ_core.iterdir():
-=======
-        lukhas_core = self.workspace / 'lukhas' / 'core'
-        if lukhas_core.exists():
-            for module_dir in lukhas_core.iterdir():
->>>>>>> jules/ecosystem-consolidation-2025
                 if module_dir.is_dir():
                     self._analyze_module_structure(module_dir)
 
@@ -414,11 +392,7 @@ class OrganizationalAuditor:
     def _generate_readable_summary(self, report: Dict[str, Any]):
         """Generate human-readable summary."""
         summary = f"""
-<<<<<<< HEAD
-🔍 Λ WORKSPACE ORGANIZATIONAL AUDIT
-=======
 🔍 lukhas WORKSPACE ORGANIZATIONAL AUDIT
->>>>>>> jules/ecosystem-consolidation-2025
 ======================================
 Audit Date: {report['audit_timestamp']}
 Total Issues: {report['total_issues_found']}
@@ -465,13 +439,8 @@ Next Steps:
         print(summary)
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     Λuditor = OrganizationalAuditor("/Users/A_G_I/CodexGPT_Lukhas")
     audit_results = Λuditor.audit_workspace()
-=======
-    lukhasuditor = OrganizationalAuditor("/Users/A_G_I/CodexGPT_Lukhas")
-    audit_results = lukhasuditor.audit_workspace()
->>>>>>> jules/ecosystem-consolidation-2025
 
     print(f"\n🎯 AUDIT COMPLETE!")
     print(f"Total Issues: {audit_results['total_issues_found']}")
@@ -479,8 +448,4 @@ if __name__ == "__main__":
     print(f"Commercial Readiness: {audit_results['commercial_readiness']}")
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

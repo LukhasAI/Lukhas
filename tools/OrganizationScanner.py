@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-🔍 Λ Comprehensive Organization Scanner
-=======
 🔍 lukhas Comprehensive Organization Scanner
->>>>>>> jules/ecosystem-consolidation-2025
 Scans for naming issues, misplaced files, and organizational problems
 
 This script identifies:
@@ -14,11 +10,7 @@ This script identifies:
 4. Inconsistent naming patterns
 5. Files that should be in different locations
 
-<<<<<<< HEAD
-Author: Λ AI Enhancement Team
-=======
 Author: lukhas AI Enhancement Team
->>>>>>> jules/ecosystem-consolidation-2025
 Date: 2025-06-05
 Version: 1.0.0
 """
@@ -34,11 +26,7 @@ class OrganizationScanner:
 
     def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
-<<<<<<< HEAD
         self.Λ_path = self.workspace_root / "lukhas"
-=======
-        self.lukhas_path = self.workspace_root / "lukhas"
->>>>>>> jules/ecosystem-consolidation-2025
 
         self.issues = {
             "pascal_case_files": [],
@@ -55,11 +43,7 @@ class OrganizationScanner:
         """Find files using PascalCase that should use snake_case"""
         print("🔍 Scanning for PascalCase files...")
 
-<<<<<<< HEAD
-        for py_file in self.Λ_path.rglob("*.py"):
-=======
         for py_file in self.lukhas_path.rglob("*.py"):
->>>>>>> jules/ecosystem-consolidation-2025
             if py_file.stem == "__init__":
                 continue
 
@@ -77,11 +61,7 @@ class OrganizationScanner:
         """Find directories with naming issues"""
         print("📁 Scanning directory naming...")
 
-<<<<<<< HEAD
-        for dir_path in self.Λ_path.rglob("*"):
-=======
         for dir_path in self.lukhas_path.rglob("*"):
->>>>>>> jules/ecosystem-consolidation-2025
             if dir_path.is_dir():
                 dir_name = dir_path.name
 
@@ -104,11 +84,7 @@ class OrganizationScanner:
         """Find .md files that might be misplaced"""
         print("📄 Scanning for misplaced documentation...")
 
-<<<<<<< HEAD
-        for md_file in self.Λ_path.rglob("*.md"):
-=======
         for md_file in self.lukhas_path.rglob("*.md"):
->>>>>>> jules/ecosystem-consolidation-2025
             relative_path = md_file.relative_to(self.workspace_root)
 
             # Check if .md file is in core directories (suspicious)
@@ -123,11 +99,7 @@ class OrganizationScanner:
 
         name_locations = defaultdict(list)
 
-<<<<<<< HEAD
-        for file_path in self.Λ_path.rglob("*"):
-=======
         for file_path in self.lukhas_path.rglob("*"):
->>>>>>> jules/ecosystem-consolidation-2025
             if file_path.is_file():
                 name_locations[file_path.name].append(str(file_path.relative_to(self.workspace_root)))
 
@@ -139,11 +111,7 @@ class OrganizationScanner:
         """Find unusually large files that might need attention"""
         print("📊 Scanning for large files...")
 
-<<<<<<< HEAD
-        for file_path in self.Λ_path.rglob("*"):
-=======
         for file_path in self.lukhas_path.rglob("*"):
->>>>>>> jules/ecosystem-consolidation-2025
             if file_path.is_file():
                 try:
                     size = file_path.stat().st_size
@@ -169,11 +137,7 @@ class OrganizationScanner:
             (r".*cli.*\.py$", "interface")
         ]
 
-<<<<<<< HEAD
-        for file_path in self.Λ_path.rglob("*.py"):
-=======
         for file_path in self.lukhas_path.rglob("*.py"):
->>>>>>> jules/ecosystem-consolidation-2025
             relative_path = str(file_path.relative_to(self.workspace_root))
 
             for pattern, expected_category in suspicious_patterns:
@@ -195,11 +159,7 @@ class OrganizationScanner:
     def generate_report(self) -> str:
         """Generate comprehensive organization report"""
         report = f"""
-<<<<<<< HEAD
-# 🔍 Λ COMPREHENSIVE ORGANIZATION SCAN REPORT
-=======
 # 🔍 lukhas COMPREHENSIVE ORGANIZATION SCAN REPORT
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Generated:** {self.get_timestamp()}
 **Scanner:** Comprehensive Organization Scanner v1.0.0
@@ -327,11 +287,7 @@ class OrganizationScanner:
         # Save report
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-<<<<<<< HEAD
-        report_path = self.workspace_root / f"Λ_ORGANIZATION_SCAN_REPORT_{timestamp}.md"
-=======
         report_path = self.workspace_root / f"lukhas_ORGANIZATION_SCAN_REPORT_{timestamp}.md"
->>>>>>> jules/ecosystem-consolidation-2025
 
         with open(report_path, 'w', encoding='utf-8') as f:
             f.write(report)
@@ -343,11 +299,7 @@ def main():
     """Execute organization scan"""
     workspace_root = "/Users/A_G_I/CodexGPT_Lukhas"
 
-<<<<<<< HEAD
-    scanner = ΛOrganizationScanner(workspace_root)
-=======
     scanner = lukhasOrganizationScanner(workspace_root)
->>>>>>> jules/ecosystem-consolidation-2025
     report_path = scanner.execute_scan()
 
     print(f"\n🎉 ORGANIZATION SCAN COMPLETE!")
@@ -361,8 +313,4 @@ if __name__ == "__main__":
     main()
 
 
-<<<<<<< HEAD
 # Λ Systems 2025 www.lukhas.ai
-=======
-# lukhas Systems 2025 www.lukhas.ai
->>>>>>> jules/ecosystem-consolidation-2025

@@ -21,12 +21,12 @@ class ClassRegistryGenerator:
         
     def generate_registry(self) -> Dict[str, Any]:
         """Generate comprehensive class registry"""
-        print("🔍 Generating class registry...")
+        print(" Generating class registry...")
         
         # Get all Python files
         python_files = list(self.root_path.rglob("*.py"))
         total_files = len(python_files)
-        print(f"📁 Scanning {total_files} Python files for classes...")
+        print(f" Scanning {total_files} Python files for classes...")
         
         class_count = 0
         for i, file_path in enumerate(python_files):
@@ -40,7 +40,7 @@ class ClassRegistryGenerator:
             classes_found = self._extract_classes(file_path)
             class_count += classes_found
             
-        print(f"✅ Found {class_count} classes")
+        print(f" Found {class_count} classes")
         return self._create_report()
         
     def _extract_classes(self, file_path: Path) -> int:
@@ -142,8 +142,7 @@ class ClassRegistryGenerator:
         largest_classes = []
         for module, classes in self.registry.items():
             for class_name, info in classes.items():
-                method_count = len(info['methods']) + len(info['properties']) + \
-                              len(info['class_methods']) + len(info['static_methods'])
+# SYNTAX_ERROR_FIXED:                 method_count = len(info['methods']) + len(info['properties']) + " + "len(info['class_methods']) + len(info['static_methods'])
                 largest_classes.append((class_name, module, method_count))
         largest_classes.sort(key=lambda x: x[2], reverse=True)
         
@@ -225,19 +224,19 @@ def main():
         f.write(markdown)
         
     # Print summary
-    print("\n📊 CLASS REGISTRY SUMMARY:")
+    print("\n CLASS REGISTRY SUMMARY:")
     print(f"   Total classes: {registry['summary']['total_classes']}")
     print(f"   Modules with classes: {registry['summary']['modules_with_classes']}")
     
-    print("\n🏆 Most Inherited Base Classes:")
+    print("\n Most Inherited Base Classes:")
     for base, count in registry['summary']['most_inherited_bases']:
         print(f"   {base}: {count} subclasses")
         
-    print("\n📏 Largest Classes (by method count):")
+    print("\n Largest Classes (by method count):")
     for class_name, module, count in registry['summary']['largest_classes'][:5]:
         print(f"   {class_name} ({module}): {count} methods")
         
-    print(f"\n📄 Registry saved to:")
+    print(f"\n Registry saved to:")
     print(f"   JSON: {json_path}")
     print(f"   Markdown: {md_path}")
     

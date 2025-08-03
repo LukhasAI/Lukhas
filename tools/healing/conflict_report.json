@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-08-02T20:47:28.221399",
+  "total_conflicts": 6,
+  "healed": 6,
+  "failed": 0,
+  "files": [
+    "./quarantine/20250802_203919/security/quantum-secure-agi/src/security/post_quantum_crypto.py",
+    "./quarantine/20250802_203919/healing/conflict_healer.py",
+    "./tools/scripts/health_monitor.py",
+    "./tools/scripts/health_monitor_20250802_203623.py",
+    "./tools/scripts/simple_conflict_healer.py",
+    "./healing/simple_conflict_healer.py"
+  ]
+}

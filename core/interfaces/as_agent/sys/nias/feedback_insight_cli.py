@@ -2,15 +2,15 @@
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: feedback_insight_cli.py
 Advanced: feedback_insight_cli.py
-Integration Date: 2025-05-31T07:55:30.565384
+Integration Date: 2025-5-31T07:55:30.565384
 """
 
 """
-╭──────────────────────────────────────────────────────────────────────────────╮
-│                    LUCΛS :: FEEDBACK INSIGHT CLI (v1.0)                      │
-│     Analyze symbolic feedback across score, emoji, and emotional tags       │
-│        Author: Gonzo R.D.M | Linked to: feedback_log.jsonl & utils.py       │
-╰──────────────────────────────────────────────────────────────────────────────╯
+++
+|                    LUCS :: FEEDBACK INSIGHT CLI (v1.0)                      |
+|     Analyze symbolic feedback across score, emoji, and emotional tags       |
+|        Author: Gonzo R.D.M | Linked to: feedback_log.jsonl & utils.py       |
+++
 
 Description:
     This CLI visualizes patterns in feedback_log.jsonl, such as emoji distribution,
@@ -30,7 +30,7 @@ FEEDBACK_LOG = "core/logs/feedback_log.jsonl"
 
 def load_feedback():
     if not os.path.exists(FEEDBACK_LOG):
-        print("🚫 No feedback log found.")
+        print(" No feedback log found.")
         return []
     with open(FEEDBACK_LOG, "r") as f:
         return [json.loads(line) for line in f if line.strip()]
@@ -44,7 +44,7 @@ def parse_args():
 
 def analyze_feedback(entries, args=None):
     if not entries:
-        print("📭 No feedback entries available.")
+        print(" No feedback entries available.")
         return
 
     if args:
@@ -54,26 +54,26 @@ def analyze_feedback(entries, args=None):
             entries = [e for e in entries if e.get("score", 999) <= args.score_threshold]
 
     scores = [e["score"] for e in entries if "score" in e]
-    emojis = [e.get("emoji", "✨") for e in entries]
+    emojis = [e.get("emoji", "*") for e in entries]
     replay_candidates = sum(1 for e in entries if e.get("replay_candidate"))
     notes = [e["notes"] for e in entries if "notes" in e and e["notes"].strip()]
 
-    print("\n🔢 Average Score:", round(mean(scores), 2))
-    print("🎭 Most Common Emojis:", Counter(emojis).most_common(5))
-    print(f"🔁 Replay Candidates: {replay_candidates} / {len(entries)}")
+    print("\n Average Score:", round(mean(scores), 2))
+    print(" Most Common Emojis:", Counter(emojis).most_common(5))
+    print(f" Replay Candidates: {replay_candidates} / {len(entries)}")
 
-    print("\n📝 Reflection Notes (Preview):")
+    print("\n Reflection Notes (Preview):")
     for note in notes[:5]:
-        print(f"• {note}")
+        print(f"* {note}")
 
     if args and args.export:
         with open(args.export, "w") as f:
             for entry in entries:
                 f.write(json.dumps(entry) + "\n")
-        print(f"\n📤 Exported {len(entries)} entries to {args.export}")
+        print(f"\n Exported {len(entries)} entries to {args.export}")
 
 if __name__ == "__main__":
     args = parse_args()
     feedback_entries = load_feedback()
     analyze_feedback(feedback_entries, args)
-```
+# SYNTAX_ERROR_FIXED: ```

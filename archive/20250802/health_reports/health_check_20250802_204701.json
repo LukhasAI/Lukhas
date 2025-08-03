@@ -1,0 +1,716 @@
+{
+  "overall": "CRITICAL - MERGE CONFLICTS",
+  "modules": {
+    "core": {
+      "description": "Brain Stem",
+      "exists": true,
+      "py_files": 459,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "consciousness": {
+      "description": "Cortex",
+      "exists": true,
+      "py_files": 65,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "memory": {
+      "description": "Hippocampus",
+      "exists": true,
+      "py_files": 233,
+      "has_init": true,
+      "has_tests": true,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "quantum": {
+      "description": "Quantum Processor (to be renamed QIM)",
+      "exists": false,
+      "health": "MISSING"
+    },
+    "emotion": {
+      "description": "Limbic System",
+      "exists": true,
+      "py_files": 18,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "governance": {
+      "description": "Immune System",
+      "exists": true,
+      "py_files": 16,
+      "has_init": true,
+      "has_tests": true,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "bridge": {
+      "description": "Peripheral Nervous",
+      "exists": true,
+      "py_files": 23,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "orchestration": {
+      "description": "Coordinator",
+      "exists": true,
+      "py_files": 351,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "identity": {
+      "description": "Identity System",
+      "exists": true,
+      "py_files": 148,
+      "has_init": true,
+      "has_tests": true,
+      "has_docs": true,
+      "health": "HEALTHY"
+    },
+    "bio": {
+      "description": "Biological Adaptation",
+      "exists": true,
+      "py_files": 56,
+      "has_init": true,
+      "has_tests": false,
+      "has_docs": true,
+      "health": "HEALTHY"
+    }
+  },
+  "merge_conflicts": 6,
+  "syntax_errors": [
+    {
+      "file": "./quarantine/20250802_203919/tools/documentation/memory_evolution/bio_oscillator.py",
+      "error": "invalid syntax (<unknown>, line 45)",
+      "line": 45
+    },
+    {
+      "file": "./quarantine/20250802_203919/tools/scripts/auto_consolidate.py",
+      "error": "invalid syntax (<unknown>, line 27)",
+      "line": 27
+    },
+    {
+      "file": "./quarantine/20250802_203919/tools/scripts/create_colony_consensus_api.py",
+      "error": "invalid syntax (<unknown>, line 538)",
+      "line": 538
+    },
+    {
+      "file": "./quarantine/20250802_203919/trace/entropy/radar.py",
+      "error": "invalid syntax (<unknown>, line 357)",
+      "line": 357
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/memoria.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 82)",
+      "line": 82
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/rem/visualizer.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/ui/components/payload_builder.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 74)",
+      "line": 74
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/streamlit/components/payload_builder.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 74)",
+      "line": 74
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/agent_handoff.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/nias_filter.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 22)",
+      "line": 22
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/duet_conductor.py",
+      "error": "invalid syntax (<unknown>, line 23)",
+      "line": 23
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/checkout_handler.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/affiliate_log.py",
+      "error": "invalid syntax (<unknown>, line 23)",
+      "line": 23
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/vision_prompts.py",
+      "error": "unexpected indent (<unknown>, line 27)",
+      "line": 27
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/vendor_sync.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/generate_video.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 22)",
+      "line": 22
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/render_ai.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/filter_gpt.py",
+      "error": "invalid syntax (<unknown>, line 23)",
+      "line": 23
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/gatekeeper.py",
+      "error": "invalid syntax (<unknown>, line 23)",
+      "line": 23
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/scheduler.py",
+      "error": "invalid syntax (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/voice_duet.py",
+      "error": "invalid syntax (<unknown>, line 25)",
+      "line": 25
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/emotion_log.py",
+      "error": "invalid syntax (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/core/wallet.py",
+      "error": "invalid character '\u2500' (U+2500) (<unknown>, line 21)",
+      "line": 21
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sample_payloads/trace_log_viewer.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 64)",
+      "line": 64
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/utils/symbolic_github_export.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 94)",
+      "line": 94
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sys/nias/main_loop.py",
+      "error": "invalid syntax (<unknown>, line 3)",
+      "line": 3
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sys/nias/replay_queue.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 80)",
+      "line": 80
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sys/nias/trace_logger.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 68)",
+      "line": 68
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sys/nias/dream_log_viewer.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 97)",
+      "line": 97
+    },
+    {
+      "file": "./quarantine/20250802_203919/core/interfaces/as_agent/sys/dast/dast_logger.py",
+      "error": "invalid syntax (<unknown>, line 30)",
+      "line": 30
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/structural_conscience.py",
+      "error": "invalid syntax (<unknown>, line 231)",
+      "line": 231
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/connected/memory_trace.py",
+      "error": "unexpected indent (<unknown>, line 32)",
+      "line": 32
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/dream_memory_export.py",
+      "error": "invalid syntax (<unknown>, line 65)",
+      "line": 65
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/optimized_memory_item.py",
+      "error": "invalid syntax (<unknown>, line 6)",
+      "line": 6
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/integration_bridge.py",
+      "error": "invalid syntax (<unknown>, line 29)",
+      "line": 29
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/memory_trace.py",
+      "error": "unexpected indent (<unknown>, line 32)",
+      "line": 32
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/memory_voice_helix.py",
+      "error": "invalid syntax (<unknown>, line 27)",
+      "line": 27
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/memory_trace_logger.py",
+      "error": "invalid syntax (<unknown>, line 28)",
+      "line": 28
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/chatgpt_memory_integrator.py",
+      "error": "unexpected indent (<unknown>, line 68)",
+      "line": 68
+    },
+    {
+      "file": "./quarantine/20250802_203919/memory/systems/memoria/dreams_alt.py",
+      "error": "invalid syntax (<unknown>, line 71)",
+      "line": 71
+    },
+    {
+      "file": "./quarantine/20250802_203919/identity/trace.py",
+      "error": "invalid syntax (<unknown>, line 3)",
+      "line": 3
+    },
+    {
+      "file": "./quarantine/20250802_203919/security/quantum-secure-agi/src/security/post_quantum_crypto.py",
+      "error": "invalid syntax (<unknown>, line 241)",
+      "line": 241
+    },
+    {
+      "file": "./quarantine/20250802_203919/creativity/creative_expression_processor.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 69)",
+      "line": 69
+    },
+    {
+      "file": "./quarantine/20250802_203919/creativity/creative_expressions_engine.py",
+      "error": "invalid syntax (<unknown>, line 244)",
+      "line": 244
+    },
+    {
+      "file": "./quarantine/20250802_203919/creativity/personality_refiner.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/creativity/creative_core.py",
+      "error": "invalid syntax (<unknown>, line 13)",
+      "line": 13
+    },
+    {
+      "file": "./quarantine/20250802_203919/bridge/message_bus.py",
+      "error": "invalid syntax (<unknown>, line 756)",
+      "line": 756
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/doc_generator_learning_engine.py",
+      "error": "invalid syntax (<unknown>, line 72)",
+      "line": 72
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/meta_adaptive/system.py",
+      "error": "invalid syntax (<unknown>, line 114)",
+      "line": 114
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/meta_adaptive/adaptive_ux_core.py",
+      "error": "invalid syntax (<unknown>, line 38)",
+      "line": 38
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/results/trace_reader.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 117)",
+      "line": 117
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/adaptive_agi/Meta_Learning/symbolic_feedback.py",
+      "error": "invalid syntax (<unknown>, line 20)",
+      "line": 20
+    },
+    {
+      "file": "./quarantine/20250802_203919/learning/adaptive_agi/Meta_Learning/monitor_dashboard.py",
+      "error": "invalid syntax (<unknown>, line 20)",
+      "line": 20
+    },
+    {
+      "file": "./quarantine/20250802_203919/qim/core/identity_engine.py",
+      "error": "invalid syntax (<unknown>, line 145)",
+      "line": 145
+    },
+    {
+      "file": "./quarantine/20250802_203919/qim/systems/bio_integration/bulletproof_system.py",
+      "error": "invalid syntax (<unknown>, line 368)",
+      "line": 368
+    },
+    {
+      "file": "./quarantine/20250802_203919/qim/systems/bio_integration/optimization_adapter.py",
+      "error": "invalid character '\ud83e\uddec' (U+1F9EC) (<unknown>, line 49)",
+      "line": 49
+    },
+    {
+      "file": "./quarantine/20250802_203919/consciousness/connected/cognitive_updater.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/consciousness/awareness/symbolic_trace_logger.py",
+      "error": "invalid syntax (<unknown>, line 178)",
+      "line": 178
+    },
+    {
+      "file": "./quarantine/20250802_203919/consciousness/systems/unified_consciousness_engine.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/tests/test_main_server.py",
+      "error": "invalid syntax (<unknown>, line 50)",
+      "line": 50
+    },
+    {
+      "file": "./quarantine/20250802_203919/compliance/A-consent-verifier.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 107)",
+      "line": 107
+    },
+    {
+      "file": "./quarantine/20250802_203919/compliance/audit_log.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 76)",
+      "line": 76
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/reasoning_engine.py",
+      "error": "invalid syntax (<unknown>, line 158)",
+      "line": 158
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/oracle_predictor.py",
+      "error": "invalid syntax (<unknown>, line 327)",
+      "line": 327
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/causal_program_inducer.py",
+      "error": "invalid character '\ud83d\udd0d' (U+1F50D) (<unknown>, line 31)",
+      "line": 31
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/LBot_reasoning_processed.py",
+      "error": "invalid syntax (<unknown>, line 572)",
+      "line": 572
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/reasoning.py",
+      "error": "invalid syntax (<unknown>, line 525)",
+      "line": 525
+    },
+    {
+      "file": "./quarantine/20250802_203919/reasoning/scaffold_modules_reasoning_engine.py",
+      "error": "f-string: single '}' is not allowed (<unknown>, line 330)",
+      "line": 330
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/ethical_safety_alignment.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/policy_validator.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/policy_engine.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/governance_engine.py",
+      "error": "invalid syntax (<unknown>, line 35)",
+      "line": 35
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/governance_validator.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/decision_framework.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/governance_model.py",
+      "error": "invalid syntax (<unknown>, line 1)",
+      "line": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/ethical_evaluator.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 76)",
+      "line": 76
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/dao_community.py",
+      "error": "invalid syntax (<unknown>, line 103)",
+      "line": 103
+    },
+    {
+      "file": "./quarantine/20250802_203919/ethics/tools/lambda_auditor.py",
+      "error": "invalid syntax (<unknown>, line 1042)",
+      "line": 1042
+    },
+    {
+      "file": "./quarantine/20250802_203919/voice/memory_helix.py",
+      "error": "invalid syntax (<unknown>, line 19)",
+      "line": 19
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/specialized/LambdaDependaBoT_robust.py",
+      "error": "unexpected character after line continuation character (<unknown>, line 483)",
+      "line": 483
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/human_oversight_manager.py",
+      "error": "invalid syntax (<unknown>, line 15)",
+      "line": 15
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/emotional_resonance.py",
+      "error": "expected an indented block (<unknown>, line 490)",
+      "line": 490
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/cognitive/curious_lukhas.py",
+      "error": "invalid syntax (<unknown>, line 3)",
+      "line": 3
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/cognitive/cognitive_voice.py",
+      "error": "unexpected indent (<unknown>, line 30)",
+      "line": 30
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/cognitive/cognitive_ai_client.py",
+      "error": "invalid syntax (<unknown>, line 86)",
+      "line": 86
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/cognitive/cognitive_updater.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/core/__init__.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 31)",
+      "line": 31
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/core/ai_config.py",
+      "error": "invalid syntax (<unknown>, line 228)",
+      "line": 228
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/core/brand_manager.py",
+      "error": "expected an indented block (<unknown>, line 134)",
+      "line": 134
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/core/core_integrator.py",
+      "error": "invalid syntax (<unknown>, line 25)",
+      "line": 25
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/personality/personality.py",
+      "error": "invalid syntax (<unknown>, line 12)",
+      "line": 12
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/personality/creative_personality.py",
+      "error": "invalid syntax (<unknown>, line 9)",
+      "line": 9
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/utils/trace_logger.py",
+      "error": "unexpected indent (<unknown>, line 20)",
+      "line": 20
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/compliance/ethical_engine.py",
+      "error": "unexpected indent (<unknown>, line 193)",
+      "line": 193
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/reasoning/symbolic_loop.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/rem/rem_visualizer.py",
+      "error": "invalid syntax (<unknown>, line 8)",
+      "line": 8
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/neuro_symbolic/governance/symbolic_action_prrotocol.py",
+      "error": "invalid syntax (<unknown>, line 8)",
+      "line": 8
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/monitoring/rate_modulator.py",
+      "error": "invalid syntax (<unknown>, line 20)",
+      "line": 20
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/monitoring/remediator_agent.py",
+      "error": "invalid syntax (<unknown>, line 478)",
+      "line": 478
+    },
+    {
+      "file": "./quarantine/20250802_203919/orchestration/brain/monitoring/governance_monitor.py",
+      "error": "unexpected indent (<unknown>, line 46)",
+      "line": 46
+    },
+    {
+      "file": "./quarantine/20250802_203919/healing/conflict_healer.py",
+      "error": "EOL while scanning string literal (<unknown>, line 247)",
+      "line": 247
+    },
+    {
+      "file": "./quarantine/20250802_203919/symbolic/vocabularies/vocabulary_template.py",
+      "error": "invalid syntax (<unknown>, line 24)",
+      "line": 24
+    },
+    {
+      "file": "./quarantine/20250802_203919/symbolic/bio/bio_symbolic_architectures.py",
+      "error": "EOL while scanning string literal (<unknown>, line 8)",
+      "line": 8
+    },
+    {
+      "file": "./quarantine/20250802_203919/symbolic/bio/bio_systems_inspiration.py",
+      "error": "EOL while scanning string literal (<unknown>, line 8)",
+      "line": 8
+    },
+    {
+      "file": "./quarantine/20250802_203919/symbolic/bio/quantum_attention.py",
+      "error": "invalid syntax (<unknown>, line 27)",
+      "line": 27
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/dream_narrator_queue.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/dream_replay.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/oracle_dream.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/dream_export_streamlit.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/dream_injector.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/dream_summary_generator.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/visualization/dream_log_viewer.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/core/dream_log_viewer.py",
+      "error": "EOF while scanning triple-quoted string literal (<unknown>, line 90)",
+      "line": 90
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/cli/dream_cli.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/cli/dream_replay_cli.py",
+      "error": "invalid syntax (<unknown>, line 17)",
+      "line": 17
+    },
+    {
+      "file": "./quarantine/20250802_203919/dream/base/dream_loop/dream_loop.py",
+      "error": "invalid syntax (<unknown>, line 16)",
+      "line": 16
+    },
+    {
+      "file": "./quarantine/20250802_203919/emotion/mood_regulation/mood_regulator.py",
+      "error": "invalid syntax (<unknown>, line 43)",
+      "line": 43
+    }
+  ],
+  "broken_imports": [],
+  "missing_files": [],
+  "circular_dependencies": [],
+  "timestamp": "2025-08-02T20:46:58.284379",
+  "conflict_files": [
+    {
+      "file": "./quarantine/20250802_203919/security/quantum-secure-agi/src/security/post_quantum_crypto.py",
+      "conflicts": 1
+    },
+    {
+      "file": "./quarantine/20250802_203919/healing/conflict_healer.py",
+      "conflicts": 2
+    },
+    {
+      "file": "./tools/scripts/health_monitor.py",
+      "conflicts": 2
+    },
+    {
+      "file": "./tools/scripts/health_monitor_20250802_203623.py",
+      "conflicts": 2
+    },
+    {
+      "file": "./tools/scripts/simple_conflict_healer.py",
+      "conflicts": 2
+    },
+    {
+      "file": "./healing/simple_conflict_healer.py",
+      "conflicts": 2
+    }
+  ],
+  "entry_points": [
+    "./main.py",
+    "./core/interfaces/main.py",
+    "./qim/main.py",
+    "./symbolic/features/security/main.py",
+    "./dream/oneiric/oneiric_core/main.py"
+  ]
+}

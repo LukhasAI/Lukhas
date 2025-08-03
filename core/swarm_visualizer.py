@@ -29,7 +29,7 @@ class SwarmVisualizer:
             elif ethical_status == "green":
                 style = "style " + colony_id + " fill:#99ff99,stroke:#333,stroke-width:2px"
 
-            graph_str += f"    {colony_id}[{colony_id} - {status} - {ethical_status}];\
+            graph_str += f"    {colony_id}[{colony_id} - {status} - {ethical_status}];\n"
             if style:
                 graph_str += f"    {style};\n"
 

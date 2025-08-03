@@ -1,0 +1,329 @@
+{
+  "timestamp": "2025-08-02T20:52:49.918460",
+  "analysis": {
+    "CORE": {
+      "current_files": 632,
+      "candidates_for_consolidation": 377,
+      "submodules": [
+        "glyph",
+        "symbolic",
+        "neural",
+        "integration"
+      ],
+      "hybrid_submodules": [
+        "symbolic",
+        "neural"
+      ]
+    },
+    "MEMORY": {
+      "current_files": 224,
+      "candidates_for_consolidation": 111,
+      "submodules": [
+        "folds",
+        "causal",
+        "temporal",
+        "consolidation"
+      ],
+      "hybrid_submodules": [
+        "temporal",
+        "causal"
+      ]
+    },
+    "GOVERNANCE": {
+      "current_files": 28,
+      "candidates_for_consolidation": 116,
+      "submodules": [
+        "guardian",
+        "ethics",
+        "policy",
+        "oversight"
+      ],
+      "hybrid_submodules": [
+        "ethics",
+        "policy"
+      ]
+    },
+    "EMOTION": {
+      "current_files": 20,
+      "candidates_for_consolidation": 61,
+      "submodules": [
+        "vad",
+        "mood",
+        "empathy",
+        "regulation"
+      ],
+      "hybrid_submodules": [
+        "empathy",
+        "mood"
+      ]
+    },
+    "BRIDGE": {
+      "current_files": 23,
+      "candidates_for_consolidation": 122,
+      "submodules": [
+        "api",
+        "external",
+        "protocols",
+        "adapters"
+      ],
+      "hybrid_submodules": [
+        "protocols",
+        "adapters"
+      ]
+    },
+    "QIM": {
+      "current_files": 88,
+      "candidates_for_consolidation": 51,
+      "submodules": [
+        "quantum_states",
+        "entanglement",
+        "superposition",
+        "bio"
+      ],
+      "hybrid_submodules": [
+        "superposition",
+        "entanglement"
+      ]
+    },
+    "CONSCIOUSNESS": {
+      "current_files": 63,
+      "candidates_for_consolidation": 85,
+      "submodules": [
+        "awareness",
+        "reflection",
+        "unified",
+        "states"
+      ],
+      "hybrid_submodules": [
+        "states",
+        "reflection"
+      ]
+    }
+  },
+  "consolidation_actions": [
+    {
+      "action": "MOVE_FILES",
+      "target_module": "BRIDGE",
+      "files": [
+        "./main.py",
+        "./tools/DependencyConnectivityTest.py",
+        "./tools/simple_troubleshooter.py",
+        "./tools/OrganizationScanner.py",
+        "./tools/enhanced_ecosystem_documentation.py",
+        "./tools/documentation/symbolic_knowledge_core/knowledge_graph.py",
+        "./tools/analysis/PWM_OPERATIONAL_SUMMARY.py",
+        "./tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py",
+        "./tools/analysis/pwm_deep_analysis.py",
+        "./tools/analysis/isolated_file_finder.py"
+      ],
+      "total_files": 122,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "QIM",
+      "files": [
+        "./tools/keyword_extractor.py",
+        "./tools/analysis/PWM_HYBRID_COMPONENT_ANALYZER.py",
+        "./tools/scripts/create_classical_dream_api.py",
+        "./tools/scripts/consolidation/consolidate_quantum_sgi_core.py",
+        "./tools/scripts/consolidation/consolidate_identity_quantum_secure.py",
+        "./bio/__init__.py",
+        "./bio/quantum_layer.py",
+        "./security/quantum-secure-agi/src/security/post_quantum_crypto.py",
+        "./creativity/creative_q_expression.py",
+        "./creativity/quantum_creative_types.py"
+      ],
+      "total_files": 51,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "CONSCIOUSNESS",
+      "files": [
+        "./tools/radical_simplifier.py",
+        "./tools/gen_compliance_drift_scan.py",
+        "./tools/journal/claude_lukhas_integration.py",
+        "./tools/journal/config_builder.py",
+        "./tools/journal/solo_dev_support.py",
+        "./tools/journal/journal_cli.py",
+        "./tools/journal/learning_assistant.py",
+        "./tools/analysis/universal_mesh_architecture.py",
+        "./tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py",
+        "./tools/enterprise/api_framework.py"
+      ],
+      "total_files": 85,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "CORE",
+      "files": [
+        "./tools/AiDocumentationGenerator.py",
+        "./tools/gen_audit_logger_check.py",
+        "./tools/speak.py",
+        "./tools/comprehensive_core_auditor.py",
+        "./tools/CoreAnalyzer.py",
+        "./tools/TrueCoreAnalyzer.py",
+        "./tools/about.py",
+        "./tools/TestIntegrationSimple.py",
+        "./tools/ContextAnalyzer.py",
+        "./tools/CriticalConnectivityAnalyzer.py"
+      ],
+      "total_files": 377,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "GOVERNANCE",
+      "files": [
+        "./tools/dev_tools.py",
+        "./tools/manifesto.py",
+        "./tools/session_logger.py",
+        "./tools/tier.py",
+        "./tools/ethics.py",
+        "./tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py",
+        "./tools/analysis/PWM_MISSING_COMPONENTS_ANALYZER.py",
+        "./tools/scripts/bootstrap.py",
+        "./tools/scripts/bootstrap_20250802_203623.py",
+        "./tools/scripts/cleanup_root_directory.py"
+      ],
+      "total_files": 116,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "MEMORY",
+      "files": [
+        "./tools/gen_architecture_log_update.py",
+        "./tools/generate_lukhas_ecosystem_documentation.py",
+        "./tools/gen_module_header.py",
+        "./tools/comprehensive_organizational_audit.py",
+        "./tools/journal/journal_engine.py",
+        "./tools/journal/decision_tracker.py",
+        "./tools/documentation/memory_evolution/memory_evolution.py",
+        "./tools/documentation/memory_evolution/__init__.py",
+        "./tools/documentation/memory_evolution/bio_oscillator.py",
+        "./tools/analysis/generate_hybrid_connectivity_map.py"
+      ],
+      "total_files": 111,
+      "reason": "Content analysis suggests these files belong to this module"
+    },
+    {
+      "action": "MOVE_FILES",
+      "target_module": "EMOTION",
+      "files": [
+        "./tools/missing_component_hunter.py",
+        "./tools/check_all_box_alignment.py",
+        "./tools/journal/pattern_detector.py",
+        "./tools/analysis/smart_consolidator.py",
+        "./tools/analysis/lukhas_2030_full_consolidator.py",
+        "./tools/analysis/duplicate_detector.py",
+        "./tools/scripts/create_emotional_coherence_api.py",
+        "./tools/scripts/consolidate_sparse_modules.py",
+        "./tools/scripts/create_classical_emotional_api.py",
+        "./tools/scripts/consolidation/consolidate_emotion_feeling_memory.py"
+      ],
+      "total_files": 61,
+      "reason": "Content analysis suggests these files belong to this module"
+    }
+  ],
+  "hybrid_modules": {
+    "symbolic": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "CORE",
+      "also_exists_in": []
+    },
+    "neural": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "CORE",
+      "also_exists_in": []
+    },
+    "states": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "CONSCIOUSNESS",
+      "also_exists_in": []
+    },
+    "reflection": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "CONSCIOUSNESS",
+      "also_exists_in": []
+    },
+    "temporal": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "MEMORY",
+      "also_exists_in": []
+    },
+    "causal": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "MEMORY",
+      "also_exists_in": []
+    },
+    "superposition": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "QIM",
+      "also_exists_in": []
+    },
+    "entanglement": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "QIM",
+      "also_exists_in": []
+    },
+    "empathy": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "EMOTION",
+      "also_exists_in": []
+    },
+    "mood": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "EMOTION",
+      "also_exists_in": []
+    },
+    "ethics": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "GOVERNANCE",
+      "also_exists_in": []
+    },
+    "policy": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "GOVERNANCE",
+      "also_exists_in": []
+    },
+    "protocols": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "BRIDGE",
+      "also_exists_in": []
+    },
+    "adapters": {
+      "description": "Hybrid submodule existing in quantum superposition",
+      "primary_module": "BRIDGE",
+      "also_exists_in": []
+    }
+  },
+  "orphaned_files": {
+    "count": 219,
+    "sample": [
+      "./tools/SyntaxFixerBot.py",
+      "./tools/__init__.py",
+      "./tools/vscode_diagnostic.py",
+      "./tools/documentation/__init__.py",
+      "./tools/documentation/symbolic_knowledge_core/__init__.py",
+      "./tools/documentation/content_generation_engine/__init__.py",
+      "./tools/documentation/memory_evolution/knowledge_adaptation.py",
+      "./tools/documentation/memory_evolution/document_analyzer.py",
+      "./tools/documentation/memory_evolution/voice_synthesis.py",
+      "./tools/documentation/memory_evolution/usage_learning.py",
+      "./tools/documentation/memory_evolution/version_control.py",
+      "./tools/analysis/generate_class_registry.py",
+      "./tools/scripts/syntax_doctor.py",
+      "./tools/scripts/auto_consolidate.py",
+      "./tools/scripts/advanced_syntax_fixer.py",
+      "./tools/scripts/apply_naming_dry_run.py",
+      "./tools/scripts/apply_naming_refinements.py",
+      "./tools/scripts/simple_conflict_healer.py",
+      "./tools/scripts/aggressive_syntax_fixer.py",
+      "./bio/bio_homeostasis.py"
+    ],
+    "recommendation": "Review and assign to appropriate modules or archive"
+  }
+}

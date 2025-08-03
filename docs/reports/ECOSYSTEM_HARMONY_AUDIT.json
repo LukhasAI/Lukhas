@@ -1,0 +1,2064 @@
+{
+  "timestamp": "2025-08-02T21:27:30.693235",
+  "module_health": {
+    "core": {
+      "name": "core",
+      "file_count": 828,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.16545893719806765,
+      "code_quality_issues": [
+        "integration_hub.py: File too long (555 lines)",
+        "integration_hub.py: Low comment ratio",
+        "swarm.py: Low comment ratio",
+        "resource_efficiency_analyzer.py: File too long (1131 lines)",
+        "resource_optimization_integration.py: File too long (640 lines)",
+        "id.py: File too long (780 lines)",
+        "distributed_tracing.py: File too long (706 lines)",
+        "api_diff_analyzer.py: File too long (516 lines)",
+        "p2p_fabric.py: Low comment ratio",
+        "image_processing_pipeline.py: File too long (955 lines)",
+        "oracle_nervous_system.py: File too long (814 lines)",
+        "oracle_nervous_system.py: Low comment ratio",
+        "core_hub.py: File too long (704 lines)",
+        "core_hub.py: Low comment ratio",
+        "event_sourcing.py: File too long (568 lines)",
+        "specialized_colonies.py: Low comment ratio",
+        "energy_consumption_analysis.py: File too long (747 lines)",
+        "consistency_manager.py: Low comment ratio",
+        "module_registry.py: File too long (535 lines)",
+        "event_bus.py: Low comment ratio",
+        "notion_sync.py: File too long (761 lines)",
+        "core_utilities.py: Low comment ratio",
+        "supervision.py: File too long (594 lines)",
+        "efficient_communication.py: File too long (653 lines)",
+        "observability_steering.py: File too long (662 lines)",
+        "mailbox.py: File too long (707 lines)",
+        "identity_aware_base_colony.py: File too long (687 lines)",
+        "quantized_cycle_manager.py: Low comment ratio",
+        "identity_aware_base.py: Low comment ratio",
+        "swarm_visualizer.py: Low comment ratio",
+        "resource_efficiency.py: Low comment ratio",
+        "tier_aware_colony_proxy.py: File too long (620 lines)",
+        "p2p_communication.py: File too long (704 lines)",
+        "state_management.py: Low comment ratio",
+        "decorators.py: Low comment ratio",
+        "colony_tag_propagation.py: Low comment ratio",
+        "swarm_tag_simulation.py: Low comment ratio",
+        "emotion_vocabulary.py: Low comment ratio",
+        "entropy_tracker.py: File too long (926 lines)",
+        "autonomous_learning.py: File too long (617 lines)",
+        "self_healing.py: File too long (576 lines)",
+        "client_event.py: Low comment ratio",
+        "memory_colony_enhanced.py: File too long (528 lines)",
+        "oracle_colony.py: File too long (512 lines)",
+        "oracle_colony.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "governance_colony_enhanced.py: File too long (537 lines)",
+        "governance_colony.py: Low comment ratio",
+        "reasoning_colony.py: Low comment ratio",
+        "ethics_swarm_colony.py: File too long (1329 lines)",
+        "__init__.py: Low comment ratio",
+        "manager.py: File too long (545 lines)",
+        "emotion_mapper_alt.py: Low comment ratio",
+        "agi_security.py: File too long (667 lines)",
+        "__init__.py: Low comment ratio",
+        "system_coordinator.py: File too long (792 lines)",
+        "symbolic_network.py: File too long (911 lines)",
+        "pwm_deep_analysis.py: Low comment ratio",
+        "executive_decision_integrator.py: File too long (964 lines)",
+        "executive_decision_integrator.py: Low comment ratio",
+        "neuro_symbolic_fusion_layer.py: File too long (570 lines)",
+        "security_pr_analyzer.py: File too long (678 lines)",
+        "security_pr_analyzer.py: Low comment ratio",
+        "dynamic_modality_broker.py: File too long (750 lines)",
+        "__init__.py: Low comment ratio",
+        "quantum_inspired_layer.py: Low comment ratio",
+        "creative_expressions.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "integration.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "nias_integration_hub.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "abas_integration_hub.py: File too long (769 lines)",
+        "orchestration_energy_aware_execution_planner.py: File too long (925 lines)",
+        "bio_orchestrator_orchestrator.py: Low comment ratio",
+        "collector.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "constitutional_safety.py: File too long (613 lines)",
+        "constitutional_safety.py: Low comment ratio",
+        "predictive_harm_prevention.py: File too long (968 lines)",
+        "predictive_harm_prevention.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "multi_agent_consensus.py: File too long (710 lines)",
+        "symbolic_trace.py: Low comment ratio",
+        "dream_ethics_injector.py: File too long (576 lines)",
+        "audit_analytics.py: File too long (662 lines)",
+        "__init__.py: Low comment ratio",
+        "audit_decision_embedding_engine.py: File too long (747 lines)",
+        "audit_trail.py: File too long (756 lines)",
+        "audit_trail.py: Low comment ratio",
+        "consciousness_engine.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "verifold_unified.py: File too long (623 lines)",
+        "lukhas_orchestrator.py: Low comment ratio",
+        "integration_engine.py: Low comment ratio",
+        "agent_orchestrator.py: File too long (647 lines)",
+        "__init__.py: Low comment ratio",
+        "trio_orchestrator.py: File too long (657 lines)",
+        "drift_monitoring_api.py: File too long (1063 lines)",
+        "code_process_integration_api.py: File too long (1067 lines)",
+        "migration_router.py: File too long (688 lines)",
+        "migration_router.py: Low comment ratio",
+        "intelligence.py: File too long (512 lines)",
+        "api.py: File too long (659 lines)",
+        "engine.py: File too long (727 lines)",
+        "processors.py: File too long (658 lines)",
+        "human_in_the_loop_orchestrator.py: File too long (1025 lines)",
+        "codex.py: Low comment ratio",
+        "system_watchdog.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "symbol_validator.py: File too long (965 lines)",
+        "symbol_validator.py: Low comment ratio",
+        "canadian_awareness_engine.py: File too long (614 lines)",
+        "us_institutional_awareness_engine.py: File too long (724 lines)",
+        "das_awareness_engine.py: File too long (667 lines)",
+        "dynamic_adaptive_dashboard.py: File too long (567 lines)",
+        "federated_integration.py: File too long (841 lines)",
+        "eu_awareness_engine.py: File too long (899 lines)",
+        "quantum_neuro_symbolic_engine.py: File too long (935 lines)",
+        "eu_ai_transparency.py: File too long (530 lines)",
+        "autonomous_github_manager.py: File too long (674 lines)",
+        "consciousness_core.py: Low comment ratio",
+        "uk_awareness_engine.py: File too long (644 lines)",
+        "brain_integration_enhanced.py: File too long (691 lines)",
+        "github_vulnerability_manager.py: File too long (861 lines)",
+        "github_vulnerability_manager.py: Low comment ratio",
+        "prime_oscillator.py: Low comment ratio",
+        "lambda_bot_batch_processor.py: File too long (584 lines)",
+        "lambda_bot_batch_processor.py: Low comment ratio",
+        "colony_coordinator.py: Low comment ratio",
+        "enhanced_brain_integration.py: File too long (691 lines)",
+        "lambdabot_autonomous_workflow_fixer.py: File too long (601 lines)",
+        "autonomous_system.py: Low comment ratio",
+        "cognitive_core.py: File too long (944 lines)",
+        "cognitive_core.py: Low comment ratio",
+        "lambdabot_autonomous_fixer.py: File too long (607 lines)",
+        "australian_awareness_engine.py: File too long (590 lines)",
+        "MultiBrainSymphony.py: File too long (516 lines)",
+        "GlobalInstitutionalCompliantEngine.py: File too long (1251 lines)",
+        "main_bot.py: File too long (513 lines)",
+        "demo.py: File too long (524 lines)",
+        "collaborative_ai_agent_system.py: Low comment ratio",
+        "compliance_registry.py: Low comment ratio",
+        "ai_compliance.py: Low comment ratio",
+        "GlobalInstitutionalFramework.py: File too long (653 lines)",
+        "cognitive_mesh_coordinator.py: File too long (979 lines)",
+        "healix_visualizer.py: File too long (632 lines)",
+        "healix_visualizer.py: Low comment ratio",
+        "golden_healix_mapper.py: File too long (1183 lines)",
+        "azure_free_tier_strategy.py: Low comment ratio",
+        "capability_analyzer.py: File too long (767 lines)",
+        "capability_analyzer.py: Low comment ratio",
+        "types.py: File too long (531 lines)",
+        "azure_openai_client.py: Low comment ratio",
+        "emotion_trend_tracker.py: Low comment ratio",
+        "hash.py: Low comment ratio",
+        "emotion_mapper_alt.py: Low comment ratio",
+        "read_settings.py: Low comment ratio",
+        "brain_integration.py: File too long (718 lines)",
+        "federated_integrator.py: File too long (848 lines)",
+        "personality_refiner.py: Low comment ratio",
+        "predictive_resource_manager.py: File too long (748 lines)",
+        "confidence_calibrator.py: File too long (812 lines)",
+        "interface.py: File too long (743 lines)",
+        "interface.py: Low comment ratio",
+        "core.py: Low comment ratio",
+        "ai_compliance_manager.py: File too long (583 lines)",
+        "ai_compliance_manager.py: Low comment ratio",
+        "dream_stats.py: Low comment ratio",
+        "neuro_symbolic_engine.py: File too long (682 lines)",
+        "the_oscillator.py: File too long (545 lines)",
+        "dao_governance_node.py: File too long (589 lines)",
+        "performance.py: File too long (666 lines)",
+        "reflective_introspection_system.py: File too long (571 lines)",
+        "dream_replay_cli.py: Low comment ratio",
+        "neural_intelligence_api.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "cognitive_core.py: File too long (534 lines)",
+        "feedback_collector.py: Low comment ratio",
+        "signals.py: Low comment ratio",
+        "the_oscillator.py: File too long (545 lines)",
+        "health_checks.py: File too long (511 lines)",
+        "health_checks.py: Low comment ratio",
+        "plugin_registry.py: File too long (653 lines)",
+        "governance_colony.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "cli.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "api_server.py: Low comment ratio",
+        "dream_glyph_bridge.py: File too long (793 lines)",
+        "glyph.py: File too long (585 lines)",
+        "symbolic_foundry_1.py: File too long (1523 lines)",
+        "glyph_exchange.py: Low comment ratio",
+        "symbolic_foundry.py: File too long (1067 lines)",
+        "symbolic_contextual_mapping_colony.py: File too long (764 lines)",
+        "glyph_memory_integration.py: File too long (1092 lines)",
+        "glyph_ethics_validator.py: File too long (1027 lines)",
+        "glyph_sentinel.py: File too long (799 lines)",
+        "api_manager.py: File too long (663 lines)",
+        "rate_modulator.py: Low comment ratio",
+        "remediator_agent.py: File too long (691 lines)",
+        "symbolic_feedback.py: Low comment ratio",
+        "monitor_dashboard.py: Low comment ratio",
+        "enhancement_system.py: File too long (1297 lines)",
+        "enhancement_system.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "voice_vocabulary.py: Low comment ratio",
+        "crista_optimizer.py: File too long (613 lines)",
+        "symbolic_logic_engine.py: File too long (1065 lines)",
+        "identity_vocabulary.py: Low comment ratio",
+        "qrs_manager.py: File too long (578 lines)",
+        "drift_tools.py: File too long (758 lines)",
+        "semantic_reasoner.py: File too long (559 lines)",
+        "vision_vocabulary.py: File too long (685 lines)",
+        "vision_vocabulary.py: Low comment ratio",
+        "symbolic_anomaly_explorer.py: File too long (1199 lines)",
+        "symbolic_anomaly_explorer.py: Low comment ratio",
+        "symbolic_language.py: File too long (516 lines)",
+        "symbolic_theme_clusterer.py: File too long (1068 lines)",
+        "neuro_symbolic_fusion_layer.py: File too long (577 lines)",
+        "bio_vocabulary.py: Low comment ratio",
+        "lambda_sage.py: File too long (1582 lines)",
+        "__init___2.py: Low comment ratio",
+        "symbolic_parser.py: File too long (627 lines)",
+        "__init___3.py: Low comment ratio",
+        "SymbolicReasoning.py: Low comment ratio",
+        "vocabulary_creativity_engine.py: File too long (685 lines)",
+        "vocabulary_creativity_engine.py: Low comment ratio",
+        "ethical_auditor.py: File too long (522 lines)",
+        "dream_divergence_map.py: File too long (749 lines)",
+        "dream_divergence_map.py: Low comment ratio",
+        "dream_delivery_manager.py: File too long (860 lines)",
+        "symbolic_feedback.py: File too long (899 lines)",
+        "__init___1.py: File too long (1737 lines)",
+        "__init___1.py: Low comment ratio",
+        "EthicalAuditor.py: File too long (522 lines)",
+        "symbolic_validator.py: File too long (1216 lines)",
+        "symbolic_bio_symbolic.py: File too long (536 lines)",
+        "symbolic_bio_symbolic.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "drift_monitor.py: File too long (1099 lines)",
+        "__init__.py: Low comment ratio",
+        "node_registry.py: File too long (513 lines)",
+        "openai_adapter.py: File too long (943 lines)",
+        "openai_adapter.py: Low comment ratio",
+        "crud_operations.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "neural_integrator.py: File too long (759 lines)",
+        "abas_quantum_specialist.py: File too long (932 lines)",
+        "topology_manager.py: File too long (653 lines)",
+        "integrate_isolated_components.py: File too long (503 lines)",
+        "base_config.py: Low comment ratio",
+        "logger.py: Low comment ratio",
+        "ethics.py: Low comment ratio",
+        "geofencing_manager.py: Low comment ratio",
+        "cli.py: Low comment ratio",
+        "main.py: Low comment ratio",
+        "dashboad.py: Low comment ratio",
+        "audio_exporter.py: Low comment ratio",
+        "replay_graphs.py: Low comment ratio",
+        "intelligence_engine_registry.py: File too long (672 lines)",
+        "generate_nias_docs.py: Low comment ratio",
+        "voice_narration_player.py: Low comment ratio",
+        "dashboard_colony_agent.py: File too long (606 lines)",
+        "dynamic_tab_system.py: File too long (684 lines)",
+        "universal_adaptive_dashboard.py: File too long (732 lines)",
+        "fallback_system.py: File too long (799 lines)",
+        "self_healing_manager.py: File too long (734 lines)",
+        "morphing_engine.py: File too long (859 lines)",
+        "websocket_server.py: File too long (740 lines)",
+        "listen.py: Low comment ratio",
+        "edge_voice.py: Low comment ratio",
+        "sayit.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "lambda_bot_api_integration.py: Low comment ratio",
+        "server.py: Low comment ratio",
+        "pb2_grpc.py: Low comment ratio",
+        "client.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "pb2.py: Low comment ratio",
+        "errors.py: Low comment ratio",
+        "models.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "app.py: Low comment ratio",
+        "metrics.py: Low comment ratio",
+        "tasks.py: Low comment ratio",
+        "health.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "process.py: Low comment ratio",
+        "voice_narration_player.py: Low comment ratio",
+        "replay_graphs.py: Low comment ratio",
+        "voice_narrator.py: Low comment ratio",
+        "feedback_log_viewer.py: Low comment ratio",
+        "dream_narrator_queue.py: Low comment ratio",
+        "replay_heatmap.py: Low comment ratio",
+        "inject_message_simulator.py: Low comment ratio",
+        "generate_payload_cli.py: Low comment ratio",
+        "symbolic_reply_generator.py: Low comment ratio",
+        "replay_visualizer.py: Low comment ratio",
+        "dream_recorder.py: Low comment ratio",
+        "feedback_loop.py: Low comment ratio",
+        "feedback_insight_cli.py: Low comment ratio",
+        "dast_logger_fixed.py: Low comment ratio",
+        "aggregator_fixed.py: Low comment ratio",
+        "delivery_tracker_widget.py: Low comment ratio",
+        "s_dispatcher.py: Low comment ratio",
+        "llm_multiverse_router.py: Low comment ratio"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 137,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 185115,
+      "comment_ratio": 0.14196040299273424,
+      "test_file_ratio": 0.0012077294685990338,
+      "example_count": 2,
+      "submodule_balance": {
+        "submodules": {
+          "symbolic_legacy": {
+            "file_count": 30,
+            "has_init": false
+          },
+          "agi": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "net": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "colonies": {
+            "file_count": 13,
+            "has_init": true
+          },
+          "symbolic_bridge": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "identity": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "spine": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "security": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "integration": {
+            "file_count": 23,
+            "has_init": true
+          },
+          "bio_systems": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "personality": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "symbolic_diagnostics": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "unified": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "output": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "architectures": {
+            "file_count": 14,
+            "has_init": true
+          },
+          "utils": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "observability": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "introspection": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "bridges": {
+            "file_count": 9,
+            "has_init": true
+          },
+          "tagging": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "rem": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "safety": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "integrations": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "symbolic_reasoning": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "ethics": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "audit": {
+            "file_count": 6,
+            "has_init": true
+          },
+          "engines": {
+            "file_count": 5,
+            "has_init": false
+          },
+          "ai": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "examples": {
+            "file_count": 2,
+            "has_init": false
+          },
+          "symbolism": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "verifold": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "orchestration": {
+            "file_count": 247,
+            "has_init": false
+          },
+          "governance": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "db": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "api": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "glyph": {
+            "file_count": 16,
+            "has_init": true
+          },
+          "meta_learning": {
+            "file_count": 6,
+            "has_init": false
+          },
+          "telemetry": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "symbolic": {
+            "file_count": 76,
+            "has_init": true
+          },
+          "user_interface_manager": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "monitoring": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "performance": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "infrastructure": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "modules": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "data": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "neural_architectures": {
+            "file_count": 6,
+            "has_init": true
+          },
+          "neural": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "interaction": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "helpers": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "logging": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "base": {
+            "file_count": 6,
+            "has_init": false
+          },
+          "services": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "interfaces": {
+            "file_count": 189,
+            "has_init": true
+          },
+          "hub_services": {
+            "file_count": 2,
+            "has_init": false
+          },
+          "flow": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "router": {
+            "file_count": 2,
+            "has_init": true
+          }
+        },
+        "balance_score": -2.0849520620129196
+      },
+      "hybrid_component_health": {
+        "symbolic": {
+          "exists": true,
+          "file_count": 72,
+          "primary_module": "core",
+          "also_in": [
+            "consciousness"
+          ]
+        },
+        "neural": {
+          "exists": true,
+          "file_count": 4,
+          "primary_module": "core",
+          "also_in": [
+            "bridge"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "consciousness": {
+      "name": "consciousness",
+      "file_count": 291,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 1.0240549828178693,
+      "code_quality_issues": [
+        "bridge.py: Low comment ratio",
+        "quantum_consciousness_integration.py: File too long (568 lines)",
+        "adapter.py: File too long (1057 lines)",
+        "engine_poetic.py: File too long (1733 lines)",
+        "engine_complete.py: File too long (1010 lines)",
+        "engine_codex.py: File too long (549 lines)",
+        "engine_alt.py: File too long (544 lines)",
+        "engine.py: File too long (830 lines)",
+        "healix_visualizer.py: File too long (643 lines)",
+        "healix_visualizer.py: Low comment ratio",
+        "quantum_creative_types.py: File too long (814 lines)",
+        "creative_engine.py: File too long (869 lines)",
+        "advanced_haiku_generator.py: File too long (681 lines)",
+        "voice_narrator.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "engine.py: File too long (510 lines)",
+        "quantum_consciousness_integration_wrapper.py: Low comment ratio",
+        "quantum_creative_consciousness.py: Low comment ratio",
+        "awareness_engine_1.py: File too long (1308 lines)",
+        "awareness_engine_elevated.py: File too long (1537 lines)",
+        "bio_symbolic_awareness_adapter.py: File too long (775 lines)",
+        "attention_monitor.py: File too long (586 lines)",
+        "system_awareness.py: File too long (503 lines)",
+        "__init___1.py: File too long (2242 lines)",
+        "__init___1.py: Low comment ratio",
+        "symbolic_bio_symbolic_orchestrator.py: File too long (902 lines)",
+        "coherence_patch_validator.py: File too long (624 lines)",
+        "conflict_resolver.py: File too long (1142 lines)",
+        "\u039bBot_reasoning.py: File too long (694 lines)",
+        "reasoning_diagnostics.py: File too long (597 lines)",
+        "openai_oracle_adapter.py: File too long (626 lines)",
+        "openai_oracle_adapter.py: Low comment ratio",
+        "symbolic_loop_harmonizer.py: File too long (621 lines)",
+        "lukhas_id_reasoning_engine.py: File too long (779 lines)",
+        "reasoning_colony.py: File too long (1127 lines)",
+        "engine.py: File too long (840 lines)",
+        "bridge.py: File too long (919 lines)",
+        "bio_quantum_engine.py: File too long (959 lines)",
+        "openai_consciousness_adapter.py: Low comment ratio",
+        "symbolic_drift_tracker.py: File too long (1133 lines)",
+        "simulation_controller.py: File too long (601 lines)",
+        "quantum_mesh_visualizer.py: File too long (1110 lines)",
+        "quantum_mesh_visualizer.py: Low comment ratio",
+        "symbolic_fallback_systems.py: File too long (914 lines)",
+        "symbolic_fallback_systems.py: Low comment ratio",
+        "federated_learning_system.py: File too long (556 lines)",
+        "quantum_consciousness_hub.py: File too long (720 lines)",
+        "quantum_mesh_integrator.py: File too long (743 lines)",
+        "symbolic_drift_tracker_1.py: File too long (1133 lines)",
+        "shared_state.py: File too long (710 lines)",
+        "async_client.py: File too long (3646 lines)",
+        "async_client.py: Low comment ratio",
+        "emotional_memory_manager.py: File too long (673 lines)",
+        "cognitive_load_estimator.py: File too long (618 lines)",
+        "world_models.py: File too long (692 lines)",
+        "tiered_state_management.py: File too long (642 lines)",
+        "__init__.py: Low comment ratio",
+        "cross_modal_validation.py: Low comment ratio",
+        "integrator.py: File too long (664 lines)",
+        "mapper.py: File too long (596 lines)",
+        "lambda_bot_consciousness_integration.py: File too long (544 lines)",
+        "lambda_mirror.py: File too long (2864 lines)",
+        "dream_reflection_loop.py: File too long (1079 lines)",
+        "reflection.py: Low comment ratio",
+        "colony_dream_coordinator.py: File too long (1084 lines)",
+        "colony_dream_coordinator.py: Low comment ratio",
+        "dream_stats.py: Low comment ratio",
+        "dream_director.py: Low comment ratio",
+        "openai_dream_integration.py: File too long (538 lines)",
+        "dream_data_sources.py: File too long (765 lines)",
+        "memoryscape_viewport.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "run_dream_analysis.py: Low comment ratio",
+        "dream_memory_manager.py: File too long (764 lines)",
+        "dream_snapshot.py: Low comment ratio",
+        "dream_replay.py: Low comment ratio",
+        "dream_engine.py: File too long (580 lines)",
+        "voice_parameter.py: Low comment ratio",
+        "ethics_guard.py: Low comment ratio",
+        "dream_export_streamlit.py: Low comment ratio",
+        "dream_injector.py: Low comment ratio",
+        "dream_limiter.py: Low comment ratio",
+        "dream_viewer.py: Low comment ratio",
+        "symbolic_logger.py: Low comment ratio",
+        "dream_engine_fastapi.py: File too long (1092 lines)",
+        "__init__.py: Low comment ratio",
+        "dream_metrics_view.py: Low comment ratio",
+        "rl_dream_cycle.py: Low comment ratio",
+        "id_reasoning_engine.py: File too long (871 lines)",
+        "dream_narrator.py: File too long (785 lines)",
+        "federated_meta_learning.py: File too long (1099 lines)",
+        "service.py: File too long (880 lines)",
+        "system.py: File too long (1118 lines)",
+        "brain_integration.py: File too long (1129 lines)",
+        "reflection_layer.py: File too long (1416 lines)",
+        "core_2.py: File too long (1016 lines)",
+        "controller.py: File too long (1104 lines)",
+        "MetaLearningAdapter.py: File too long (842 lines)",
+        "integration_manager.py: File too long (675 lines)",
+        "cognitive_architecture_controller.py: File too long (1897 lines)",
+        "awareness_system.py: File too long (1087 lines)",
+        "meta_learning_enhanced.py: File too long (1099 lines)",
+        "metalearningenhancementsystem.py: File too long (1339 lines)",
+        "metalearningenhancementsystem.py: Low comment ratio",
+        "memory_hub.py: File too long (1334 lines)",
+        "memory_hub.py: Low comment ratio",
+        "symbolic_drift_analyzer.py: File too long (1248 lines)",
+        "research_awareness_engine.py: File too long (1036 lines)",
+        "client.py: File too long (2035 lines)",
+        "client.py: Low comment ratio",
+        "integrated_safety_system.py: File too long (1109 lines)",
+        "oscillator.py: File too long (741 lines)",
+        "dreamseed_unified.py: File too long (722 lines)",
+        "lambda_dependa_bot.py: File too long (1824 lines)",
+        "__init__.py: Low comment ratio",
+        "enhanced_swarm.py: File too long (1192 lines)",
+        "identity_hub.py: File too long (1146 lines)",
+        "identity_hub.py: Low comment ratio",
+        "colony_orchestrator.py: File too long (1016 lines)",
+        "colony_orchestrator.py: Low comment ratio",
+        "emotional.py: File too long (1194 lines)",
+        "core.py: File too long (1214 lines)",
+        "core.py: Low comment ratio",
+        "openai_core_service.py: File too long (908 lines)",
+        "openai_core_service.py: Low comment ratio",
+        "EthicalReasoningSystem.py: File too long (2209 lines)",
+        "meta_learning.py: File too long (1099 lines)",
+        "practical_optimizations.py: File too long (1169 lines)",
+        "lambda_mirror_1.py: File too long (1883 lines)",
+        "lambda_mirror.py: File too long (1922 lines)",
+        "visionary_orchestrator.py: File too long (1057 lines)",
+        "master_orchestrator.py: File too long (930 lines)",
+        "bio_crista_optimizer_adapter.py: File too long (531 lines)",
+        "certificate_manager.py: File too long (586 lines)",
+        "qrg_100_percent_coverage.py: File too long (758 lines)",
+        "distributed_state_manager.py: File too long (680 lines)",
+        "ethical_drift_sentinel.py: File too long (826 lines)",
+        "orchestration_service.py: File too long (2662 lines)",
+        "privacy_preserving_memory_vault.py: File too long (1305 lines)",
+        "unified_memory_manager.py: File too long (1727 lines)",
+        "unified_memory_manager.py: Low comment ratio",
+        "circuit_breaker.py: File too long (1034 lines)",
+        "system_1.py: File too long (969 lines)",
+        "abas_quantum_specialist.py: File too long (985 lines)",
+        "content_enterprise_orchestrator.py: File too long (1067 lines)",
+        "content_enterprise_orchestrator.py: Low comment ratio",
+        "layer.py: File too long (644 lines)",
+        "event_replay_snapshot.py: File too long (871 lines)",
+        "bio_system.py: File too long (516 lines)",
+        "MetaLearningEnhancement.py: File too long (1031 lines)",
+        "meta_learning_adapter.py: File too long (552 lines)",
+        "__init___1.py: Low comment ratio",
+        "meta_cognitive_orchestrator_alt.py: File too long (1393 lines)",
+        "monitoring_observability.py: File too long (1064 lines)",
+        "core_1.py: File too long (1180 lines)",
+        "ethical_reasoning_system.py: File too long (2726 lines)",
+        "learning_system.py: File too long (1041 lines)",
+        "processing_core.py: File too long (561 lines)",
+        "_dict_learning.py: File too long (1295 lines)",
+        "reflection_layer_1.py: File too long (967 lines)",
+        "token_budget_controller.py: File too long (691 lines)",
+        "quantum_dream_adapter.py: File too long (783 lines)",
+        "agent_coordination.py: File too long (871 lines)",
+        "full_connectivity_resolver.py: File too long (708 lines)",
+        "quantum_memory_manager.py: File too long (508 lines)",
+        "core_integrator.py: File too long (603 lines)",
+        "ethical_reasoning_system_1.py: File too long (2208 lines)",
+        "consciousness_hub.py: File too long (915 lines)",
+        "actor_system.py: File too long (802 lines)",
+        "symbolic_weaver.py: File too long (2177 lines)"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 298,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 152656,
+      "comment_ratio": 0.13593962896970968,
+      "test_file_ratio": 0.003436426116838488,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "cognitive": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "core": {
+            "file_count": 5,
+            "has_init": false
+          },
+          "connected": {
+            "file_count": 2,
+            "has_init": false
+          },
+          "processing": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "creativity": {
+            "file_count": 26,
+            "has_init": false
+          },
+          "quantum_integration": {
+            "file_count": 4,
+            "has_init": false
+          },
+          "integration": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "awareness": {
+            "file_count": 13,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "unified": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "reasoning": {
+            "file_count": 37,
+            "has_init": false
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "states": {
+            "file_count": 19,
+            "has_init": true
+          },
+          "perception": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "meta_cognitive": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "systems": {
+            "file_count": 17,
+            "has_init": true
+          },
+          "dream": {
+            "file_count": 65,
+            "has_init": false
+          },
+          "reflection": {
+            "file_count": 78,
+            "has_init": true
+          }
+        },
+        "balance_score": -0.5055602334877869
+      },
+      "hybrid_component_health": {
+        "states": {
+          "exists": true,
+          "file_count": 19,
+          "primary_module": "consciousness",
+          "also_in": [
+            "qim"
+          ]
+        },
+        "reflection": {
+          "exists": true,
+          "file_count": 78,
+          "primary_module": "consciousness",
+          "also_in": [
+            "memory"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "memory": {
+      "name": "memory",
+      "file_count": 359,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.2785515320334262,
+      "code_quality_issues": [
+        "service.py: File too long (550 lines)",
+        "quantum_manager.py: File too long (602 lines)",
+        "fold_universal_bridge.py: File too long (860 lines)",
+        "memory_optimization.py: File too long (918 lines)",
+        "symbol_aware_tiered_memory.py: Low comment ratio",
+        "drift_memory_manager.py: File too long (753 lines)",
+        "loop_monitor.py: Low comment ratio",
+        "memoria.py: Low comment ratio",
+        "drift_dashboard_visual.py: File too long (512 lines)",
+        "drift_dashboard_visual.py: Low comment ratio",
+        "hyperspace_dream_simulator.py: File too long (1641 lines)",
+        "trait_manager.py: Low comment ratio",
+        "documentation_analytics.py: File too long (1212 lines)",
+        "documentation_analytics.py: Low comment ratio",
+        "dashboard.py: File too long (944 lines)",
+        "pattern_detector.py: File too long (903 lines)",
+        "pattern_detector.py: Low comment ratio",
+        "entropy_health_api.py: Low comment ratio",
+        "drift_dashboard.py: File too long (664 lines)",
+        "lambda_vault_scan.py: File too long (744 lines)",
+        "lambda_vault_scan.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "memory_drift_auditor.py: File too long (2523 lines)",
+        "memory_drift_auditor.py: Low comment ratio",
+        "lambda_archive_inspector.py: File too long (1340 lines)",
+        "episodic_memory_colony.py: File too long (756 lines)",
+        "base_memory_colony.py: File too long (563 lines)",
+        "episodic_memory_integration.py: File too long (570 lines)",
+        "__init__.py: Low comment ratio",
+        "colony_memory_validator.py: File too long (686 lines)",
+        "unified_memory_orchestrator.py: File too long (1762 lines)",
+        "memory_interface.py: File too long (517 lines)",
+        "episodic_interface.py: File too long (537 lines)",
+        "__init__.py: Low comment ratio",
+        "semantic_interface.py: File too long (741 lines)",
+        "emotion_intent_link.py: Low comment ratio",
+        "CausalReasoning.py: Low comment ratio",
+        "fold_lineage_tracker.py: File too long (1080 lines)",
+        "feedback_propagator.py: File too long (527 lines)",
+        "causal_reasoning.py: File too long (717 lines)",
+        "symbolic_proteome.py: File too long (1087 lines)",
+        "service.py: File too long (644 lines)",
+        "learning_hub.py: File too long (519 lines)",
+        "learning_hub.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "adaptive_meta_learning_system.py: File too long (635 lines)",
+        "tutor_learning_engine.py: Low comment ratio",
+        "neural_integrator.py: File too long (787 lines)",
+        "metalearningenhancementsystem_mock.py: Low comment ratio",
+        "adaptive_meta_learning.py: File too long (666 lines)",
+        "meta_learning_recovery.py: File too long (502 lines)",
+        "federated_colony_learning.py: Low comment ratio",
+        "federated_integration.py: File too long (940 lines)",
+        "duet_conductor.py: Low comment ratio",
+        "symbolic_voice_loop.py: Low comment ratio",
+        "FederatedIntegration.py: File too long (817 lines)",
+        "hippocampal_buffer.py: File too long (725 lines)",
+        "__init__.py: Low comment ratio",
+        "episodic_replay_buffer.py: File too long (1257 lines)",
+        "memoria-checkpoint.py: Low comment ratio",
+        "colony_memory_adapter.py: File too long (697 lines)",
+        "colony_memory_adapter.py: Low comment ratio",
+        "openai_memory_adapter.py: Low comment ratio",
+        "unified_memory_core.py: Low comment ratio",
+        "healix_mapper.py: File too long (1094 lines)",
+        "fold_engine.py: File too long (1281 lines)",
+        "memory_fold.py: File too long (1460 lines)",
+        "fold_engine_1.py: File too long (788 lines)",
+        "__init___1.py: File too long (1444 lines)",
+        "__init___1.py: Low comment ratio",
+        "dreamseed_example.py: Low comment ratio",
+        "symbolic_quarantine_sanctum.py: File too long (1726 lines)",
+        "symbolic_quarantine_sanctum.py: Low comment ratio",
+        "distributed_memory_fold.py: File too long (1037 lines)",
+        "optimized_hybrid_memory_fold.py: File too long (862 lines)",
+        "fold_lineage_tracker.py: File too long (1130 lines)",
+        "hybrid_memory_fold.py: File too long (746 lines)",
+        "memory_fold_system.py: File too long (635 lines)",
+        "enhanced_memory_fold.py: Low comment ratio",
+        "resonant_memory_access.py: File too long (648 lines)",
+        "__init__.py: Low comment ratio",
+        "symbolic_delta.py: File too long (848 lines)",
+        "ethical_drift_governor.py: File too long (740 lines)",
+        "ethical_drift_governor.py: Low comment ratio",
+        "collapse_hash.py: File too long (741 lines)",
+        "replay_buffer.py: File too long (786 lines)",
+        "atomic_memory_scaffold.py: File too long (613 lines)",
+        "replay_system.py: File too long (693 lines)",
+        "hierarchical_data_store.py: File too long (1001 lines)",
+        "memory_profiler.py: File too long (1238 lines)",
+        "memory_profiler.py: Low comment ratio",
+        "memory_safety_features.py: File too long (711 lines)",
+        "attention_memory_layer.py: File too long (684 lines)",
+        "multimodal_memory_support.py: File too long (960 lines)",
+        "glyph_memory_bridge.py: File too long (511 lines)",
+        "memory_reflector.py: Low comment ratio",
+        "memory_helix.py: File too long (596 lines)",
+        "causal_memory_chains.py: File too long (1152 lines)",
+        "identity_lineage_bridge.py: File too long (697 lines)",
+        "memory_tracker_integration.py: File too long (548 lines)",
+        "resonance_memory_retrieval.py: File too long (640 lines)",
+        "memory_comprehensive_new.py: Low comment ratio",
+        "memory_comprehensive.py: Low comment ratio",
+        "memory_node.py: File too long (611 lines)",
+        "memory_helix_golden.py: File too long (1236 lines)",
+        "memory_format.py: Low comment ratio",
+        "memory_planning.py: File too long (776 lines)",
+        "memory_planning.py: Low comment ratio",
+        "memory_profiler_wrapper.py: Low comment ratio",
+        "memory_tracker.py: Low comment ratio",
+        "memory_profiler_mock.py: Low comment ratio",
+        "memory_checkpoint.py: Low comment ratio",
+        "memory_planning_mock.py: Low comment ratio",
+        "pin_memory_cache.py: Low comment ratio",
+        "simple_store.py: File too long (647 lines)",
+        "memory_advanced_manager.py: File too long (760 lines)",
+        "tier_system.py: File too long (745 lines)",
+        "integration_adapters.py: File too long (695 lines)",
+        "module_integrations.py: File too long (988 lines)",
+        "symbolic_delta_compression.py: File too long (921 lines)",
+        "distributed_memory.py: File too long (612 lines)",
+        "dream_trace_linker.py: File too long (1197 lines)",
+        "dream_integrator.py: File too long (553 lines)",
+        "lazy_loading_embeddings.py: File too long (727 lines)",
+        "causal_identity_tracker.py: File too long (832 lines)",
+        "meta_learning_patterns.py: File too long (1848 lines)",
+        "meta_learning_patterns.py: Low comment ratio",
+        "memory_viz.py: File too long (737 lines)",
+        "memory_viz.py: Low comment ratio",
+        "neurosymbolic_integration.py: File too long (1755 lines)",
+        "neurosymbolic_integration.py: Low comment ratio",
+        "memory_research.py: Low comment ratio",
+        "colony_swarm_integration.py: File too long (691 lines)",
+        "memory_manager.py: File too long (782 lines)",
+        "dreams.py: Low comment ratio",
+        "colony_emotions.py: Low comment ratio",
+        "memory_evolution.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "sleep_cycle_manager.py: File too long (614 lines)",
+        "ripple_generator.py: File too long (646 lines)",
+        "advanced_trauma_repair.py: File too long (1062 lines)",
+        "trauma_repair_wrapper.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "helix_repair_module.py: Low comment ratio",
+        "concept_hierarchy.py: File too long (640 lines)",
+        "neocortical_network.py: File too long (841 lines)",
+        "semantic_extractor.py: File too long (593 lines)"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 100,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 115558,
+      "comment_ratio": 0.14191142110455357,
+      "test_file_ratio": 0.005571030640668524,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "temporal": {
+            "file_count": 59,
+            "has_init": true
+          },
+          "tools": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "colonies": {
+            "file_count": 3,
+            "has_init": false
+          },
+          "core": {
+            "file_count": 9,
+            "has_init": true
+          },
+          "causal": {
+            "file_count": 15,
+            "has_init": true
+          },
+          "connected": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "proteome": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "learning": {
+            "file_count": 44,
+            "has_init": true
+          },
+          "hippocampal": {
+            "file_count": 4,
+            "has_init": true
+          },
+          "episodic": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "memory_systems": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "docs": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "convergence": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "adapters": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "folds": {
+            "file_count": 18,
+            "has_init": true
+          },
+          "protection": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "fold_system": {
+            "file_count": 10,
+            "has_init": false
+          },
+          "resonance": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "hooks": {
+            "file_count": 3,
+            "has_init": true
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "compression": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "governance": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "integrity": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "replay": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "scaffold": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "systems": {
+            "file_count": 113,
+            "has_init": true
+          },
+          "consolidation": {
+            "file_count": 20,
+            "has_init": true
+          },
+          "repair": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "neocortical": {
+            "file_count": 4,
+            "has_init": true
+          }
+        },
+        "balance_score": -1.026318985458098
+      },
+      "hybrid_component_health": {
+        "temporal": {
+          "exists": true,
+          "file_count": 59,
+          "primary_module": "memory",
+          "also_in": [
+            "qim"
+          ]
+        },
+        "causal": {
+          "exists": true,
+          "file_count": 15,
+          "primary_module": "memory",
+          "also_in": [
+            "governance"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "qim": {
+      "name": "qim",
+      "file_count": 174,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.3275862068965517,
+      "code_quality_issues": [
+        "system.py: Low comment ratio",
+        "metadata.py: File too long (552 lines)",
+        "consensus_system.py: File too long (508 lines)",
+        "post_quantum_crypto_enhanced.py: File too long (720 lines)",
+        "attention_economics.py: File too long (588 lines)",
+        "neuro_symbolic_integration.py: File too long (542 lines)",
+        "main.py: Low comment ratio",
+        "bio_multi_orchestrator.py: File too long (706 lines)",
+        "enhanced_ecosystem_documentation.py: File too long (765 lines)",
+        "ethics_engine.py: File too long (890 lines)",
+        "ethics_engine.py: Low comment ratio",
+        "neuro_symbolic_engine.py: File too long (987 lines)",
+        "execute_aggressive_consolidation.py: Low comment ratio",
+        "creative_q_expression.py: File too long (1040 lines)",
+        "service.py: File too long (655 lines)",
+        "generate_hybrid_connectivity_map.py: File too long (525 lines)",
+        "generate_hybrid_connectivity_map.py: Low comment ratio",
+        "reasoner.py: File too long (659 lines)",
+        "bio_optimization_adapter.py: File too long (564 lines)",
+        "__init___2.py: File too long (660 lines)",
+        "__init___2.py: Low comment ratio",
+        "visualize_lukhas_2030.py: Low comment ratio",
+        "collapse_reasoner.py: File too long (659 lines)",
+        "vault_manager.py: File too long (554 lines)",
+        "engine.py: File too long (662 lines)",
+        "\u039bBot_quantum_security.py: File too long (606 lines)",
+        "__init___1.py: File too long (546 lines)",
+        "__init___1.py: Low comment ratio",
+        "quantum_identity_manager.py: File too long (843 lines)",
+        "bio_quantum_radar_integration.py: File too long (885 lines)",
+        "bio_quantum_radar_integration.py: Low comment ratio",
+        "phase_quantum_integration.py: File too long (679 lines)",
+        "quantum_waveform.py: Low comment ratio",
+        "quantum_colony.py: File too long (718 lines)",
+        "quantum_oscillator.py: File too long (611 lines)",
+        "quantum_consensus_system_enhanced.py: File too long (787 lines)",
+        "quantum_bio_bulletproof_system.py: File too long (516 lines)",
+        "add_poetic_headers.py: Low comment ratio",
+        "regenerate_intelligent_descriptions.py: Low comment ratio",
+        "add_verbose_intelligent_descriptions.py: File too long (501 lines)",
+        "endocrine_integration.py: Low comment ratio",
+        "endocrine_daily_operations.py: File too long (618 lines)",
+        "symbolic_anomaly_filter_colony.py: File too long (965 lines)",
+        "oscillators_base_oscillator.py: File too long (529 lines)",
+        "oscillators_base_oscillator.py: Low comment ratio",
+        "symbolic_dna_simulator.py: Low comment ratio",
+        "body_state.py: Low comment ratio",
+        "quantum_processing_core.py: File too long (554 lines)",
+        "connectivity_consolidator.py: File too long (902 lines)",
+        "pqc_crypto_engine.py: File too long (604 lines)",
+        "tuner.py: File too long (833 lines)"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 57,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 44965,
+      "comment_ratio": 0.1460024463471589,
+      "test_file_ratio": 0.005747126436781609,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "bio": {
+            "file_count": 12,
+            "has_init": true
+          },
+          "core": {
+            "file_count": 6,
+            "has_init": false
+          },
+          "privacy": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "memory": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "quantum_meta": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "quantum_systems": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "ui_generation": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "quantum_states": {
+            "file_count": 55,
+            "has_init": true
+          },
+          "config": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "security": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "processing": {
+            "file_count": 12,
+            "has_init": true
+          },
+          "integration": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "utils": {
+            "file_count": 10,
+            "has_init": false
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "quantum_core": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "architecture": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "audit": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "cloud": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "bio_legacy": {
+            "file_count": 33,
+            "has_init": false
+          },
+          "superposition": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "systems": {
+            "file_count": 12,
+            "has_init": true
+          },
+          "quantum_processing": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "entanglement": {
+            "file_count": 6,
+            "has_init": true
+          }
+        },
+        "balance_score": -0.9285730955541016
+      },
+      "hybrid_component_health": {
+        "superposition": {
+          "exists": true,
+          "file_count": 2,
+          "primary_module": "qim",
+          "also_in": [
+            "consciousness"
+          ]
+        },
+        "entanglement": {
+          "exists": true,
+          "file_count": 6,
+          "primary_module": "qim",
+          "also_in": [
+            "bridge"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "emotion": {
+      "name": "emotion",
+      "file_count": 32,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.5625,
+      "code_quality_issues": [
+        "dreamseed_upgrade.py: File too long (937 lines)",
+        "models.py: Low comment ratio",
+        "emotional_echo_detector.py: File too long (1599 lines)",
+        "emotional_echo_detector.py: Low comment ratio",
+        "security_control_validation.py: File too long (706 lines)",
+        "security_control_validation.py: Low comment ratio",
+        "trust_binder.py: Low comment ratio",
+        "__init___1.py: Low comment ratio",
+        "emotional_resonance.py: File too long (1126 lines)"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 18,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 6457,
+      "comment_ratio": 0.13798977853492334,
+      "test_file_ratio": 0.03125,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "tools": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "empathy": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "mood_regulation": {
+            "file_count": 2,
+            "has_init": false
+          },
+          "affect_detection": {
+            "file_count": 2,
+            "has_init": false
+          },
+          "regulation": {
+            "file_count": 5,
+            "has_init": true
+          },
+          "mood": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "vad": {
+            "file_count": 2,
+            "has_init": true
+          }
+        },
+        "balance_score": 0.0822527420876773
+      },
+      "hybrid_component_health": {
+        "empathy": {
+          "exists": true,
+          "file_count": 2,
+          "primary_module": "emotion",
+          "also_in": [
+            "consciousness"
+          ]
+        },
+        "mood": {
+          "exists": true,
+          "file_count": 7,
+          "primary_module": "emotion",
+          "also_in": [
+            "governance"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "governance": {
+      "name": "governance",
+      "file_count": 267,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.3595505617977528,
+      "code_quality_issues": [
+        "__init__.py: Low comment ratio",
+        "qrg_integration.py: File too long (753 lines)",
+        "qrg_integration.py: Low comment ratio",
+        "qrg_showcase.py: File too long (583 lines)",
+        "qrg_showcase.py: Low comment ratio",
+        "deployment_package.py: File too long (816 lines)",
+        "multi_user_sync.py: Low comment ratio",
+        "cross_device_handshake.py: Low comment ratio",
+        "webrtc_peer_sync.py: Low comment ratio",
+        "trust_scorer.py: File too long (649 lines)",
+        "authentication_server.py: File too long (836 lines)",
+        "authentication_server.py: Low comment ratio",
+        "audit_logger.py: File too long (905 lines)",
+        "audit_logger.py: Low comment ratio",
+        "onboarding_cli.py: File too long (590 lines)",
+        "onboarding_cli.py: Low comment ratio",
+        "cultural_safety_checker.py: File too long (575 lines)",
+        "cultural_safety_checker.py: Low comment ratio",
+        "grid_size_calculator.py: File too long (567 lines)",
+        "replay_protection.py: Low comment ratio",
+        "lambd_id_service.py: File too long (670 lines)",
+        "brain_identity_integration.py: File too long (639 lines)",
+        "brain_identity_connector.py: File too long (672 lines)",
+        "entropy_engine.py: File too long (666 lines)",
+        "portability_system.py: File too long (905 lines)",
+        "tier_aware_swarm_hub.py: File too long (843 lines)",
+        "biometric_verification_colony.py: File too long (733 lines)",
+        "consciousness_verification_colony.py: File too long (1060 lines)",
+        "dream_verification_colony.py: File too long (1149 lines)",
+        "dream_auth.py: File too long (767 lines)",
+        "bio_symbolic_fusion.py: File too long (635 lines)",
+        "biometric_integration.py: File too long (600 lines)",
+        "identity_health_monitor.py: File too long (880 lines)",
+        "__init__.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "identity_tag_resolver.py: File too long (699 lines)",
+        "__init__.py: Low comment ratio",
+        "commercial_module.py: File too long (744 lines)",
+        "consciousness_bridge.py: File too long (888 lines)",
+        "inference_adapter.py: File too long (857 lines)",
+        "memory_connector.py: File too long (648 lines)",
+        "distributed_glyph_generation.py: File too long (1013 lines)",
+        "steganographic_id.py: File too long (796 lines)",
+        "__init__.py: Low comment ratio",
+        "glyph_pipeline.py: File too long (714 lines)",
+        "__init__.py: Low comment ratio",
+        "identity_event_publisher.py: File too long (517 lines)",
+        "identity_event_publisher.py: Low comment ratio",
+        "onboarding_config.py: File too long (548 lines)",
+        "onboarding_config.py: Low comment ratio",
+        "onboarding.py: File too long (716 lines)",
+        "qrg_manager.py: File too long (617 lines)",
+        "sso_engine.py: File too long (519 lines)",
+        "tier_manager.py: File too long (756 lines)",
+        "auth.py: File too long (1132 lines)",
+        "awareness_protocol.py: Low comment ratio",
+        "qrg_generators.py: File too long (941 lines)",
+        "cultural_profile_manager.py: File too long (502 lines)",
+        "cultural_profile_manager.py: Low comment ratio",
+        "websocket_client.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "qr_code_animator.py: Low comment ratio",
+        "insight_cli.py: Low comment ratio",
+        "policy_board.py: Low comment ratio",
+        "lambd_id_controller.py: File too long (652 lines)",
+        "meta_ethics_governor.py: File too long (786 lines)",
+        "ethics_engine.py: File too long (792 lines)",
+        "guardian_reflector_1.py: File too long (666 lines)",
+        "ethical_hierarchy.py: File too long (731 lines)",
+        "shared_ethics_engine.py: File too long (543 lines)",
+        "constitutional_ai.py: File too long (1138 lines)",
+        "decision_node.py: File too long (783 lines)",
+        "PWM_MISSING_COMPONENTS_ANALYZER.py: Low comment ratio",
+        "guardian_reflector.py: File too long (685 lines)",
+        "hitlo_bridge.py: File too long (553 lines)",
+        "hitlo_bridge.py: Low comment ratio",
+        "ethics_engine_1.py: File too long (781 lines)",
+        "ethical_sentinel_dashboard.py: File too long (504 lines)",
+        "ethical_sentinel_dashboard.py: Low comment ratio",
+        "compliance_engine.py: File too long (900 lines)",
+        "lukhas_ethics_guard.py: Low comment ratio",
+        "tracing.py: Low comment ratio",
+        "intrinsic_governor.py: Low comment ratio",
+        "tier_enforcer.py: Low comment ratio",
+        "export_report.py: Low comment ratio",
+        "engine.py: Low comment ratio",
+        "lambda_governor.py: File too long (1006 lines)",
+        "lambda_governor.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "engine.py: File too long (736 lines)",
+        "engine.py: Low comment ratio",
+        "seedra_core.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "colony_dilemma_simulation.py: Low comment ratio",
+        "three_laws.py: File too long (507 lines)",
+        "HEADER_FOOTER_STANDARD.py: Low comment ratio"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 96,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 62792,
+      "comment_ratio": 0.13109950312141674,
+      "test_file_ratio": 0.00749063670411985,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "oversight": {
+            "file_count": 10,
+            "has_init": true
+          },
+          "identity": {
+            "file_count": 121,
+            "has_init": false
+          },
+          "integration": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "features": {
+            "file_count": 1,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "ethics": {
+            "file_count": 65,
+            "has_init": true
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "ethics_legacy": {
+            "file_count": 37,
+            "has_init": false
+          },
+          "guardian": {
+            "file_count": 9,
+            "has_init": true
+          },
+          "policy": {
+            "file_count": 14,
+            "has_init": true
+          }
+        },
+        "balance_score": -0.600766100115721
+      },
+      "hybrid_component_health": {
+        "ethics": {
+          "exists": true,
+          "file_count": 65,
+          "primary_module": "governance",
+          "also_in": [
+            "consciousness"
+          ]
+        },
+        "policy": {
+          "exists": true,
+          "file_count": 14,
+          "primary_module": "governance",
+          "also_in": [
+            "bridge"
+          ]
+        }
+      },
+      "health_score": 0
+    },
+    "bridge": {
+      "name": "bridge",
+      "file_count": 152,
+      "test_coverage": 0,
+      "documentation_score": 80,
+      "connectivity_score": 0.40789473684210525,
+      "code_quality_issues": [
+        "explainability_interface_layer.py: File too long (848 lines)",
+        "colony_bridge.py: Low comment ratio",
+        "integration_bridge.py: File too long (527 lines)",
+        "model_communication_engine.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "blockchain_bridge.py: Low comment ratio",
+        "perplexity_wrapper.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "gemini_wrapper.py: Low comment ratio",
+        "anthropic_wrapper.py: Low comment ratio",
+        "azure_openai_wrapper.py: Low comment ratio",
+        "env_loader.py: Low comment ratio",
+        "create_memory_fold_api.py: File too long (600 lines)",
+        "api_documentation_generator.py: File too long (871 lines)",
+        "api_documentation_generator.py: Low comment ratio",
+        "api_framework.py: File too long (595 lines)",
+        "launch_demo_apis.py: Low comment ratio",
+        "create_classical_emotional_api.py: File too long (534 lines)",
+        "adapters.py: File too long (595 lines)",
+        "symbolic_voice_core.py: Low comment ratio",
+        "voice_narrator.py: Low comment ratio",
+        "modulator.py: Low comment ratio",
+        "interface.py: File too long (847 lines)",
+        "processor.py: Low comment ratio",
+        "swarm_voice_generator.py: Low comment ratio",
+        "context_aware_voice_modular.py: File too long (715 lines)",
+        "adaptation_module.py: Low comment ratio",
+        "modularity_system.py: Low comment ratio",
+        "bio_quantum_engine.py: File too long (951 lines)",
+        "elevenlabs_client.py: Low comment ratio",
+        "dalle_client.py: Low comment ratio",
+        "whisper_client.py: Low comment ratio",
+        "voice_synthesis.py: File too long (616 lines)",
+        "synthesis.py: File too long (573 lines)",
+        "services.py: Low comment ratio",
+        "consciousness.py: Low comment ratio",
+        "dream_commerce.py: File too long (1006 lines)",
+        "dream_commerce.py: Low comment ratio",
+        "__init__.py: Low comment ratio",
+        "memory.py: Low comment ratio",
+        "controllers.py: File too long (1135 lines)",
+        "colony_endpoints.py: Low comment ratio",
+        "dream.py: Low comment ratio",
+        "module_generator.py: File too long (797 lines)",
+        "api.py: File too long (537 lines)",
+        "emotion.py: Low comment ratio",
+        "TrueCoreAnalyzer.py: Low comment ratio",
+        "lambda_id_previewer.py: File too long (853 lines)",
+        "lambda_id_previewer.py: Low comment ratio",
+        "connection_visualizer.py: Low comment ratio"
+      ],
+      "missing_components": [],
+      "integration_points": 0,
+      "imports_in": 0,
+      "imports_out": 62,
+      "cyclomatic_complexity": 0,
+      "lines_of_code": 32904,
+      "comment_ratio": 0.16581570629710674,
+      "test_file_ratio": 0.006578947368421052,
+      "example_count": 1,
+      "submodule_balance": {
+        "submodules": {
+          "connectors": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "llm_wrappers": {
+            "file_count": 7,
+            "has_init": true
+          },
+          "tests": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "docs": {
+            "file_count": 0,
+            "has_init": false
+          },
+          "adapters": {
+            "file_count": 11,
+            "has_init": true
+          },
+          "voice": {
+            "file_count": 48,
+            "has_init": false
+          },
+          "examples": {
+            "file_count": 1,
+            "has_init": false
+          },
+          "api_legacy": {
+            "file_count": 7,
+            "has_init": false
+          },
+          "api": {
+            "file_count": 48,
+            "has_init": true
+          },
+          "external": {
+            "file_count": 2,
+            "has_init": true
+          },
+          "protocols": {
+            "file_count": 17,
+            "has_init": true
+          }
+        },
+        "balance_score": -0.3751928877052344
+      },
+      "hybrid_component_health": {
+        "adapters": {
+          "exists": true,
+          "file_count": 11,
+          "primary_module": "bridge",
+          "also_in": [
+            "qim"
+          ]
+        },
+        "protocols": {
+          "exists": true,
+          "file_count": 17,
+          "primary_module": "bridge",
+          "also_in": [
+            "core"
+          ]
+        }
+      },
+      "health_score": 0
+    }
+  },
+  "weak_links": [
+    {
+      "modules": [
+        "consciousness",
+        "qim"
+      ],
+      "strength": 0.03,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "consciousness",
+        "governance"
+      ],
+      "strength": 0.07,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "consciousness",
+        "bridge"
+      ],
+      "strength": 0.09,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "memory",
+        "qim"
+      ],
+      "strength": 0.05,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "memory",
+        "governance"
+      ],
+      "strength": 0.03,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "qim",
+        "emotion"
+      ],
+      "strength": 0.01,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "qim",
+        "governance"
+      ],
+      "strength": 0.0,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "qim",
+        "bridge"
+      ],
+      "strength": 0.0,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "emotion",
+        "governance"
+      ],
+      "strength": 0.0,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "emotion",
+        "bridge"
+      ],
+      "strength": 0.06,
+      "issue": "Weak or no connection between modules"
+    },
+    {
+      "modules": [
+        "governance",
+        "bridge"
+      ],
+      "strength": 0.0,
+      "issue": "Weak or no connection between modules"
+    }
+  ],
+  "underperformers": [],
+  "missing_integrations": [],
+  "circular_dependencies": [
+    "governance",
+    "qim",
+    "core",
+    "memory",
+    "bridge",
+    "consciousness",
+    "emotion"
+  ],
+  "orphaned_components": [],
+  "harmony_score": 0.362,
+  "recommendations": [
+    {
+      "module": "core",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to core/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "consciousness",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to consciousness/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "memory",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to memory/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "qim",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to qim/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "emotion",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to emotion/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "governance",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to governance/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "module": "bridge",
+      "priority": "HIGH",
+      "actions": [
+        "Add comprehensive tests to bridge/tests/",
+        "Increase integration with other modules"
+      ]
+    },
+    {
+      "modules": [
+        "consciousness",
+        "qim"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between consciousness and qim"
+      ]
+    },
+    {
+      "modules": [
+        "consciousness",
+        "governance"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between consciousness and governance"
+      ]
+    },
+    {
+      "modules": [
+        "consciousness",
+        "bridge"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between consciousness and bridge"
+      ]
+    },
+    {
+      "modules": [
+        "memory",
+        "qim"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between memory and qim"
+      ]
+    },
+    {
+      "modules": [
+        "memory",
+        "governance"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between memory and governance"
+      ]
+    },
+    {
+      "modules": [
+        "qim",
+        "emotion"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between qim and emotion"
+      ]
+    },
+    {
+      "modules": [
+        "qim",
+        "governance"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between qim and governance"
+      ]
+    },
+    {
+      "modules": [
+        "qim",
+        "bridge"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between qim and bridge"
+      ]
+    },
+    {
+      "modules": [
+        "emotion",
+        "governance"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between emotion and governance"
+      ]
+    },
+    {
+      "modules": [
+        "emotion",
+        "bridge"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between emotion and bridge"
+      ]
+    },
+    {
+      "modules": [
+        "governance",
+        "bridge"
+      ],
+      "priority": "MEDIUM",
+      "actions": [
+        "Create bridge components between governance and bridge"
+      ]
+    }
+  ]
+}

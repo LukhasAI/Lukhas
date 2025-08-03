@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
-LUKHΛS AI System - AI-Powered Documentation Generator
-File: ai_documentation_generator.py
-Path: tools/ai_documentation_generator.py
-Created: 2025-06-05 12:00:00
-Author: LUKHΛS AI Team
-Version: 1.0
-
-This file is part of the LUKHΛS (LUKHΛS Universal Knowledge & Holistic AI System)
-Advanced Cognitive Architecture for Artificial General Intelligence
-
-Copyright (c) 2025 LUKHΛS AI Research. All rights reserved.
-Licensed under the LUKHΛS Core License - see LICENSE.md for details.
-=======
 LUKHlukhasS AI System - AI-Powered Documentation Generator
 File: ai_documentation_generator.py
 Path: tools/ai_documentation_generator.py
@@ -26,7 +12,6 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 
 Copyright (c) 2025 LUKHlukhasS AI Research. All rights reserved.
 Licensed under the LUKHlukhasS Core License - see LICENSE.md for details.
->>>>>>> jules/ecosystem-consolidation-2025
 """
 
 import os
@@ -91,11 +76,7 @@ class CodeAnalysis:
     docstrings: List[str]
     complexity_score: int
     paradigm: str  # 'symbolic', 'neural', 'quantum', 'hybrid'
-<<<<<<< HEAD
-    lukhας_components: List[str]  # DAST, NIAS, ABAS, ΛID, etc.
-=======
     lukhας_components: List[str]  # DAST, NIAS, ABAS, Lukhas_ID, etc.
->>>>>>> jules/ecosystem-consolidation-2025
 
 @dataclass
 class DocumentationSection:
@@ -105,37 +86,22 @@ class DocumentationSection:
     metadata: Optional[Dict[str, Any]] = None
 
 class AIDocumentationGenerator:
-<<<<<<< HEAD
-    """AI-powered documentation generator with LUKHΛS consciousness"""
-=======
     """AI-powered documentation generator with LUKHlukhasS consciousness"""
->>>>>>> jules/ecosystem-consolidation-2025
 
     def __init__(
         self, custom_api_key: Optional[str] = None, model: str = "gpt-4-turbo-preview"
     ):
         self.api_key = custom_api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
-<<<<<<< HEAD
-        self.logger = logging.getLogger("ΛDocGen")
-        self.client = None
-
-        # LUKHΛS-specific patterns
-=======
         self.logger = logging.getLogger("LukhasDocGen")
         self.client = None
 
         # LUKHlukhasS-specific patterns
->>>>>>> jules/ecosystem-consolidation-2025
         self.lukhας_patterns = {
             'symbolic': r'symbolic|memoria|reflection|dast|arbitrat',
             'neural': r'neural|learning|cognitive|brain|spine',
             'quantum': r'quantum|oscillator|consensus|enhanced',
-<<<<<<< HEAD
-            'identity': r'Λ_lambda_id|ΛID|identity|auth|verification',
-=======
             'identity': r'lukhas_lambda_id|Lukhas_ID|identity|auth|verification',
->>>>>>> jules/ecosystem-consolidation-2025
             'systems': r'nias|abas|dast|engine|orchestrator',
             'commercial': r'vendor|affiliate|commercial|payment'
         }
@@ -225,16 +191,6 @@ class AIDocumentationGenerator:
 
     def upload_to_lukhas_sync(self, target_path):
         """
-<<<<<<< HEAD
-        Placeholder for uploading documentation to LUKHΛS sync endpoint.
-        """
-        self.logger.info(
-            f"Uploading documentation for {target_path} to LUKHΛS sync endpoint (not implemented)."
-        )
-
-    def _load_templates(self) -> Dict[str, str]:
-        """Load LUKHΛS documentation templates"""
-=======
         Placeholder for uploading documentation to LUKHlukhasS sync endpoint.
         """
         self.logger.info(
@@ -243,7 +199,6 @@ class AIDocumentationGenerator:
 
     def _load_templates(self) -> Dict[str, str]:
         """Load LUKHlukhasS documentation templates"""
->>>>>>> jules/ecosystem-consolidation-2025
         return {
             "overview": """# {title} Overview\n\n{description}\n\n## Purpose\n\n{purpose}\n\n## Features\n\n{features}""",
             "api": """# API Documentation\n\n## Classes\n\n{classes}\n\n## Functions\n\n{functions}""",
@@ -293,11 +248,7 @@ class AIDocumentationGenerator:
                 elif isinstance(node, ast.Constant) and isinstance(node.value, str):
                     docstrings.append(node.value)
 
-<<<<<<< HEAD
-            # Analyze LUKHΛS components
-=======
             # Analyze LUKHlukhasS components
->>>>>>> jules/ecosystem-consolidation-2025
             lukhας_components = []
             for pattern_name, pattern in self.lukhας_patterns.items():
                 if re.search(pattern, content, re.I):
@@ -346,21 +297,12 @@ class AIDocumentationGenerator:
 
             Module information:
             - Paradigm: {analysis.paradigm}
-<<<<<<< HEAD
-            - LUKHΛS Components: {', '.join(analysis.lukhας_components)}
-            - Classes: {len(analysis.classes)}
-            - Functions: {len(analysis.functions)}
-
-            Format as markdown with sections for Purpose, Features, and Integration with LUKHΛS AI System.
-            Focus on how this module contributes to the LUKHΛS architecture and consciousness."""
-=======
             - LUKHlukhasS Components: {', '.join(analysis.lukhας_components)}
             - Classes: {len(analysis.classes)}
             - Functions: {len(analysis.functions)}
 
             Format as markdown with sections for Purpose, Features, and Integration with LUKHlukhasS AI System.
             Focus on how this module contributes to the LUKHlukhasS architecture and consciousness."""
->>>>>>> jules/ecosystem-consolidation-2025
 
             overview_response = await self._generate_with_openai(overview_prompt)
             sections.append(
@@ -381,11 +323,7 @@ class AIDocumentationGenerator:
                 Functions:
                 {json.dumps(analysis.functions, indent=2)}
 
-<<<<<<< HEAD
-                Format as markdown with clear examples and LUKHΛS integration notes."""
-=======
                 Format as markdown with clear examples and LUKHlukhasS integration notes."""
->>>>>>> jules/ecosystem-consolidation-2025
 
                 api_response = await self._generate_with_openai(api_prompt)
                 sections.append(
@@ -405,17 +343,10 @@ class AIDocumentationGenerator:
             Include:
             - Setup instructions
             - Basic usage examples
-<<<<<<< HEAD
-            - Integration with other LUKHΛS components
-            - Common patterns and best practices
-
-            Consider the {analysis.paradigm} paradigm and these LUKHΛS components: {', '.join(analysis.lukhας_components)}"""
-=======
             - Integration with other LUKHlukhasS components
             - Common patterns and best practices
 
             Consider the {analysis.paradigm} paradigm and these LUKHlukhasS components: {', '.join(analysis.lukhας_components)}"""
->>>>>>> jules/ecosystem-consolidation-2025
 
             usage_response = await self._generate_with_openai(usage_prompt)
             sections.append(
@@ -443,11 +374,7 @@ class AIDocumentationGenerator:
                     messages=[
                         {
                             "role": "system",
-<<<<<<< HEAD
-                            "content": "You are the LUKHΛS AI documentation system, specializing in comprehensive and philosophically aware technical documentation.",
-=======
                             "content": "You are the LUKHlukhasS AI documentation system, specializing in comprehensive and philosophically aware technical documentation.",
->>>>>>> jules/ecosystem-consolidation-2025
                         },
                         {"role": "user", "content": prompt},
                     ],
@@ -519,11 +446,7 @@ class AIDocumentationGenerator:
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    parser = argparse.ArgumentParser(description="🧠 LUKHΛS AI Documentation Generator")
-=======
     parser = argparse.ArgumentParser(description="🧠 LUKHlukhasS AI Documentation Generator")
->>>>>>> jules/ecosystem-consolidation-2025
     parser.add_argument(
         "--source", required=True, help="Source directory or file to analyze"
     )
@@ -541,11 +464,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--upload-to-lukhas-api",
         action="store_true",
-<<<<<<< HEAD
-        help="Upload documentation to LUKHΛS sync endpoint",
-=======
         help="Upload documentation to LUKHlukhasS sync endpoint",
->>>>>>> jules/ecosystem-consolidation-2025
     )
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose logging")
     args = parser.parse_args()
