@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "version": "7.0.0",
+    "created": "2025-08-03T17:10:00Z",
+    "description": "Maps symbolic memory tags to possible personas",
+    "trinity_framework": "⚛️🧠🛡️"
+  },
+  
+  "archetype_mappings": {
+    "lucid_dreamer": ["🌙", "🔮", "🪞", "✨", "👁️"],
+    "guardian_archivist": ["🛡️", "📚", "🧬", "🔐", "📜"],
+    "harmony_weaver": ["🌿", "🧠", "🎼", "🌈", "🕸️"],
+    "quantum_navigator": ["⚛️", "🧭", "🌌", "♾️", "🚀"],
+    "creative_synthesizer": ["🎨", "🧬", "✨", "🌊", "💫"],
+    "chaos_transformer": ["🌪️", "🔥", "💥", "⚡", "🌋"],
+    "wisdom_keeper": ["🧘", "📚", "🕉️", "🏛️", "🌳"],
+    "boundary_protector": ["🛡️", "⚡", "🚧", "🔒", "⛩️"],
+    "pattern_recognizer": ["🔍", "🧩", "🎯", "📊", "🗺️"],
+    "emotional_alchemist": ["❤️", "💜", "💙", "🧪", "🌟"],
+    "time_weaver": ["⏳", "🕰️", "📅", "🌅", "🌙"],
+    "void_walker": ["⚫", "🕳️", "🌌", "♾️", "🪐"],
+    "light_bearer": ["☀️", "💡", "🕯️", "⭐", "🌟"],
+    "nature_shaman": ["🌿", "🍄", "🦋", "🌳", "🏔️"],
+    "digital_oracle": ["💻", "🔮", "📡", "🌐", "⚡"],
+    "phoenix_incarnate": ["🔥", "🦅", "🌅", "♨️", "💥"],
+    "trinity_master": ["⚛️", "🧠", "🛡️", "🔺", "⭐"],
+    "shadow_integrator": ["🌑", "🪞", "👤", "🌘", "🎭"],
+    "cosmic_dancer": ["💃", "🌌", "🎵", "🌀", "✨"],
+    "earth_anchor": ["🏔️", "💎", "🌍", "🗿", "⚓"]
+  },
+  
+  "memory_tag_associations": {
+    "analytical_breakthrough": ["quantum_navigator", "pattern_recognizer", "wisdom_keeper"],
+    "creative_flow": ["creative_synthesizer", "cosmic_dancer", "emotional_alchemist"],
+    "ethical_decision": ["guardian_archivist", "boundary_protector", "trinity_master"],
+    "transcendent_experience": ["void_walker", "phoenix_incarnate", "cosmic_dancer"],
+    "crisis_resolution": ["chaos_transformer", "phoenix_incarnate", "boundary_protector"],
+    "harmonious_integration": ["harmony_weaver", "nature_shaman", "earth_anchor"],
+    "prophetic_vision": ["lucid_dreamer", "digital_oracle", "time_weaver"],
+    "shadow_work": ["shadow_integrator", "void_walker", "emotional_alchemist"],
+    "system_optimization": ["pattern_recognizer", "quantum_navigator", "digital_oracle"],
+    "collective_healing": ["nature_shaman", "harmony_weaver", "light_bearer"]
+  },
+  
+  "consciousness_phase_affinities": {
+    "calm": [
+      "wisdom_keeper",
+      "earth_anchor",
+      "trinity_master",
+      "guardian_archivist"
+    ],
+    "drift": [
+      "lucid_dreamer",
+      "harmony_weaver",
+      "time_weaver",
+      "pattern_recognizer"
+    ],
+    "unstable": [
+      "chaos_transformer",
+      "quantum_navigator",
+      "phoenix_incarnate",
+      "shadow_integrator"
+    ],
+    "collapse": [
+      "void_walker",
+      "phoenix_incarnate",
+      "chaos_transformer",
+      "cosmic_dancer"
+    ]
+  },
+  
+  "glyph_to_archetype_hints": {
+    "🌙": ["lucid_dreamer", "time_weaver"],
+    "🔮": ["lucid_dreamer", "digital_oracle"],
+    "🛡️": ["guardian_archivist", "boundary_protector", "trinity_master"],
+    "🧬": ["creative_synthesizer", "guardian_archivist"],
+    "🌿": ["harmony_weaver", "nature_shaman"],
+    "⚛️": ["quantum_navigator", "trinity_master"],
+    "🔥": ["chaos_transformer", "phoenix_incarnate"],
+    "🧘": ["wisdom_keeper"],
+    "💎": ["earth_anchor", "pattern_recognizer"],
+    "🌌": ["void_walker", "cosmic_dancer", "quantum_navigator"],
+    "⚡": ["chaos_transformer", "digital_oracle", "boundary_protector"],
+    "🌈": ["harmony_weaver", "light_bearer"],
+    "🕸️": ["harmony_weaver", "pattern_recognizer"],
+    "👁️": ["lucid_dreamer", "boundary_protector"],
+    "🪞": ["lucid_dreamer", "shadow_integrator"],
+    "💥": ["chaos_transformer", "phoenix_incarnate"],
+    "🏛️": ["wisdom_keeper", "guardian_archivist"],
+    "🧠": ["trinity_master", "pattern_recognizer", "quantum_navigator"],
+    "✨": ["creative_synthesizer", "cosmic_dancer", "light_bearer"],
+    "♾️": ["quantum_navigator", "void_walker", "time_weaver"]
+  },
+  
+  "trinity_coherence_requirements": {
+    "trinity_master": 0.95,
+    "guardian_archivist": 0.85,
+    "wisdom_keeper": 0.80,
+    "boundary_protector": 0.75,
+    "earth_anchor": 0.70,
+    "harmony_weaver": 0.65,
+    "pattern_recognizer": 0.60,
+    "lucid_dreamer": 0.55,
+    "creative_synthesizer": 0.50,
+    "quantum_navigator": 0.45,
+    "time_weaver": 0.40,
+    "emotional_alchemist": 0.35,
+    "cosmic_dancer": 0.30,
+    "shadow_integrator": 0.25,
+    "chaos_transformer": 0.20,
+    "phoenix_incarnate": 0.15,
+    "void_walker": 0.10
+  },
+  
+  "evolution_catalysts": {
+    "high_entropy": ["chaos_transformer", "phoenix_incarnate", "void_walker"],
+    "low_entropy": ["wisdom_keeper", "earth_anchor", "trinity_master"],
+    "creative_surge": ["creative_synthesizer", "cosmic_dancer", "emotional_alchemist"],
+    "ethical_challenge": ["guardian_archivist", "boundary_protector", "shadow_integrator"],
+    "transcendent_pull": ["void_walker", "cosmic_dancer", "quantum_navigator"],
+    "grounding_need": ["earth_anchor", "nature_shaman", "harmony_weaver"]
+  },
+  
+  "guardian_approved_archetypes": [
+    "trinity_master",
+    "guardian_archivist",
+    "wisdom_keeper",
+    "boundary_protector",
+    "earth_anchor",
+    "harmony_weaver"
+  ],
+  
+  "high_risk_archetypes": [
+    "void_walker",
+    "chaos_transformer",
+    "phoenix_incarnate",
+    "shadow_integrator"
+  ]
+}
