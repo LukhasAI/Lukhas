@@ -70,3 +70,12 @@ integration_metadata:
     glyph_integrity_protocol: "QRGLYPH-v2"
     emergency_manifest_version: "1.3.2"
     trinity_framework_hash: "f2083c…(truncated)"
+
+symbolic_chain:
+  mode: patch_output  # Options: monitor_only, patch_output, block_and_replace, enhance_and_guide
+  auto_heal_threshold: 0.42
+  visual_diff_enabled: true
+  forensic_logging: true
+  persona_adaptive_healing: false
+  max_cache_size: 1000
+  audit_retention_days: 90

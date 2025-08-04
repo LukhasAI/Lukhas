@@ -1,0 +1,327 @@
+{
+  "timestamp": "2025-08-04T08:27:42.165229+00:00",
+  "input_trace": {
+    "glyphs": [
+      "🛡️",
+      "⚡",
+      "🏛️",
+      "⚔️"
+    ],
+    "drift_score": 0.4,
+    "entropy": 0.35,
+    "trinity_coherence": 0.85
+  },
+  "analysis": {
+    "top_match": {
+      "persona_name": "the_guardian",
+      "similarity_score": 0.444,
+      "matching_glyphs": [
+        "🛡️",
+        "⚡"
+      ],
+      "trait_alignment": {
+        "drift": 0.9,
+        "entropy": 0.85,
+        "trinity": 0.59
+      },
+      "explanation": "Weak symbolic alignment; 2 shared glyphs",
+      "confidence": "low"
+    },
+    "all_matches": [
+      {
+        "persona_name": "the_guardian",
+        "similarity_score": 0.444,
+        "matching_glyphs": [
+          "🛡️",
+          "⚡"
+        ],
+        "trait_alignment": {
+          "drift": 0.9,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment; 2 shared glyphs",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_trinity_keeper",
+        "similarity_score": 0.328,
+        "matching_glyphs": [
+          "🛡️"
+        ],
+        "trait_alignment": {
+          "drift": 0.9,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment; 1 shared glyph",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_architect",
+        "similarity_score": 0.184,
+        "matching_glyphs": [
+          "🏛️"
+        ],
+        "trait_alignment": {
+          "drift": 1.0,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment; 1 shared glyph",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_navigator",
+        "similarity_score": 0.147,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.8,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_quantum_walker",
+        "similarity_score": 0.081,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.45,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_dreamer",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.7,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_alchemist",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.6,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_sage",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.9,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_weaver",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.9,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_phoenix",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.5,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_oracle",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 0.8,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      },
+      {
+        "persona_name": "the_gardener",
+        "similarity_score": 0.0,
+        "matching_glyphs": [],
+        "trait_alignment": {
+          "drift": 1.0,
+          "entropy": 0.85,
+          "trinity": 0.59
+        },
+        "explanation": "Weak symbolic alignment",
+        "confidence": "low"
+      }
+    ],
+    "embedding_features": [
+      "emotion_abundance",
+      "emotion_achievement",
+      "emotion_anticipation",
+      "emotion_awe",
+      "emotion_breakthrough",
+      "emotion_care",
+      "emotion_caution",
+      "emotion_clarity",
+      "emotion_compassion",
+      "emotion_connection",
+      "emotion_dedication",
+      "emotion_depth",
+      "emotion_destiny",
+      "emotion_determination",
+      "emotion_discovery",
+      "emotion_excitement",
+      "emotion_flow",
+      "emotion_focus",
+      "emotion_growth",
+      "emotion_harmony",
+      "emotion_inspiration",
+      "emotion_mystery",
+      "emotion_patience",
+      "emotion_possibility",
+      "emotion_power",
+      "emotion_purpose",
+      "emotion_quantum_awareness",
+      "emotion_rebirth",
+      "emotion_renewal",
+      "emotion_responsibility",
+      "emotion_revelation",
+      "emotion_satisfaction",
+      "emotion_serenity",
+      "emotion_simultaneity",
+      "emotion_stability",
+      "emotion_strength",
+      "emotion_transcendence",
+      "emotion_transformation",
+      "emotion_uncertainty",
+      "emotion_understanding",
+      "emotion_unity",
+      "emotion_wholeness",
+      "emotion_wonder",
+      "glyph_♾️",
+      "glyph_⚛️",
+      "glyph_⚡",
+      "glyph_✨",
+      "glyph_🌅",
+      "glyph_🌈",
+      "glyph_🌌",
+      "glyph_🌙",
+      "glyph_🌟",
+      "glyph_🌳",
+      "glyph_🌸",
+      "glyph_🌿",
+      "glyph_🏛️",
+      "glyph_👁️",
+      "glyph_💎",
+      "glyph_📐",
+      "glyph_📚",
+      "glyph_📜",
+      "glyph_🔥",
+      "glyph_🔮",
+      "glyph_🕉️",
+      "glyph_🕸️",
+      "glyph_🛡️",
+      "glyph_🦅",
+      "glyph_🧘",
+      "glyph_🧠",
+      "glyph_🧪",
+      "glyph_🧬",
+      "glyph_🧭",
+      "threshold_max_0.3",
+      "threshold_max_0.4",
+      "threshold_max_0.5",
+      "threshold_max_0.6",
+      "threshold_max_0.7",
+      "threshold_max_0.8",
+      "threshold_max_0.9",
+      "threshold_max_0.95",
+      "threshold_min_0.0",
+      "threshold_min_0.1",
+      "threshold_min_0.2",
+      "threshold_min_0.3",
+      "threshold_min_0.4",
+      "threshold_min_0.5",
+      "threshold_min_0.6",
+      "trait_adaptive",
+      "trait_balanced",
+      "trait_catalytic",
+      "trait_coherent",
+      "trait_connective",
+      "trait_constructive",
+      "trait_contemplative",
+      "trait_creative",
+      "trait_curious",
+      "trait_decisive",
+      "trait_ecological",
+      "trait_entangled",
+      "trait_eternal",
+      "trait_experimental",
+      "trait_exploratory",
+      "trait_foundational",
+      "trait_growth-oriented",
+      "trait_harmonizing",
+      "trait_imaginative",
+      "trait_innovative",
+      "trait_insightful",
+      "trait_integrative",
+      "trait_intuitive",
+      "trait_mysterious",
+      "trait_nurturing",
+      "trait_paradoxical",
+      "trait_patient",
+      "trait_precise",
+      "trait_prescient",
+      "trait_probabilistic",
+      "trait_prophetic",
+      "trait_protective",
+      "trait_regenerative",
+      "trait_relational",
+      "trait_resilient",
+      "trait_responsible",
+      "trait_superposed",
+      "trait_symbolic",
+      "trait_systematic",
+      "trait_transformative",
+      "trait_vigilant",
+      "trait_visionary",
+      "trait_wise",
+      "trinity_aligned"
+    ],
+    "trinity_alignment": true
+  },
+  "recommendations": {
+    "primary": "the_guardian",
+    "alternatives": [
+      "the_trinity_keeper",
+      "the_architect",
+      "the_navigator"
+    ],
+    "confidence": "low"
+  }
+}

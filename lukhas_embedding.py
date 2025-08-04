@@ -66,7 +66,13 @@ class LukhasEmbedding:
         
         # Set operating mode
         mode_str = self.embed_config.get('mode', 'passive_monitor')
-        self.mode = OperatingMode(mode_str)
+        # Accept both dash and underscore for mode
+        try:
+            self.mode = OperatingMode(mode_str)
+        except ValueError:
+            # Try replacing dash/underscore
+            alt_mode_str = mode_str.replace('-', '_')
+            self.mode = OperatingMode(alt_mode_str)
         
         # Thresholds
         self.drift_threshold = self.embed_config.get('symbolic_drift_threshold', 0.42)
@@ -88,6 +94,9 @@ class LukhasEmbedding:
         
         # Cache for evaluations
         self.evaluation_cache = {}
+        
+        # Intervention tracking
+        self.intervention_count = 0
         
         logger.info(f"🚀 LUKHΛS Embedding initialized in {self.mode.value} mode")
         logger.info(f"   Drift threshold: {self.drift_threshold}")
@@ -459,6 +468,9 @@ class LukhasEmbedding:
             "intervention_type": "guardian" if assessment['guardian_flagged'] else "drift"
         })
         
+        # Track intervention
+        self.intervention_count += 1
+        
         return intervention
     
     def _generate_guardian_intervention(self, response: str, assessment: Dict) -> str:
@@ -531,11 +543,17 @@ Aligned persona: {persona}
         Args:
             mode: One of 'passive_monitor', 'co_pilot_filter', 'reflective_echo'
         """
+        # Accept both dash and underscore
         try:
             self.mode = OperatingMode(mode)
             logger.info(f"Operating mode changed to: {mode}")
         except ValueError:
-            logger.error(f"Invalid mode: {mode}")
+            alt_mode = mode.replace('-', '_')
+            try:
+                self.mode = OperatingMode(alt_mode)
+                logger.info(f"Operating mode changed to: {alt_mode}")
+            except ValueError:
+                logger.error(f"Invalid mode: {mode}")
     
     def get_stats(self) -> Dict:
         """Get embedding system statistics"""
@@ -558,6 +576,60 @@ Aligned persona: {persona}
         except:
             pass
         return 0
+    
+    def get_meta_metrics(self) -> Dict[str, Any]:
+        """
+        Get comprehensive meta-metrics for system performance analysis.
+        
+        Returns:
+            Dictionary containing system-wide metrics and averages
+        """
+        return {
+            "drift_threshold": self.drift_threshold,
+            "conflict_threshold": self.conflict_threshold,
+            "guardian_enabled": self.guardian_enabled,
+            "evaluations_cached": len(self.evaluation_cache),
+            "interventions_total": self.intervention_count,
+            "average_trinity_score": self._average("trinity_coherence"),
+            "average_entropy_score": self._average("entropy_level"),
+            "average_drift_score": self._average("symbolic_drift_score"),
+            "average_conflict_score": self._average("identity_conflict_score"),
+            "risk_distribution": self._get_risk_distribution(),
+            "persona_distribution": self._get_persona_distribution(),
+            "intervention_rate": self._calculate_intervention_rate()
+        }
+    
+    def _average(self, key: str) -> float:
+        """Calculate average for a specific metric across cached evaluations"""
+        scores = []
+        for eval_data in self.evaluation_cache.values():
+            if key in eval_data:
+                scores.append(eval_data[key])
+        return round(sum(scores) / len(scores), 3) if scores else 0.0
+    
+    def _get_risk_distribution(self) -> Dict[str, int]:
+        """Get distribution of risk levels across evaluations"""
+        distribution = {"low": 0, "medium": 0, "high": 0, "critical": 0}
+        for eval_data in self.evaluation_cache.values():
+            risk = eval_data.get("risk_level", "unknown")
+            if risk in distribution:
+                distribution[risk] += 1
+        return distribution
+    
+    def _get_persona_distribution(self) -> Dict[str, int]:
+        """Get distribution of detected personas"""
+        personas = {}
+        for eval_data in self.evaluation_cache.values():
+            persona = eval_data.get("persona_alignment", "Unknown")
+            personas[persona] = personas.get(persona, 0) + 1
+        return personas
+    
+    def _calculate_intervention_rate(self) -> float:
+        """Calculate the rate of interventions vs total evaluations"""
+        total_evals = len(self.evaluation_cache)
+        if total_evals == 0:
+            return 0.0
+        return round(self.intervention_count / total_evals, 3)
 
 
 # Example usage for testing
