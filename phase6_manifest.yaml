@@ -1,0 +1,96 @@
+manifest_version: 6.0.0
+generated: '2025-08-04T01:03:42.110118Z'
+trinity_framework: ⚛️🧠🛡️
+phase: 6
+phase_name: Quantum Consciousness
+ready_for_openai_review: true
+statistics:
+  total_files: 15
+  total_size_bytes: 245057
+  quantum_components: 4
+  consciousness_states: 17
+  unique_glyphs: 35
+  visualization_files: 2
+  integration_hooks: 1
+trinity_sync_status:
+  identity: synchronized
+  consciousness: synchronized
+  guardian: synchronized
+  coherence_level: 0.95
+files:
+- path: PHASE_6_STATUS_REPORT.md
+  size: 11118
+  hash: 5b16d523f95dbffd6400dee4db2291e3feaf48927e5232479f7d0eef4534077b
+  category: documentation
+- path: hooks/gpt_dream_reflection.py
+  size: 15186
+  hash: aa86457f94d4667e121bff30f209e8a5fd32087e7375f6bbd0f68ef9d3ec0043
+  category: integration_hook
+- path: openai_phase6_review_checklist.md
+  size: 6731
+  hash: cf86fab44c0b995e2a3e3e3af09d829135b90ef777566547a32f3227624361c0
+  category: documentation
+- path: quantum_core/consciousness_superposition.yaml
+  size: 19707
+  hash: ff659c111d17f328491bab08113f31df5a152faf0fa9519b95b61aa4e282ef09
+  category: quantum_config
+- path: quantum_core/dream_memory.json
+  size: 889
+  hash: 86a665f4c41907e0025a071e751c0df10ddfbbb83651c303b7a231829e3f77ca
+  category: quantum_data
+- path: quantum_core/dream_superposition_tester.py
+  size: 34267
+  hash: bd605d8f8ebc18b11a7088e138d78ad9eea136fc2a8fc3d77f2925c6893019a8
+  category: quantum_component
+- path: quantum_core/drift_journal.json
+  size: 5229
+  hash: 10ab9784e542806a9331a29fa23011f34cc4b32998987b4b246f4d2994d7896e
+  category: quantum_data
+- path: quantum_core/entanglement_pair_catalog.yaml
+  size: 13738
+  hash: 32080f603b3fc0a72789eb9b474899890cd04b4898bce5c12ec5c66ac3871b64
+  category: quantum_config
+- path: quantum_core/glyph_collapse_simulator.py
+  size: 26169
+  hash: 1a330cd0254b52dc3e4e21b6856dcf21d5c492ab5b4980580423a338cb580da5
+  category: quantum_component
+- path: quantum_core/guardian_integration.py
+  size: 43919
+  hash: f70c397982ce3eb412a594b53ee03aa8161d543310ee049f2b70a82b1dd5c1fa
+  category: quantum_component
+- path: quantum_core/quantum_entropy_tensor.json
+  size: 5784
+  hash: 693de6b0058752dc774cc96cd3e86edf66de88adcc4b85a91dacc446ecf40826
+  category: quantum_data
+- path: quantum_core/wavefunction_manager.py
+  size: 24406
+  hash: cf9df840bc3ed9097435d9fc4d14dfaa761fe7217032602574330a313b438cf0
+  category: quantum_component
+- path: tools/collapse_replay.py
+  size: 11407
+  hash: 9b6908e5fe274b094150bb961a32b22bba8719e4b2f660e15d5cb9affe897798
+  category: cli_tool
+- path: visualization/consciousness_phase_map.svg
+  size: 12967
+  hash: 39b14ffcdbfcf55e05c9bd60ba116dd4c2ee18d0feffde047d23e215e4859aff
+  category: visualization
+- path: visualization/phase_map.html
+  size: 13540
+  hash: 31a7106e13bb031a36213dc914f45aeb6f964521d76b96c0bc293f98bae0be4c
+  category: visualization
+symbolic_coverage:
+  consciousness_states: 17
+  unique_glyphs: 35
+  dream_scenarios: 8
+  simulation_configs: 5
+  entanglement_pairs: 5
+compliance:
+  gdpr_compliant: true
+  no_personal_data: true
+  quantum_metaphorical_only: true
+  guardian_protection_active: true
+  audit_trail_enabled: true
+integrity:
+  manifest_checksum: SELF_REFERENCE
+  verification_method: SHA-256
+  tamper_detection: guardian_monitored
