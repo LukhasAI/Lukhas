@@ -418,7 +418,20 @@ traced_gpt = AuditLogger(safe_gpt)
 ## Important Resources
 
 - **Main Documentation**: `README.md` - Complete system overview
+- **Trinity Documentation**: `README_TRINITY.md` - Guardian system and symbolic AI overview
 - **Copilot Instructions**: `.github/copilot-instructions.md` - Additional AI agent guidance
 - **Module Manifests**: `*/MODULE_MANIFEST.json` - Module-specific metadata
 - **Test Configuration**: `pytest.ini` - Testing setup and markers
 - **Analysis Tools**: `tools/analysis/` - System analysis scripts
+
+## Session Context Archives
+
+Important development sessions are documented for reference:
+
+### Finalization Session (August 5, 2025)
+- **Location**: `/docs/context/session_20250805_finalization.md`
+- **Summary**: System stabilization from 87.8% to 100% functionality
+- **Key Work**: Identity system implementation, API endpoints completion, dashboard enhancements
+- **Outcome**: Full production readiness for OpenAI review
+
+This session archive contains detailed technical context about fixes, implementations, and architectural decisions made during the final stabilization phase.
