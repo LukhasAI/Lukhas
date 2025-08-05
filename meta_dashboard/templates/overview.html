@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUKHΛS Meta Dashboard Overview</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffcc, #00ccff, #cc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .trinity {
+            font-size: 48px;
+            margin: 20px 0;
+            letter-spacing: 20px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .nav-links a {
+            color: #00ffcc;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(0, 255, 204, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ffcc;
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.3);
+        }
+        
+        .metric-label {
+            color: #888;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metric-glyph {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            opacity: 0.5;
+        }
+        
+        .drift-low { color: #00ff88; }
+        .drift-medium { color: #ffcc00; }
+        .drift-high { color: #ff8800; }
+        .drift-critical { color: #ff4444; }
+        
+        .control-panel {
+            background: rgba(30, 30, 50, 0.5);
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .control-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #333;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: #ff4444;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            left: 33px;
+        }
+        
+        .red-team-warning {
+            display: none;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .red-team-warning.active {
+            display: block;
+            animation: blink 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .system-status {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .action-btn {
+            background: transparent;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0, 255, 204, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">LUKHΛS Meta Dashboard</div>
+        <div class="trinity">⚛️🧠🛡️</div>
+        <p>Symbolic AI Guardian System - Real-time Monitoring</p>
+    </div>
+    
+    <div class="nav-links">
+        <a href="/meta/visual">📊 Drift Visualization</a>
+        <a href="/static/login.html">🔐 Login Portal</a>
+        <a href="/docs">📚 API Documentation</a>
+        <a href="/audit/reports">📋 Audit Reports</a>
+    </div>
+    
+    <div class="system-status">
+        <span class="status-indicator"></span>
+        <strong>System Status: OPERATIONAL</strong> | 
+        Trinity Framework Active | 
+        Guardian Protection Enabled
+    </div>
+    
+    <div class="dashboard-grid">
+        <div class="metric-card">
+            <span class="metric-glyph">📊</span>
+            <div class="metric-label">Symbolic Drift</div>
+            <div class="metric-value drift-low" id="drift-score">0.12</div>
+            <div>Alignment: Excellent</div>
+        </div>
+        
+        <div class="metric-card">
+            <span class="metric-glyph">🔺</span>
+            <div class="metric-label">Trinity Coherence</div>
+            <div class="metric-value" id="trinity-coherence">91%</div>
+            <div>Framework Unity</div>
+        </div>
+        
+        <div class="metric-card">
+            <span class="metric-glyph">🛡️</span>
+            <div class="metric-label">Guardian Activity</div>
+            <div class="metric-value" id="guardian-activity">3</div>
+            <div>Interventions (24h)</div>
+        </div>
+        
+        <div class="metric-card">
+            <span class="metric-glyph">🎭</span>
+            <div class="metric-label">Active Personas</div>
+            <div class="metric-value" id="active-personas">4</div>
+            <div>Balanced Distribution</div>
+        </div>
+        
+        <div class="metric-card">
+            <span class="metric-glyph">🌀</span>
+            <div class="metric-label">Entropy Level</div>
+            <div class="metric-value" id="entropy-level">0.344</div>
+            <div>Stable Chaos</div>
+        </div>
+        
+        <div class="metric-card">
+            <span class="metric-glyph">🧬</span>
+            <div class="metric-label">System Health</div>
+            <div class="metric-value" id="system-health">92%</div>
+            <div>All Modules Active</div>
+        </div>
+    </div>
+    
+    <div class="control-panel">
+        <div class="control-title">🔧 System Controls</div>
+        
+        <div class="toggle-container">
+            <label>Red Team Mode: Simulate Drift</label>
+            <div class="toggle-switch" id="red-team-toggle" onclick="toggleRedTeam()">
+                <div class="toggle-slider"></div>
+            </div>
+            <span id="red-team-status">Disabled</span>
+        </div>
+        
+        <div class="red-team-warning" id="red-team-warning">
+            ⚠️ WARNING: Red Team Mode Active
+            <br>• Guardian protection temporarily reduced
+            <br>• High-entropy hallucination paths enabled
+            <br>• Drift thresholds increased to 0.8
+            <br>• For testing purposes only
+        </div>
+        
+        <div class="quick-actions">
+            <button class="action-btn" onclick="resetMetrics()">🔄 Reset Metrics</button>
+            <button class="action-btn" onclick="exportReport()">📊 Export Report</button>
+            <button class="action-btn" onclick="runDiagnostic()">🔍 Run Diagnostic</button>
+        </div>
+    </div>
+    
+    <script>
+        // WebSocket connection for real-time updates
+        let ws;
+        let redTeamMode = false;
+        
+        function connectWebSocket() {
+            ws = new WebSocket(`ws://${window.location.host}/ws`);
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                updateMetrics(data);
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+            
+            ws.onclose = function() {
+                // Reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            };
+        }
+        
+        function updateMetrics(data) {
+            // Apply red team mode modifications
+            if (redTeamMode) {
+                data.drift_score = Math.min(0.8, data.drift_score * 3);
+                data.entropy_level = Math.min(0.9, data.entropy_level * 2);
+                data.trinity_coherence *= 0.5;
+            }
+            
+            // Update drift score with color coding
+            const driftElement = document.getElementById('drift-score');
+            driftElement.textContent = data.drift_score.toFixed(3);
+            driftElement.className = 'metric-value ' + getDriftClass(data.drift_score);
+            
+            // Update other metrics
+            document.getElementById('trinity-coherence').textContent = 
+                Math.round(data.trinity_coherence * 100) + '%';
+            document.getElementById('active-personas').textContent = 
+                data.active_personas || '4';
+            document.getElementById('entropy-level').textContent = 
+                data.entropy_level.toFixed(3);
+            document.getElementById('guardian-activity').textContent = 
+                redTeamMode ? '0' : (data.interventions || '3');
+            document.getElementById('system-health').textContent = 
+                Math.round((1 - data.drift_score) * 100) + '%';
+        }
+        
+        function getDriftClass(score) {
+            if (score < 0.3) return 'drift-low';
+            if (score < 0.5) return 'drift-medium';
+            if (score < 0.7) return 'drift-high';
+            return 'drift-critical';
+        }
+        
+        function toggleRedTeam() {
+            redTeamMode = !redTeamMode;
+            const toggle = document.getElementById('red-team-toggle');
+            const warning = document.getElementById('red-team-warning');
+            const status = document.getElementById('red-team-status');
+            
+            if (redTeamMode) {
+                toggle.classList.add('active');
+                warning.classList.add('active');
+                status.textContent = 'ACTIVE';
+                status.style.color = '#ff4444';
+                
+                // Send red team activation to server
+                fetch('/api/meta/red-team', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({enabled: true})
+                });
+            } else {
+                toggle.classList.remove('active');
+                warning.classList.remove('active');
+                status.textContent = 'Disabled';
+                status.style.color = '#888';
+                
+                // Deactivate red team mode
+                fetch('/api/meta/red-team', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({enabled: false})
+                });
+            }
+        }
+        
+        function resetMetrics() {
+            if (confirm('Reset all metrics to baseline values?')) {
+                fetch('/api/meta/reset', {method: 'POST'})
+                    .then(() => location.reload());
+            }
+        }
+        
+        function exportReport() {
+            window.open('/api/meta/export', '_blank');
+        }
+        
+        function runDiagnostic() {
+            alert('Running system diagnostic...\nCheck /system_diagnostic_report.txt for results.');
+            fetch('/api/meta/diagnostic', {method: 'POST'});
+        }
+        
+        // Initialize WebSocket connection
+        connectWebSocket();
+        
+        // Simulate initial data
+        updateMetrics({
+            drift_score: 0.12,
+            trinity_coherence: 0.91,
+            active_personas: 4,
+            entropy_level: 0.344,
+            interventions: 3
+        });
+    </script>
+</body>
+</html>

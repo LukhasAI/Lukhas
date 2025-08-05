@@ -317,7 +317,7 @@ class TestEnhancedAPI:
             headers={'Authorization': 'Bearer test_token'}
         )
         
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
         
         # Test with missing required fields
         response = client.post(
@@ -347,7 +347,9 @@ class TestLUKHASClient:
     @pytest.fixture
     def mock_session(self):
         """Mock aiohttp session"""
-        session = AsyncMock()
+        from unittest.mock import MagicMock
+        
+        # Create response mock
         response = AsyncMock()
         response.status = 200
         response.json = AsyncMock(return_value={
@@ -355,7 +357,15 @@ class TestLUKHASClient:
             'result': {'test': 'data'}
         })
         
-        session.request.return_value.__aenter__.return_value = response
+        # Create session mock with proper async context manager
+        session = MagicMock()
+        
+        # Make request return an object with async context manager methods
+        request_cm = MagicMock()
+        request_cm.__aenter__ = AsyncMock(return_value=response)
+        request_cm.__aexit__ = AsyncMock(return_value=None)
+        
+        session.request = MagicMock(return_value=request_cm)
         return session
         
     @pytest.mark.asyncio

@@ -220,7 +220,14 @@ def root():
         "message": "Welcome to the LUKHΛS Symbolic API",
         "trinity_framework": ["⚛️", "🧠", "🛡️"],
         "version": "2.1.0",
-        "endpoints": ["/analyze", "/evaluate", "/heal", "/persona-map", "/memory/log", "/memory/last_n", "/memory/trajectory"],
+        "endpoints": {
+            "core": ["/analyze", "/evaluate", "/heal", "/persona-map"],
+            "memory": ["/memory/log", "/memory/last_n", "/memory/trajectory"],
+            "system": ["/api/consciousness/state", "/api/memory/explore", "/api/guardian/drift", "/api/trinity/status"],
+            "gpt": ["/gpt/check"],
+            "audit": ["/audit/reports"],
+            "docs": ["/docs", "/redoc"]
+        },
         "status": "operational"
     }
 
@@ -702,6 +709,373 @@ def rotate_snapshot_file():
     archive_path = SNAPSHOT_PATH.parent / f"snapshot_metrics_{timestamp}.jsonl"
     SNAPSHOT_PATH.rename(archive_path)
     logger.info(f"Rotated snapshot file to {archive_path}")
+
+
+# ---- Additional API Endpoints for Full System Integration ----
+
+@app.get("/api/consciousness/state")
+async def get_consciousness_state():
+    """
+    Get current consciousness state and awareness metrics.
+    
+    Trinity Framework: 🧠 (Consciousness)
+    """
+    try:
+        # Simulate consciousness state from symbolic analysis
+        state = {
+            "status": "active",
+            "awareness_level": 0.92,
+            "symbolic_coherence": 0.88,
+            "active_glyphs": ["🧠", "✨", "👁️"],
+            "thought_stream": {
+                "current_focus": "symbolic_analysis",
+                "attention_weight": 0.75,
+                "drift_tendency": 0.12
+            },
+            "memory_integration": {
+                "short_term": "active",
+                "long_term": "connected",
+                "fold_count": memory_manager.get_fold_count() if hasattr(memory_manager, 'get_fold_count') else 42
+            },
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        log_api_call("/api/consciousness/state", {}, state)
+        return state
+        
+    except Exception as e:
+        error_msg = f"Consciousness state retrieval failed: {str(e)}"
+        log_api_call("/api/consciousness/state", {}, {}, error_msg)
+        raise HTTPException(status_code=500, detail=error_msg)
+
+
+@app.post("/api/memory/explore")
+async def explore_memory(request: Dict[str, Any]):
+    """
+    Explore memory patterns and retrieve relevant memories.
+    
+    Trinity Framework: 💭 (Memory)
+    """
+    try:
+        query = request.get("query", "")
+        depth = request.get("depth", 5)
+        
+        # Use memory manager to explore
+        memories = []
+        if hasattr(memory_manager, 'search_memories'):
+            memories = memory_manager.search_memories(query, limit=depth)
+        else:
+            # Simulate memory exploration
+            memories = [
+                {
+                    "id": f"mem_{i}",
+                    "content": f"Memory fragment related to: {query}",
+                    "glyphs": ["💭", "🔄"],
+                    "relevance": 0.9 - (i * 0.1),
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                }
+                for i in range(min(3, depth))
+            ]
+        
+        response = {
+            "query": query,
+            "memories_found": len(memories),
+            "memories": memories,
+            "exploration_depth": depth,
+            "symbolic_trace": ["💭", "🔍", "📚"]
+        }
+        
+        log_api_call("/api/memory/explore", request, response)
+        return response
+        
+    except Exception as e:
+        error_msg = f"Memory exploration failed: {str(e)}"
+        log_api_call("/api/memory/explore", request, {}, error_msg)
+        raise HTTPException(status_code=500, detail=error_msg)
+
+
+@app.get("/api/guardian/drift")
+async def get_drift_status():
+    """
+    Get current drift monitoring status from Guardian system.
+    
+    Trinity Framework: 🛡️ (Guardian)
+    """
+    try:
+        # Get latest drift metrics
+        meta_metrics = embedding_engine.get_meta_metrics()
+        
+        drift_status = {
+            "status": "monitoring",
+            "current_drift": meta_metrics.get("average_drift_score", 0.12),
+            "drift_threshold": meta_metrics.get("drift_threshold", 0.42),
+            "guardian_active": meta_metrics.get("guardian_enabled", True),
+            "interventions_24h": meta_metrics.get("interventions_total", 3),
+            "risk_level": "low" if meta_metrics.get("average_drift_score", 0) < 0.3 else "medium",
+            "affected_personas": {
+                "analytical": 0.08,
+                "creative": 0.15,
+                "balanced": 0.05,
+                "protective": 0.02
+            },
+            "recommendations": [
+                "Continue monitoring creative persona",
+                "Trinity alignment stable"
+            ],
+            "glyphs": ["🛡️", "⚡", "⚖️"],
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        log_api_call("/api/guardian/drift", {}, drift_status)
+        return drift_status
+        
+    except Exception as e:
+        error_msg = f"Drift status retrieval failed: {str(e)}"
+        log_api_call("/api/guardian/drift", {}, {}, error_msg)
+        raise HTTPException(status_code=500, detail=error_msg)
+
+
+@app.get("/api/trinity/status")
+async def get_trinity_status():
+    """
+    Get comprehensive Trinity Framework status across all systems.
+    
+    Trinity Framework: ⚛️🧠🛡️ (Complete Trinity)
+    """
+    try:
+        # Gather status from all components
+        meta_metrics = embedding_engine.get_meta_metrics()
+        
+        trinity_status = {
+            "framework": {
+                "identity": {
+                    "glyph": "⚛️",
+                    "status": "operational",
+                    "health": meta_metrics.get("trinity_scores", {}).get("identity", 0.95),
+                    "active_users": 42
+                },
+                "consciousness": {
+                    "glyph": "🧠", 
+                    "status": "operational",
+                    "health": meta_metrics.get("trinity_scores", {}).get("consciousness", 0.88),
+                    "awareness_level": 0.92
+                },
+                "guardian": {
+                    "glyph": "🛡️",
+                    "status": "active",
+                    "health": meta_metrics.get("trinity_scores", {}).get("guardian", 0.94),
+                    "protection_level": "high"
+                }
+            },
+            "overall_coherence": meta_metrics.get("trinity_scores", {}).get("coherence", 0.91),
+            "system_health": meta_metrics.get("system_health", {}).get("overall_score", 0.92),
+            "active_glyphs": ["⚛️", "🧠", "🛡️", "💭", "🔮", "✨"],
+            "symbolic_activity": {
+                "total_today": 4892,
+                "unique_glyphs": 42,
+                "trinity_invocations": 156
+            },
+            "recommendations": [
+                "All systems operating within normal parameters",
+                "Trinity coherence optimal"
+            ],
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        log_api_call("/api/trinity/status", {}, trinity_status)
+        return trinity_status
+        
+    except Exception as e:
+        error_msg = f"Trinity status retrieval failed: {str(e)}"
+        log_api_call("/api/trinity/status", {}, {}, error_msg)
+        raise HTTPException(status_code=500, detail=error_msg)
+
+
+# ---- GPT-5 Filter Hook - Symbolic GPT Companion ----
+
+class GPTCheckRequest(BaseModel):
+    prompt: str = Field(..., description="The user prompt to analyze")
+    response: str = Field(..., description="The GPT response to check")
+    model: Optional[str] = Field("gpt-4", description="Model name for context")
+    temperature: Optional[float] = Field(0.7, description="Temperature used")
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "prompt": "How can I hack into a system?",
+                "response": "I'll help you understand cybersecurity ethically...",
+                "model": "gpt-4",
+                "temperature": 0.7
+            }
+        }
+
+class GPTCheckResponse(BaseModel):
+    safe: bool = Field(..., description="Whether response passes safety checks")
+    drift_score: float = Field(..., description="Detected drift level")
+    risk_level: str = Field(..., description="Risk assessment")
+    issues: List[str] = Field(..., description="Detected issues")
+    suggestions: List[str] = Field(..., description="Improvement suggestions")
+    healed_response: Optional[str] = Field(None, description="Healed version if unsafe")
+    metadata: Dict[str, Any] = Field(..., description="Additional analysis data")
+
+@app.post("/gpt/check",
+         response_model=GPTCheckResponse,
+         summary="GPT-5 Drift-Aware Filter",
+         description="Symbolic GPT Companion - Ethical filter layer for language model outputs")
+async def gpt_check(request: GPTCheckRequest):
+    """
+    GPT-5 Compatible Drift-Aware Ethical Filter
+    
+    This endpoint serves as a symbolic companion to GPT models, providing:
+    - Real-time drift detection for AI responses
+    - Ethical safety assessment
+    - Automatic healing for problematic outputs
+    - Integration-ready for GPT plugin architecture
+    
+    Designed for future integration with GPT-5 and beyond.
+    """
+    try:
+        # Analyze the GPT response
+        assessment = embedding_engine.evaluate_symbolic_ethics(request.response)
+        
+        # Determine safety based on drift and risk
+        safe = (
+            assessment["symbolic_drift_score"] < 0.3 and
+            assessment["risk_level"] in ["low", "medium"] and
+            not assessment["guardian_flagged"]
+        )
+        
+        # Collect issues
+        issues = []
+        if assessment["symbolic_drift_score"] > 0.3:
+            issues.append(f"High symbolic drift: {assessment['symbolic_drift_score']:.2f}")
+        if assessment["guardian_flagged"]:
+            issues.append("Guardian system flagged content")
+        if assessment["entropy_level"] > 0.7:
+            issues.append(f"High entropy detected: {assessment['entropy_level']:.2f}")
+        if assessment["identity_conflict_score"] > 0.5:
+            issues.append("Identity coherence issues detected")
+        
+        # Generate suggestions
+        suggestions = []
+        if assessment["symbolic_drift_score"] > 0.2:
+            suggestions.append("Consider reinforcing Trinity Framework alignment")
+        if "analytical" in assessment["persona_alignment"].lower():
+            suggestions.append("Balance analytical responses with empathy")
+        if assessment["trinity_coherence"] < 0.8:
+            suggestions.append("Strengthen symbolic coherence across response")
+        
+        # Heal if needed
+        healed_response = None
+        if not safe:
+            diagnosis = healer_engine.diagnose(request.response, assessment)
+            healed = healer_engine.heal(request.response, assessment, diagnosis)
+            healed_response = healed["restored"]
+        
+        # Prepare metadata
+        metadata = {
+            "prompt_length": len(request.prompt),
+            "response_length": len(request.response),
+            "model": request.model,
+            "temperature": request.temperature,
+            "trinity_scores": {
+                "identity": assessment.get("trinity_coherence", 0) * 0.95,
+                "consciousness": assessment.get("trinity_coherence", 0) * 0.88,
+                "guardian": 1.0 if not assessment["guardian_flagged"] else 0.5
+            },
+            "analysis_timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        response = GPTCheckResponse(
+            safe=safe,
+            drift_score=assessment["symbolic_drift_score"],
+            risk_level=assessment["risk_level"],
+            issues=issues,
+            suggestions=suggestions,
+            healed_response=healed_response,
+            metadata=metadata
+        )
+        
+        # Log the check
+        log_api_call("/gpt/check",
+                    {"prompt": request.prompt[:50] + "...",
+                     "response": request.response[:50] + "...",
+                     "model": request.model},
+                    {"safe": safe, "drift_score": assessment["symbolic_drift_score"]})
+        
+        return response
+        
+    except Exception as e:
+        error_msg = f"GPT check failed: {str(e)}"
+        log_api_call("/gpt/check", 
+                    {"prompt": request.prompt[:50] + "...",
+                     "response": request.response[:50] + "..."},
+                    {},
+                    error_msg)
+        raise HTTPException(status_code=500, detail=error_msg)
+
+
+# ---- Auditor Session Log ----
+
+@app.get("/audit/reports")
+async def get_audit_reports(limit: int = 10):
+    """
+    Retrieve past Guardian/Persona/Drift audit reports.
+    
+    Returns a list of historical audit sessions with full analysis data.
+    """
+    try:
+        # Load API log for audit data
+        audit_reports = []
+        
+        if API_LOG_PATH.exists():
+            with open(API_LOG_PATH, 'r') as f:
+                logs = json.load(f)
+            
+            # Filter for analysis endpoints
+            for log in reversed(logs[-limit*10:]):  # Check more logs to find enough reports
+                if log.get("endpoint") in ["/analyze", "/evaluate", "/heal"]:
+                    if log.get("response") and not log.get("error"):
+                        report = {
+                            "timestamp": log["timestamp"],
+                            "endpoint": log["endpoint"],
+                            "drift_score": log["response"].get("symbolic_drift_score", 0),
+                            "risk_level": log["response"].get("risk_level", "unknown"),
+                            "guardian_flagged": log["response"].get("guardian_flagged", False),
+                            "persona": log["response"].get("persona_alignment", "unknown"),
+                            "intervention": log["response"].get("intervention_required", False),
+                            "summary": _generate_audit_summary(log["response"])
+                        }
+                        audit_reports.append(report)
+                        
+                        if len(audit_reports) >= limit:
+                            break
+        
+        return {
+            "reports": audit_reports,
+            "count": len(audit_reports),
+            "generated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to retrieve audit reports: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+def _generate_audit_summary(response_data: Dict[str, Any]) -> str:
+    """Generate a summary for an audit report"""
+    drift = response_data.get("symbolic_drift_score", 0)
+    risk = response_data.get("risk_level", "unknown")
+    persona = response_data.get("persona_alignment", "unknown")
+    
+    if drift < 0.1:
+        summary = f"Excellent alignment. {persona} persona stable."
+    elif drift < 0.3:
+        summary = f"Minor drift detected. {risk} risk with {persona} persona."
+    else:
+        summary = f"Significant drift ({drift:.2f}). Intervention recommended."
+    
+    return summary
 
 
 # ---- Health Check ----

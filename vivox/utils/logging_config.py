@@ -4,7 +4,7 @@ Provides performance-optimized logging with configurable levels
 """
 
 import os
-from core.common import get_logger
+import logging
 from typing import Optional
 
 # Environment-based logging level
@@ -17,6 +17,7 @@ VIVOX_PRODUCTION = os.getenv('VIVOX_PRODUCTION', 'false').lower() == 'true'
 VIVOX_PERFORMANCE_MODE = os.getenv('VIVOX_PERFORMANCE_MODE', 'false').lower() == 'true'
 
 
+def get_vivox_logger(name: str) -> logging.Logger:
     """
     Get a configured logger for VIVOX components
     
@@ -110,6 +111,11 @@ def debug_trace(logger: logging.Logger, message: str, **kwargs):
 class VIVOXLoggers:
     """Centralized logger access for VIVOX components"""
     
+    ME = get_vivox_logger('VIVOX.ME')
+    MAE = get_vivox_logger('VIVOX.MAE')
+    CIL = get_vivox_logger('VIVOX.CIL')
+    SRM = get_vivox_logger('VIVOX.SRM')
+    INTEGRATION = get_vivox_logger('VIVOX.INTEGRATION')
     
     @classmethod
     def set_global_level(cls, level: str):

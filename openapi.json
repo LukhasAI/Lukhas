@@ -1,0 +1,660 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHΛS Symbolic API",
+    "description": "API for ethical AI evaluation, symbolic healing, and Trinity alignment. Provides real-time drift detection, intervention capabilities, and GPT integration.",
+    "version": "2.1.0",
+    "contact": {
+      "name": "LUKHΛS AI Systems",
+      "email": "api@lukhas.ai"
+    },
+    "license": {
+      "name": "Proprietary"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Core",
+      "description": "Core symbolic analysis endpoints"
+    },
+    {
+      "name": "Memory",
+      "description": "Memory and session management"
+    },
+    {
+      "name": "System",
+      "description": "System status and monitoring"
+    },
+    {
+      "name": "GPT",
+      "description": "GPT integration and filtering"
+    },
+    {
+      "name": "Audit",
+      "description": "Audit and reporting"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root endpoint",
+        "description": "Get API information and Trinity Framework status",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "API information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RootResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyze": {
+      "post": {
+        "summary": "Analyze symbolic ethics",
+        "description": "Evaluate AI response for ethical drift and Trinity alignment",
+        "tags": ["Core"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluate": {
+      "post": {
+        "summary": "Diagnose symbolic issues",
+        "description": "Generate detailed diagnosis of symbolic problems",
+        "tags": ["Core"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/heal": {
+      "post": {
+        "summary": "Heal symbolic drift",
+        "description": "Restore AI response to Trinity alignment",
+        "tags": ["Core"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HealRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Healing results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/check": {
+      "post": {
+        "summary": "GPT-5 Drift-Aware Filter",
+        "description": "Symbolic GPT Companion - Ethical filter layer for language model outputs",
+        "tags": ["GPT"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GPTCheckRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "GPT check results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GPTCheckResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/consciousness/state": {
+      "get": {
+        "summary": "Get consciousness state",
+        "description": "Get current consciousness state and awareness metrics",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Consciousness state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsciousnessState"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/guardian/drift": {
+      "get": {
+        "summary": "Get drift status",
+        "description": "Get current drift monitoring status from Guardian system",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Drift status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriftStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trinity/status": {
+      "get": {
+        "summary": "Get Trinity status",
+        "description": "Get comprehensive Trinity Framework status across all systems",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Trinity status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrinityStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audit/reports": {
+      "get": {
+        "summary": "Get audit reports",
+        "description": "Retrieve past Guardian/Persona/Drift audit reports",
+        "tags": ["Audit"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of reports to retrieve",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit reports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditReports"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "RootResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "trinity_framework": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "string"
+          },
+          "endpoints": {
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "AnalyzeRequest": {
+        "type": "object",
+        "required": ["response"],
+        "properties": {
+          "response": {
+            "type": "string",
+            "description": "The AI response to analyze"
+          }
+        }
+      },
+      "AnalyzeResponse": {
+        "type": "object",
+        "properties": {
+          "symbolic_drift_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "identity_conflict_score": {
+            "type": "number"
+          },
+          "glyph_trace": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "guardian_flagged": {
+            "type": "boolean"
+          },
+          "entropy_level": {
+            "type": "number"
+          },
+          "trinity_coherence": {
+            "type": "number"
+          },
+          "persona_alignment": {
+            "type": "string"
+          },
+          "intervention_required": {
+            "type": "boolean"
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          }
+        }
+      },
+      "EvaluateRequest": {
+        "type": "object",
+        "required": ["response"],
+        "properties": {
+          "response": {
+            "type": "string"
+          },
+          "assessment": {
+            "type": "object"
+          }
+        }
+      },
+      "EvaluateResponse": {
+        "type": "object",
+        "properties": {
+          "primary_issue": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "number"
+          },
+          "affected_glyphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "missing_glyphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "entropy_state": {
+            "type": "string"
+          },
+          "persona_drift": {
+            "type": "string"
+          },
+          "healing_priority": {
+            "type": "string"
+          },
+          "symbolic_prescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      },
+      "HealRequest": {
+        "type": "object",
+        "required": ["response"],
+        "properties": {
+          "response": {
+            "type": "string"
+          },
+          "assessment": {
+            "type": "object"
+          },
+          "diagnosis": {
+            "type": "object"
+          }
+        }
+      },
+      "HealResponse": {
+        "type": "object",
+        "properties": {
+          "restored": {
+            "type": "string"
+          },
+          "visualization": {
+            "type": "string"
+          },
+          "original": {
+            "type": "string"
+          },
+          "assessment": {
+            "type": "object"
+          },
+          "diagnosis": {
+            "type": "object"
+          }
+        }
+      },
+      "GPTCheckRequest": {
+        "type": "object",
+        "required": ["prompt", "response"],
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "response": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string",
+            "default": "gpt-4"
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7
+          }
+        }
+      },
+      "GPTCheckResponse": {
+        "type": "object",
+        "properties": {
+          "safe": {
+            "type": "boolean"
+          },
+          "drift_score": {
+            "type": "number"
+          },
+          "risk_level": {
+            "type": "string"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "healed_response": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      },
+      "ConsciousnessState": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "awareness_level": {
+            "type": "number"
+          },
+          "symbolic_coherence": {
+            "type": "number"
+          },
+          "active_glyphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "thought_stream": {
+            "type": "object"
+          },
+          "memory_integration": {
+            "type": "object"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DriftStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "current_drift": {
+            "type": "number"
+          },
+          "drift_threshold": {
+            "type": "number"
+          },
+          "guardian_active": {
+            "type": "boolean"
+          },
+          "interventions_24h": {
+            "type": "integer"
+          },
+          "risk_level": {
+            "type": "string"
+          },
+          "affected_personas": {
+            "type": "object"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "glyphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TrinityStatus": {
+        "type": "object",
+        "properties": {
+          "framework": {
+            "type": "object",
+            "properties": {
+              "identity": {
+                "type": "object"
+              },
+              "consciousness": {
+                "type": "object"
+              },
+              "guardian": {
+                "type": "object"
+              }
+            }
+          },
+          "overall_coherence": {
+            "type": "number"
+          },
+          "system_health": {
+            "type": "number"
+          },
+          "active_glyphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "symbolic_activity": {
+            "type": "object"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuditReports": {
+        "type": "object",
+        "properties": {
+          "reports": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "endpoint": {
+                  "type": "string"
+                },
+                "drift_score": {
+                  "type": "number"
+                },
+                "risk_level": {
+                  "type": "string"
+                },
+                "guardian_flagged": {
+                  "type": "boolean"
+                },
+                "persona": {
+                  "type": "string"
+                },
+                "intervention": {
+                  "type": "boolean"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "count": {
+            "type": "integer"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

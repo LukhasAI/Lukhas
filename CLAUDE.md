@@ -34,7 +34,7 @@ LUKHAS PWM (Pack-What-Matters) is a lean, production-ready AGI system that disti
 
 ## Common Development Tasks
 
-### Building and Running
+### Environment Setup
 
 ```bash
 # Activate existing virtual environment (.venv)
@@ -51,12 +51,22 @@ pip install -r requirements-test.txt  # For testing
 # Set up environment
 cp .env.example .env
 # Edit .env with OpenAI API key and other settings
+```
 
+### Building and Running
+
+```bash
 # Run main orchestrator (if available)
 python orchestration/brain/primary_hub.py
 
 # Run specific modules
 python consciousness/unified/auto_consciousness.py
+
+# Run standalone module example
+python -m emotion.service
+
+# Run integrated system
+python main.py
 ```
 
 ### Testing
@@ -73,12 +83,19 @@ pytest tests/governance/test_comprehensive_governance.py # Full Guardian Reflect
 # Run with coverage
 pytest --cov=lukhas tests/
 
-# Run functional analysis
+# Run functional analysis tools
 python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
 python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py
+python tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py
 
 # Run single test
 pytest tests/governance/test_governance.py::test_specific_function
+
+# Test markers available
+pytest -m unit          # Unit tests only
+pytest -m integration   # Integration tests only
+pytest -m security      # Security tests only
 ```
 
 ### Code Quality
@@ -89,9 +106,23 @@ black lukhas/ tests/
 
 # Linting
 flake8 lukhas/
+ruff lukhas/        # Fast alternative linter
 
 # Type checking
 mypy lukhas/
+```
+
+### Linting and Type Checking
+
+```bash
+# Run linting (using ruff for speed)
+ruff check .
+
+# Run type checking
+mypy lukhas/
+
+# Auto-fix linting issues
+ruff check --fix .
 ```
 
 ## High-Level Architecture
@@ -130,6 +161,8 @@ The codebase follows a modular architecture with 41 root systems organized into 
 3. **Fold-Based Memory**: Preserves causal chains and emotional context
 4. **Dream-Driven Innovation**: Creative solutions from controlled chaos
 5. **Bio-Symbolic Coherence**: 102.22% coherence between biological and symbolic systems
+6. **Multi-Stage Pipelines**: Quantum and bio modules use transformation pipelines
+7. **Orchestrator Pattern**: Cross-domain coordination via hub modules
 
 ### Module Communication
 
@@ -139,6 +172,7 @@ Critical dependencies:
 - `governance/` validates all operations
 - `memory/` provides persistence across modules
 - Circular dependencies strictly avoided
+- Integration modules named as `*_adapter.py` or `*_hub.py`
 
 ## Guardian System Integration
 
@@ -148,7 +182,7 @@ The Guardian System v1.0.0 provides comprehensive ethical oversight:
 - **Remediator Agent**: Symbolic immune system for threat detection
 - **Reflection Layer**: Ethical reasoning for all operations
 - **Symbolic Firewall**: Multi-layered security protection
-- **Drift Detection**: Monitors for ethical and behavioral drift
+- **Drift Detection**: Monitors for ethical and behavioral drift (threshold: 0.15)
 - **Decision Justification**: Philosophical reasoning engine
 
 ### Testing with Guardian Reflector
@@ -174,21 +208,25 @@ The Guardian System v1.0.0 provides comprehensive ethical oversight:
 - Preserve emotional context
 - 99.7% cascade prevention rate
 - Close memory folds after use
+- Fold limit: 1000 (configurable)
 
 **Quantum Processing (`quantum/`)**
 - 82.8% functional - most reliable module
 - Post-quantum cryptography ready
 - Multi-stage transformation pipelines
+- Encryption level: 256-bit default
 
 **API Module (`api/`)**
 - Only 33.3% functional - needs improvement
 - FastAPI-based endpoints
 - Focus on stability over features
+- Base URL: `http://localhost:8080`
 
 **Orchestration (`orchestration/`)**
 - 60.5% functional - refactoring needed
 - Brain hub coordinates all modules
 - Avoid tight coupling
+- Check `AGENT.md` for integration status
 
 ### Security Considerations
 
@@ -197,14 +235,17 @@ The Guardian System v1.0.0 provides comprehensive ethical oversight:
 - Ethics engine cannot be bypassed
 - Complete audit trail with causality chains
 - Quantum-resistant cryptography throughout
+- Multi-tier authentication enabled
+- Biometric support available
 
 ## Common Pitfalls
 
 1. **Never bypass Guardian System** - All operations must be validated
 2. **Always use GLYPHs** - Direct module communication breaks symbolic unity
-3. **Monitor drift scores** - Respond to behavioral changes
+3. **Monitor drift scores** - Respond to behavioral changes (threshold: 0.15)
 4. **Close memory folds** - Prevent memory leaks
 5. **Check functional status** - Some modules only partially operational
+6. **Verify integration status** - Many files in transition, check `AGENT.md`
 
 ## Debugging Tips
 
@@ -214,6 +255,7 @@ The Guardian System v1.0.0 provides comprehensive ethical oversight:
 4. **Ethics Violations**: Check Guardian System logs
 5. **GLYPH Translation**: Use symbolic parser for token debugging
 6. **Functional Analysis**: Run `tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py` for module status
+7. **Audit Trail**: Check `data/drift_audit_summary.json` for system behavior
 
 ## Production Deployment
 
@@ -223,6 +265,31 @@ The system includes 3 microservice deployments:
 - Memory Services (`deployments/memory_services/`)
 
 Each service is Docker-containerized with FastAPI endpoints.
+
+### Docker Support
+
+```bash
+# Build and run with Docker Compose (where available)
+docker-compose up
+
+# Individual service deployment
+cd deployments/consciousness_platform
+docker build -t lukhas-consciousness .
+docker run -p 8080:8080 lukhas-consciousness
+```
+
+## Configuration
+
+Main configuration file: `lukhas_pwm_config.yaml`
+
+Key environment variables (set in `.env`):
+- `OPENAI_API_KEY`: Required for AI capabilities
+- `DATABASE_URL`: PostgreSQL connection string
+- `LUKHAS_ID_SECRET`: Security key (min 32 chars)
+- `ETHICS_ENFORCEMENT_LEVEL`: strict/moderate/lenient
+- `DREAM_SIMULATION_ENABLED`: true/false
+- `QUANTUM_PROCESSING_ENABLED`: true/false
+- `LOG_LEVEL`: DEBUG/INFO/WARNING/ERROR
 
 ## File Organization Guidelines
 
@@ -237,8 +304,10 @@ Each service is Docker-containerized with FastAPI endpoints.
 │   ├── README.md                    # Primary documentation
 │   ├── LICENSE                      # Legal
 │   ├── requirements.txt             # Core dependencies
+│   ├── requirements-test.txt        # Test dependencies
 │   ├── package.json                 # Node.js dependencies
 │   ├── lukhas_pwm_config.yaml       # Core configuration
+│   ├── pytest.ini                   # Test configuration
 │   └── .gitignore, .env.example     # Environment files
 │
 ├── 📁 docs/                         # All documentation
@@ -321,3 +390,35 @@ When working with LUKHAS AI components:
 - **Dependencies**: PWM uses minimal dependencies
 
 When in doubt about a component's implementation, check the Prototype repository for the original LUKHAS AI vision and adapt it to PWM's lean requirements.
+
+## External Integration Examples
+
+### Anthropic Claude Integration
+```python
+from lukhas.emotion import EmotionEnhancer
+from lukhas.dream import DreamInjector
+
+# Add emotional intelligence to Claude
+enhancer = EmotionEnhancer()
+response = anthropic.complete(
+    enhancer.add_emotional_context(prompt)
+)
+```
+
+### OpenAI GPT Integration
+```python
+from lukhas.identity import SafetyWrapper
+from lukhas.trace import AuditLogger
+
+# Wrap GPT with LUKHAS safety
+safe_gpt = SafetyWrapper(openai.ChatCompletion)
+traced_gpt = AuditLogger(safe_gpt)
+```
+
+## Important Resources
+
+- **Main Documentation**: `README.md` - Complete system overview
+- **Copilot Instructions**: `.github/copilot-instructions.md` - Additional AI agent guidance
+- **Module Manifests**: `*/MODULE_MANIFEST.json` - Module-specific metadata
+- **Test Configuration**: `pytest.ini` - Testing setup and markers
+- **Analysis Tools**: `tools/analysis/` - System analysis scripts

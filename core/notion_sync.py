@@ -501,7 +501,6 @@ def run_legacy_streamlit_mode():
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - [LUKHAS%(lambda_id)s] - %(message)s",
-    format="%(asctime)s - %(name)s - %(levelname)s - [lukhas%(lambda_id)s] - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 

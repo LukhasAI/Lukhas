@@ -2,6 +2,8 @@
 
 **Advanced AI Modules Working Towards AGI - Pick What You Need, Integrate What Matters**
 
+> **🔺 For the Trinity Framework and Symbolic Guardian System documentation, see [README_TRINITY.md](README_TRINITY.md)**
+
 This repository contains LUKHAS's modular AI components - sophisticated systems that work independently yet enhance each other when combined. Each module represents a step in our journey towards AGI, with dreams, emotions, tagging, and identity at the core of our approach.
 
 ## 🎯 Vision: Modular AI for Everyone

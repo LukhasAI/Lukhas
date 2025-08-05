@@ -267,7 +267,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         
         # Get or create session
         if not session_id:
-            session_id = f"session_{datetime.now().timestamp()}"
+            session_id = f"session_{datetime.now(timezone.utc).timestamp()}"
         
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = ConversationContext(
@@ -836,7 +836,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         
         return {
             "response": response,
-            "session_id": session_id or f"session_{datetime.now().timestamp()}"
+            "session_id": session_id or f"session_{datetime.now(timezone.utc).timestamp()}"
         }
     
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -849,7 +849,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             response_payload = {"error": "No text provided in GLYPH token"}
         
         return GLYPHToken(
-            symbol=GLYPHSymbol.ACKNOWLEDGE,
+            symbol=GLYPHSymbol.SUCCESS,
             source="nl_consciousness_interface",
             target=token.source,
             payload=response_payload
@@ -887,7 +887,7 @@ class ConversationManager:
     
     async def create_session(self, user_id: Optional[str] = None) -> str:
         """Create new conversation session"""
-        session_id = f"session_{datetime.now().timestamp()}_{user_id or 'anonymous'}"
+        session_id = f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
         return session_id
     
     async def continue_conversation(self,
