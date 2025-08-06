@@ -44,6 +44,11 @@ __pycache__/
 .Python
 *.so
 
+# Python package builds
+*.egg-info/
+build/
+dist/
+
 # Logs
 *.log
 logs/
@@ -60,6 +65,8 @@ logs/
 venv/
 env/
 .env/
+lambda_venv/
+*_venv/
 
 # Environment variables file
 .env
@@ -76,13 +83,16 @@ node_modules/
 *HunyuanVideo*
 HunyuanVideo-main/
 
-# Temporary files
-*.tmp
-*.temp
-.cache/
+# Testing and reports
 .pytest_cache/
 temp/
 setup_report.json
+test_results.json
+test_report.md
+
+# Lambda products and packages
+lambda_products_pack/test_*
+lambda_products_pack/requirements_*.txt
 
 # Collaboration results
 codex_jules_collaboration_*.json
