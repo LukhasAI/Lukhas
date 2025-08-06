@@ -90,9 +90,12 @@ setup_report.json
 test_results.json
 test_report.md
 
-# Lambda products and packages
-lambda_products_pack/test_*
-lambda_products_pack/requirements_*.txt
+# Lambda products and packages - exclude generated files
+lambda_products_pack/test_results.json
+lambda_products_pack/test_report.md
+lambda_products_pack/integration_test_results.json
+lambda_products_pack/integration_test_report.md
+lambda_products_pack/requirements_core.txt
 
 # Collaboration results
 codex_jules_collaboration_*.json
