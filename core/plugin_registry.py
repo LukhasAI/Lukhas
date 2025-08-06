@@ -54,7 +54,13 @@ class PluginRegistry:
         """Load plugins defined via package entry points."""
         try:
             eps = importlib.metadata.entry_points()
-            group = eps.select(group="lukhas.plugins")
+            # Handle Python 3.9 vs 3.10+ compatibility
+            if hasattr(eps, 'select'):  # Python 3.10+
+                group = eps.select(group="lukhas.plugins")
+            elif isinstance(eps, dict) and 'lukhas.plugins' in eps:  # Python 3.9
+                group = eps['lukhas.plugins']
+            else:
+                group = []
             for ep in group:
                 try:
                     plugin_cls = ep.load()
