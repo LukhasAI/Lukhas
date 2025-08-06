@@ -472,6 +472,22 @@ class AgentOrchestrator:
             agent = AutonomousAgent(agent_id, agent_type)
             await self.deploy_agent(agent, config)
     
+    async def get_active_agents(self) -> List[AutonomousAgent]:
+        """Get list of all active agents"""
+        active_agents = []
+        for agent in self.agents.values():
+            status = agent.get_status()  # get_status() is not async
+            if status.get("state") in ["running", "active", "processing"]:
+                active_agents.append(agent)
+        return active_agents
+    
+    async def shutdown_all_agents(self):
+        """Shutdown all active agents"""
+        for agent in self.agents.values():
+            await agent.shutdown()
+        self.agents.clear()
+        self.agent_pools.clear()
+    
     def get_fleet_status(self) -> Dict[str, Any]:
         """Get status of entire agent fleet"""
         return {

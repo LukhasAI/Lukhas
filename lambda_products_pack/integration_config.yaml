@@ -1,0 +1,230 @@
+# Lambda Products + Lukhas PWM Integration Configuration
+# This file defines how Lambda Products integrate with Lukhas PWM systems
+
+integration:
+  mode: "hybrid"  # standalone | integrated | hybrid
+  version: "2.0.0"
+  
+# Component Mappings
+components:
+  consciousness:
+    enabled: true
+    lambda_products:
+      - nias:
+          features:
+            - emotional_awareness
+            - stress_detection
+            - flow_preservation
+      - agents:
+          features:
+            - goal_awareness
+            - self_reflection
+            - consciousness_modeling
+      - auctor:
+          features:
+            - tone_consciousness
+            - narrative_awareness
+            
+  guardian:
+    enabled: true
+    lambda_products:
+      - nias:
+          policies:
+            - consent_enforcement
+            - emotional_protection
+            - ethical_advertising
+      - agents:
+          policies:
+            - decision_validation
+            - risk_assessment
+            - ethical_boundaries
+      - all_products:
+          policies:
+            - privacy_first
+            - user_sovereignty
+            
+  memory:
+    enabled: true
+    lambda_products:
+      - nias:
+          features:
+            - interaction_history
+            - preference_learning
+            - resonance_tracking
+      - agents:
+          features:
+            - goal_persistence
+            - experience_replay
+            - learning_memory
+      - auctor:
+          features:
+            - content_history
+            - style_memory
+            
+  glyph:
+    enabled: true
+    symbolic_tokens:
+      consciousness: "🧠"
+      guardian: "🛡️"
+      memory: "💾"
+      dream: "🌙"
+      emotion: "🎭"
+      agency: "🤖"
+      nias: "📬"
+      wallet: "👛"
+      lens: "🔍"
+      
+  tiers:
+    enabled: true
+    mappings:
+      T0_GUEST:
+        lambda_products: []
+      T1_VISITOR:
+        lambda_products: ["poetica", "lens_view"]
+      T2_FRIEND:
+        lambda_products: ["nias", "abas", "lens", "auctor", "argus"]
+      T3_TRUSTED:
+        lambda_products: ["dast", "wallet", "trace", "nimbus", "legado"]
+        
+  dreams:
+    enabled: true
+    lambda_products:
+      - nias:
+          features:
+            - dream_seeds
+            - symbolic_resonance
+            - narrative_planting
+      - auctor:
+          features:
+            - dream_narratives
+            - poetic_generation
+            - tone_modulation
+            
+# GPT-OSS Configuration
+gpt_oss:
+  enabled: true
+  mode: "compatible"
+  features:
+    openai_bridge: true
+    consciousness_layer: true
+    compute_budget: "auto"
+    agi_preparation: true
+    
+# Commercial Features
+commercial:
+  enabled: true
+  pricing_tiers:
+    starter:
+      price: 299
+      products: 1
+      features: ["basic"]
+    professional:
+      price: 999
+      products: 3
+      features: ["advanced", "analytics"]
+    enterprise:
+      price: 5000
+      products: "all"
+      features: ["full", "white_label_ready"]
+    white_label:
+      price: 25000
+      features: ["customization", "dedicated_support"]
+      
+  revenue_tracking:
+    enabled: true
+    metrics:
+      - mrr
+      - arr
+      - customer_lifetime_value
+      - churn_rate
+      
+# NIAS Specific Configuration
+nias:
+  emotional_gating:
+    enabled: true
+    thresholds:
+      stress_block: 0.8
+      flow_protect: 0.7
+      optimal_window: [0.3, 0.7]
+      
+  consent_levels:
+    basic:
+      features: ["essential_only"]
+    enhanced:
+      features: ["personalization", "analytics"]
+    full_symbolic:
+      features: ["all", "dream_integration", "symbolic_resonance"]
+      
+  delivery_methods:
+    visual:
+      weight: 0.6
+      priority: 1
+    audio:
+      weight: 0.25
+      priority: 2
+    haptic:
+      weight: 0.1
+      priority: 3
+    deferred:
+      weight: 0.05
+      priority: 4
+      
+# Agent Configuration
+agents:
+  autonomous_days: 7
+  decision_threshold: 0.85
+  types:
+    nias:
+      capabilities: ["advertising", "messaging", "emotional_awareness"]
+    abas:
+      capabilities: ["attention_management", "priority_sorting"]
+    dast:
+      capabilities: ["context_tracking", "intelligence_gathering"]
+    
+  orchestration:
+    max_concurrent: 1000
+    deployment_speed: 100000  # agents/sec
+    health_check_interval: 60  # seconds
+    
+# Plugin System
+plugins:
+  registration_throughput: 50000  # ops/sec target
+  health_monitoring: true
+  hot_swap: true
+  event_driven: true
+  
+# Performance Targets
+performance:
+  plugin_registration: 2  # ms
+  agent_deployment: 200  # ms
+  api_response: 200  # ms
+  memory_operations: 100  # ops/sec
+  
+# Deployment Configuration
+deployment:
+  mode: "production"
+  environments:
+    - development
+    - staging
+    - production
+  monitoring:
+    prometheus: true
+    grafana: true
+    alerts: true
+    
+# Security Configuration
+security:
+  encryption: "AES-256"
+  post_quantum: "prepared"
+  consent_tracking: true
+  audit_logging: true
+  
+# Analytics Configuration
+analytics:
+  enabled: true
+  tracking:
+    - user_behavior
+    - system_performance
+    - revenue_metrics
+    - emotional_states
+    - consent_compliance

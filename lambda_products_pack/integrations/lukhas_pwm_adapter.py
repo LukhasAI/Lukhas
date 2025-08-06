@@ -44,7 +44,7 @@ except ImportError as e:
 lambda_products_path = Path(__file__).parent.parent
 sys.path.insert(0, str(lambda_products_path))
 
-from plugin_system.plugin_base import (
+from plugins.plugin_base import (
     LukhasPlugin,
     PluginManifest,
     PluginStatus,
@@ -128,6 +128,35 @@ class LukhasPWMIntegrationAdapter:
             "poetica": TierLevel.VISITOR,  # T1 - Tier 1
         }
         return tier_map.get(product_id, TierLevel.VISITOR)
+    
+    async def auto_register_all_products(self) -> List[str]:
+        """Auto-register all Lambda Products with PWM"""
+        registered = []
+        
+        if not LUKHAS_PWM_AVAILABLE:
+            return registered
+            
+        # Import all Lambda Products
+        try:
+            from plugins.lambda_products_adapter import get_all_lambda_products
+            products = get_all_lambda_products()
+            
+            for product in products:
+                if await self.register_lambda_product(product):
+                    registered.append(product.manifest.id)
+        except Exception as e:
+            logger.error(f"Failed to auto-register products: {e}")
+            
+        return registered
+    
+    async def connect_consciousness_layer(self) -> bool:
+        """Connect to Lukhas consciousness layer"""
+        try:
+            # Check if consciousness module is available
+            from consciousness.unified.auto_consciousness import AutoConsciousness
+            return True
+        except ImportError:
+            return False
     
     async def register_lambda_product(
         self,

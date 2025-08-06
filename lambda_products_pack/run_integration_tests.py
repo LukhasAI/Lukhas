@@ -130,11 +130,11 @@ class IntegrationTestRunner:
                 )
                 await agent.set_goal(goal)
                 
-            # Test coordination
+            # Test coordination - get_active_agents is async
             active_agents = await orchestrator.get_active_agents()
             results["details"]["active_agents"] = len(active_agents)
             
-            # Test shutdown
+            # Test shutdown - shutdown_all_agents is async
             await orchestrator.shutdown_all_agents()
             
             results["status"] = "PASSED"
