@@ -1,0 +1,188 @@
+groups:
+  - name: lambda_products_critical
+    interval: 30s
+    rules:
+      # System alerts
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+          runbook_url: "https://runbooks.lambda-products.ai/high-error-rate"
+      
+      - alert: HighLatency
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High latency detected"
+          description: "P99 latency is {{ $value }}s on {{ $labels.instance }}"
+      
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+          description: "Pod has restarted {{ $value }} times in the last 15 minutes"
+      
+      # Agent alerts
+      - alert: AgentDown
+        expr: up{job="lambda-agents"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: ai
+        annotations:
+          summary: "Agent {{ $labels.agent_id }} is down"
+          description: "Agent has been down for more than 1 minute"
+      
+      - alert: AgentHighMemory
+        expr: agent_memory_usage_bytes / agent_memory_limit_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "Agent {{ $labels.agent_id }} high memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }}"
+      
+      - alert: AgentTaskBacklog
+        expr: agent_task_queue_size > 1000
+        for: 10m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "Agent {{ $labels.agent_id }} has large task backlog"
+          description: "Task queue has {{ $value }} pending tasks"
+      
+      - alert: AgentLowValueGeneration
+        expr: rate(agent_value_generated_total[1h]) < 1000
+        for: 1h
+        labels:
+          severity: info
+          team: business
+        annotations:
+          summary: "Agent {{ $labels.agent_id }} generating low value"
+          description: "Value generation rate is ${{ $value }}/hour"
+      
+      # Database alerts
+      - alert: DatabaseConnectionPoolExhausted
+        expr: postgres_connections_active / postgres_connections_max > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          team: data
+        annotations:
+          summary: "Database connection pool nearly exhausted"
+          description: "{{ $value | humanizePercentage }} of connections in use"
+      
+      - alert: DatabaseSlowQueries
+        expr: rate(postgres_slow_queries_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          team: data
+        annotations:
+          summary: "High number of slow queries"
+          description: "{{ $value }} slow queries per second"
+      
+      # Business metrics
+      - alert: LowROI
+        expr: (agent_value_generated_total - infrastructure_cost_total) / infrastructure_cost_total < 2
+        for: 24h
+        labels:
+          severity: warning
+          team: business
+        annotations:
+          summary: "ROI below target threshold"
+          description: "Current ROI is {{ $value | humanizePercentage }}"
+      
+      - alert: CustomerSatisfactionDrop
+        expr: rate(customer_satisfaction_score[1h]) < 0.8
+        for: 1h
+        labels:
+          severity: warning
+          team: customer_success
+        annotations:
+          summary: "Customer satisfaction dropping"
+          description: "Satisfaction score is {{ $value | humanizePercentage }}"
+      
+      # Security alerts
+      - alert: SuspiciousActivity
+        expr: rate(security_events_total{type="suspicious"}[5m]) > 10
+        for: 1m
+        labels:
+          severity: critical
+          team: security
+        annotations:
+          summary: "Suspicious activity detected"
+          description: "{{ $value }} suspicious events per second"
+      
+      - alert: UnauthorizedAccess
+        expr: rate(auth_failures_total[5m]) > 100
+        for: 1m
+        labels:
+          severity: critical
+          team: security
+        annotations:
+          summary: "High rate of authentication failures"
+          description: "{{ $value }} auth failures per second from {{ $labels.source_ip }}"
+      
+      # Cost optimization
+      - alert: UnusedResources
+        expr: (kube_node_status_allocatable_cpu_cores - kube_node_status_capacity_cpu_cores) / kube_node_status_capacity_cpu_cores > 0.5
+        for: 6h
+        labels:
+          severity: info
+          team: finops
+        annotations:
+          summary: "Unused compute resources detected"
+          description: "{{ $value | humanizePercentage }} of CPU capacity unused"
+      
+      - alert: HighCloudCost
+        expr: increase(cloud_cost_total[24h]) > 10000
+        for: 1h
+        labels:
+          severity: warning
+          team: finops
+        annotations:
+          summary: "Daily cloud costs exceeding budget"
+          description: "Projected daily cost: ${{ $value }}"
+
+  - name: lambda_products_slo
+    interval: 30s
+    rules:
+      # SLO alerts
+      - alert: SLOBudgetBurn
+        expr: |
+          (
+            rate(http_requests_total{status=~"5.."}[1h])
+            / rate(http_requests_total[1h])
+          ) > (1 - 0.999) * 14.4
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "SLO budget burn rate too high"
+          description: "At current burn rate, SLO budget will be exhausted in {{ $value }} hours"
+      
+      - alert: AvailabilitySLOViolation
+        expr: avg_over_time(up[5m]) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Availability SLO violation"
+          description: "Availability is {{ $value | humanizePercentage }}, below 99.9% SLO"

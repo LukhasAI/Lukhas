@@ -1,0 +1,98 @@
+# Lambda Products Security & Compliance Requirements
+# Python 3.9+ required
+
+# Core Dependencies
+python-dateutil>=2.8.2
+pytz>=2023.3
+typing-extensions>=4.8.0
+
+# Cryptography & Security
+cryptography>=41.0.0
+pynacl>=1.5.0
+secrets>=0.0.0  # Built-in, for documentation
+hashlib>=0.0.0  # Built-in, for documentation
+
+# Advanced Cryptography
+msgpack>=1.0.5  # For secure serialization
+bcrypt>=4.0.1   # For password hashing fallback
+
+# Biometric & Signal Processing
+numpy>=1.24.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+
+# Async Support
+aiohttp>=3.9.0
+asyncio>=0.0.0  # Built-in, for documentation
+aiofiles>=23.2.0
+
+# Database & Storage
+sqlalchemy>=2.0.0
+redis>=5.0.0
+psycopg2-binary>=2.9.0  # PostgreSQL adapter
+
+# API & Web Framework
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# Monitoring & Logging
+prometheus-client>=0.19.0
+python-json-logger>=2.0.7
+structlog>=23.2.0
+
+# Testing & Quality
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+black>=23.11.0
+mypy>=1.7.0
+pylint>=3.0.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.4.0
+mkdocstrings[python]>=0.24.0
+
+# Compliance & Audit
+python-jose>=3.3.0  # For JWT tokens
+python-gdpr>=0.2.0  # GDPR utilities
+
+# Machine Learning (Optional)
+# torch>=2.0.0  # For GPU acceleration
+# transformers>=4.35.0  # For consciousness analysis
+
+# Development Tools
+ipython>=8.17.0
+jupyter>=1.0.0
+python-dotenv>=1.0.0
+
+# Performance Optimization
+uvloop>=0.19.0  # Fast event loop
+orjson>=3.9.0   # Fast JSON
+cython>=3.0.0   # For performance-critical components
+
+# Post-Quantum Cryptography (Future)
+# pqcrypto>=0.1.0  # When available
+# liboqs-python>=0.8.0  # Open Quantum Safe
+
+# Distributed Systems
+ray>=2.8.0  # For distributed computing
+celery>=5.3.0  # Task queue
+kombu>=5.3.0  # Messaging
+
+# Cloud & Deployment
+boto3>=1.29.0  # AWS SDK
+google-cloud-storage>=2.10.0
+azure-storage-blob>=12.19.0
+kubernetes>=28.1.0
+
+# Security Scanning
+bandit>=1.7.5
+safety>=2.3.5
+
+# Rate Limiting & Caching
+flask-limiter>=3.5.0
+cachetools>=5.3.0
+diskcache>=5.6.0
