@@ -548,6 +548,107 @@ class LambdaProductsStressTester:
         self.metrics["memory"] = metrics
         return metrics
         
+    async def stress_test_symbolic_feedback_loop(self, num_cycles: int = 100) -> StressTestMetrics:
+        """Stress test symbolic feedback loop for drift stability"""
+        print(f"\n🔁 Stress Testing Symbolic Feedback Loop...")
+        print(f"   Feedback cycles: {num_cycles:,}")
+        
+        from cognition.symbolic_feedback_loop import (
+            SymbolicFeedbackLoop,
+            SymbolicState,
+            DriftType
+        )
+        
+        metrics = StressTestMetrics(start_time=time.perf_counter())
+        
+        try:
+            # Create feedback loop
+            loop = SymbolicFeedbackLoop(
+                memory_path="data/stress_test/memory",
+                dream_path="data/stress_test/dreams",
+                debug_mode=False
+            )
+            
+            print("   Running feedback cycles with varying conditions...")
+            
+            drift_counts = []
+            correction_counts = []
+            stability_scores = []
+            
+            for i in range(num_cycles):
+                # Simulate different conditions
+                if i % 10 == 0:
+                    # High drift scenario
+                    loop.current_state.drift_score = random.uniform(0.5, 0.8)
+                    loop.current_state.entropy_level = random.uniform(0.7, 0.95)
+                elif i % 5 == 0:
+                    # Emotional turbulence
+                    loop.current_state.dream_emotional_valence = random.uniform(-0.8, 0.8)
+                else:
+                    # Normal operation
+                    loop.current_state.drift_score = random.uniform(0.1, 0.3)
+                    loop.current_state.entropy_level = random.uniform(0.3, 0.7)
+                
+                # Save dream for processing
+                dream_data = {
+                    "dream_id": f"stress_dream_{i}",
+                    "emotional_valence": random.uniform(-0.5, 0.5),
+                    "symbols": ["⚛️", "🧠", "💭", "✨"],
+                    "coherence": random.uniform(0.5, 0.9)
+                }
+                
+                dream_file = loop.dream_path / "last_dream.json"
+                dream_file.parent.mkdir(parents=True, exist_ok=True)
+                with open(dream_file, 'w') as f:
+                    json.dump(dream_data, f)
+                
+                start = time.perf_counter()
+                
+                # Run cycle
+                results = await loop.run_cycle()
+                
+                metrics.operations += 1
+                latency = (time.perf_counter() - start) * 1000
+                metrics.latencies.append(latency)
+                
+                # Track metrics
+                drift_counts.append(results["drift_count"])
+                correction_counts.append(results["correction_count"])
+                stability_scores.append(results["stability"])
+                
+                if i % 20 == 0 and i > 0:
+                    print(f"      Completed {i:,} cycles - Stability: {results['stability']:.3f}")
+            
+            metrics.end_time = time.perf_counter()
+            
+            # Calculate drift stability
+            avg_drifts = sum(drift_counts) / len(drift_counts)
+            avg_corrections = sum(correction_counts) / len(correction_counts)
+            avg_stability = sum(stability_scores) / len(stability_scores)
+            
+            # Analyze AI core benefits
+            self.ai_core_benefits["consciousness_enhancement"].append(
+                f"Feedback loop maintained {avg_stability:.2%} stability across {num_cycles} cycles"
+            )
+            self.ai_core_benefits["symbolic_processing"].append(
+                f"Processed {avg_drifts:.1f} drifts/cycle with {avg_corrections:.1f} corrections/cycle"
+            )
+            
+            # Print results
+            print(f"\n   ✅ Feedback Loop Stress Test Complete:")
+            print(f"      Throughput: {metrics.throughput:.0f} cycles/sec")
+            print(f"      Avg Latency: {metrics.avg_latency:.2f}ms")
+            print(f"      Avg Stability: {avg_stability:.3f}")
+            print(f"      Avg Drifts/Cycle: {avg_drifts:.2f}")
+            print(f"      Avg Corrections/Cycle: {avg_corrections:.2f}")
+            
+        except Exception as e:
+            print(f"   ❌ Feedback loop stress test failed: {e}")
+            metrics.errors = metrics.operations
+            
+        self.metrics["feedback_loop"] = metrics
+        return metrics
+        
     def analyze_ai_core_benefits(self):
         """Analyze how AI core systems benefit from Lambda Products"""
         print("\n" + "=" * 60)
@@ -626,6 +727,7 @@ class LambdaProductsStressTester:
         await self.stress_test_consciousness_integration(num_operations=10000)
         await self.stress_test_dream_seeds(num_seeds=5000)
         await self.stress_test_memory_integration(num_folds=1000)
+        await self.stress_test_symbolic_feedback_loop(num_cycles=100)
         
         # Analyze benefits
         self.analyze_ai_core_benefits()

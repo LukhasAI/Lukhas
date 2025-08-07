@@ -1,0 +1,913 @@
+{
+  "test_run_id": "20250807_181516",
+  "start_time": "2025-08-07T18:15:14.094147",
+  "end_time": "2025-08-07T18:15:16.336532",
+  "total_duration": 2.242385,
+  "configuration": {
+    "iterations": 100,
+    "concurrent_workers": 10,
+    "timeout": 30,
+    "use_openai": true
+  },
+  "summary": {
+    "total_tests_run": 3900,
+    "total_successes": 3743,
+    "total_failures": 157,
+    "overall_success_rate": 95.97435897435898,
+    "openai_api_calls": 10,
+    "modules_tested": 12,
+    "components_tested": 39
+  },
+  "module_statistics": {
+    "NIAS": {
+      "components": [
+        {
+          "name": "Dream Generator",
+          "success_rate": 100.0,
+          "throughput": 88.85002423392004,
+          "avg_response_time": 0.1065630292892456
+        },
+        {
+          "name": "Emotional Filter",
+          "success_rate": 100.0,
+          "throughput": 3161.170316998538,
+          "avg_response_time": 0.0005353379249572754
+        },
+        {
+          "name": "Consent Manager",
+          "success_rate": 100.0,
+          "throughput": 4491.4108261498095,
+          "avg_response_time": 1.608133316040039e-05
+        },
+        {
+          "name": "Vendor Portal",
+          "success_rate": 46.0,
+          "throughput": 4110.531370665831,
+          "avg_response_time": 0.0001509881019592285
+        },
+        {
+          "name": "Reward System",
+          "success_rate": 100.0,
+          "throughput": 3346.154275730572,
+          "avg_response_time": 0.0005065798759460449
+        },
+        {
+          "name": "Dream Orchestrator",
+          "success_rate": 76.0,
+          "throughput": 2619.0991801077785,
+          "avg_response_time": 0.000519866943359375
+        }
+      ],
+      "total_tests": 600,
+      "total_successes": 522,
+      "total_failures": 78,
+      "avg_throughput": 2969.535998981075,
+      "success_rate": 87.0
+    },
+    "Core": {
+      "components": [
+        {
+          "name": "GLYPH Engine",
+          "success_rate": 100.0,
+          "throughput": 4792.230613667264,
+          "avg_response_time": 7.598400115966797e-06
+        },
+        {
+          "name": "Symbolic Processing",
+          "success_rate": 100.0,
+          "throughput": 4967.9652243950395,
+          "avg_response_time": 4.1270256042480466e-06
+        },
+        {
+          "name": "Core Integration",
+          "success_rate": 100.0,
+          "throughput": 1335.4678893240362,
+          "avg_response_time": 0.0066471266746520995
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 3698.5545757954465,
+      "success_rate": 100.0
+    },
+    "Memory": {
+      "components": [
+        {
+          "name": "Fold Memory",
+          "success_rate": 100.0,
+          "throughput": 4939.996466639185,
+          "avg_response_time": 2.613067626953125e-06
+        },
+        {
+          "name": "Causal Chains",
+          "success_rate": 100.0,
+          "throughput": 4844.2021620622745,
+          "avg_response_time": 8.008480072021485e-06
+        },
+        {
+          "name": "Memory Retrieval",
+          "success_rate": 100.0,
+          "throughput": 3936.5763465888294,
+          "avg_response_time": 5.115270614624024e-05
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4573.591658430097,
+      "success_rate": 100.0
+    },
+    "Consciousness": {
+      "components": [
+        {
+          "name": "Awareness Engine",
+          "success_rate": 100.0,
+          "throughput": 4956.165808006806,
+          "avg_response_time": 3.8051605224609377e-06
+        },
+        {
+          "name": "Reflection System",
+          "success_rate": 100.0,
+          "throughput": 4995.240930852964,
+          "avg_response_time": 4.627704620361328e-06
+        },
+        {
+          "name": "Decision Making",
+          "success_rate": 100.0,
+          "throughput": 4993.219047619048,
+          "avg_response_time": 4.918575286865234e-06
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4981.541928826273,
+      "success_rate": 100.0
+    },
+    "Governance": {
+      "components": [
+        {
+          "name": "Guardian System",
+          "success_rate": 100.0,
+          "throughput": 5117.93833050651,
+          "avg_response_time": 2.1004676818847657e-06
+        },
+        {
+          "name": "Ethics Engine",
+          "success_rate": 100.0,
+          "throughput": 4943.19858573954,
+          "avg_response_time": 7.436275482177735e-06
+        },
+        {
+          "name": "Policy Validation",
+          "success_rate": 100.0,
+          "throughput": 4848.962415750471,
+          "avg_response_time": 4.291534423828125e-06
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4970.033110665508,
+      "success_rate": 100.0
+    },
+    "Identity": {
+      "components": [
+        {
+          "name": "Authentication",
+          "success_rate": 100.0,
+          "throughput": 4787.8542972272635,
+          "avg_response_time": 1.1947154998779297e-05
+        },
+        {
+          "name": "Authorization",
+          "success_rate": 100.0,
+          "throughput": 4912.513469196533,
+          "avg_response_time": 8.571147918701173e-06
+        },
+        {
+          "name": "Identity Verification",
+          "success_rate": 100.0,
+          "throughput": 4727.6809666584,
+          "avg_response_time": 1.7991065979003905e-05
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4809.349577694065,
+      "success_rate": 100.0
+    },
+    "Quantum": {
+      "components": [
+        {
+          "name": "Quantum Algorithms",
+          "success_rate": 71.0,
+          "throughput": 5125.130135145043,
+          "avg_response_time": 3.044605255126953e-06
+        },
+        {
+          "name": "Quantum Encryption",
+          "success_rate": 100.0,
+          "throughput": 4204.689583270679,
+          "avg_response_time": 3.8366317749023435e-05
+        },
+        {
+          "name": "Quantum Simulation",
+          "success_rate": 100.0,
+          "throughput": 4290.189740704751,
+          "avg_response_time": 3.210067749023437e-05
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 271,
+      "total_failures": 29,
+      "avg_throughput": 4540.0031530401575,
+      "success_rate": 90.33333333333333
+    },
+    "Bio": {
+      "components": [
+        {
+          "name": "Bio Adaptation",
+          "success_rate": 100.0,
+          "throughput": 798.664038921101,
+          "avg_response_time": 0.010265181064605713
+        },
+        {
+          "name": "Neural Networks",
+          "success_rate": 100.0,
+          "throughput": 2370.748195501896,
+          "avg_response_time": 0.00019095897674560548
+        },
+        {
+          "name": "Genetic Algorithms",
+          "success_rate": 100.0,
+          "throughput": 918.6954331398532,
+          "avg_response_time": 0.0007901239395141602
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 1362.7025558542834,
+      "success_rate": 100.0
+    },
+    "Emotion": {
+      "components": [
+        {
+          "name": "VAD Model",
+          "success_rate": 100.0,
+          "throughput": 4207.3467750025075,
+          "avg_response_time": 2.63214111328125e-06
+        },
+        {
+          "name": "Mood Regulation",
+          "success_rate": 100.0,
+          "throughput": 4694.240626748741,
+          "avg_response_time": 2.5200843811035157e-06
+        },
+        {
+          "name": "Emotional Response",
+          "success_rate": 100.0,
+          "throughput": 4587.799569036238,
+          "avg_response_time": 3.6716461181640626e-06
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4496.462323595829,
+      "success_rate": 100.0
+    },
+    "Orchestration": {
+      "components": [
+        {
+          "name": "Brain Hub",
+          "success_rate": 100.0,
+          "throughput": 4885.220774077827,
+          "avg_response_time": 3.116130828857422e-06
+        },
+        {
+          "name": "Multi-Agent Coordination",
+          "success_rate": 100.0,
+          "throughput": 4703.400017942047,
+          "avg_response_time": 1.5549659729003906e-05
+        },
+        {
+          "name": "Task Scheduling",
+          "success_rate": 100.0,
+          "throughput": 4366.4286160444735,
+          "avg_response_time": 3.3295154571533204e-05
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 300,
+      "total_failures": 0,
+      "avg_throughput": 4651.683136021449,
+      "success_rate": 100.0
+    },
+    "API": {
+      "components": [
+        {
+          "name": "REST API",
+          "success_rate": 85.0,
+          "throughput": 3662.220049070541,
+          "avg_response_time": 0.0007888221740722656
+        },
+        {
+          "name": "GraphQL API",
+          "success_rate": 86.0,
+          "throughput": 4852.49664491647,
+          "avg_response_time": 7.681846618652343e-06
+        },
+        {
+          "name": "WebSocket API",
+          "success_rate": 81.0,
+          "throughput": 5004.001479378184,
+          "avg_response_time": 4.1270256042480466e-06
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 252,
+      "total_failures": 48,
+      "avg_throughput": 4506.239391121732,
+      "success_rate": 84.0
+    },
+    "Bridge": {
+      "components": [
+        {
+          "name": "External API Bridge",
+          "success_rate": 100.0,
+          "throughput": 5101.566605040382,
+          "avg_response_time": 1.5040974558135609e-06
+        },
+        {
+          "name": "Database Bridge",
+          "success_rate": 100.0,
+          "throughput": 4992.6841171779215,
+          "avg_response_time": 6.721019744873047e-06
+        },
+        {
+          "name": "Message Queue Bridge",
+          "success_rate": 98.0,
+          "throughput": 5057.887755348142,
+          "avg_response_time": 3.993511199951172e-06
+        }
+      ],
+      "total_tests": 300,
+      "total_successes": 298,
+      "total_failures": 2,
+      "avg_throughput": 5050.712825855481,
+      "success_rate": 99.33333333333333
+    }
+  },
+  "detailed_results": [
+    {
+      "module": "NIAS",
+      "component": "Dream Generator",
+      "test_name": "_stress_dream_generator",
+      "iterations": 100,
+      "duration": 1.1254920959472656,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 88.85002423392004,
+      "avg_response_time": 0.1065630292892456,
+      "max_response_time": 0.5763559341430664,
+      "min_response_time": 0.011477947235107422
+    },
+    {
+      "module": "NIAS",
+      "component": "Emotional Filter",
+      "test_name": "_stress_emotional_filter",
+      "iterations": 100,
+      "duration": 0.031633853912353516,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 3161.170316998538,
+      "avg_response_time": 0.0005353379249572754,
+      "max_response_time": 0.0062983036041259766,
+      "min_response_time": 5.0067901611328125e-06
+    },
+    {
+      "module": "NIAS",
+      "component": "Consent Manager",
+      "test_name": "_stress_consent_manager",
+      "iterations": 100,
+      "duration": 0.022264719009399414,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4491.4108261498095,
+      "avg_response_time": 1.608133316040039e-05,
+      "max_response_time": 9.989738464355469e-05,
+      "min_response_time": 4.76837158203125e-06
+    },
+    {
+      "module": "NIAS",
+      "component": "Vendor Portal",
+      "test_name": "_stress_vendor_portal",
+      "iterations": 100,
+      "duration": 0.024327754974365234,
+      "success_count": 46,
+      "failure_count": 54,
+      "success_rate": 46.0,
+      "throughput": 4110.531370665831,
+      "avg_response_time": 0.0001509881019592285,
+      "max_response_time": 0.0068781375885009766,
+      "min_response_time": 1.1920928955078125e-05
+    },
+    {
+      "module": "NIAS",
+      "component": "Reward System",
+      "test_name": "_stress_reward_system",
+      "iterations": 100,
+      "duration": 0.029885053634643555,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 3346.154275730572,
+      "avg_response_time": 0.0005065798759460449,
+      "max_response_time": 0.0044400691986083984,
+      "min_response_time": 4.8160552978515625e-05
+    },
+    {
+      "module": "NIAS",
+      "component": "Dream Orchestrator",
+      "test_name": "_stress_dream_orchestrator",
+      "iterations": 100,
+      "duration": 0.03818106651306152,
+      "success_count": 76,
+      "failure_count": 24,
+      "success_rate": 76.0,
+      "throughput": 2619.0991801077785,
+      "avg_response_time": 0.000519866943359375,
+      "max_response_time": 0.004854917526245117,
+      "min_response_time": 4.76837158203125e-05
+    },
+    {
+      "module": "Core",
+      "component": "GLYPH Engine",
+      "test_name": "_stress_glyph_engine",
+      "iterations": 100,
+      "duration": 0.020867109298706055,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4792.230613667264,
+      "avg_response_time": 7.598400115966797e-06,
+      "max_response_time": 2.002716064453125e-05,
+      "min_response_time": 3.0994415283203125e-06
+    },
+    {
+      "module": "Core",
+      "component": "Symbolic Processing",
+      "test_name": "_stress_symbolic_processing",
+      "iterations": 100,
+      "duration": 0.020128965377807617,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4967.9652243950395,
+      "avg_response_time": 4.1270256042480466e-06,
+      "max_response_time": 7.295608520507812e-05,
+      "min_response_time": 1.6689300537109375e-06
+    },
+    {
+      "module": "Core",
+      "component": "Core Integration",
+      "test_name": "_stress_core_integration",
+      "iterations": 100,
+      "duration": 0.07488012313842773,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 1335.4678893240362,
+      "avg_response_time": 0.0066471266746520995,
+      "max_response_time": 0.011045217514038086,
+      "min_response_time": 0.0011708736419677734
+    },
+    {
+      "module": "Memory",
+      "component": "Fold Memory",
+      "test_name": "_stress_fold_memory",
+      "iterations": 100,
+      "duration": 0.020242929458618164,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4939.996466639185,
+      "avg_response_time": 2.613067626953125e-06,
+      "max_response_time": 4.291534423828125e-06,
+      "min_response_time": 9.5367431640625e-07
+    },
+    {
+      "module": "Memory",
+      "component": "Causal Chains",
+      "test_name": "_stress_causal_chains",
+      "iterations": 100,
+      "duration": 0.020643234252929688,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4844.2021620622745,
+      "avg_response_time": 8.008480072021485e-06,
+      "max_response_time": 1.4781951904296875e-05,
+      "min_response_time": 3.814697265625e-06
+    },
+    {
+      "module": "Memory",
+      "component": "Memory Retrieval",
+      "test_name": "_stress_memory_retrieval",
+      "iterations": 100,
+      "duration": 0.02540278434753418,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 3936.5763465888294,
+      "avg_response_time": 5.115270614624024e-05,
+      "max_response_time": 0.00011110305786132812,
+      "min_response_time": 4.601478576660156e-05
+    },
+    {
+      "module": "Consciousness",
+      "component": "Awareness Engine",
+      "test_name": "_stress_awareness",
+      "iterations": 100,
+      "duration": 0.02017688751220703,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4956.165808006806,
+      "avg_response_time": 3.8051605224609377e-06,
+      "max_response_time": 5.9604644775390625e-06,
+      "min_response_time": 1.9073486328125e-06
+    },
+    {
+      "module": "Consciousness",
+      "component": "Reflection System",
+      "test_name": "_stress_reflection",
+      "iterations": 100,
+      "duration": 0.020019054412841797,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4995.240930852964,
+      "avg_response_time": 4.627704620361328e-06,
+      "max_response_time": 3.695487976074219e-05,
+      "min_response_time": 2.1457672119140625e-06
+    },
+    {
+      "module": "Consciousness",
+      "component": "Decision Making",
+      "test_name": "_stress_decision_making",
+      "iterations": 100,
+      "duration": 0.02002716064453125,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4993.219047619048,
+      "avg_response_time": 4.918575286865234e-06,
+      "max_response_time": 7.867813110351562e-06,
+      "min_response_time": 2.86102294921875e-06
+    },
+    {
+      "module": "Governance",
+      "component": "Guardian System",
+      "test_name": "_stress_guardian",
+      "iterations": 100,
+      "duration": 0.01953911781311035,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 5117.93833050651,
+      "avg_response_time": 2.1004676818847657e-06,
+      "max_response_time": 4.291534423828125e-06,
+      "min_response_time": 7.152557373046875e-07
+    },
+    {
+      "module": "Governance",
+      "component": "Ethics Engine",
+      "test_name": "_stress_ethics",
+      "iterations": 100,
+      "duration": 0.020229816436767578,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4943.19858573954,
+      "avg_response_time": 7.436275482177735e-06,
+      "max_response_time": 1.0967254638671875e-05,
+      "min_response_time": 5.0067901611328125e-06
+    },
+    {
+      "module": "Governance",
+      "component": "Policy Validation",
+      "test_name": "_stress_policy",
+      "iterations": 100,
+      "duration": 0.020622968673706055,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4848.962415750471,
+      "avg_response_time": 4.291534423828125e-06,
+      "max_response_time": 1.2874603271484375e-05,
+      "min_response_time": 2.86102294921875e-06
+    },
+    {
+      "module": "Identity",
+      "component": "Authentication",
+      "test_name": "_stress_authentication",
+      "iterations": 100,
+      "duration": 0.02088618278503418,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4787.8542972272635,
+      "avg_response_time": 1.1947154998779297e-05,
+      "max_response_time": 2.09808349609375e-05,
+      "min_response_time": 8.106231689453125e-06
+    },
+    {
+      "module": "Identity",
+      "component": "Authorization",
+      "test_name": "_stress_authorization",
+      "iterations": 100,
+      "duration": 0.020356178283691406,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4912.513469196533,
+      "avg_response_time": 8.571147918701173e-06,
+      "max_response_time": 0.00015616416931152344,
+      "min_response_time": 3.814697265625e-06
+    },
+    {
+      "module": "Identity",
+      "component": "Identity Verification",
+      "test_name": "_stress_identity_verification",
+      "iterations": 100,
+      "duration": 0.021152019500732422,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4727.6809666584,
+      "avg_response_time": 1.7991065979003905e-05,
+      "max_response_time": 8.392333984375e-05,
+      "min_response_time": 1.5020370483398438e-05
+    },
+    {
+      "module": "Quantum",
+      "component": "Quantum Algorithms",
+      "test_name": "_stress_quantum_algorithms",
+      "iterations": 100,
+      "duration": 0.019511699676513672,
+      "success_count": 71,
+      "failure_count": 29,
+      "success_rate": 71.0,
+      "throughput": 5125.130135145043,
+      "avg_response_time": 3.044605255126953e-06,
+      "max_response_time": 4.76837158203125e-06,
+      "min_response_time": 1.6689300537109375e-06
+    },
+    {
+      "module": "Quantum",
+      "component": "Quantum Encryption",
+      "test_name": "_stress_quantum_encryption",
+      "iterations": 100,
+      "duration": 0.023782968521118164,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4204.689583270679,
+      "avg_response_time": 3.8366317749023435e-05,
+      "max_response_time": 9.489059448242188e-05,
+      "min_response_time": 3.4809112548828125e-05
+    },
+    {
+      "module": "Quantum",
+      "component": "Quantum Simulation",
+      "test_name": "_stress_quantum_simulation",
+      "iterations": 100,
+      "duration": 0.023308992385864258,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4290.189740704751,
+      "avg_response_time": 3.210067749023437e-05,
+      "max_response_time": 0.00010704994201660156,
+      "min_response_time": 4.0531158447265625e-06
+    },
+    {
+      "module": "Bio",
+      "component": "Bio Adaptation",
+      "test_name": "_stress_bio_adaptation",
+      "iterations": 100,
+      "duration": 0.12520909309387207,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 798.664038921101,
+      "avg_response_time": 0.010265181064605713,
+      "max_response_time": 0.10416698455810547,
+      "min_response_time": 1.3828277587890625e-05
+    },
+    {
+      "module": "Bio",
+      "component": "Neural Networks",
+      "test_name": "_stress_neural_networks",
+      "iterations": 100,
+      "duration": 0.042180776596069336,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 2370.748195501896,
+      "avg_response_time": 0.00019095897674560548,
+      "max_response_time": 0.000598907470703125,
+      "min_response_time": 1.8835067749023438e-05
+    },
+    {
+      "module": "Bio",
+      "component": "Genetic Algorithms",
+      "test_name": "_stress_genetic_algorithms",
+      "iterations": 100,
+      "duration": 0.10885000228881836,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 918.6954331398532,
+      "avg_response_time": 0.0007901239395141602,
+      "max_response_time": 0.0008628368377685547,
+      "min_response_time": 0.0006968975067138672
+    },
+    {
+      "module": "Emotion",
+      "component": "VAD Model",
+      "test_name": "_stress_vad_model",
+      "iterations": 100,
+      "duration": 0.023767948150634766,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4207.3467750025075,
+      "avg_response_time": 2.63214111328125e-06,
+      "max_response_time": 1.621246337890625e-05,
+      "min_response_time": 7.152557373046875e-07
+    },
+    {
+      "module": "Emotion",
+      "component": "Mood Regulation",
+      "test_name": "_stress_mood_regulation",
+      "iterations": 100,
+      "duration": 0.02130270004272461,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4694.240626748741,
+      "avg_response_time": 2.5200843811035157e-06,
+      "max_response_time": 4.0531158447265625e-06,
+      "min_response_time": 9.5367431640625e-07
+    },
+    {
+      "module": "Emotion",
+      "component": "Emotional Response",
+      "test_name": "_stress_emotional_response",
+      "iterations": 100,
+      "duration": 0.02179694175720215,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4587.799569036238,
+      "avg_response_time": 3.6716461181640626e-06,
+      "max_response_time": 1.52587890625e-05,
+      "min_response_time": 1.6689300537109375e-06
+    },
+    {
+      "module": "Orchestration",
+      "component": "Brain Hub",
+      "test_name": "_stress_brain_hub",
+      "iterations": 100,
+      "duration": 0.02046990394592285,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4885.220774077827,
+      "avg_response_time": 3.116130828857422e-06,
+      "max_response_time": 1.0013580322265625e-05,
+      "min_response_time": 1.6689300537109375e-06
+    },
+    {
+      "module": "Orchestration",
+      "component": "Multi-Agent Coordination",
+      "test_name": "_stress_multi_agent",
+      "iterations": 100,
+      "duration": 0.021261215209960938,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4703.400017942047,
+      "avg_response_time": 1.5549659729003906e-05,
+      "max_response_time": 2.6941299438476562e-05,
+      "min_response_time": 6.198883056640625e-06
+    },
+    {
+      "module": "Orchestration",
+      "component": "Task Scheduling",
+      "test_name": "_stress_task_scheduling",
+      "iterations": 100,
+      "duration": 0.02290201187133789,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4366.4286160444735,
+      "avg_response_time": 3.3295154571533204e-05,
+      "max_response_time": 5.1975250244140625e-05,
+      "min_response_time": 1.4781951904296875e-05
+    },
+    {
+      "module": "API",
+      "component": "REST API",
+      "test_name": "_stress_rest_api",
+      "iterations": 100,
+      "duration": 0.02730584144592285,
+      "success_count": 85,
+      "failure_count": 15,
+      "success_rate": 85.0,
+      "throughput": 3662.220049070541,
+      "avg_response_time": 0.0007888221740722656,
+      "max_response_time": 0.007693767547607422,
+      "min_response_time": 5.0067901611328125e-06
+    },
+    {
+      "module": "API",
+      "component": "GraphQL API",
+      "test_name": "_stress_graphql_api",
+      "iterations": 100,
+      "duration": 0.020607948303222656,
+      "success_count": 86,
+      "failure_count": 14,
+      "success_rate": 86.0,
+      "throughput": 4852.49664491647,
+      "avg_response_time": 7.681846618652343e-06,
+      "max_response_time": 3.314018249511719e-05,
+      "min_response_time": 4.0531158447265625e-06
+    },
+    {
+      "module": "API",
+      "component": "WebSocket API",
+      "test_name": "_stress_websocket_api",
+      "iterations": 100,
+      "duration": 0.019984006881713867,
+      "success_count": 81,
+      "failure_count": 19,
+      "success_rate": 81.0,
+      "throughput": 5004.001479378184,
+      "avg_response_time": 4.1270256042480466e-06,
+      "max_response_time": 7.867813110351562e-06,
+      "min_response_time": 2.1457672119140625e-06
+    },
+    {
+      "module": "Bridge",
+      "component": "External API Bridge",
+      "test_name": "_stress_external_api",
+      "iterations": 100,
+      "duration": 0.019601821899414062,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 5101.566605040382,
+      "avg_response_time": 1.5040974558135609e-06,
+      "max_response_time": 5.7220458984375e-06,
+      "min_response_time": 7.152557373046875e-07
+    },
+    {
+      "module": "Bridge",
+      "component": "Database Bridge",
+      "test_name": "_stress_database_bridge",
+      "iterations": 100,
+      "duration": 0.020029306411743164,
+      "success_count": 100,
+      "failure_count": 0,
+      "success_rate": 100.0,
+      "throughput": 4992.6841171779215,
+      "avg_response_time": 6.721019744873047e-06,
+      "max_response_time": 8.106231689453125e-05,
+      "min_response_time": 1.9073486328125e-06
+    },
+    {
+      "module": "Bridge",
+      "component": "Message Queue Bridge",
+      "test_name": "_stress_message_queue",
+      "iterations": 100,
+      "duration": 0.019771099090576172,
+      "success_count": 98,
+      "failure_count": 2,
+      "success_rate": 98.0,
+      "throughput": 5057.887755348142,
+      "avg_response_time": 3.993511199951172e-06,
+      "max_response_time": 7.152557373046875e-06,
+      "min_response_time": 1.9073486328125e-06
+    }
+  ]
+}

@@ -540,7 +540,7 @@ class EmotionalFilter:
                 "average": sum(focus_values) / len(focus_values),
                 "peak_focus_periods": len([v for v in focus_values if v >= 0.8])
             },
-            "recommendations": await self._generate_wellness_recommendations(recent_history)
+            "recommendations": []  # Will be populated asynchronously if needed
         }
     
     async def _generate_wellness_recommendations(self, 

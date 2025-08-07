@@ -98,12 +98,16 @@ class VendorPortal:
     - Revenue sharing management
     """
     
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[Dict] = None, consent_manager: Optional[Any] = None):
         self.config = config or self._default_config()
         self.vendors: Dict[str, VendorProfile] = {}
         self.dream_seeds: Dict[str, List[DreamSeed]] = {}
         self.pending_seeds: List[DreamSeed] = []
-        self.user_data_integrator = UserDataIntegrator()
+        # Create consent manager if not provided
+        if consent_manager is None:
+            from .consent_manager import ConsentManager
+            consent_manager = ConsentManager()
+        self.user_data_integrator = UserDataIntegrator(consent_manager)
         self.performance_tracker: Dict[str, Dict] = {}
         
         logger.info("NIΛS Vendor Portal initialized")

@@ -13,6 +13,9 @@ from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
 
+# Set up logger first
+logger = logging.getLogger("Lambda.NIΛS.DreamCommerce")
+
 # Import all NIAS components
 from .nias_core import SymbolicMessage, UserContext, DeliveryResult, ConsentLevel, MessageTier, EmotionalState
 from .consent_manager import ConsentManager, DataSource, AIGenerationType
@@ -29,8 +32,6 @@ try:
 except ImportError:
     INTEGRATION_AVAILABLE = False
     logger.warning("ABAS/DAST integration not available")
-
-logger = logging.getLogger("Lambda.NIΛS.DreamCommerce")
 
 class DeliveryChannel(Enum):
     """Dream delivery channels"""
@@ -89,8 +90,8 @@ class DreamCommerceOrchestrator:
         
         # Initialize all components
         self.consent_manager = ConsentManager()
-        self.user_data_integrator = UserDataIntegrator()
-        self.vendor_portal = VendorPortal()
+        self.user_data_integrator = UserDataIntegrator(self.consent_manager)
+        self.vendor_portal = VendorPortal(consent_manager=self.consent_manager)
         self.dream_generator = DreamGenerator()
         self.emotional_filter = EmotionalFilter()
         
@@ -551,15 +552,16 @@ class DreamCommerceOrchestrator:
             # Deliver through appropriate channel
             # This would integrate with actual delivery systems
             delivery_result = DeliveryResult(
-                delivered=True,
-                channel="visual",
-                timestamp=datetime.now(),
-                message_id=message.id
+                status="delivered",
+                message_id=message.id,
+                reason="Success",
+                delivery_method="visual",
+                timestamp=datetime.now()
             )
             
             return {
-                "delivered": delivery_result.delivered,
-                "channel": delivery_result.channel,
+                "delivered": delivery_result.status == "delivered",
+                "channel": delivery_result.delivery_method,
                 "message_id": delivery_result.message_id,
                 "dream_content": {
                     "narrative": dream.narrative[:200] + "...",

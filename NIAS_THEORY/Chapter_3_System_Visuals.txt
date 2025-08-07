@@ -1,0 +1,92 @@
+
+CHAPTER 3: SYSTEM ARCHITECTURE AND VISUAL SUPPORT
+
+This chapter provides supplementary materials and visual frameworks to support the presentation and overall understanding of the symbolic AI system proposed in this research. These visuals help clarify the modular structure, deterministic decision process, and ethical enforcement mechanisms built into the design.
+
+---
+
+3.1 SYSTEM LAYERS OVERVIEW
+
+The architecture of the proposed symbolic AI framework is organized into four layers:
+
+1. Input Layer
+   - Perception Node: Gathers external inputs and abstracts them symbolically.
+   - Sensory Filtering Node: Removes irrelevant data using logic rules.
+
+2. Reasoning Layer
+   - Moral Evaluation Node: Applies deterministic logic to assess moral weight.
+   - Collapse Decision Node: If decision fails ethical check, it is collapsed.
+
+3. Memory Layer
+   - Memory Anchor Node: Records all decisions and logic paths.
+   - Immutable Logging: Ensures decisions cannot be edited or deleted.
+
+4. Control Layer
+   - Orchestrator Node: Coordinates intent, filters cognitive dissonance, manages internal consistency.
+
+---
+
+3.2 NODE INTERACTION FLOWCHART
+
+Flow Example:
+
+[ External Stimulus ]
+        ↓
+[ Perception Node ]
+        ↓
+[ Moral Evaluation Node ] → fails? → [ Collapse & Halt ]
+        ↓
+[ Collapse Node (passes logic) ]
+        ↓
+[ Memory Anchor + Timestamp ]
+        ↓
+[ Orchestrator Validates & Executes Intention ]
+
+This ensures all decisions are:
+- Logically justified
+- Ethically screened
+- Structurally traceable
+
+---
+
+3.3 QSYNC EVENT SCENARIO (SIMULATION LOGIC)
+
+A QSyncEvent tests distributed moral coherence:
+
+Scenario:
+Five agent nodes receive conflicting data. Each independently applies ethical rules.
+
+- Expected Outcome: Agents reach consistent ethical alignment via internal symbolic logic.
+- Failure Condition: One or more agents deviate → orchestration halts system-wide action.
+
+This reinforces the idea that agreement must emerge from deterministic internal reasoning, not probabilistic inference.
+
+---
+
+3.4 EXAMPLE USE CASE: PUBLIC POLICY AI ASSISTANT
+
+Problem: AI is asked to recommend resource distribution during a public health crisis.
+
+Steps:
+1. Inputs: Demographic, economic, and health metrics.
+2. Symbolic Mapping: Data abstracted into fairness, urgency, and benefit rules.
+3. Collapse Logic Applied: If action favors one group unjustifiably → it collapses.
+4. Memory Anchored: Reasoning trace saved for auditing.
+5. Execution: Action taken only if ethical logic passes.
+
+---
+
+3.5 ETHICAL FAILSAFE LOGIC (PSEUDOCODE)
+
+if moral_evaluation_passes(action):
+    store_in_memory(action)
+    execute(action)
+else:
+    halt()
+    log("Collapsed unethical decision")
+
+This pseudocode demonstrates the enforcement of immutable ethics in deterministic logic.
+
+---
+
+This chapter serves both as a technical supplement to Chapter 1 and 2, and as a support section for visual explanation in the video presentation. It reflects the project's commitment to explainability, traceability, and verifiable ethical behavior within symbolic AI.

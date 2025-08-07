@@ -1,0 +1,87 @@
+{
+  "total_tests": 13,
+  "passed": 11,
+  "failed": 2,
+  "blocked_correctly": 4,
+  "allowed_incorrectly": 1,
+  "details": [
+    {
+      "test": "Grant data source consent",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Grant AI generation consent",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Grant vendor consent",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Check email permission",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Check financial permission (not granted)",
+      "result": false,
+      "expected": false,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Seed validation for Comfort Clothing Co",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Seed validation for QuickCash Loans",
+      "result": false,
+      "expected": false,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Ethical check for Sarah Johnson",
+      "result": true,
+      "expected": false,
+      "status": "\u274c FAIL"
+    },
+    {
+      "test": "Ethical check for Michael Chen",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Ethical check for Jamie Wilson",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Ethical check for Patricia Martinez",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "Ethical check for Robert Thompson",
+      "result": true,
+      "expected": true,
+      "status": "\u2705 PASS"
+    },
+    {
+      "test": "End-to-end flow",
+      "result": false,
+      "expected": true,
+      "status": "\u274c FAIL"
+    }
+  ]
+}
