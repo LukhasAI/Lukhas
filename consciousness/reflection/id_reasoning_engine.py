@@ -559,7 +559,7 @@ class LukhasIdManager: # Renamed from LukhasIdEnhancedReasoningEngine
             'created_at': datetime.now(timezone.utc), # Ensure UTC #ΛTEMPORAL_HOOK (Session creation time - Point in Time)
             'expires_at': datetime.now(timezone.utc) + timedelta(hours=24), # Configurable expiry? #ΛTEMPORAL_HOOK (Session expiry time - Point in Time)
             'emotional_state_at_login': emotional_state.to_dict() if emotional_state else None, #ΛECHO #ΛTEMPORAL_HOOK (Emotional state at a point in time)
-            'permissions': self._get_tier_permissions(access_tier) #ΛECHO (Permissions based on tier)
+            'permissions': self._identity_core.resolve_access_tier(access_tier) #ΛECHO (Permissions based on tier)
         }
         self.active_sessions[session_token] = session_data #ΛMEMORY_TIER (Storing session) #ΛTEMPORAL_HOOK (Session added to active list)
         self.logger.debug(f"ΛTRACE ({req_id}): Session {session_token[:8]}... created for user {user_id}. Total active sessions: {len(self.active_sessions)}") #AIDENTITY_BRIDGE
@@ -654,7 +654,7 @@ class LukhasIdManager: # Renamed from LukhasIdEnhancedReasoningEngine
     # Human-readable comment: Gets permissions based on access tier.
     #AIDENTITY_BRIDGE (Permissions are tied to access tier, which is part of identity)
     #ΛECHO (Returns permissions based on predefined static tier definitions)
-    def _get_tier_permissions(self, tier: AccessTier) -> List[str]:
+    def _identity_core.resolve_access_tier(self, tier: AccessTier) -> List[str]:
         """Get permissions based on access tier (cumulative)."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier.name}.")
         base_perms = {

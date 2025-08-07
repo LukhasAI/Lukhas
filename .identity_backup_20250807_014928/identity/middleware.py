@@ -14,7 +14,8 @@ from functools import wraps
 from typing import Optional, Callable, List
 import logging
 
-from .identity_core import identity_core, resolve_access_tier
+from .user_db import user_db
+from .verify import get_tier_permissions
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +32,7 @@ class AuthContext:
         self.lambda_id = user_data["lambda_id"]
         self.glyphs = user_data["glyphs"]
         self.trinity_score = user_data["metadata"]["trinity_score"]
-        tier, permissions = resolve_access_tier({"tier": self.tier})
-        self.permissions = permissions
+        self.permissions = get_tier_permissions(self.tier)
         self.metadata = user_data["metadata"]
         self.raw_data = user_data
     
@@ -62,8 +62,8 @@ async def get_current_user(
         token = credentials.credentials
         
         # Verify token
-        is_valid, user_data = identity_core.validate_symbolic_token(token)
-        if not is_valid or not user_data:
+        user_data = user_db.verify_token(token)
+        if not user_data:
             raise HTTPException(
                 status_code=401,
                 detail="Invalid or expired token",

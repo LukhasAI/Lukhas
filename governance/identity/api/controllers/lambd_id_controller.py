@@ -180,7 +180,7 @@ class LambdaIDController:
                 self.logger.warning(f"ΛTRACE ({req_id}): Invalid user_tier '{user_tier}' provided.")
                 return {'success': False, 'error': f'Invalid tier: {user_tier}. Must be 0-5.', 'error_code': 'INVALID_TIER'}
 
-            tier_permissions = self._get_tier_permissions(user_tier) # Private helper, logs internally
+            tier_permissions = self._identity_core.resolve_access_tier(user_tier) # Private helper, logs internally
 
             if sym_prefs:
                 pref_validation_result = self._validate_symbolic_preferences(sym_prefs, tier_permissions) # Logs internally
@@ -263,7 +263,7 @@ class LambdaIDController:
                 self.logger.debug(f"ΛTRACE ({req_id}): ID entropy calculated for '{lambda_id}': {id_entropy_score}")
 
                 if extracted_tier_val is not None:
-                    tier_perms = self._get_tier_permissions(extracted_tier_val) # Logs internally
+                    tier_perms = self._identity_core.resolve_access_tier(extracted_tier_val) # Logs internally
                     # Assuming max_entropy is a key in tier_perms from config
                     max_entropy_for_tier = tier_perms.get('max_entropy', 10.0) # Default high if not found
                     current_validation_details['tier_compliance_check'] = (id_entropy_score <= max_entropy_for_tier)
@@ -446,7 +446,7 @@ class LambdaIDController:
                 'upgrade_details': {
                     'timestamp': datetime.now().isoformat(),
                     'entropy_score_new_id': new_id_generation_result.get('entropy_score'),
-                    'new_tier_permissions_summary': self._get_tier_permissions(target_tier).get('description', 'N/A'), # Simplified
+                    'new_tier_permissions_summary': self._identity_core.resolve_access_tier(target_tier).get('description', 'N/A'), # Simplified
                     'new_symbolic_representation': new_id_generation_result.get('symbolic_representation')
                 }
             }
@@ -521,7 +521,7 @@ class LambdaIDController:
         return is_valid
 
     # Human-readable comment: Retrieves permissions for a specific tier from configuration.
-    def _get_tier_permissions(self, tier_level: int) -> Dict[str, Any]:
+    def _identity_core.resolve_access_tier(self, tier_level: int) -> Dict[str, Any]:
         """Retrieves permissions and limits for a specific tier from the loaded configuration."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier_level}.")
         # Default permissions if specific tier not found or config missing parts
@@ -595,7 +595,7 @@ class LambdaIDController:
         """Generates actionable recommendations for improving symbolic input entropy based on current score and tier limits."""
         self.logger.debug(f"ΛTRACE: Generating entropy recommendations. Score: {current_entropy_score}, Tier: {user_tier}, Symbols: {len(current_symbols)}")
         recommendations_list: List[str] = []
-        tier_perms = self._get_tier_permissions(user_tier) # Logs internally
+        tier_perms = self._identity_core.resolve_access_tier(user_tier) # Logs internally
         max_entropy_for_tier = tier_perms.get('max_entropy', 2.0) # Default from original
         symbols_allowed_for_tier = tier_perms.get('symbols_allowed', 2)
 

@@ -475,7 +475,7 @@ class LukhasIdEnhancedReasoningEngine:
             'created_at': datetime.now(),
             'expires_at': datetime.now() + timedelta(hours=24),
             'emotional_state': emotional_state.to_dict() if emotional_state else None,
-            'permissions': self._get_tier_permissions(access_tier)
+            'permissions': self._identity_core.resolve_access_tier(access_tier)
         }
 
         self.active_sessions[session_token] = session_data
@@ -562,7 +562,7 @@ class LukhasIdEnhancedReasoningEngine:
             return False
         return stored_gesture == provided_gesture
 
-    def _get_tier_permissions(self, tier: AccessTier) -> List[str]:
+    def _identity_core.resolve_access_tier(self, tier: AccessTier) -> List[str]:
         """Get permissions based on access tier"""
         permissions = {
             AccessTier.TIER_1_BASIC: [

@@ -1,77 +1,22 @@
 """
-LUKHΛS Identity System (ΛiD)
-============================
-
-Complete identity management with Trinity Framework integration.
-Provides authentication, authorization, and symbolic user tracking.
-
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
-
-Main exports:
-- identity_router: FastAPI router with all identity endpoints
-- get_current_user: Dependency for authenticated routes
-- require_tier: Decorator for tier-based access control
-- AuthContext: User authentication context
+LUKHΛS Identity Module
+Unified identity management with symbolic authentication
 """
 
-# Import main components
-from .api import identity_router
-from .middleware import (
-    get_current_user,
-    AuthContext,
-    require_tier,
-    require_permission,
-    require_trinity_active,
-    require_t1_or_above,
-    require_t2_or_above,
-    require_t3_or_above,
-    require_t4_or_above,
-    require_t5,
-    TierGate,
-    inject_user_context,
-    extract_user_context
+from .identity_core import (
+    IdentityCore,
+    AccessTier,
+    identity_core,
+    validate_symbolic_token,
+    resolve_access_tier,
+    generate_identity_glyph
 )
-from .user_db import user_db
-from .registration import RegistrationRequest, RegistrationResponse
-from .login import LoginRequest, LoginResponse, UserProfile
-from .verify import VerifyResponse, get_tier_permissions
 
-# Export main components
 __all__ = [
-    # Router
-    "identity_router",
-    
-    # Database
-    "user_db",
-    
-    # Middleware and dependencies
-    "get_current_user",
-    "AuthContext",
-    "require_tier",
-    "require_permission",
-    "require_trinity_active",
-    "require_t1_or_above",
-    "require_t2_or_above",
-    "require_t3_or_above",
-    "require_t4_or_above",
-    "require_t5",
-    "TierGate",
-    "inject_user_context",
-    "extract_user_context",
-    
-    # Models
-    "RegistrationRequest",
-    "RegistrationResponse",
-    "LoginRequest",
-    "LoginResponse",
-    "UserProfile",
-    "VerifyResponse",
-    
-    # Utilities
-    "get_tier_permissions"
+    "IdentityCore",
+    "AccessTier", 
+    "identity_core",
+    "validate_symbolic_token",
+    "resolve_access_tier",
+    "generate_identity_glyph"
 ]
-
-# Module information
-__version__ = "1.0.0"
-__author__ = "LUKHΛS AI"
-__description__ = "Identity and authentication system with symbolic tracking"
