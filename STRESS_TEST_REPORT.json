@@ -1,0 +1,82 @@
+{
+  "timestamp": "2025-08-07T00:59:09.692426",
+  "total_operations": 126500,
+  "total_errors": 0,
+  "components": {
+    "plugins": {
+      "throughput": 60802.74828422244,
+      "avg_latency": 0.012163815499999911,
+      "p99_latency": 0.01758300000000157,
+      "error_rate": 0.0,
+      "operations": 10000
+    },
+    "agents": {
+      "throughput": 109422.95020663364,
+      "avg_latency": 0.0014120246138612583,
+      "p99_latency": 0.0047089999999916365,
+      "error_rate": 0.0,
+      "operations": 50500
+    },
+    "nias": {
+      "throughput": 0,
+      "avg_latency": 0,
+      "p99_latency": 0,
+      "error_rate": 0,
+      "operations": 0
+    },
+    "tiers": {
+      "throughput": 643977.5515607708,
+      "avg_latency": 0.00024936365999996213,
+      "p99_latency": 0.0003339999999907306,
+      "error_rate": 0.0,
+      "operations": 50000
+    },
+    "consciousness": {
+      "throughput": 873248.0461075008,
+      "avg_latency": 0.000266349100000296,
+      "p99_latency": 0.00045900000000820285,
+      "error_rate": 0.0,
+      "operations": 10000
+    },
+    "dreams": {
+      "throughput": 490636.97828852956,
+      "avg_latency": 0.0005968344000002679,
+      "p99_latency": 0.0010000000000287557,
+      "error_rate": 0.0,
+      "operations": 5000
+    },
+    "memory": {
+      "throughput": 238457.18203225255,
+      "avg_latency": 0.0002505059999994286,
+      "p99_latency": 0.0005829999999429347,
+      "error_rate": 0.0,
+      "operations": 1000
+    }
+  },
+  "ai_core_benefits": {
+    "consciousness_enhancement": [
+      "0 agents operating with consciousness modeling",
+      "Processed 873248 consciousness operations/sec",
+      "Dream resonance calculations for narrative consciousness"
+    ],
+    "decision_improvement": [
+      "Autonomous agents processed 109423 decisions/sec"
+    ],
+    "memory_optimization": [
+      "Memory system handled 238457 folds/sec"
+    ],
+    "emotional_intelligence": [
+      "Emotional context preserved across 1000 memory folds"
+    ],
+    "symbolic_processing": [
+      "GLYPH tokens processed across 10000 plugins",
+      "Dream engine processed 490637 symbolic seeds/sec"
+    ],
+    "ethical_alignment": [
+      "Tier system enforced 643978 access checks/sec"
+    ],
+    "performance_gains": [
+      "Plugin system achieved 60803 ops/sec registration"
+    ]
+  }
+}
