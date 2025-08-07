@@ -3,6 +3,10 @@ python-dateutil>=2.8.2
 pytz>=2023.3
 typing-extensions>=4.8.0
 
+# AI/ML Integration
+openai>=1.0.0
+anthropic>=0.18.0
+
 # Async Support
 asyncio
 aiohttp>=3.9.0

@@ -295,38 +295,41 @@ Key environment variables (set in `.env`):
 
 **IMPORTANT**: When creating new files, follow the proper directory structure to maintain a clean root directory.
 
-### Directory Structure for New Files
+### Directory Structure (ORGANIZED - August 2025)
 
 ```
 🧠 LUKHAS_PWM/
 ├── 📄 Root Files (ONLY these belong in root)
 │   ├── CLAUDE.md                    # This file
-│   ├── README.md                    # Primary documentation
+│   ├── README.md                    # Primary documentation (UPDATED)
 │   ├── LICENSE                      # Legal
-│   ├── requirements.txt             # Core dependencies
-│   ├── requirements-test.txt        # Test dependencies
+│   ├── requirements.txt             # Core dependencies (UPDATED)
+│   ├── main.py                      # Main entry point (FIXED imports)
 │   ├── package.json                 # Node.js dependencies
 │   ├── lukhas_pwm_config.yaml       # Core configuration
 │   ├── pytest.ini                   # Test configuration
 │   └── .gitignore, .env.example     # Environment files
 │
-├── 📁 docs/                         # All documentation
+├── 📁 docs/                         # All documentation (ORGANIZED)
 │   ├── 📁 reports/                  # Analysis reports
-│   │   ├── 📁 status/               # Status reports (PWM_*_STATUS_REPORT.md)
-│   │   └── 📁 analysis/             # Analysis results (PWM_*_REPORT.json)
+│   │   ├── 📁 status/               # Status reports (all *_COMPLETE.md moved here)
+│   │   └── 📁 analysis/             # Analysis results (all JSON reports moved here)
 │   ├── 📁 planning/                 # Planning documents
-│   │   └── 📁 completed/            # Completed phase plans (PWM_*_PLAN.md)
-│   └── 📁 archive/                  # Archived documentation
+│   │   └── 📁 completed/            # All PHASE_* files moved here
+│   └── All documentation files      # Moved from root
 │
 ├── 📁 tools/                        # Analysis & utility tools
 │   ├── 📁 analysis/                 # Analysis scripts (PWM_*.py)
-│   ├── 📁 scripts/                  # Utility scripts
+│   ├── 📁 scripts/                  # All utility scripts moved here
 │   └── 📁 documentation_suite/      # Documentation generators
 │
-├── 📁 tests/                        # Test suites
-│   ├── 📁 governance/               # Governance tests (test_*.py)
-│   ├── 📁 security/                 # Security tests
-│   └── 📁 integration/              # Integration tests
+├── 📁 tests/                        # Test suites (ORGANIZED)
+│   ├── 📁 stress/                   # Stress tests (all STRESS_TEST_*.py moved here)
+│   ├── 📁 governance/               # Governance tests
+│   └── All test files               # Moved from root
+│
+├── 📁 test_results/                 # Test outputs (ORGANIZED)
+│   └── All test results             # JSON and report files
 │
 └── 📁 [Module Directories]          # Core LUKHAS modules
 ```

@@ -1,17 +1,15 @@
 {
-  "timestamp": "20250802_203523",
-  "actions_taken": 10,
-  "integration_log": [
-    "Created orchestration bridge: consciousness/orchestration_bridge.py",
-    "Cleaned up: ./orchestration/brain/visualization/__init__.py",
-    "Cleaned up: ./orchestration/core_modules/__init__.py",
-    "Cleaned up: ./orchestration/brain/monitoring/__init__.py",
-    "Cleaned up: ./orchestration/brain/logging/__init__.py",
-    "Created identity integration: governance/identity_integration.py",
-    "Updated memory __init__.py with isolated components",
-    "Created unified API router: api/unified_router.py",
-    "Created master integration: core/master_integration.py",
-    "Updated main.py with neural network integration"
-  ],
-  "status": "completed"
+  "timestamp": "2025-08-07T00:52:43.733298",
+  "components": {
+    "consciousness": "\u274c FAILED: 'NI\u039bS' object has no attribute 'enable_consciousness_mode'",
+    "guardian": "\u274c FAILED: 'NI\u039bS' object has no attribute 'set_guardian_policies'",
+    "memory": "\u274c FAILED: 'NI\u039bS' object has no attribute 'enable_memory_persistence'",
+    "glyph": "\u274c FAILED: 'PluginSystem' object has no attribute 'enable_glyph_mode'",
+    "tiers": "\u274c FAILED: 'LukhasPWMIntegrationAdapter' object has no attribute 'set_product_tier'",
+    "dreams": "\u274c FAILED: 'NI\u039bS' object has no attribute 'enable_dream_integration'",
+    "gpt_oss": "\u274c FAILED: 'ADVANCED'",
+    "commercial": "\u274c FAILED: cannot import name 'RevenueTracker' from 'deployment.revenue_tracker' (/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack/deployment/revenue_tracker.py)"
+  },
+  "connections": {},
+  "features": {}
 }

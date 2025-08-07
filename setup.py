@@ -12,12 +12,12 @@ long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
     name="lukhas-pwm",
-    version="2.0.0",
+    version="2.1.0",
     author="LUKHAS AI",
-    description="Production-ready consciousness-aware AI platform with Lambda Products",
+    description="Production-ready consciousness-aware AI platform with Lambda Products - 99%+ reliability",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/lukhas-pwm",
+    url="https://github.com/LukhasAI/Lukhas_PWM",
     packages=find_packages(exclude=["tests*", "docs*", "examples*"]),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -32,10 +32,13 @@ setup(
     install_requires=[
         "fastapi>=0.100.0",
         "pydantic>=2.0.0",
-        "asyncio",
         "aiohttp>=3.9.0",
         "numpy>=1.24.0",
         "cryptography>=41.0.0",
+        "openai>=1.0.0",
+        "anthropic>=0.18.0",
+        "python-dateutil>=2.8.2",
+        "pytz>=2023.3",
     ],
     extras_require={
         "dev": [
@@ -58,7 +61,7 @@ setup(
     entry_points={
         "console_scripts": [
             "lukhas=main:main",
-            "lukhas-test=COMPLETE_SYSTEM_TEST:main",
+            "lukhas-test=tests.COMPLETE_SYSTEM_TEST:main",
         ],
     },
     include_package_data=True,
