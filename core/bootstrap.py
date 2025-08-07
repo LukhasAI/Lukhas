@@ -160,10 +160,10 @@ class LUKHASBootstrap:
         
         # Register subscriptions
         if self.event_bus:
-            self.event_bus.subscribe(MemoryFoldCreated, on_memory_created)
-            self.event_bus.subscribe(DreamGenerated, on_dream_generated)
-            self.event_bus.subscribe(ConsciousnessStateChanged, on_consciousness_changed)
-            self.event_bus.subscribe(QuantumStateCreated, on_quantum_state)
+            self.kernel_bus.subscribe(MemoryFoldCreated, on_memory_created)
+            self.kernel_bus.subscribe(DreamGenerated, on_dream_generated)
+            self.kernel_bus.subscribe(ConsciousnessStateChanged, on_consciousness_changed)
+            self.kernel_bus.subscribe(QuantumStateCreated, on_quantum_state)
             
             logger.info("  ✓ Event subscriptions configured")
     

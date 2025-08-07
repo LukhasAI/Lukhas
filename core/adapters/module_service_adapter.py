@@ -81,7 +81,7 @@ class MemoryServiceAdapter(IMemoryService):
             
         # Emit event through existing event bus
         try:
-            from core.event_bus import EventBus
+            from orchestration.symbolic_kernel_bus import kernel_bus
             event_bus = EventBus()
             event = MemoryFoldCreated(
                 source_module="memory",
@@ -89,7 +89,7 @@ class MemoryServiceAdapter(IMemoryService):
                 content_hash=str(hash(str(content))),
                 emotional_context=metadata.get('emotional_context', {}) if metadata else {}
             )
-            await event_bus.publish("memory.fold.created", serialize_event(event))
+            await kernel_bus.emit("memory.fold.created", serialize_event(event))
         except:
             pass
             

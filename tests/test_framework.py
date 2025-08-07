@@ -87,7 +87,7 @@ class IntegrationTestCase(LUKHASTestCase):
     @pytest.fixture
     async def event_bus(self):
         """Create event bus for integration tests"""
-        from core.event_bus import EventBus
+        from orchestration.symbolic_kernel_bus import kernel_bus
         bus = EventBus()
         yield bus
         await bus.shutdown()
@@ -108,7 +108,7 @@ class IntegrationTestCase(LUKHASTestCase):
             nonlocal received_event
             received_event = event
             
-        event_bus.subscribe(event_type, handler)
+        kernel_bus.subscribe(event_type, handler)
         
         await self.assert_eventually(
             lambda: received_event is not None,

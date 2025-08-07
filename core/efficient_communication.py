@@ -412,7 +412,7 @@ class EfficientCommunicationFabric:
 
         elif optimal_mode == CommunicationMode.EVENT_BUS:
             # Use event bus for coordination
-            success = await self.event_bus.publish(message)
+            success = await self.kernel_bus.emit(message)
 
         elif optimal_mode == CommunicationMode.MULTICAST:
             # Implement multicast (simplified as multiple event bus sends)
@@ -420,11 +420,11 @@ class EfficientCommunicationFabric:
                 tasks = []
                 for dest in destination:
                     msg_copy = Message(**{**asdict(message), 'destination': dest})
-                    tasks.append(self.event_bus.publish(msg_copy))
+                    tasks.append(self.kernel_bus.emit(msg_copy))
                 results = await asyncio.gather(*tasks, return_exceptions=True)
                 success = all(isinstance(r, bool) and r for r in results)
             else:
-                success = await self.event_bus.publish(message)
+                success = await self.kernel_bus.emit(message)
 
         # Record statistics
         if success:
@@ -440,7 +440,7 @@ class EfficientCommunicationFabric:
 
     def subscribe_to_events(self, event_type: str, handler: Callable):
         """Subscribe to specific event types"""
-        self.event_bus.subscribe(event_type, handler)
+        self.kernel_bus.subscribe(event_type, handler)
 
     async def establish_p2p_connection(self, remote_node: str,
                                      connection_info: Dict[str, Any]) -> bool:

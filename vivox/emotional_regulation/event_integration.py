@@ -191,7 +191,7 @@ class VIVOXEventBusIntegration:
                     timestamp=datetime.now(timezone.utc),
                     context=context
                 )
-                await self.event_bus.publish(system_event)
+                await self.kernel_bus.emit(system_event)
             
             logger.debug(f"Published emotional shift event for user {user_id}")
             
@@ -224,7 +224,7 @@ class VIVOXEventBusIntegration:
                         "neuroplastic_tags": regulation_response.neuroplastic_tags
                     }
                 )
-                await self.event_bus.publish(system_event)
+                await self.kernel_bus.emit(system_event)
             
             logger.debug(f"Published regulation event for user {user_id}")
             
@@ -279,7 +279,7 @@ class VIVOXEventBusIntegration:
         # Publish to event bus if available
         if self.event_bus:
             try:
-                await self.event_bus.publish(event)
+                await self.kernel_bus.emit(event)
             except Exception as e:
                 logger.error(f"Failed to publish to event bus: {e}")
         

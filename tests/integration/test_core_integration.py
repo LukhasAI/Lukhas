@@ -25,7 +25,7 @@ class TestCoreSystemIntegration(IntegrationTestCase):
         """Test consciousness queries create memories"""
         # Setup event tracking
         memory_events = []
-        event_bus.subscribe('memory.stored', lambda e: memory_events.append(e))
+        kernel_bus.subscribe('memory.stored', lambda e: memory_events.append(e))
         
         # Query consciousness
         query = "What is the meaning of existence?"

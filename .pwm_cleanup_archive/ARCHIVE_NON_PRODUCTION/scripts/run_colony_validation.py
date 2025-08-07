@@ -111,7 +111,7 @@ class ValidationMatrix:
             start_time = time.time()
             tasks = []
             for i in range(1000):
-                tasks.append(event_bus.publish("some_event", {"i": i}))
+                tasks.append(kernel_bus.emit("some_event", {"i": i}))
             await asyncio.gather(*tasks)
 
             # Wait for all events to be processed
@@ -199,7 +199,7 @@ class ValidationMatrix:
             # Stress the system
             tasks = []
             for i in range(10000):
-                tasks.append(event_bus.publish("some_event", {"i": i}))
+                tasks.append(kernel_bus.emit("some_event", {"i": i}))
             await asyncio.gather(*tasks)
 
             # Record memory usage after stress
@@ -238,7 +238,7 @@ class ValidationMatrix:
             logger.info("Simulating symbolic drift...")
             # This is a simplified simulation. A real implementation would involve
             # changing the meaning of a symbol in the system.
-            await event_bus.publish("symbol_update", {"symbol": "X", "meaning": "new_meaning"})
+            await kernel_bus.emit("symbol_update", {"symbol": "X", "meaning": "new_meaning"})
             await asyncio.sleep(1)
 
     def generate_report(self):

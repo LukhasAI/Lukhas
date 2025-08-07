@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 # Import core systems
 from core.core_utilities import Actor
 from core.actor_system import ActorSystem
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 from core.colonies.memory_colony_enhanced import MemoryColony
 from core.colonies.creativity_colony import CreativityColony
 from core.colonies.reasoning_colony import ReasoningColony
@@ -143,7 +143,7 @@ async def test_event_bus_integration():
         logger.info(f"📨 Event received: {event.get('type')}")
 
     # Subscribe to events
-    await event_bus.subscribe("colony.*", event_handler)
+    await kernel_bus.subscribe("colony.*", event_handler)
 
     # Emit colony events
     await event_bus.emit("colony.task.started", {"colony": "memory", "task": "test"})

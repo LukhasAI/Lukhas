@@ -26,7 +26,7 @@ try:
     from core.colony_coordinator import ColonyCoordinator
     from consciousness.colony import Colony
     from core.swarm_intelligence import SwarmNode
-    from core.event_bus import EventBus
+    from orchestration.symbolic_kernel_bus import kernel_bus
     COLONY_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Colony imports not available: {e}")

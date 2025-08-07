@@ -271,7 +271,7 @@ async def emit_event_async(event_type: str, source: str, payload: Dict[str, Any]
         source_module=source,
         payload=payload
     )
-    await event_bus.publish(event)
+    await kernel_bus.emit(event)
 '''
         
         # Save event bus

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from typing import Any, Dict
 
 from pydantic import BaseModel
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 
 router = APIRouter()
 

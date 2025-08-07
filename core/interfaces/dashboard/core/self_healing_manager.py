@@ -57,7 +57,7 @@ from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, Fallb
 from core.monitoring.drift_monitor import UnifiedDriftMonitor, InterventionType
 from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 from memory.systems.healix_memory_core import HealixMemoryCore
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 
 # Dashboard system imports
 from dashboard.core.universal_adaptive_dashboard import DashboardMorphState, DashboardContext

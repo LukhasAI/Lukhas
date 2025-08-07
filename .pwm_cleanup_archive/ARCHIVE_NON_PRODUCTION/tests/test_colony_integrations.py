@@ -14,7 +14,7 @@ from consciousness.systems.consciousness_colony_integration import DistributedCo
 from memory.systems.distributed_memory import DistributedMemorySystem, MemoryType
 from quantum.quantum_colony import QuantumColony
 from core.swarm import SwarmHub
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

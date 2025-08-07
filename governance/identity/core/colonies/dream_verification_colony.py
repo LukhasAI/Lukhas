@@ -34,7 +34,7 @@ from identity.core.events import (
 )
 
 # Import event bus for dream coordination
-from core.event_bus import EventBus, DreamEventType
+from orchestration.symbolic_kernel_bus import kernel_bus, DreamEventType
 
 logger = logging.getLogger('LUKHAS_DREAM_COLONY')
 

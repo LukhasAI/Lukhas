@@ -688,8 +688,7 @@ class AuditTrail:
     async def _handle_critical_event(self, event: AuditEvent):
         """Handle critical events immediately"""
         # In production, this would trigger alerts
-        print(f"CRITICAL EVENT: {event.event_type.value} - {event.details}")
-        
+                
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
         return f"{self.session_id}-{self.event_count:08d}-{uuid.uuid4().hex[:8]}"

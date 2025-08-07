@@ -72,10 +72,10 @@ async def test_professional_architecture():
     # Subscribe to multiple event types
     event_bus = bootstrap.event_bus
     sub_ids = [
-        event_bus.subscribe(MemoryFoldCreated, on_any_event),
-        event_bus.subscribe(ConsciousnessStateChanged, on_any_event),
-        event_bus.subscribe(DreamGenerated, on_any_event),
-        event_bus.subscribe(EmotionalStateChanged, on_any_event)
+        kernel_bus.subscribe(MemoryFoldCreated, on_any_event),
+        kernel_bus.subscribe(ConsciousnessStateChanged, on_any_event),
+        kernel_bus.subscribe(DreamGenerated, on_any_event),
+        kernel_bus.subscribe(EmotionalStateChanged, on_any_event)
     ]
     
     # Step 4: Test service interactions

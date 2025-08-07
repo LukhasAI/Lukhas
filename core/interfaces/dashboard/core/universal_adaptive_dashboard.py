@@ -58,7 +58,7 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 from core.monitoring.drift_monitor import UnifiedDriftMonitor
 from orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
 from memory.systems.healix_memory_core import HealixMemoryCore
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 from core.oracle_nervous_system import get_oracle_nervous_system
 from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 
@@ -331,21 +331,21 @@ class UniversalAdaptiveDashboard:
         """Setup event handlers for adaptive behavior."""
 
         # Oracle Nervous System events
-        self.event_bus.subscribe("oracle_prediction_ready", self._handle_oracle_prediction)
-        self.event_bus.subscribe("oracle_nervous_system_status", self._handle_oracle_status)
+        self.kernel_bus.subscribe("oracle_prediction_ready", self._handle_oracle_prediction)
+        self.kernel_bus.subscribe("oracle_nervous_system_status", self._handle_oracle_status)
 
         # Ethics Swarm events
-        self.event_bus.subscribe("ethics_decision_complex", self._handle_ethics_complexity)
-        self.event_bus.subscribe("ethics_drift_detected", self._handle_ethics_drift)
+        self.kernel_bus.subscribe("ethics_decision_complex", self._handle_ethics_complexity)
+        self.kernel_bus.subscribe("ethics_drift_detected", self._handle_ethics_drift)
 
         # System health events
-        self.event_bus.subscribe("system_trauma_detected", self._handle_system_trauma)
-        self.event_bus.subscribe("component_failure", self._handle_component_failure)
-        self.event_bus.subscribe("colony_status_change", self._handle_colony_status)
+        self.kernel_bus.subscribe("system_trauma_detected", self._handle_system_trauma)
+        self.kernel_bus.subscribe("component_failure", self._handle_component_failure)
+        self.kernel_bus.subscribe("colony_status_change", self._handle_colony_status)
 
         # User interaction events
-        self.event_bus.subscribe("user_emotional_state", self._handle_emotional_state)
-        self.event_bus.subscribe("user_interaction_pattern", self._handle_interaction_pattern)
+        self.kernel_bus.subscribe("user_emotional_state", self._handle_emotional_state)
+        self.kernel_bus.subscribe("user_interaction_pattern", self._handle_interaction_pattern)
 
         self.logger.info("Event handlers configured for adaptive behavior")
 

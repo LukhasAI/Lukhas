@@ -102,7 +102,7 @@ except ImportError as e:
 
 # Import event bus
 try:
-    from core.event_bus import EventBus, get_global_event_bus
+    from orchestration.symbolic_kernel_bus import kernel_bus, get_global_event_bus
     EVENT_BUS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Event bus not available: {e}")
@@ -259,10 +259,10 @@ class ColonyDreamCoordinator:
             return
 
         # Subscribe to dream-related events
-        self.event_bus.subscribe("dream_task_created", self._handle_dream_task_event)
-        self.event_bus.subscribe("dream_processing_complete", self._handle_dream_completion_event)
-        self.event_bus.subscribe("colony_dream_insight", self._handle_colony_insight_event)
-        self.event_bus.subscribe("swarm_consensus_reached", self._handle_consensus_event)
+        self.kernel_bus.subscribe("dream_task_created", self._handle_dream_task_event)
+        self.kernel_bus.subscribe("dream_processing_complete", self._handle_dream_completion_event)
+        self.kernel_bus.subscribe("colony_dream_insight", self._handle_colony_insight_event)
+        self.kernel_bus.subscribe("swarm_consensus_reached", self._handle_consensus_event)
 
         self.logger.info("Dream event channels configured")
 

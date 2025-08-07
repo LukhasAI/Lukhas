@@ -1,6 +1,6 @@
 import asyncio
 import unittest
-from core.event_bus import EventBus, get_global_event_bus
+from orchestration.symbolic_kernel_bus import kernel_bus, get_global_event_bus
 
 
 class TestEventBus(unittest.TestCase):

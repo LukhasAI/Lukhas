@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 import importlib.util
 from pathlib import Path
 

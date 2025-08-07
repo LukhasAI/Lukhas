@@ -21,7 +21,7 @@ from interfaces.api.v1.rest.routers import (
     process_router,
     tasks_router,
 )
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 from orchestration_src.dast.api import API_PREFIX
 
 app = FastAPI(

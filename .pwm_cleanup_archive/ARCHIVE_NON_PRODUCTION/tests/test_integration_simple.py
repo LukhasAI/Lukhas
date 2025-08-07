@@ -12,7 +12,7 @@ from core.integration_hub import UnifiedIntegration
 from core.colonies.memory_colony_enhanced import MemoryColony
 from core.colonies.creativity_colony import CreativityColony
 from core.colonies.reasoning_colony import ReasoningColony
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 
 async def test_task_manager_with_colonies():
     """Test task manager coordinating with colonies"""
@@ -107,7 +107,7 @@ async def test_event_bus_with_colonies():
         print(f"   - Event received: {event.get('type', 'unknown')}")
 
     # Subscribe to colony events
-    event_bus.subscribe("colony.*", colony_event_handler)
+    kernel_bus.subscribe("colony.*", colony_event_handler)
 
     # Simulate colony events
     await event_bus.publish("colony.memory.store", {

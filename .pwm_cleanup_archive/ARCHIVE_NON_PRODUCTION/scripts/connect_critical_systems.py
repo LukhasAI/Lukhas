@@ -395,12 +395,12 @@ class ColonySwarmIntegration:
     def _setup_event_handlers(self):
         """Set up event bus connections."""
         # Colony events
-        self.event_bus.subscribe('colony.formed', self._on_colony_formed)
-        self.event_bus.subscribe('colony.task_assigned', self._on_task_assigned)
+        self.kernel_bus.subscribe('colony.formed', self._on_colony_formed)
+        self.kernel_bus.subscribe('colony.task_assigned', self._on_task_assigned)
 
         # Swarm events
-        self.event_bus.subscribe('swarm.intelligence_update', self._on_swarm_update)
-        self.event_bus.subscribe('swarm.consensus_reached', self._on_consensus)
+        self.kernel_bus.subscribe('swarm.intelligence_update', self._on_swarm_update)
+        self.kernel_bus.subscribe('swarm.consensus_reached', self._on_consensus)
 
     async def _on_colony_formed(self, event: Dict[str, Any]):
         """Handle colony formation."""

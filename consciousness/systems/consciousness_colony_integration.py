@@ -18,7 +18,7 @@ from core.colonies.reasoning_colony import ReasoningColony
 from core.colonies.memory_colony import MemoryColony
 from core.colonies.creativity_colony import CreativityColony
 from core.swarm import SwarmHub
-from core.event_bus import EventBus
+from orchestration.symbolic_kernel_bus import kernel_bus
 from bridge.shared_state import SharedStateManager
 
 logger = get_logger(__name__)
@@ -81,9 +81,9 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             self.swarm_hub.register_colony(self.creativity_colony)
 
             # Subscribe to colony events
-            self.event_bus.subscribe("colony.reasoning.complete", self._handle_reasoning_complete)
-            self.event_bus.subscribe("colony.memory.stored", self._handle_memory_stored)
-            self.event_bus.subscribe("colony.creativity.insight", self._handle_creative_insight)
+            self.kernel_bus.subscribe("colony.reasoning.complete", self._handle_reasoning_complete)
+            self.kernel_bus.subscribe("colony.memory.stored", self._handle_memory_stored)
+            self.kernel_bus.subscribe("colony.creativity.insight", self._handle_creative_insight)
 
             self.logger.info("Distributed consciousness engine started successfully")
 
