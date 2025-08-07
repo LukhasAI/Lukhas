@@ -22,6 +22,35 @@ class ConsentScope(Enum):
     TEMPORAL = "temporal"       # Time-based consent
     EMOTIONAL = "emotional"     # Emotional state-based
     CONTEXTUAL = "contextual"   # Situational consent
+    DATA_SOURCE = "data_source" # Specific data source permissions
+    VENDOR = "vendor"          # Vendor-specific consent
+    AI_GENERATION = "ai_generation"  # AI content generation consent
+
+class DataSource(Enum):
+    """Types of user data sources"""
+    EMAIL = "email"                 # Email scanning
+    SHOPPING_HISTORY = "shopping_history"  # Purchase history
+    CALENDAR = "calendar"           # Calendar events
+    LOCATION = "location"           # GPS/location data
+    VOICE = "voice"                # Voice recordings (Siri, Alexa)
+    BIOMETRIC = "biometric"         # Heart rate, stress levels
+    BROWSING = "browsing"           # Web browsing history
+    SOCIAL_MEDIA = "social_media"   # Social media activity
+    HEALTH = "health"              # Health and fitness data
+    FINANCIAL = "financial"         # Banking/payment data
+    CONTACTS = "contacts"           # Address book
+    MESSAGES = "messages"           # SMS/messaging apps
+    PHOTOS = "photos"              # Photo library analysis
+    APP_USAGE = "app_usage"         # App usage patterns
+    DEVICE_SENSORS = "device_sensors"  # Accelerometer, gyroscope
+
+class AIGenerationType(Enum):
+    """Types of AI-generated content"""
+    NARRATIVE = "narrative"         # GPT-generated dream narratives
+    IMAGE = "image"                # DALL-E generated images
+    VIDEO = "video"                # Sora-generated videos
+    AUDIO = "audio"                # AI-generated audio/music
+    HYBRID = "hybrid"              # Multi-modal content
 
 @dataclass
 class ConsentRecord:
@@ -34,12 +63,24 @@ class ConsentRecord:
     context: Dict[str, Any] = None
     revocable: bool = True
     audit_trail: List[Dict[str, Any]] = None
+    data_sources: List[DataSource] = None  # Specific data sources allowed
+    vendor_ids: List[str] = None  # Specific vendors allowed
+    ai_generation_types: List[AIGenerationType] = None  # AI content types allowed
+    restrictions: Dict[str, Any] = None  # Additional restrictions
 
     def __post_init__(self):
         if self.context is None:
             self.context = {}
         if self.audit_trail is None:
             self.audit_trail = []
+        if self.data_sources is None:
+            self.data_sources = []
+        if self.vendor_ids is None:
+            self.vendor_ids = []
+        if self.ai_generation_types is None:
+            self.ai_generation_types = []
+        if self.restrictions is None:
+            self.restrictions = {}
 
     def is_valid(self) -> bool:
         """Check if consent record is still valid"""
@@ -64,8 +105,11 @@ class ConsentManager:
         self.consent_records: Dict[str, List[ConsentRecord]] = {}
         self.consent_templates: Dict[str, Dict] = {}
         self.privacy_settings: Dict[str, Dict] = {}
+        self.data_source_permissions: Dict[str, Dict[DataSource, bool]] = {}
+        self.vendor_permissions: Dict[str, Dict[str, Dict]] = {}
+        self.ai_generation_settings: Dict[str, Dict] = {}
         
-        logger.info("NIΛS Consent Manager initialized")
+        logger.info("NIΛS Consent Manager initialized with enhanced data source permissions")
     
     def _default_config(self) -> Dict:
         """Default consent manager configuration"""
@@ -75,7 +119,12 @@ class ConsentManager:
             "enable_consent_withdrawal": True,
             "audit_all_changes": True,
             "gdpr_compliance": True,
-            "ccpa_compliance": True
+            "ccpa_compliance": True,
+            "require_data_source_consent": True,
+            "require_vendor_consent": True,
+            "ai_generation_consent_required": True,
+            "ethical_check_required": True,
+            "openai_api_enabled": True
         }
     
     async def grant_consent(self, user_id: str, scope: ConsentScope, 
@@ -445,3 +494,282 @@ class ConsentManager:
             "gdpr_compliance": self.config["gdpr_compliance"],
             "ccpa_compliance": self.config["ccpa_compliance"]
         }
+    
+    async def grant_data_source_consent(self, user_id: str, data_sources: List[DataSource],
+                                       restrictions: Optional[Dict] = None) -> bool:
+        """
+        Grant consent for specific data sources
+        
+        Args:
+            user_id: User identifier
+            data_sources: List of data sources to grant access to
+            restrictions: Optional restrictions on data usage
+            
+        Returns:
+            True if consent granted successfully
+        """
+        try:
+            if user_id not in self.data_source_permissions:
+                self.data_source_permissions[user_id] = {}
+            
+            # Update permissions for each data source
+            for source in data_sources:
+                self.data_source_permissions[user_id][source] = True
+                
+                # Create consent record for data source
+                record = ConsentRecord(
+                    user_id=user_id,
+                    scope=ConsentScope.DATA_SOURCE,
+                    level=ConsentLevel.ENHANCED,
+                    granted_at=datetime.now(),
+                    data_sources=[source],
+                    restrictions=restrictions or {}
+                )
+                
+                # Add audit entry
+                record.audit_trail.append({
+                    "action": "data_source_granted",
+                    "timestamp": datetime.now().isoformat(),
+                    "data_source": source.value,
+                    "restrictions": restrictions or {}
+                })
+                
+                # Store record
+                if user_id not in self.consent_records:
+                    self.consent_records[user_id] = []
+                self.consent_records[user_id].append(record)
+            
+            logger.info(f"Data source consent granted for {user_id}: {[s.value for s in data_sources]}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error granting data source consent: {e}")
+            return False
+    
+    async def revoke_data_source_consent(self, user_id: str, data_sources: List[DataSource]) -> bool:
+        """Revoke consent for specific data sources"""
+        try:
+            if user_id not in self.data_source_permissions:
+                return True
+            
+            for source in data_sources:
+                if source in self.data_source_permissions[user_id]:
+                    self.data_source_permissions[user_id][source] = False
+            
+            # Update consent records
+            if user_id in self.consent_records:
+                for record in self.consent_records[user_id]:
+                    if record.scope == ConsentScope.DATA_SOURCE:
+                        record.audit_trail.append({
+                            "action": "data_source_revoked",
+                            "timestamp": datetime.now().isoformat(),
+                            "data_sources": [s.value for s in data_sources]
+                        })
+            
+            logger.info(f"Data source consent revoked for {user_id}: {[s.value for s in data_sources]}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error revoking data source consent: {e}")
+            return False
+    
+    async def check_data_source_permission(self, user_id: str, data_source: DataSource) -> bool:
+        """Check if user has granted permission for a specific data source"""
+        if user_id not in self.data_source_permissions:
+            return False
+        return self.data_source_permissions[user_id].get(data_source, False)
+    
+    async def grant_vendor_consent(self, user_id: str, vendor_id: str, 
+                                  permissions: Dict[str, Any],
+                                  data_sources: Optional[List[DataSource]] = None) -> bool:
+        """
+        Grant consent for a specific vendor to access user data
+        
+        Args:
+            user_id: User identifier
+            vendor_id: Vendor identifier
+            permissions: Vendor-specific permissions
+            data_sources: Data sources vendor can access
+            
+        Returns:
+            True if consent granted successfully
+        """
+        try:
+            if user_id not in self.vendor_permissions:
+                self.vendor_permissions[user_id] = {}
+            
+            # Store vendor permissions
+            self.vendor_permissions[user_id][vendor_id] = {
+                "granted_at": datetime.now().isoformat(),
+                "permissions": permissions,
+                "data_sources": [s.value for s in data_sources] if data_sources else [],
+                "active": True
+            }
+            
+            # Create consent record
+            record = ConsentRecord(
+                user_id=user_id,
+                scope=ConsentScope.VENDOR,
+                level=ConsentLevel.ENHANCED,
+                granted_at=datetime.now(),
+                vendor_ids=[vendor_id],
+                data_sources=data_sources or [],
+                context={"permissions": permissions}
+            )
+            
+            # Add audit entry
+            record.audit_trail.append({
+                "action": "vendor_consent_granted",
+                "timestamp": datetime.now().isoformat(),
+                "vendor_id": vendor_id,
+                "permissions": permissions
+            })
+            
+            # Store record
+            if user_id not in self.consent_records:
+                self.consent_records[user_id] = []
+            self.consent_records[user_id].append(record)
+            
+            logger.info(f"Vendor consent granted for {user_id} to vendor {vendor_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error granting vendor consent: {e}")
+            return False
+    
+    async def check_vendor_permission(self, user_id: str, vendor_id: str,
+                                     data_source: Optional[DataSource] = None) -> bool:
+        """Check if vendor has permission to access user data"""
+        if user_id not in self.vendor_permissions:
+            return False
+        
+        if vendor_id not in self.vendor_permissions[user_id]:
+            return False
+        
+        vendor_perms = self.vendor_permissions[user_id][vendor_id]
+        if not vendor_perms.get("active", False):
+            return False
+        
+        # Check specific data source permission if provided
+        if data_source:
+            allowed_sources = vendor_perms.get("data_sources", [])
+            return data_source.value in allowed_sources
+        
+        return True
+    
+    async def grant_ai_generation_consent(self, user_id: str, 
+                                         generation_types: List[AIGenerationType],
+                                         ethical_checks: bool = True,
+                                         openai_api: bool = True) -> bool:
+        """
+        Grant consent for AI-generated content
+        
+        Args:
+            user_id: User identifier
+            generation_types: Types of AI content allowed
+            ethical_checks: Require ethical validation
+            openai_api: Allow OpenAI API usage
+            
+        Returns:
+            True if consent granted successfully
+        """
+        try:
+            if user_id not in self.ai_generation_settings:
+                self.ai_generation_settings[user_id] = {}
+            
+            # Store AI generation settings
+            self.ai_generation_settings[user_id] = {
+                "generation_types": [t.value for t in generation_types],
+                "ethical_checks_required": ethical_checks,
+                "openai_api_enabled": openai_api,
+                "granted_at": datetime.now().isoformat()
+            }
+            
+            # Create consent record
+            record = ConsentRecord(
+                user_id=user_id,
+                scope=ConsentScope.AI_GENERATION,
+                level=ConsentLevel.FULL_SYMBOLIC,
+                granted_at=datetime.now(),
+                ai_generation_types=generation_types,
+                context={
+                    "ethical_checks": ethical_checks,
+                    "openai_api": openai_api
+                }
+            )
+            
+            # Add audit entry
+            record.audit_trail.append({
+                "action": "ai_generation_consent_granted",
+                "timestamp": datetime.now().isoformat(),
+                "types": [t.value for t in generation_types],
+                "ethical_checks": ethical_checks,
+                "openai_api": openai_api
+            })
+            
+            # Store record
+            if user_id not in self.consent_records:
+                self.consent_records[user_id] = []
+            self.consent_records[user_id].append(record)
+            
+            logger.info(f"AI generation consent granted for {user_id}: {[t.value for t in generation_types]}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error granting AI generation consent: {e}")
+            return False
+    
+    async def check_ai_generation_permission(self, user_id: str, 
+                                           generation_type: AIGenerationType) -> Dict[str, Any]:
+        """Check if user has granted permission for AI content generation"""
+        if user_id not in self.ai_generation_settings:
+            return {
+                "allowed": False,
+                "reason": "No AI generation consent found"
+            }
+        
+        settings = self.ai_generation_settings[user_id]
+        
+        if generation_type.value not in settings.get("generation_types", []):
+            return {
+                "allowed": False,
+                "reason": f"Generation type {generation_type.value} not consented"
+            }
+        
+        return {
+            "allowed": True,
+            "ethical_checks_required": settings.get("ethical_checks_required", True),
+            "openai_api_enabled": settings.get("openai_api_enabled", False)
+        }
+    
+    async def get_comprehensive_consent_profile(self, user_id: str) -> Dict[str, Any]:
+        """Get complete consent profile for a user including all data sources and vendors"""
+        profile = {
+            "user_id": user_id,
+            "consent_status": await self.get_consent_status(user_id),
+            "data_sources": {},
+            "vendors": {},
+            "ai_generation": {},
+            "restrictions": {}
+        }
+        
+        # Data source permissions
+        if user_id in self.data_source_permissions:
+            for source in DataSource:
+                profile["data_sources"][source.value] = self.data_source_permissions[user_id].get(source, False)
+        
+        # Vendor permissions
+        if user_id in self.vendor_permissions:
+            profile["vendors"] = self.vendor_permissions[user_id]
+        
+        # AI generation settings
+        if user_id in self.ai_generation_settings:
+            profile["ai_generation"] = self.ai_generation_settings[user_id]
+        
+        # Compile restrictions from all consent records
+        if user_id in self.consent_records:
+            for record in self.consent_records[user_id]:
+                if record.is_valid() and record.restrictions:
+                    profile["restrictions"].update(record.restrictions)
+        
+        return profile
