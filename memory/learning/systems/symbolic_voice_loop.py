@@ -4,9 +4,9 @@ import speech_recognition as sr
 import json
 from datetime import datetime
 from dream_generator import generate_dreams  # hypothetical dream engine
-from lukhas_voice import speak  # COVE/Lukhas voice output
+from voice import speak  # COVE/Lukhas voice output
 from emotion_mapper import map_emotion  # optional emotion extractor
-from symbolic.personas.core import lukhas_profile
+from symbolic.personas.core import system_profile
 import openai
 
 def speak(text):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 🔍 lukhas Keyword Extractor
-📦 Purpose: Extract domain-specific keywords from lukhas codebase and documentation
+📦 Purpose: Extract domain-specific keywords from system codebase and documentation
 🎯 Goal: Build comprehensive thematic classification for modularization
 """
 

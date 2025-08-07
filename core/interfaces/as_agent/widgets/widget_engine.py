@@ -138,7 +138,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 #  USAGE GUIDE (for lukhas_widget_engine.py)
 #
 # 1. Create a widget:
-#       from lukhas_widget_engine import create_symbolic_widget
+#       from system_widget_engine import create_symbolic_widget
 #       widget = create_symbolic_widget("travel", user_tier=4, context_data={...})
 #
 # 2. Inject into dashboard or task loop:

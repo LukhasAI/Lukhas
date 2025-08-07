@@ -248,7 +248,7 @@ class LambdaDependencyAnalyzer:
             print(f"   📄 {file}: {count} imports")
 
 def main():
-    lambda_root = Path.cwd()  # Assumes we're running from lukhas directory
+    lambda_root = Path.cwd()  # Assumes we're running from system directory
 
     analyzer = LambdaDependencyAnalyzer(lambda_root)
 

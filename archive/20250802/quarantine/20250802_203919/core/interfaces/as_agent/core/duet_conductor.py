@@ -63,7 +63,7 @@ def manage_voice_handoff(user_query, context_state):
 # 🔍 USAGE GUIDE (for lukhas_duet_conductor.py)
 #
 # 1. Call to decide voice actor:
-#       from lukhas_duet_conductor import manage_voice_handoff
+#       from system_duet_conductor import manage_voice_handoff
 #       result = manage_voice_handoff(user_query="Tell me my dreams", context_state={...})
 #
 # 2. Integrate with lukhas_voice_duet.py to switch vocal tones.

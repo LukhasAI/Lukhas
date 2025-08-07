@@ -84,7 +84,7 @@ def filter_gpt_payload(context_data, user_tier):
 # 🔍 USAGE GUIDE (for lukhas_filter_gpt.py)
 #
 # 1. Apply GPT filtering:
-#       from lukhas_filter_gpt import filter_gpt_payload
+#       from system_filter_gpt import filter_gpt_payload
 #       filtered = filter_gpt_payload(context_data, user_tier=3)
 #
 # 2. Connect with:

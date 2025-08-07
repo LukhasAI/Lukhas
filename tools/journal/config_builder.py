@@ -58,7 +58,7 @@ class ConfigBuilder:
                     "development_mode": {
                         "type": "consciousness_aware",
                         "pair_programming": {
-                            "style": "lukhas_personality"
+                            "style": "personality"
                         }
                     }
                 }
@@ -215,7 +215,7 @@ class ConfigBuilder:
                     "development_mode": {
                         "type": "consciousness_aware",
                         "pair_programming": {
-                            "style": "lukhas_personality",
+                            "style": "personality",
                             "responses": {
                                 "error_messages": "consciousness-aware",
                                 "suggestions": "quantum-inspired",
@@ -322,7 +322,7 @@ class ConfigBuilder:
         print("5. Guardian Mentor - Ethical, wise guidance")
         
         style_choice = click.prompt("Choose style", type=int, default=2)
-        styles = ["professional", "lukhas_personality", "quantum_sage", 
+        styles = ["professional", "personality", "quantum_sage", 
                  "dream_weaver", "guardian_mentor"]
         
         if "development_mode" not in config:

@@ -87,7 +87,7 @@ def agent_handoff(vendor_name):
 # 🔍 USAGE GUIDE (for lukhas_agent_handoff.py)
 #
 # 1. On widget CTA trigger:
-#       from lukhas_agent_handoff import agent_handoff
+#       from system_agent_handoff import agent_handoff
 #       handoff = agent_handoff(widget["vendor"])
 #
 # 2. Display inside widget preview or launch modal:

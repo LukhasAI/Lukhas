@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # LUKHAS Components
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 from gpt_integration_layer import GPTIntegrationLayer
 from persona_similarity_engine import PersonaSimilarityEngine

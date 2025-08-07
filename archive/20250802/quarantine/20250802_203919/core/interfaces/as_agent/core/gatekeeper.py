@@ -115,7 +115,7 @@ class Gatekeeper:
 # 🔍 USAGE GUIDE (for lukhas_gatekeeper.py)
 #
 # 1. Initialize Gatekeeper with a user profile:
-#       from lukhas_gatekeeper import Gatekeeper
+#       from system_gatekeeper import Gatekeeper
 #       gatekeeper = Gatekeeper(user_profile={"tier": 3, "consent": {"ads": True}})
 #
 # 2. Check feature access:

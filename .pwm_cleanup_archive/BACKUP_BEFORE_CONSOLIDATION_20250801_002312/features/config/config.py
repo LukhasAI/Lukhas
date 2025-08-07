@@ -78,7 +78,7 @@ CONFIG_FLAGS = {
 #
 # 1. Centralized system config: tiers, permissions, emotion levels, flags
 # 2. Access like:
-#       from lukhas_config import CONFIG_FLAGS, TIER_PERMISSIONS
+#       from config_legacy import CONFIG_FLAGS, TIER_PERMISSIONS
 # 3. Use to build conditions in task routing, consent gates, or runtime UX
 #
 # 💻 RUN IT:

@@ -238,7 +238,7 @@ class SmartConsolidator:
         emotion_paths = [
             'emotion',
             'bio/personality',
-            'lukhas_personality',
+            'personality',
             'affect'
         ]
         

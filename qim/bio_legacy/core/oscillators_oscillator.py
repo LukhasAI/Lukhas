@@ -212,7 +212,7 @@ class BioOscillator:
             "quantum_sync": self.quantum_sync,
             "timestamp": datetime.utcnow().isoformat(),
             "verification": {
-                "lukhas_id": self._security_context.lukhas_id if self._security_context else None,
+                "identity_legacy": self._security_context.lukhas_id if self._security_context else None,
                 "access_level": self._security_context.access_level if self._security_context else None
             }
         }
@@ -268,7 +268,7 @@ class BioOscillator:
             return None
 
         token_data = {
-            "lukhas_id": self._security_context.lukhas_id,
+            "identity_legacy": self._security_context.lukhas_id,
             "timestamp": datetime.utcnow().isoformat(),
             "type": "bio_oscillator"
         }

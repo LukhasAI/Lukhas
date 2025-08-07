@@ -412,7 +412,7 @@ def main():
                 "python3",
                 "-c",
                 "import sys; sys.path.append('.'); "
-                "from tools.lukhasHealthMonitor import lukhasHealthMonitor; "
+                "from tools.lukhasHealthMonitor import systemHealthMonitor; "
                 "monitor = lukhasHealthMonitor('.'); "
                 "health = monitor.comprehensive_health_check(); "
                 "print(f'System Health: {health[\"overall_health\"]:.1%}')",

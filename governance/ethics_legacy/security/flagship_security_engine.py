@@ -55,7 +55,7 @@ class LukhasFlagshipSecurityEngine:
         if self.config.get("core", {}).get("brain", {}).get("enabled", False):
             try:
                 # Import and initialize the advanced brain system
-                from lukhas_brain import LucasBrain
+                from brain_core import LucasBrain
                 self.core_systems['brain'] = LucasBrain()
                 await self.core_systems['brain'].initialize()
                 logger.info("✅ Advanced Brain System initialized")

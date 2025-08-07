@@ -434,7 +434,7 @@ class SystemHealthAnalyzer:
             start_time = time.time()
             result = subprocess.run([
                 sys.executable, "-c",
-                "from lukhas_embedding import LukhasEmbedding; "
+                "from embedding import LukhasEmbedding; "
                 "le = LukhasEmbedding(); "
                 "result = le.evaluate_symbolic_ethics('Test message 🧠'); "
                 "print('PERFORMANCE_TEST_SUCCESS')"

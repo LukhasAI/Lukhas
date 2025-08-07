@@ -464,7 +464,7 @@ class ProfessionalAuditor:
                 'bio_simulation/',
                 'identity_verification/'
             ],
-            'lukhas_personality/': [
+            'personality/': [
                 'brain/',
                 'voice/',
                 'creative_core/',

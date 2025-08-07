@@ -672,7 +672,7 @@ voice_modulator = VoiceModulator()
 
 def main():
     """Main execution function."""
-    lambda_root = Path.cwd()  # Assumes we're running from lukhas directory
+    lambda_root = Path.cwd()  # Assumes we're running from system directory
 
     print("🚀 Starting lukhas System 100% Connectivity Resolution...")
 

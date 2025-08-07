@@ -1,6 +1,6 @@
 """
 NIΛS Hub - Central coordination for NIAS system components
-Adapted from lukhas-pwm-advanced for Lambda Products integration
+Adapted from system-pwm-advanced for Lambda Products integration
 """
 
 from typing import Dict, Any, Optional, List

@@ -17,7 +17,7 @@ import logging
 import traceback
 
 # Import LUKHΛS modules
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 from memory_chain import SymbolicMemoryManager
 from memory_fold_tracker import MemoryFoldTracker

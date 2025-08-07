@@ -59,7 +59,7 @@ def synthesize_voice(text, tone=None, actor="Lukhas"):
 # 🔍 USAGE GUIDE (for lukhas_voice_duet.py)
 #
 # 1. Synthesize voice:
-#       from lukhas_voice_duet import synthesize_voice
+#       from voice_duet import synthesize_voice
 #       result = synthesize_voice("Welcome back!", tone="calm", actor="Lukhas")
 #
 # 2. Connect with duet_conductor.py for handoff logic.

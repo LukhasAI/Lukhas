@@ -222,13 +222,13 @@ def temp_lukhas_env(tmp_path):
     
     # Create directory structure
     lukhas_dirs = [
-        "lukhas_next_gen/stream",
-        "lukhas_next_gen/entropy_log",
-        "lukhas_next_gen/guardian", 
-        "lukhas_next_gen/memory",
-        "lukhas_next_gen/quantum",
-        "lukhas_next_gen/bridge",
-        "lukhas_next_gen/security",
+        "next_gen/stream",
+        "next_gen/entropy_log",
+        "next_gen/guardian", 
+        "next_gen/memory",
+        "next_gen/quantum",
+        "next_gen/bridge",
+        "next_gen/security",
         "transmission_bundle",
         "guardian_audit/logs",
         "guardian_audit/exports",
@@ -246,15 +246,15 @@ def temp_lukhas_env(tmp_path):
         "system_phase": "phase_5_guardian"
     }
     
-    with open(tmp_path / "lukhas_next_gen/stream/consciousness_state.json", 'w') as f:
+    with open(tmp_path / "next_gen/stream/consciousness_state.json", 'w') as f:
         json.dump(consciousness_state, f, indent=2)
     
     # Create mock component files
     component_files = [
-        "lukhas_next_gen/stream/consciousness_broadcaster.py",
-        "lukhas_next_gen/entropy_log/entropy_tracker.py",
-        "lukhas_next_gen/guardian/sentinel.py",
-        "lukhas_next_gen/guardian/intervene.yaml",
+        "next_gen/stream/consciousness_broadcaster.py",
+        "next_gen/entropy_log/entropy_tracker.py",
+        "next_gen/guardian/sentinel.py",
+        "next_gen/guardian/intervene.yaml",
         "transmission_bundle/launch_transmission.py"
     ]
     

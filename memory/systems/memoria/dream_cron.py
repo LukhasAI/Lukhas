@@ -120,7 +120,7 @@ if __name__ == "__main__":
 # ACCESSED_BY: [System Scheduler/Process Manager] # Conceptual
 # MODIFIED_BY: ['CORE_DEV_MEMORIA_TEAM', 'SYSTEM_OPERATIONS'] # Conceptual
 # Tier Access: N/A (Standalone Process - Scheduled task has effective Tier 3)
-# Related Components: ['schedule_library', 'lukhas_dreams.py (target script)', 'LUKHAS_Logger']
+# Related Components: ['schedule_library', 'dreams.py (target script)', 'LUKHAS_Logger']
 # CreationDate: 2025-06-20 | LastModifiedDate: 2024-07-26 | Version: 1.1
 # --- End Footer ---
 

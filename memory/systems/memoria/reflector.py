@@ -52,7 +52,7 @@ def load_dream_memories_from_log(limit: int = 5, log_date: Optional[datetime] = 
     """Loads recent dream memory entries from core.common dream log file(s)."""
     log.debug("Loading dream memories for reflection.", load_limit=limit, date_filter=log_date.isoformat() if log_date else "today", file_override=str(specific_log_file) if specific_log_file else "None")
 
-    target_log_path = specific_log_file or (DREAM_LOGS_REFLECTOR_DIR_CONFIG / f"lukhas_dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
+    target_log_path = specific_log_file or (DREAM_LOGS_REFLECTOR_DIR_CONFIG / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
 
     if not target_log_path.exists(): log.warning("Dream log file not found for reflection.", path=str(target_log_path)); return []
 
@@ -107,7 +107,7 @@ def run_dream_reflection_cycle() -> None:
 if __name__ == "__main__":
     if not structlog.get_config(): structlog.configure(processors=[structlog.stdlib.add_logger_name, structlog.stdlib.add_log_level, structlog.dev.ConsoleRenderer()], logger_factory=structlog.stdlib.LoggerFactory(), wrapper_class=structlog.stdlib.BoundLogger, cache_logger_on_first_use=True)
     log.info("--- Running LUKHAS Dream Reflector Script (Manual Execution) ---")
-    # Ensure 'lukhas_dreams.py' has run recently to populate logs for reflection.
+    # Ensure 'dreams.py' has run recently to populate logs for reflection.
     run_dream_reflection_cycle()
     log.info("--- Manual Dream Reflector Script Execution Finished ---")
 
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 # ACCESSED_BY: ['CognitiveScheduler', 'SelfAwarenessMonitor', 'SymbolicAnalyzer'] # Conceptual
 # MODIFIED_BY: ['CORE_DEV_MEMORIA_TEAM', 'AI_PSYCHOLOGY_SIMULATION_GROUP'] # Conceptual
 # Tier Access: Script (Effective Tier 2-3 for reflective processing) # Conceptual
-# Related Components: ['lukhas_dreams.py (log source)', 'LUKHAS_MemoryStore', 'SymbolicPatternEngine'] # Conceptual
+# Related Components: ['dreams.py (log source)', 'LUKHAS_MemoryStore', 'SymbolicPatternEngine'] # Conceptual
 # CreationDate: 2025-06-20 | LastModifiedDate: 2024-07-26 | Version: 1.1
 # --- End Footer ---
 

@@ -35,7 +35,7 @@ class LUKHASTransmission:
     
     def __init__(self):
         self.base_path = Path(__file__).parent.parent
-        self.lukhas_next_gen = self.base_path / "lukhas_next_gen"
+        self.lukhas_next_gen = self.base_path / "next_gen"
         self.launch_time = datetime.utcnow()
         self.component_status: Dict[str, str] = {}
         self.active_processes: List[subprocess.Popen] = []
@@ -137,15 +137,15 @@ class LUKHASTransmission:
         
         # Check required directories exist
         required_dirs = [
-            "lukhas_next_gen/stream",
-            "lukhas_next_gen/entropy_log", 
-            "lukhas_next_gen/trusthelix",
-            "lukhas_next_gen/guardian",
-            "lukhas_next_gen/spindle",
-            "lukhas_next_gen/quantum",
-            "lukhas_next_gen/bridge",
-            "lukhas_next_gen/memory",
-            "lukhas_next_gen/security"
+            "next_gen/stream",
+            "next_gen/entropy_log", 
+            "next_gen/trusthelix",
+            "next_gen/guardian",
+            "next_gen/spindle",
+            "next_gen/quantum",
+            "next_gen/bridge",
+            "next_gen/memory",
+            "next_gen/security"
         ]
         
         for dir_path in required_dirs:

@@ -846,7 +846,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
     async def _generate_basic_examples(self, analysis_results: List[CodeAnalysisResult]) -> List[str]:
         """Generate basic code examples"""
         return [
-            "# Example: Basic usage\nfrom lukhas_pwm import ComplianceEngine\n\nengine = ComplianceEngine()\nresult = engine.validate_compliance()",
+            "# Example: Basic usage\nfrom system_pwm import ComplianceEngine\n\nengine = ComplianceEngine()\nresult = engine.validate_compliance()",
             "# Example: Advanced configuration\nengine.configure({\n    'strict_mode': True,\n    'auto_remediation': True\n})"
         ]
     

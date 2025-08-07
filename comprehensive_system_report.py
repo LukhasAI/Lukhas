@@ -191,7 +191,7 @@ class LUKHASSystemDiagnostic:
             # Run specific health tests
             test_commands = [
                 ("Health Tests", ["python3", "-m", "pytest", "tests/", "-k", "test_health", "--tb=short", "-q"]),
-                ("Module Imports", ["python3", "-c", "import lukhas_embedding, symbolic_healer, vivox; print('Core imports OK')"]),
+                ("Module Imports", ["python3", "-c", "import embedding, symbolic_healer, vivox; print('Core imports OK')"]),
                 ("API Test", ["python3", "-c", "import requests; r=requests.get('http://localhost:8000/health'); print(f'API: {r.status_code}')"]),
             ]
             

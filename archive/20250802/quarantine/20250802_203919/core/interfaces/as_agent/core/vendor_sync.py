@@ -142,7 +142,7 @@ def wrap_dst_metadata(payload, vendor_name):
 # 🔍 USAGE GUIDE (for lukhas_vendor_sync.py)
 #
 # 1. Call from DST or widget module:
-#       from lukhas_vendor_sync import fetch_vendor_availability
+#       from system_vendor_sync import fetch_vendor_availability
 #       result = fetch_vendor_availability("ride", "Barcelona", time="now")
 #
 # 2. Integrate with widget metadata or invoice builder:
@@ -159,7 +159,7 @@ def wrap_dst_metadata(payload, vendor_name):
 #       }
 #
 # Example for Facebook event sync:
-#   from lukhas_vendor_sync import sync_facebook_events, wrap_dst_metadata
+#   from system_vendor_sync import sync_facebook_events, wrap_dst_metadata
 #   result = wrap_dst_metadata(sync_facebook_events(), "Facebook")
 #
 # 📦 FUTURE TARGETS:

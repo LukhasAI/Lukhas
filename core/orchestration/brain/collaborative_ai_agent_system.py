@@ -178,7 +178,7 @@ class LukhasAIAgentTeam:
         
         # 7. lukhas_id - Identity & Authentication (PRO)
         id_capabilities = AgentCapabilities(
-            name="lukhas_id",
+            name="identity_legacy",
             tier=AgentTier.PRO,
             role="Access control and permission management",
             tools=["Identity management", "Authentication systems", "Permission control"],
@@ -189,7 +189,7 @@ class LukhasAIAgentTeam:
                 "Identity-based task distribution"
             ]
         )
-        self.agents['lukhas_id'] = LukhasAIAgent("lukhas_id", AgentTier.PRO, id_capabilities)
+        self.agents['identity_legacy'] = LukhasAIAgent("identity_legacy", AgentTier.PRO, id_capabilities)
     
     async def execute_phase_1_analysis(self) -> Dict[str, Any]:
         """Phase 1: Comprehensive Analysis (Jules + ΛDoc)"""

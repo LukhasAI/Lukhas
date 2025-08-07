@@ -83,7 +83,7 @@ def process_checkout(user_id, item, price, user_tier, payment_method="token"):
 # 🔍 USAGE GUIDE (for lukhas_checkout_handler.py)
 #
 # 1. Triggered from widget:
-#       from lukhas_checkout_handler import process_checkout
+#       from system_checkout_handler import process_checkout
 #       result = process_checkout("lukhas-id-001", "Dream Retreat", 120, user_tier=4)
 #
 # 2. Integrate with payment or token logic:

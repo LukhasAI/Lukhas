@@ -13,7 +13,7 @@ from pathlib import Path
 import logging
 
 # Import LUKHΛS modules
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 from persona_similarity_engine import PersonaSimilarityEngine
 

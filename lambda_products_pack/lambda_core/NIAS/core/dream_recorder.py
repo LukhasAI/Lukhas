@@ -1,6 +1,6 @@
 """
 Dream Recorder for NIΛS system
-Adapted from lukhas-pwm-advanced for Lambda Products integration
+Adapted from system-pwm-advanced for Lambda Products integration
 """
 
 from typing import Dict, Any, Optional, List

@@ -31,5 +31,5 @@ def freeze_protection_check(module):
                 logger.warning(f"Object {name} is not locked.")
 
 if __name__ == "__main__":
-# SYNTAX_ERROR_FIXED:     from lukhas_personality.brain_orchestrator import BrainOrchestrator agi_brain_orchestrator
+# SYNTAX_ERROR_FIXED:     from personality.brain_orchestrator import BrainOrchestrator agi_brain_orchestrator
     freeze_protection_check(orchestration.agi_brain_orchestrator)

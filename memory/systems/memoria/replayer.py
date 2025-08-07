@@ -68,7 +68,7 @@ LUKHAS_DREAM_REPLAY_EFFECTIVE_TIER = 2
 def load_recent_dream_logs(limit: int = 3, log_date: Optional[datetime] = None, specific_log_file: Optional[Path] = None) -> List[Dict[str, Any]]:
     """Loads recent dream log entries from core.common dream logs."""
     log.debug("Loading recent dream logs for replay.", load_limit=limit, date_filter_iso=log_date.isoformat() if log_date else "today", specific_file_path=str(specific_log_file) if specific_log_file else "None")
-    target_log = specific_log_file or (DREAM_LOGS_REPLAYER_DIR / f"lukhas_dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
+    target_log = specific_log_file or (DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
     if not target_log.exists(): log.warning("Dream log file not found for replay.", path=str(target_log)); return []
 
     loaded_logs: List[Dict[str, Any]] = []
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     log.info("--- Running LUKHAS Dream Replayer Script (Manual Execution) ---")
     if not LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG: # If using placeholders
         log.warning("Replayer example running with placeholders for symbolic_ai components.")
-        dummy_log_file_path = DREAM_LOGS_REPLAYER_DIR / f"lukhas_dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
+        dummy_log_file_path = DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
         if not dummy_log_file_path.exists():
             try:
                 with open(dummy_log_file_path, "w", encoding='utf-8') as f:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 # ACCESSED_BY: ['CognitiveScheduler', 'IntrospectionInterface', 'AuditoryMemorySystem'] # Conceptual
 # MODIFIED_BY: ['CORE_DEV_MEMORIA_TEAM', 'AI_NARRATIVE_VOICE_TEAM'] # Conceptual
 # Tier Access: Script (Effective Tier 2-3 for cognitive replay function) # Conceptual
-# Related Components: ['lukhas_dreams.py (log source)', 'LUKHAS_TraitManager', 'LUKHAS_VoiceSynthesizer', 'symbolic_ai.memoria.log_memory']
+# Related Components: ['dreams.py (log source)', 'LUKHAS_TraitManager', 'LUKHAS_VoiceSynthesizer', 'symbolic_ai.memoria.log_memory']
 # CreationDate: 2025-06-20 | LastModifiedDate: 2024-07-26 | Version: 1.1
 # --- End Footer ---
 

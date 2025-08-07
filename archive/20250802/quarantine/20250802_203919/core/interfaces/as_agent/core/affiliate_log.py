@@ -72,7 +72,7 @@ def log_affiliate_action(user_id, vendor_name, action, commission=None):
 # 🔍 USAGE GUIDE (for lukhas_affiliate_log.py)
 #
 # 1. Log a vendor referral or purchase:
-#       from lukhas_affiliate_log import log_affiliate_action
+#       from system_affiliate_log import log_affiliate_action
 #       log_affiliate_action(user_id="abc123", vendor_name="Uber", action="purchase", commission=4.25)
 #
 # 2. Connect this to widget flows (e.g., lukhas_widget_engine) to record user interactions.

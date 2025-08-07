@@ -56,7 +56,7 @@ def generate_full_identity(name, entity_type="USR", org_name="LUKHAS", tier=0, s
     badge = assign_badge(tier)
 
     identity = {
-        "lukhas_id": lukhas_id,
+        "identity_legacy": lukhas_id,
         "name": name,
         "slug": slug,
         "tier": tier,

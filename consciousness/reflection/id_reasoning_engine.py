@@ -810,11 +810,11 @@ class LukhasIdManager: # Renamed from LukhasIdEnhancedReasoningEngine
             'compliance_monitor_total_violations': self.compliance_monitor.violation_count,
             'compliance_monitor_recent_violations_24h_count': len(recent_cm_violations),
             'compliance_monitor_recent_violations_details': recent_cm_violations, # Could be large
-            'lukhas_id_manager_total_registered_users': len(self.users),
-            'lukhas_id_manager_current_active_sessions': len(self.active_sessions),
-            'lukhas_id_manager_total_audit_entries': len(self.audit_log_entries),
+            'identity_legacy_manager_total_registered_users': len(self.users),
+            'identity_legacy_manager_current_active_sessions': len(self.active_sessions),
+            'identity_legacy_manager_total_audit_entries': len(self.audit_log_entries),
         }
-        self.logger.info(f"ΛTRACE: Compliance status report generated. Users: {status_payload['lukhas_id_manager_total_registered_users']}, Sessions: {status_payload['lukhas_id_manager_current_active_sessions']}, CM Violations: {status_payload['compliance_monitor_total_violations']}")
+        self.logger.info(f"ΛTRACE: Compliance status report generated. Users: {status_payload['identity_legacy_manager_total_registered_users']}, Sessions: {status_payload['identity_legacy_manager_current_active_sessions']}, CM Violations: {status_payload['compliance_monitor_total_violations']}")
         return status_payload
 
 # Example usage and testing

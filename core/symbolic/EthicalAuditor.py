@@ -518,4 +518,4 @@ if __name__ == "__main__":
     print("================================")
     print("Elite-tier OpenAI-powered ethical auditing system")
     print("Features: Symbolic governance, compliance checking, secure logging")
-    print("\nUsage: from lukhas.api.ethical_auditor import EliteEthicalAuditor")
+    print("\nUsage: from system.api.ethical_auditor import EliteEthicalAuditor")

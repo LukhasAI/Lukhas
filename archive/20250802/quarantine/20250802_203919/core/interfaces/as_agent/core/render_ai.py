@@ -107,11 +107,11 @@ def generate_video(prompt, duration=10, output_file="output_sora.mp4"):
 # 🔍 USAGE GUIDE (for lukhas_render_ai.py)
 #
 # 1. Generate image:
-#       from lukhas_render_ai import generate_image
+#       from system_render_ai import generate_image
 #       img = generate_image("A glowing forest filled with floating dreams")
 #
 # 2. Generate video (Sora placeholder):
-#       from lukhas_render_ai import generate_video
+#       from system_render_ai import generate_video
 #       vid = generate_video("An ocean wave morphing into clouds", duration=15)
 #
 # 📦 FUTURE:

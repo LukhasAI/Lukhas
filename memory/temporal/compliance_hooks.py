@@ -25,8 +25,8 @@ Integration Date: 2025-05-31T07:55:27.743225
 import json
 from datetime import datetime
 from pathlib import Path
-from lukhas_governance.policy_manager import determine_active_regulations, log_active_regulations
-from lukhas_governance.audit_logger import log_audit_event
+from governance_extended.policy_manager import determine_active_regulations, log_active_regulations
+from governance_extended.audit_logger import log_audit_event
 
 COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
 

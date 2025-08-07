@@ -154,7 +154,7 @@ except FileNotFoundError:
 # 🔍 USAGE GUIDE (for lukhas_emotion_log.py)
 #
 # 1. Log an emotion:
-#       from lukhas_emotion_log import log_emotion
+#       from system_emotion_log import log_emotion
 #       log_emotion("reflective", source="DST")
 #
 # 2. Connect with:

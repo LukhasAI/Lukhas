@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from qrg_core import QuantumResonanceGlyph, ConsciousnessContext, QuantumGlyphConfig
 from quantum_entropy import TrueQuantumRandomness, EntropyProfile
-from lukhas_bridge import LambdaIdIntegration, LukhasAccessTier, SymbolicIdentity
+from system_bridge import LambdaIdIntegration, LukhasAccessTier, SymbolicIdentity
 
 # 3-Layer Tone System for demo output
 LAYER_STYLES = {

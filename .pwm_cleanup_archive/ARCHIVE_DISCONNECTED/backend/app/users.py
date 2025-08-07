@@ -25,7 +25,7 @@ def get_user_profile(username_slug: str):
 
     return {
         "username": user.username_slug,
-        "lukhas_id_code": user.lukhas_id_code,
+        "identity_legacy_code": user.lukhas_id_code,
         "entity_type": user.entity_type,
         "tier": user.tier,
         "qrglyph_url": user.qrglyph_url,

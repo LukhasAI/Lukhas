@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # LUKHAS Components
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 
 class SimpleDriftTester:

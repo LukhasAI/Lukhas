@@ -17,7 +17,7 @@ DESCRIPTION:
     manages narrator queues, and applies replay/narration filters based on:
     - Tier permissions
     - Emotional priority
-    - Consent & config from lukhas_user_config.json
+    - Consent & config from system_user_config.json
 
 DEPENDENCIES:
     - voice_narrator.py

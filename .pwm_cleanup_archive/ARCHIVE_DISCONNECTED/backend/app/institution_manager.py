@@ -33,7 +33,7 @@ def institution_signup(organization_name: str = Form(...), email: str = Form(...
 
     return {
         "message": "Institution signup successful",
-        "lukhas_id_code": lukhas_id_code,
+        "identity_legacy_code": lukhas_id_code,
         "username_slug": username_slug,
         "qrglyph_url": qrglyph_url
     }

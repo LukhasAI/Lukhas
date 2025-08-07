@@ -62,11 +62,11 @@ import yaml
 try:
     from core.advanced_symbolic_loop import EnhancedCoreIntegrator
     from core.memory.memoria_manager import MemoryManager
-#     from lukhas.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
-#     from lukhas.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-#     from lukhas.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+#     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+#     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+#     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
 #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-#     from lukhas.CORE.quantum.quantum_processor import QuantumEngine  # TODO: Install or implement CORE
+#     from system.CORE.quantum.quantum_processor import QuantumEngine  # TODO: Install or implement CORE
     from orchestration.orchestrator import CoreOrchestrator
     from agent.flagship import Agent
     from core.common.config import Config

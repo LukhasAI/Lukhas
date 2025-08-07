@@ -73,7 +73,7 @@ async def health_check(user: AuthUser = Depends(get_current_user)):
         "status": "ok",
         "user_id": user.id,
         "tier": user.tier,
-        "lukhas_id": user.lukhas_id[:16] + "..." if user.lukhas_id else None,
+        "identity_legacy": user.lukhas_id[:16] + "..." if user.lukhas_id else None,
         "timestamp": "2025-07-10T12:00:00Z"
     }
 

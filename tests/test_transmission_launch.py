@@ -36,7 +36,7 @@ class TestTransmissionLaunch:
         
         # Override paths for testing
         transmission.base_path = temp_dir
-        transmission.lukhas_next_gen = temp_dir / "lukhas_next_gen"
+        transmission.lukhas_next_gen = temp_dir / "next_gen"
         
         # Create mock directory structure
         for component_name, config in transmission.components.items():

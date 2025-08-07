@@ -33,7 +33,7 @@ class ScannerBackend:
 
     def load_lukhas_registry(self):
         """Load Lukhas ID registry from the Lukhas ecosystem"""
-        registry_path = Path.home() / "lukhas" / "lukhas_id" / "identity" / "lukhas_registry.jsonl"
+        registry_path = Path.home() / "lukhas" / "identity_legacy" / "identity" / "lukhas_registry.jsonl"
 
         if not registry_path.exists():
             return {}
@@ -111,10 +111,10 @@ class ScannerBackend:
             data = json.loads(qr_data)
 
             # Check for Lukhas ID
-            lukhas_id = data.get('lukhas_id') or data.get('id') or data.get('user_id')
+            lukhas_id = data.get('identity_legacy') or data.get('id') or data.get('user_id')
             if lukhas_id:
                 return {
-                    "type": "lukhas_id",
+                    "type": "identity_legacy",
                     "result": self.verify_lukhas_id(lukhas_id)
                 }
 
@@ -139,7 +139,7 @@ class ScannerBackend:
             # Handle plain text
             if qr_data.startswith(('USER_T', 'LUKHAS_')):
                 return {
-                    "type": "lukhas_id",
+                    "type": "identity_legacy",
                     "result": self.verify_lukhas_id(qr_data)
                 }
 
@@ -156,6 +156,6 @@ if __name__ == "__main__":
     backend = ScannerBackend()
 
     # Test with sample data
-    test_data = '{"lukhas_id": "USER_T5_001"}'
+    test_data = '{"identity_legacy": "USER_T5_001"}'
     result = backend.process_qr_data(test_data)
     print(json.dumps(result, indent=2))

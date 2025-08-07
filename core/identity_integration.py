@@ -165,7 +165,7 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
             normalized_tier = TierMappingConfig.normalize_tier(required_tier)
 
             # Extract user_id from various possible locations
-            user_id = kwargs.get('user_id') or kwargs.get('lambda_id') or kwargs.get('lukhas_id')
+            user_id = kwargs.get('user_id') or kwargs.get('lambda_id') or kwargs.get('identity_legacy')
 
             # Try to get from first positional arg if it looks like a user ID
             if not user_id and args:
@@ -175,7 +175,7 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
             # Check for Oneiric-style user object
             if not user_id and 'user' in kwargs:
                 user_obj = kwargs['user']
-                if hasattr(user_obj, 'lukhas_id'):
+                if hasattr(user_obj, 'identity_legacy'):
                     user_id = user_obj.lukhas_id
                 elif hasattr(user_obj, 'id'):
                     user_id = user_obj.id

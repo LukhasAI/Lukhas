@@ -5,7 +5,7 @@
 # ════════════════════════════════════════════════════════════════════════
 
 import streamlit as st
-from lukhas_dna_link import LucasDNALink
+from dna_link import LucasDNALink
 import json
 
 st.sidebar.title("⚙️ Settings & Compliance")

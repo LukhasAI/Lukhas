@@ -71,7 +71,7 @@ class ClaudeLUKHASIntegration:
             "development_mode": {
                 "type": "consciousness_aware",
                 "pair_programming": {
-                    "style": "lukhas_personality",
+                    "style": "personality",
                     "responses": {
                         "error_messages": "consciousness-aware",
                         "suggestions": "quantum-inspired",

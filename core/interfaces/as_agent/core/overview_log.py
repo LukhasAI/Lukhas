@@ -54,7 +54,7 @@ def log_event(event_type, message, tier=0, source="dashboard"):
 # 🔍 USAGE GUIDE (for lukhas_overview_log.py)
 #
 # 1. Import and log an agent event:
-#       from lukhas_overview_log import log_event
+#       from system_overview_log import log_event
 #       log_event("gpt", "LUKHAS deferred to GPT for time optimization.", tier=3)
 #
 # 2. Log memory or symbolic transitions:

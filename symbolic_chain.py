@@ -17,7 +17,7 @@ import logging
 import difflib
 import hashlib
 
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 
 # Configure logging

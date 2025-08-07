@@ -64,11 +64,11 @@ class ProperConsolidator:
             ],
             
             # LUKHAS personality - flatten structure
-            'lukhas_personality/': [
-                'lukhas_personality/emotional_system/*.py',
-                'lukhas_personality/narrative_engine/*.py',
-                'lukhas_personality/creative_core/*.py',
-                'lukhas_personality/brain/*.py'
+            'personality/': [
+                'personality/emotional_system/*.py',
+                'personality/narrative_engine/*.py',
+                'personality/creative_core/*.py',
+                'personality/brain/*.py'
             ],
             
             # Quantum consolidation
@@ -243,8 +243,8 @@ class ProperConsolidator:
             'core/grow', 'core/think', 'core/bio_orchestrator',
             'core/adaptive_ai', 'core/orchestration', 'core/sustainability',
             'core/visuals', 'core/identity/vault',
-            'lukhas_personality/emotional_system', 'lukhas_personality/narrative_engine',
-            'lukhas_personality/creative_core', 'lukhas_personality/brain',
+            'personality/emotional_system', 'personality/narrative_engine',
+            'personality/creative_core', 'personality/brain',
             'quantum/attention', 'quantum/economics', 'quantum/superposition',
             'features/analytics/archetype', 'features/analytics', 'features/common'
         ]

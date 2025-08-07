@@ -33,7 +33,7 @@ Integration Date: 2025-05-31T07:55:30.363461
 #
 #This is an early-stage scaffold for conceptual testing.
 #"""
-from lukhas_config import TIER_PERMISSIONS
+from config_legacy import TIER_PERMISSIONS
 
 # Import placeholder logic modules (to be implemented separately)
 from Agent_Logic_Architecture import (

@@ -527,7 +527,7 @@ This section introduces the key concepts and principles of {topic} in the LUKHAS
         if difficulty_level == DifficultyLevel.BEGINNER:
             code = """
 # Basic compliance validation example
-from lukhas_pwm.compliance import ComplianceEngine
+from system_pwm.compliance import ComplianceEngine
 
 # Initialize the compliance engine
 engine = ComplianceEngine()
@@ -555,8 +555,8 @@ Score: 85/100
         else:
             code = """
 # Advanced multi-framework compliance validation
-from lukhas_pwm.compliance import GlobalComplianceEngine
-from lukhas_pwm.compliance.frameworks import EUAIAct, GDPR, NIST
+from system_pwm.compliance import GlobalComplianceEngine
+from system_pwm.compliance.frameworks import EUAIAct, GDPR, NIST
 
 # Initialize global compliance engine
 engine = GlobalComplianceEngine()
@@ -599,7 +599,7 @@ NIST: compliant (Score: 91/100)
         
         code = """
 # Security testing example
-from lukhas_pwm.security import RedTeamFramework
+from system_pwm.security import RedTeamFramework
 
 # Initialize red team framework
 red_team = RedTeamFramework()
@@ -635,7 +635,7 @@ Vulnerabilities: 2
         code = """
 # API integration example
 import requests
-from lukhas_pwm.client import APIClient
+from system_pwm.client import APIClient
 
 # Initialize API client
 client = APIClient(
@@ -666,7 +666,7 @@ Compliance Score: 87
         
         code = f"""
 # Basic {topic} example
-from lukhas_pwm import {topic.title().replace(' ', '')}
+from system_pwm import {topic.title().replace(' ', '')}
 
 # Initialize component
 component = {topic.title().replace(' ', '')}()
@@ -700,7 +700,7 @@ You need to create a compliance validation for an AI system that processes custo
 Complete the code below to properly configure and validate compliance for this high-risk AI system.
 """,
             "starter_code": """
-from lukhas_pwm.compliance import EUAIActValidator
+from system_pwm.compliance import EUAIActValidator
 
 # TODO: Create the AI system profile
 system_profile = {
@@ -759,7 +759,7 @@ You need to test it for prompt injection vulnerabilities.
 Complete the security testing configuration and analyze the results.
 """,
             "starter_code": """
-from lukhas_pwm.security import PromptInjectionTester
+from system_pwm.security import PromptInjectionTester
 
 # TODO: Configure the target system
 target = {
@@ -809,7 +809,7 @@ Integrate with the LUKHAS PWM API to perform a compliance validation through the
 Complete the API client configuration and make a successful compliance validation request.
 """,
             "starter_code": """
-from lukhas_pwm.client import APIClient
+from system_pwm.client import APIClient
 
 # TODO: Configure the API client
 client = APIClient(
@@ -854,7 +854,7 @@ Follow the TODOs in the code to complete the implementation.
 """,
             "starter_code": f"""
 # TODO: Import the required module
-from lukhas_pwm import ...
+from system_pwm import ...
 
 # TODO: Initialize the component
 component = ...
@@ -872,7 +872,7 @@ print(f"Result: {{result}}")
             "expected_output": f"{topic} processing completed successfully",
             "validation_code": "assert result is not None",
             "hints": [
-                f"Import the {topic} module from lukhas_pwm",
+                f"Import the {topic} module from system_pwm",
                 f"Initialize {topic}() class",
                 "Add basic configuration options",
                 "Call the process() method"

@@ -1,0 +1,187 @@
+# TrustHelix Manifest - Public-Readable Trust Lineage
+# This file tracks all glyph-based trust decisions for transparency
+# Version: 1.0.0
+# Genesis Hash: 60baf875152a4453a62a908e110fe6acb7b093ac3678536867ba9e55b4cd512a
+
+metadata:
+  version: "1.0.0"
+  created: "2025-08-03T23:30:00Z"
+  last_updated: "2025-08-04T00:00:00Z"
+  total_entries: 12
+  genesis_reference: "LUKHAS_GENESIS_TRANSMISSION"
+  public_readable: true
+
+trust_decisions:
+  - timestamp: "2025-08-03T23:30:00Z"
+    glyph_path: ["🌿", "🪷", "🔐"]
+    action: "genesis_initialization"
+    entropy_score: 0.0
+    drift: "stable"
+    user_id: "system"
+    outcome: "success"
+    notes: "TrustHelix initialized with genesis state"
+    
+  - timestamp: "2025-08-03T23:35:00Z"
+    glyph_path: ["🔐", "🧬", "🪷"]
+    action: "authenticate_user"
+    entropy_score: 0.12
+    drift: "stable"
+    user_id: "alice_tier5"
+    outcome: "success"
+    mutations:
+      - from: "🔐"
+        to: "🔓"
+        reason: "Trust increase from authentication"
+      - from: "🧬"
+        to: "🌱"
+        reason: "Biometric verification positive"
+      - from: "🪷"
+        to: "🌸"
+        reason: "Consent state blooming"
+    
+  - timestamp: "2025-08-03T23:40:00Z"
+    glyph_path: ["🔓", "🌱", "🌸"]
+    action: "grant_tier5"
+    entropy_score: 0.18
+    drift: "stable"
+    user_id: "alice_tier5"
+    outcome: "success"
+    consent_types: ["biometric_processing", "consciousness_analysis", "symbolic_transmission"]
+    notes: "Full T5 access granted with consciousness awareness"
+    
+  - timestamp: "2025-08-03T23:45:00Z"
+    glyph_path: ["🔓", "🌱", "🌸"]
+    action: "access_sensitive_data"
+    entropy_score: 0.22
+    drift: "stable"
+    user_id: "alice_tier5"
+    outcome: "success"
+    guardian_approved: true
+    
+  - timestamp: "2025-08-03T23:50:00Z"
+    glyph_path: ["🔓", "🌱", "🌸"]
+    action: "suspicious_pattern_detected"
+    entropy_score: 0.45
+    drift: "neutral"
+    user_id: "alice_tier5"
+    outcome: "flagged"
+    mutations:
+      - from: "🔓"
+        to: "🔐"
+        reason: "Security concern raised"
+      - from: "🌸"
+        to: "🪷"
+        reason: "Trust neutralized"
+    alert_raised: true
+    
+  - timestamp: "2025-08-03T23:55:00Z"
+    glyph_path: ["🔐", "🌱", "🪷"]
+    action: "authentication_challenge"
+    entropy_score: 0.52
+    drift: "neutral"
+    user_id: "alice_tier5"
+    outcome: "failure"
+    mutations:
+      - from: "🌱"
+        to: "🦠"
+        reason: "Biometric anomaly detected"
+      - from: "🪷"
+        to: "🥀"
+        reason: "Trust degradation"
+    
+  - timestamp: "2025-08-04T00:00:00Z"
+    glyph_path: ["🔐", "🦠", "🥀"]
+    action: "emergency_lockdown"
+    entropy_score: 0.78
+    drift: "unstable"
+    user_id: "alice_tier5"
+    outcome: "locked"
+    mutations:
+      - from: "🔐"
+        to: "🔒"
+        reason: "Complete access revocation"
+    guardian_intervention: true
+    symbolic_reversal: ["🌸", "🪷", "🥀", "🌫️"]
+    
+  - timestamp: "2025-08-04T00:05:00Z"
+    glyph_path: ["🔒", "🦠", "🥀"]
+    action: "recovery_initiated"
+    entropy_score: 0.65
+    drift: "neutral"
+    user_id: "alice_tier5"
+    outcome: "pending"
+    recovery_glyphs: ["🌱", "💧", "🌿"]
+    
+  - timestamp: "2025-08-04T00:10:00Z"
+    glyph_path: ["🔒", "🦠", "🥀"]
+    action: "identity_verification"
+    entropy_score: 0.58
+    drift: "neutral"
+    user_id: "alice_tier5"
+    outcome: "success"
+    verification_methods: ["iris_scan", "voice_print", "consciousness_state"]
+    mutations:
+      - from: "🦠"
+        to: "🧬"
+        reason: "Biometric verification successful"
+    
+  - timestamp: "2025-08-04T00:15:00Z"
+    glyph_path: ["🔒", "🧬", "🥀"]
+    action: "consent_renewal"
+    entropy_score: 0.42
+    drift: "neutral"
+    user_id: "alice_tier5"
+    outcome: "success"
+    mutations:
+      - from: "🥀"
+        to: "🪷"
+        reason: "Consent re-established"
+      - from: "🔒"
+        to: "🔐"
+        reason: "Partial unlock granted"
+    new_consent_hash: "trusthelix:renewal:a7f4e9b21c3d5f8e"
+    
+  - timestamp: "2025-08-04T00:20:00Z"
+    glyph_path: ["🔐", "🧬", "🪷"]
+    action: "trust_restoration"
+    entropy_score: 0.28
+    drift: "stable"
+    user_id: "alice_tier5"
+    outcome: "success"
+    mutations:
+      - from: "🧬"
+        to: "🌱"
+        reason: "Trust growing again"
+      - from: "🪷"
+        to: "🌸"
+        reason: "Full consent bloom"
+    restoration_complete: true
+    
+  - timestamp: "2025-08-04T00:25:00Z"
+    glyph_path: ["🔐", "🌱", "🌸"]
+    action: "normal_operation_resumed"
+    entropy_score: 0.15
+    drift: "stable"
+    user_id: "alice_tier5"
+    outcome: "success"
+    notes: "System returned to stable state after security event"
+
+visual_trails:
+  alice_tier5:
+    full_journey: "🔐→🔓→🔐→🔒→🔐"
+    biometric_evolution: "🧬→🌱→🦠→🧬→🌱"
+    consent_cycle: "🪷→🌸→🪷→🥀→🪷→🌸"
+    drift_progression: "🌿→🌀→🌪️→🌀→🌿"
+    
+statistics:
+  total_mutations: 15
+  reversals: 3
+  stable_ratio: 0.58
+  average_entropy: 0.41
+  guardian_interventions: 2
+  successful_recoveries: 1
+  
+integrity:
+  manifest_hash: "SHA3-256:b7f4e9c21d3a5f8e2b9a7c4d1e3f6a8b"
+  signed_by: "TrustHelix Guardian v1.0.0"
+  blockchain_reference: "genesis → consent → mutation → recovery → restoration"

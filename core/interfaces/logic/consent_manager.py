@@ -18,9 +18,9 @@ logger = structlog.get_logger(__name__)
 
 # Move import to top with try/except for missing module
 try:
-    from lukhas_config import TIER_PERMISSIONS
+    from config_legacy import TIER_PERMISSIONS
 except ImportError:
-    logger.warning("lukhas_config module not found, using default permissions")
+    logger.warning("config_legacy module not found, using default permissions")
     TIER_PERMISSIONS = {"default": 1}
 
 """

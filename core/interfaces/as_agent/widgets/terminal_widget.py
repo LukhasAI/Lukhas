@@ -50,11 +50,11 @@ def show_dst_status(vendor, status, tracking_id):
 # 🔍 USAGE GUIDE (for lukhas_terminal_widget.py)
 #
 # 1. Render a basic widget:
-#       from lukhas_terminal_widget import render_terminal_widget
+#       from system_terminal_widget import render_terminal_widget
 #       print(render_terminal_widget("Reminder", "Meeting at 3 PM"))
 #
 # 2. Show DST status:
-#       from lukhas_terminal_widget import show_dst_status
+#       from system_terminal_widget import show_dst_status
 #       print(show_dst_status("Uber", "active", "abc123"))
 #
 # 📦 FUTURE:

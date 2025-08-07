@@ -163,7 +163,7 @@ class QuantumGuardianIntegration:
     }
     
     def __init__(self, 
-                 emergency_manifest_file: str = "lukhas_next_gen/guardian/emergency_manifest.yaml",
+                 emergency_manifest_file: str = "next_gen/guardian/emergency_manifest.yaml",
                  quantum_audit_dir: str = "guardian_audit/logs/quantum",
                  integration_config_file: str = "quantum_core/guardian_integration_config.yaml"):
         

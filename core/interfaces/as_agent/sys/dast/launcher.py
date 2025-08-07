@@ -22,7 +22,7 @@ DEPENDENCIES:
 - lukhas_filter_gpt.py
 """
 
-from core import lukhas_scheduler, lukhas_widget_engine
+from core import system_scheduler, lukhas_widget_engine
 
 def startup_sequence():
     """

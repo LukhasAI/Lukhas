@@ -19,7 +19,7 @@ from core.api.service_stubs import (
 
 # Import enhanced API
 from core.api.enhanced_api_system import create_app, EnhancedAPISystem
-from core.api.lukhas_api_client import LUKHASClient, APIError
+from core.api.api_client import LUKHASClient, APIError
 
 
 class TestEnhancedAPI:

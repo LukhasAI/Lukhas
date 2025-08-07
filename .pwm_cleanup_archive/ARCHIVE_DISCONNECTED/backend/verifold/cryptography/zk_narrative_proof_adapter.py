@@ -37,7 +37,7 @@ class ZKNarrativeProofAdapter:
         import hashlib
         circuit = self.generate_proof_circuit({"collapse_hash": collapse_hash, "purpose": "replay"})
         zk_payload = {
-            "lukhas_id": lukhas_id,
+            "identity_legacy": lukhas_id,
             "collapse_hash": collapse_hash,
             "zk_circuit": circuit,
             "proof_signature": hashlib.blake2b((lukhas_id + circuit).encode()).hexdigest()
@@ -47,7 +47,7 @@ class ZKNarrativeProofAdapter:
     def verify_narrative_proof(self, zk_payload: Dict) -> bool:
         """Verify the proof signature and zk circuit integrity."""
         import hashlib
-        expected = hashlib.blake2b((zk_payload["lukhas_id"] + zk_payload["zk_circuit"]).encode()).hexdigest()
+        expected = hashlib.blake2b((zk_payload["identity_legacy"] + zk_payload["zk_circuit"]).encode()).hexdigest()
         return zk_payload.get("proof_signature") == expected
 
 # TODO: Implement zk-SNARK integration

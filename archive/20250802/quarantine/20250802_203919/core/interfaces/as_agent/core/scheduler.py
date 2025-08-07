@@ -106,12 +106,12 @@ def run_scheduler():
 # 🔍 USAGE GUIDE (for lukhas_scheduler.py)
 #
 # 1. Schedule a task:
-#       from lukhas_scheduler import schedule_task
+#       from system_scheduler import schedule_task
 #       from datetime import datetime, timedelta
 #       schedule_task("DST Check", datetime.utcnow() + timedelta(minutes=1))
 #
 # 2. Start scheduler loop:
-#       from lukhas_scheduler import run_scheduler
+#       from system_scheduler import run_scheduler
 #       run_scheduler()
 #
 # 📦 FUTURE:

@@ -16,7 +16,7 @@ def update_imports_in_file(file_path: Path):
     # Replace common patterns
     replacements = [
         # Logger imports
-        (r'from .+ import get_logger', 'from lukhas.common.utils import get_logger'),
+        (r'from .+ import get_logger', 'from system.common.utils import get_logger'),
         (r'logger = logging.getLogger\(__name__\)', 'logger = get_logger(__name__)'),
         
         # Config loading
@@ -32,9 +32,9 @@ def update_imports_in_file(file_path: Path):
     
     if modified:
         # Add import if needed
-        if 'from lukhas.common.utils import' not in content:
+        if 'from system.common.utils import' not in content:
             lines = content.split('\n')
-            import_line = 'from lukhas.common.utils import get_logger, load_config\n'
+            import_line = 'from system.common.utils import get_logger, load_config\n'
             
             # Find where to insert import
             for i, line in enumerate(lines):

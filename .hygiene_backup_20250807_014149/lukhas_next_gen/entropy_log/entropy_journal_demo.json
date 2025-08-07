@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "window_size": 100,
+    "last_updated": "2025-08-03T22:03:48.840919",
+    "total_entries": 9
+  },
+  "entries": [
+    {
+      "timestamp": "2025-08-03T22:03:44.804822",
+      "entropy_score": 0.0,
+      "previous_state": "neutral",
+      "current_state": "open",
+      "drift_class": "stable",
+      "symbolic_path": [
+        "\ud83d\udd10",
+        "\ud83c\udf3f",
+        "\ud83e\udeb7"
+      ],
+      "transition_type": "consent_grant",
+      "notes": "User grants biometric access",
+      "tags": [
+        "privacy",
+        "biometric"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:45.310379",
+      "entropy_score": 1.0,
+      "previous_state": "open",
+      "current_state": "neutral",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83e\udd1d",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83d\udd13"
+      ],
+      "transition_type": "trust_increase",
+      "notes": "Successful authentication",
+      "tags": [
+        "auth",
+        "success"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:45.812330",
+      "entropy_score": 1.0,
+      "previous_state": "neutral",
+      "current_state": "stable",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83e\udd1d",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83e\udeb7"
+      ],
+      "transition_type": "trust_increase",
+      "notes": "Profile completion",
+      "tags": [
+        "profile"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:46.317889",
+      "entropy_score": 1.0,
+      "previous_state": "stable",
+      "current_state": "locked",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83d\udd10",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83c\udf3f"
+      ],
+      "transition_type": "consent_grant",
+      "notes": "Location sharing enabled",
+      "tags": [
+        "location",
+        "privacy"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:46.824735",
+      "entropy_score": 1.0,
+      "previous_state": "locked",
+      "current_state": "stable",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83e\udd1d",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83d\udd12"
+      ],
+      "transition_type": "trust_decrease",
+      "notes": "Failed login attempt",
+      "tags": [
+        "auth",
+        "failure"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:47.325722",
+      "entropy_score": 1.0,
+      "previous_state": "stable",
+      "current_state": "turbulent",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83e\udd1d",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83c\udf3f"
+      ],
+      "transition_type": "trust_decrease",
+      "notes": "Suspicious activity",
+      "tags": [
+        "security",
+        "alert"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:47.830632",
+      "entropy_score": 1.0,
+      "previous_state": "turbulent",
+      "current_state": "locked",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83d\udd10",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83c\udf2a\ufe0f"
+      ],
+      "transition_type": "consent_revoke",
+      "notes": "User disables tracking",
+      "tags": [
+        "privacy",
+        "revoke"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:48.334564",
+      "entropy_score": 1.0,
+      "previous_state": "locked",
+      "current_state": "turbulent",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83c\udf00",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83d\udd12"
+      ],
+      "transition_type": "drift_correction",
+      "notes": "System stabilization",
+      "tags": [
+        "maintenance"
+      ]
+    },
+    {
+      "timestamp": "2025-08-03T22:03:48.840908",
+      "entropy_score": 0.9826,
+      "previous_state": "turbulent",
+      "current_state": "locked",
+      "drift_class": "unstable",
+      "symbolic_path": [
+        "\ud83d\udea8",
+        "\ud83c\udf2a\ufe0f",
+        "\ud83c\udf2a\ufe0f"
+      ],
+      "transition_type": "emergency_lock",
+      "notes": "Security breach detected",
+      "tags": [
+        "security",
+        "critical"
+      ]
+    }
+  ]
+}

@@ -101,7 +101,7 @@ class AIDocumentationGenerator:
             'symbolic': r'symbolic|memoria|reflection|dast|arbitrat',
             'neural': r'neural|learning|cognitive|brain|spine',
             'quantum': r'quantum|oscillator|consensus|enhanced',
-            'identity': r'lukhas_lambda_id|Lukhas_ID|identity|auth|verification',
+            'identity': r'lambda_identity|Lukhas_ID|identity|auth|verification',
             'systems': r'nias|abas|dast|engine|orchestrator',
             'commercial': r'vendor|affiliate|commercial|payment'
         }

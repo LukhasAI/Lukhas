@@ -22,7 +22,7 @@ META_SYNC_FOLDER = "sync/meta_reflections/"
 UNIFIED_LOG = "logs/unified_self_snapshots.jsonl"
 
 from orchestration.brain.spine.trait_manager import load_traits
-from lukhas_reflection_gpt import generate_gpt_reflection
+from system_reflection_gpt import generate_gpt_reflection
 
 # File paths
 REPORT_PATH = "logs/lukhas_agri_report.jsonl"

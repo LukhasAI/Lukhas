@@ -50,7 +50,7 @@ class SymbolicAuditMode:
     def verify_consent_checkpoint(self, checkpoint_id: str, lukhas_id: str) -> bool:
         """Verify consent checkpoint validity."""
         checkpoint = self.consent_checkpoints.get(checkpoint_id)
-        return checkpoint is not None and checkpoint.get("lukhas_id") == lukhas_id
+        return checkpoint is not None and checkpoint.get("identity_legacy") == lukhas_id
 
     def generate_compliance_report(self, lukhas_id: str, date_range: Tuple) -> Dict:
         """Generate GDPR compliance report for data subject."""
@@ -60,7 +60,7 @@ class SymbolicAuditMode:
             if e.lukhas_id == lukhas_id and start <= e.timestamp <= end
         ]
         return {
-            "lukhas_id": lukhas_id,
+            "identity_legacy": lukhas_id,
             "total_events": len(relevant_events),
             "events": [e.__dict__ for e in relevant_events]
         }
@@ -68,7 +68,7 @@ class SymbolicAuditMode:
     def secure_replay_with_audit(self, replay_request: Dict) -> Dict:
         """Perform secure replay with full audit logging."""
         memory_hash = replay_request["memory_hash"]
-        lukhas_id = replay_request["lukhas_id"]
+        lukhas_id = replay_request["identity_legacy"]
         checkpoint_id = replay_request.get("checkpoint_id")
         consent_scope = replay_request.get("consent_scope", {})
 

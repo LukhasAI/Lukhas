@@ -1,0 +1,167 @@
+{
+  "timestamp": "2025-08-07T01:41:53.909906",
+  "backup_location": "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.hygiene_backup_20250807_014149",
+  "changes": [
+    {
+      "type": "directory",
+      "old": "lukhas_dreams",
+      "new": "dreams",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_governance",
+      "new": "governance_extended",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_personality",
+      "new": "personality",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_ethics_guard",
+      "new": "ethics_guard",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_awareness_protocol",
+      "new": "awareness_protocol",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_brain",
+      "new": "brain_core",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_id",
+      "new": "identity_legacy",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_id_enhanced",
+      "new": "identity_enhanced",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_lambda_id",
+      "new": "lambda_identity",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_next_gen",
+      "new": "next_gen",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_orb",
+      "new": "orb",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_demo_suite",
+      "new": "demo_suite",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_dna_link",
+      "new": "dna_link",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_config",
+      "new": "config_legacy",
+      "status": "success"
+    },
+    {
+      "type": "directory",
+      "old": "lukhas_data",
+      "new": "data_legacy",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_OPERATIONAL_SUMMARY.py",
+      "new": "tools/analysis/operational_summary.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py",
+      "new": "tools/analysis/functional_analysis.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py",
+      "new": "tools/analysis/workspace_status.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py",
+      "new": "tools/analysis/security_gap_analysis.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_TARGETED_IMPORT_FIXER.py",
+      "new": "tools/analysis/import_fixer.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_CIRCULAR_DEPENDENCY_ANALYSIS.py",
+      "new": "tools/analysis/circular_dependency_analysis.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_ROOT_DIRECTORY_AUDIT.py",
+      "new": "tools/analysis/root_directory_audit.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_IMPORT_SUCCESS_SUMMARY.py",
+      "new": "tools/analysis/import_success_summary.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/analysis/PWM_STREAMLINE_ANALYZER.py",
+      "new": "tools/analysis/streamline_analyzer.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "core/orchestration/lukhas_orchestrator.py",
+      "new": "core/orchestration/main_orchestrator.py",
+      "status": "success"
+    },
+    {
+      "type": "file",
+      "old": "tools/legacy_analysis",
+      "new": "tools/deprecated",
+      "status": "success"
+    }
+  ],
+  "summary": {
+    "directories_renamed": 15,
+    "files_renamed": 11,
+    "total_changes": 26
+  }
+}

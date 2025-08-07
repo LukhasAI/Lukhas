@@ -174,7 +174,7 @@ class ConsolidationPlanner:
             'merge_candidates': [
                 'emotion/',
                 'bio/personality/',
-                'lukhas_personality/'
+                'personality/'
             ],
             'preserve': [
                 'Emotion recognition',

@@ -17,7 +17,7 @@ It receives user intents, validates permissions via trust tiers, and delegates e
 to the correct logic modules like memory, voice, dream, or delegate systems.
 """
 
-from lukhas_config import TIER_PERMISSIONS
+from config_legacy import TIER_PERMISSIONS
 from consent_manager import verify_or_revoke
 from ethics_jury import should_trigger_jury, run_ethics_review
 from core.interfaces.logic.voice.voice_renderer import render_voice

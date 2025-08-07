@@ -118,8 +118,8 @@ class DreamCommerceAPI:
             
         try:
             # Only load if explicitly requested
-            from lukhas_personality.narrative_engine_dream_narrator_queue import DreamNarratorQueue
-            from lukhas_personality.creative_core import CreativeCore
+            from personality.narrative_engine_dream_narrator_queue import DreamNarratorQueue
+            from personality.creative_core import CreativeCore
             
             self._narrator = DreamNarratorQueue()
             self._personality_loaded = True

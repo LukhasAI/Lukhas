@@ -56,7 +56,7 @@ def deduct_tokens(user_id, amount, reason="symbolic_action"):
 
     # Optionally log the transaction
     try:
-        from lukhas_overview_log import log_event
+        from system_overview_log import log_event
         log_event("wallet", f"{amount} tokens deducted for: {reason}", tier=3, source="lukhas_wallet")
     except:
         pass
@@ -84,7 +84,7 @@ def deduct_crypto_balance(user_id, amount):
 
     # Optionally log the crypto transaction
     try:
-        from lukhas_overview_log import log_event
+        from system_overview_log import log_event
         log_event("wallet", f"{amount} EUR deducted from crypto balance", tier=4, source="lukhas_wallet")
     except:
         pass
@@ -95,7 +95,7 @@ def deduct_crypto_balance(user_id, amount):
 # 🔍 USAGE GUIDE (for lukhas_wallet.py)
 #
 # 1. Get balance:
-#       from lukhas_wallet import get_balance
+#       from system_wallet import get_balance
 #       tokens = get_balance("lukhas-id-123")
 #
 # 2. Deduct symbolic tokens:

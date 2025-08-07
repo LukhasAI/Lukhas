@@ -35,7 +35,7 @@ class MemorySystemConsolidator:
                 "dependencies": [
                     "memory_folds.py",
                     "trauma_lock.py",
-                    "lukhas_id.py",
+                    "identity_legacy.py",
                     "memory_identity.py",
                     "dream_reflection_loop.py"
                 ]
@@ -54,7 +54,7 @@ class MemorySystemConsolidator:
                 "tags": ["memory", "core", "critical", "security", "trauma"],
                 "dependencies": [
                     "memory_folds.py",
-                    "lukhas_id.py"
+                    "identity_legacy.py"
                 ]
             },
             "pattern_engine.py": {

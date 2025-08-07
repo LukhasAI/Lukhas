@@ -93,7 +93,7 @@ class OneiricTierAdapter(TierSystemAdapter):
                 if not user:
                     raise ValueError("User object required for Oneiric middleware")
 
-                user_id = getattr(user, 'lukhas_id', None) or getattr(user, 'id', None)
+                user_id = getattr(user, 'identity_legacy', None) or getattr(user, 'id', None)
                 if not user_id:
                     raise ValueError("User ID not found in user object")
 
@@ -295,7 +295,7 @@ class UnifiedTierAdapter:
                 # Strategy 2: User object (Oneiric style)
                 if not user_id and 'user' in kwargs:
                     user_obj = kwargs['user']
-                    user_id = getattr(user_obj, 'lukhas_id', None) or getattr(user_obj, 'id', None)
+                    user_id = getattr(user_obj, 'identity_legacy', None) or getattr(user_obj, 'id', None)
 
                 # Strategy 3: First positional arg
                 if not user_id and args and isinstance(args[0], str) and args[0].startswith('Λ'):

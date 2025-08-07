@@ -15,7 +15,7 @@ import hashlib
 
 # Add parent directories to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
-sys.path.append(str(Path(__file__).parent.parent.parent / "lukhas_next_gen"))
+sys.path.append(str(Path(__file__).parent.parent.parent / "next_gen"))
 
 logger = logging.getLogger(__name__)
 

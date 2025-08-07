@@ -39,11 +39,11 @@ class ImportFixer:
             'memory.systems.memory_consolidator': 'memory.consolidation.memory_consolidator',
             
             # Personality moves
-            'orchestration.brain.brain': 'lukhas_personality.brain.brain',
-            'voice.voice_narrator': 'lukhas_personality.voice.voice_narrator',
-            'creativity.creative_core': 'lukhas_personality.creative_core.creative_core',
-            'consciousness.systems.cognitive_systems.voice_personality': 'lukhas_personality.voice.voice_personality',
-            'dream.dream_narrator_queue': 'lukhas_personality.narrative_engine.dream_narrator_queue',
+            'orchestration.brain.brain': 'personality.brain.brain',
+            'voice.voice_narrator': 'personality.voice.voice_narrator',
+            'creativity.creative_core': 'personality.creative_core.creative_core',
+            'consciousness.systems.cognitive_systems.voice_personality': 'personality.voice.voice_personality',
+            'dream.dream_narrator_queue': 'personality.narrative_engine.dream_narrator_queue',
         }
         
         # Common import patterns to fix
@@ -51,7 +51,7 @@ class ImportFixer:
             (r'from creativity\.dream', 'from dream'),
             (r'import creativity\.dream', 'import dream'),
             (r'from memory\.manager import', 'from memory.core.quantum_memory_manager import'),
-            (r'from orchestration\.brain\.brain', 'from lukhas_personality.brain'),
+            (r'from orchestration\.brain\.brain', 'from personality.brain'),
         ]
 
     def scan_and_fix_imports(self):

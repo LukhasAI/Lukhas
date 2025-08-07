@@ -440,7 +440,7 @@ class LukhosIDManager:
         await self._create_audit_log(
             user_id=user_id,
             tier=initial_tier,
-            component="lukhas_id_manager",
+            component="identity_legacy_manager",
             action="user_registration",
             decision_logic="New user registered with tier-appropriate access",
             privacy_impact="User data encrypted and stored with consent"
@@ -490,7 +490,7 @@ class LukhosIDManager:
         await self._create_audit_log(
             user_id=user_id,
             tier=access_tier,
-            component="lukhas_id_manager",
+            component="identity_legacy_manager",
             action="user_authentication",
             decision_logic=f"User authenticated successfully at tier {access_tier.value}",
             emotional_state=emotional_state,

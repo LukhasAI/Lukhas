@@ -87,7 +87,7 @@ log.info("LUKHAS Core Memoria Subsystem package initialized.", package_scope="..
 # ACCESSED_BY: ['CognitiveScheduler', 'MemoryConsolidationEngine', 'SymbolicInterpreter'] # Conceptual
 # MODIFIED_BY: ['CORE_DEV_MEMORIA_TEAM'] # Conceptual
 # Tier Access: Tier 2-3 (Core Cognitive Functionality - for the subsystem itself) # Conceptual
-# Related Components: ['lukhas_dreams.py', 'lukhas_reflector.py', 'lukhas_replayer.py', 'gpt_reflection.py']
+# Related Components: ['dreams.py', 'lukhas_reflector.py', 'lukhas_replayer.py', 'gpt_reflection.py']
 # CreationDate: 2025-06-06 | LastModifiedDate: 2024-07-26 | Version: 1.1.0
 # --- End Footer ---
 

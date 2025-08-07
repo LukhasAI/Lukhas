@@ -60,7 +60,7 @@ class LukhasNameRemover:
             'lukhas_core.py': 'core_system.py',
             'lukhas_orchestrator.py': 'orchestrator_core.py',
             'lukhas_integration_engine.py': 'integration_engine.py',
-            'lukhas_brain_bridge.py': 'brain_bridge.py',
+            'brain_core_bridge.py': 'brain_bridge.py',
             'lukhas_cycle_phase.py': 'cycle_phase.py',
             'lukhas_federated_model.py': 'federated_model.py',
             'lukhas_api_client.py': 'api_client.py',

@@ -107,7 +107,7 @@ if __name__ == "__main__":
 #     - Social media caption with symbolic tags
 #
 # 🧩 INTEGRATION:
-#     - Consumes latest log from lukhas_expression_log.jsonl
+#     - Consumes latest log from system_expression_log.jsonl
 #     - Ready for compliance_guard and dashboard integration
 #
 # 🛡️ COMPLIANCE:

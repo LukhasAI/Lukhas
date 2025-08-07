@@ -353,7 +353,7 @@ def save_dream_to_log(
     current_ts_utc = datetime.now(timezone.utc)
     log_file_path = (
         DREAM_LOGS_MAIN_DIR
-        / f"lukhas_dreams_log_{current_ts_utc.strftime('%Y-%m-%d')}.jsonl"
+        / f"dreams_log_{current_ts_utc.strftime('%Y-%m-%d')}.jsonl"
     )
     log_entry_data = {
         "dream_log_id": unique_dream_identifier,

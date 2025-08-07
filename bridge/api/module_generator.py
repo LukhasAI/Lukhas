@@ -596,7 +596,7 @@ LUKHAS_CONCEPTS_MAP = {
     "consciousness": ["awareness", "reflection", "consciousness_level", "meta_cognition"],
     "dream": ["dream_recall", "parallel_universes", "multiverse_exploration", "emergence"],
     "quantum": ["quantum_coherence", "entanglement", "superposition", "quantum_ready"],
-    "identity": ["lukhas_id", "symbolic_identity", "qrg", "tier_access"],
+    "identity": ["identity_legacy", "symbolic_identity", "qrg", "tier_access"],
     "orchestration": ["brain_hub", "coordination", "multi_agent", "harmony"],
     "reasoning": ["logic_chains", "causal_inference", "goal_processing", "validation"],
     "emotion": ["emotional_coherence", "bio_symbolic", "hormonal_state", "affect"],

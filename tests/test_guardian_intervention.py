@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Any
 
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
-sys.path.append(str(Path(__file__).parent.parent / "lukhas_next_gen"))
+sys.path.append(str(Path(__file__).parent.parent / "next_gen"))
 
 try:
     from guardian.sentinel import GuardianSentinel, ThreatIndicator

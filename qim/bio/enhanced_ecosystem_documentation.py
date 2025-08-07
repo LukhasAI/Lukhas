@@ -418,7 +418,7 @@ The LUKHAS plugin system leverages ΛEasyDoc's intelligent capabilities to provi
 #### Code Analysis and Documentation
 ```python
 # ΛEasyDoc automatically analyzes your plugin code
-from lukhas_sdk import LucasPlugin
+from system_sdk import LucasPlugin
 from lambda_easydoc import auto_document
 
 @auto_document(

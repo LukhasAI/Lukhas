@@ -54,7 +54,7 @@ def log_referral_click(user_id, vendor, widget_type, estimated_commission=0.0, t
 # 🔍 USAGE GUIDE (for lukhas_affiliate_log.py)
 #
 # 1. Log an affiliate referral:
-#       from lukhas_affiliate_log import log_referral_click
+#       from system_affiliate_log import log_referral_click
 #       log_referral_click("lukhas-123", "Uber", "travel", estimated_commission=2.50)
 #
 # 2. Combine with widget metadata:

@@ -28,7 +28,7 @@ st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")
 # Session tracking (simplified for local prototyping)
 session_log_path = Path("logs/session_log.jsonl")
 session_event = {
-    "user": st.session_state.get("lukhas_id", "anonymous"),
+    "user": st.session_state.get("identity_legacy", "anonymous"),
     "event": "session_start",
     "timestamp": datetime.now().isoformat()
 }
@@ -249,7 +249,7 @@ import atexit
 
 def log_session_end():
     session_event = {
-        "user": st.session_state.get("lukhas_id", "anonymous"),
+        "user": st.session_state.get("identity_legacy", "anonymous"),
         "event": "session_end",
         "timestamp": datetime.now().isoformat()
     }

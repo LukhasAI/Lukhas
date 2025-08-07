@@ -103,7 +103,7 @@ def api_status():
         "version": "1.0.0",
         "endpoints": {
             "verify": "/api/verify",
-            "lukhas_id": "/api/lukhas-id/<id>",
+            "identity_legacy": "/api/lukhas-id/<id>",
             "symbolic_memory": "/api/verifold/verify"
         }
     })

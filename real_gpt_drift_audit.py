@@ -19,7 +19,7 @@ import time
 load_dotenv()
 
 # Import LUKHΛS modules
-from lukhas_embedding import LukhasEmbedding
+from embedding import LukhasEmbedding
 from symbolic_healer import SymbolicHealer
 from gpt_integration_layer import GPTIntegrationLayer
 
