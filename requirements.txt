@@ -1,134 +1,47 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# LUKHAS AI CONSOLIDATION REPO - MAIN DEPENDENCIES
-# Root requirements.txt for Agent Jules and Agent Codex workspace setup
-# LUKHAS: Advanced AI system working towards AGI capabilities
-# ═══════════════════════════════════════════════════════════════════════════
+# Core Dependencies
+python-dateutil>=2.8.2
+pytz>=2023.3
+typing-extensions>=4.8.0
 
-# Core Python Framework
-fastapi>=0.116.1           # Modern web framework for APIs (SECURITY UPDATE)
-uvicorn[standard]>=0.24.0   # ASGI server for FastAPI
-pydantic>=2.11.7             # Data validation and settings (UPDATED for security)
+# Async Support
+asyncio
+aiohttp>=3.9.0
+aiofiles>=23.2.0
 
-# Data Processing & Analysis
-pandas>=2.2.3               # Data manipulation and analysis
-numpy>=1.26.0,<2.0.0        # Numerical computing (SECURITY: Pin to 1.x to avoid breaking changes)
-scipy>=1.11.4               # Scientific computing
+# Web Framework
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
 
-# Web & HTTP
-aiohttp>=3.12.14            # Async HTTP client/server (SECURITY UPDATE)
-requests>=2.32.4            # HTTP library (latest secure version)
-httpx>=0.25.0               # Modern HTTP client
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
 
-# Database & Storage
-sqlalchemy>=2.0.23          # SQL toolkit and ORM (UPDATED for lukhas-id compatibility)
-alembic>=1.12.1             # Database migration tool (UPDATED for lukhas-id compatibility)
-psycopg[binary,pool]>=3.1.0 # PostgreSQL adapter
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
 
-# Authentication & Security
-python-jose[cryptography]>=3.3.0  # JWT handling
-passlib[bcrypt]>=1.7.4      # Password hashing
-cryptography>=44.0.3        # Cryptographic operations
-PyJWT>=2.10.1               # JSON Web Tokens
-pyotp>=2.9.0                # TOTP/HOTP for MFA
-qrcode[pil]>=7.4.2          # QR code generation for MFA setup
-python-multipart>=0.0.6     # Form parsing for auth
-argon2-cffi>=23.1.0         # Argon2 password hashing
+# Security
+cryptography>=41.0.0
+pynacl>=1.5.0
+bcrypt>=4.0.1
 
-# Configuration & Environment
-python-dotenv>=1.1.0        # Environment variable management
-PyYAML>=6.0.2               # YAML configuration files
-jsonschema>=4.23.0          # JSON schema validation
+# Database
+sqlalchemy>=2.0.0
+redis>=5.0.0
+psycopg2-binary>=2.9.0
 
-# Testing & Quality
-pytest>=8.3.5              # Test framework
-pytest-asyncio>=0.21.0     # Async testing
-testcontainers>=3.7.0       # Testing with containers
-black>=24.0.0               # Code formatting (UPDATED for lukhas-id compatibility)
-structlog>=25.0.0           # Structured logging
+# Monitoring
+prometheus-client>=0.19.0
+structlog>=23.2.0
 
-# AI & Language Processing
-openai>=1.97.1              # OpenAI API client (SECURITY UPDATE)
-transformers>=4.54.0        # Hugging Face transformers (SECURITY UPDATE)
+# Development
+black>=23.11.0
+mypy>=1.7.0
+pylint>=3.0.0
 
-# System & Monitoring
-psutil>=7.0.0               # System process and resource monitoring (UPDATED for security)
-watchdog>=6.0.0             # File system monitoring
-structlog>=25.0.0           # Structured logging
-
-# Development & CLI
-rich>=13.9.4,<14.0.0        # Rich text and beautiful formatting (Compatible with flask-limiter)
-click>=8.1.0                # Command line interface creation toolkit
-pyfiglet>=1.0.2             # ASCII art text rendering
-tqdm>=4.66.2                # Progress bars
-tabulate>=0.9.0             # Pretty-print tabular data
-schedule>=1.2.2             # Job scheduling
-
-# Web Interface & Forms
-python-multipart>=0.0.6     # Form parsing
-streamlit>=1.28.0           # Web app framework
-
-# API & Async Support  
-asyncio>=3.4.3               # Async programming support (built-in but version tracking)
-typing-extensions>=4.8.0     # Extended typing support for FastAPI models
-
-# Utilities
-setuptools>=75.0.0          # Package installation (SECURITY UPDATE)
-wheel>=0.45.1               # Package building (SECURITY UPDATE)
-grpcio>=1.60.0            # gRPC framework
-grpcio-tools>=1.60.0      # Proto generation utilities
-
-# Post-Quantum Cryptography (for VeriFold integration)
-pycryptodome>=3.21.0        # Cryptographic library with post-quantum support
-# pysphincs>=0.1.1            # SPHINCS+ post-quantum signatures
-
-# Additional AI/ML Dependencies
-# torch>=2.0.0                # PyTorch for neural networks (if needed)
-scikit-learn>=1.3.0         # Machine learning utilities
-networkx>=3.1               # Graph algorithms for causality tracking
-
-# Symbolic & Mathematical Processing
-sympy>=1.12                 # Symbolic mathematics
-matplotlib>=3.7.0           # Visualization for analytics
-seaborn>=0.12.0            # Statistical data visualization
-
-# Bio-Symbolic Coherence Optimization System Dependencies
-# Added for LUKHAS Bio-Symbolic Processing with 102.22% coherence achievement
-filterpy>=1.4.5            # Kalman filtering for bio-data preprocessing
-scipy>=1.11.4              # Already listed above - scientific computing for signal processing
-statsmodels>=0.14.0        # Statistical models for anomaly detection
-scikit-learn>=1.3.0        # Already listed above - ML models for pattern recognition
-pykalman>=0.9.5            # Advanced Kalman filtering implementations
-
-# Memory & Performance
-redis>=5.0.0                # In-memory data structure store
-diskcache>=5.6.0           # Disk and file-based cache
-
-# Monitoring & Observability  
-prometheus-client>=0.19.0   # Prometheus metrics
-opentelemetry-api>=1.21.0  # OpenTelemetry for distributed tracing
-opentelemetry-sdk>=1.21.0  # OpenTelemetry SDK
-
-# Test Management Dashboard Dependencies
-# Added for Revolutionary Test Management System with Oracle optimization
-aiofiles>=23.2.1           # Async file operations for test discovery
-croniter>=1.4.1            # Cron expression parsing for scheduling
-cron-descriptor>=1.4.0     # Human-readable cron descriptions
-
-# Documentation & Code Quality
-mkdocs>=1.5.3              # Documentation generator
-mkdocs-material>=9.5.0     # Material theme for MkDocs
-mypy>=1.7.0                # Static type checking
-ruff>=0.1.6                # Fast Python linter
-
-# Added by import fixer
-prometheus_client
-asyncpg
-Pillow
-opencv-python
-anthropic
-tiktoken
-colorama
-plotly
-docker
-kubernetes
-celery
+# Cloud
+boto3>=1.29.0
+kubernetes>=28.1.0
