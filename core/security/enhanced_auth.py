@@ -166,29 +166,35 @@ class EnhancedAuthenticationSystem:
         self.jwt_secret = secrets.token_urlsafe(32)
         self.jwt_algorithm = "HS256"
         self.jwt_expiry_hours = 24
-        
+
         # Session configuration
         self.session_timeout_minutes = 30
         self.max_concurrent_sessions = 5
         self.require_mfa_for_sensitive = True
-        
+
         # MFA configuration
         self.totp_issuer = "LUKHAS AGI"
         self.totp_window = 1  # Allow 1 time step drift
         self.backup_code_length = 8
         self.backup_code_count = 10
-        
+
         # Rate limiting
         self.max_login_attempts = 5
         self.lockout_duration_minutes = 15
-        
+
         # Storage (Redis for production, in-memory for demo)
         self.redis_client = redis.from_url(redis_url) if redis_url else None
         self.sessions: Dict[str, AuthSession] = {}
         self.mfa_setups: Dict[str, Dict[AuthMethod, MFASetup]] = {}
         self.failed_attempts: Dict[str, List[datetime]] = defaultdict(list)
         self.used_backup_codes: Set[str] = set()
-        
+        # Track used backup codes per user (in-memory)
+        self.mfa_used_codes: Dict[str, Set[str]] = defaultdict(set)
+
+        # In-memory fallback stores
+        self._api_keys_mem: Dict[str, Dict[str, Any]] = {}
+        # In-memory revoked JWT tracking (fallback when Redis not available)
+        self._revoked_jtis: Set[str] = set()
         # Temporary storage for MFA verification
         self.pending_mfa: Dict[str, Dict[str, Any]] = {}
         
@@ -196,10 +202,14 @@ class EnhancedAuthenticationSystem:
     def generate_jwt(self, user_id: str, claims: Optional[Dict[str, Any]] = None) -> str:
         """Generate JWT token"""
         now = datetime.now(timezone.utc)
+        now_ts = int(now.timestamp())
+        exp_candidate = int((now + timedelta(hours=self.jwt_expiry_hours)).timestamp())
+        # Ensure exp is at least one second after iat to avoid truncation issues
+        exp_ts = exp_candidate if exp_candidate > now_ts else now_ts + 1
         payload = {
             'user_id': user_id,
-            'iat': now,
-            'exp': now + timedelta(hours=self.jwt_expiry_hours),
+            'iat': now_ts,
+            'exp': exp_ts,
             'jti': secrets.token_urlsafe(16),  # JWT ID for revocation
         }
         
@@ -216,6 +226,19 @@ class EnhancedAuthenticationSystem:
                 self.jwt_secret, 
                 algorithms=[self.jwt_algorithm]
             )
+            # Manual expiry check to support environments without full JWT lib behavior
+            try:
+                exp = payload.get('exp')
+                if exp is not None:
+                    now_ts = int(datetime.now(timezone.utc).timestamp())
+                    if isinstance(exp, (int, float)):
+                        if exp <= now_ts:
+                            return None
+                    else:
+                        # Best effort: if non-numeric, treat as invalid/expired
+                        return None
+            except Exception:
+                return None
             
             # Check if token is revoked
             if self._is_token_revoked(payload.get('jti')):
@@ -237,6 +260,8 @@ class EnhancedAuthenticationSystem:
                 timedelta(hours=self.jwt_expiry_hours),
                 "1"
             )
+        else:
+            self._revoked_jtis.add(jti)
             
     def _is_token_revoked(self, jti: str) -> bool:
         """Check if JWT is revoked"""
@@ -245,7 +270,7 @@ class EnhancedAuthenticationSystem:
             
         if self.redis_client:
             return self.redis_client.exists(f"revoked_jwt:{jti}") > 0
-        return False
+        return jti in self._revoked_jtis
         
     # Session Management
     async def create_session(self, user_id: str, ip_address: str, 
@@ -338,7 +363,7 @@ class EnhancedAuthenticationSystem:
         return [s for s in self.sessions.values() if s.user_id == user_id]
         
     # MFA Implementation
-    async def setup_totp(self, user_id: str) -> Dict[str, str]:
+    async def setup_totp(self, user_id: str) -> Dict[str, Any]:
         """Setup TOTP-based 2FA"""
         # Generate secret
         secret = pyotp.random_base32()
@@ -360,11 +385,12 @@ class EnhancedAuthenticationSystem:
         img.save(buffer, format='PNG')
         qr_base64 = base64.b64encode(buffer.getvalue()).decode()
         
-        # Generate backup codes
-        backup_codes = [
-            secrets.token_urlsafe(self.backup_code_length)[:self.backup_code_length]
-            for _ in range(self.backup_code_count)
-        ]
+        # Generate unique backup codes
+        backup_set: Set[str] = set()
+        while len(backup_set) < self.backup_code_count:
+            code = secrets.token_urlsafe(self.backup_code_length)[:self.backup_code_length]
+            backup_set.add(code)
+        backup_codes = list(backup_set)
         
         # Store setup (not verified yet)
         setup = MFASetup(
@@ -515,25 +541,28 @@ class EnhancedAuthenticationSystem:
         
     async def verify_backup_code(self, user_id: str, code: str) -> bool:
         """Verify backup code"""
-        # Check if already used
-        if code in self.used_backup_codes:
+        # Normalize and check if already used (global or per-user)
+        code = str(code).strip()
+        if code in self.used_backup_codes or code in self.mfa_used_codes.get(user_id, set()):
             return False
-            
+
         # Check all MFA setups for this user
         user_setups = self.mfa_setups.get(user_id, {})
-        
+
         for setup in user_setups.values():
             if code in setup.backup_codes:
                 # Mark as used
                 self.used_backup_codes.add(code)
-                setup.backup_codes.remove(code)
-                
+                self.mfa_used_codes.setdefault(user_id, set()).add(code)
+                # Remove all instances just in case of duplicates
+                setup.backup_codes = [c for c in setup.backup_codes if c != code]
+
                 # Store in Redis if available
                 if self.redis_client:
                     self.redis_client.sadd(f"used_backup_codes:{user_id}", code)
-                    
+
                 return True
-                
+
         return False
         
     # Rate Limiting
@@ -596,6 +625,8 @@ class EnhancedAuthenticationSystem:
                 key_id,
                 json.dumps(key_data)
             )
+        else:
+            self._api_keys_mem[key_id] = key_data
             
         return key_id, key_secret
         
@@ -608,6 +639,8 @@ class EnhancedAuthenticationSystem:
             data = self.redis_client.hget("api_keys", key_id)
             if data:
                 key_data = json.loads(data)
+        else:
+            key_data = self._api_keys_mem.get(key_id)
                 
         if not key_data or not key_data.get('active'):
             return None
@@ -626,6 +659,8 @@ class EnhancedAuthenticationSystem:
                 key_id,
                 json.dumps(key_data)
             )
+        else:
+            self._api_keys_mem[key_id] = key_data
             
         return {
             'user_id': key_data['user_id'],
@@ -644,6 +679,9 @@ class EnhancedAuthenticationSystem:
                     key_id,
                     json.dumps(key_data)
                 )
+        else:
+            if key_id in self._api_keys_mem:
+                self._api_keys_mem[key_id]['active'] = False
 
 
 # Singleton instance

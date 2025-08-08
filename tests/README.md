@@ -29,13 +29,17 @@ tests/
 pip install -r tests/requirements-test.txt
 ```
 
-### Run All Tests
+### Run All Tests (Professional Artifacts)
 ```bash
-# From project root
-python -m pytest tests/ -v
+# From project root (timestamped artifacts under reports/test-runs/<ts>/)
+python tests/run_tests.py all -v -c -r
 
-# With coverage
-python -m pytest tests/ --cov=core --cov=main --cov-report=html
+# Artifacts generated per run:
+# - reports/test-runs/<ts>/junit/junit-*.xml (CI-friendly)
+# - reports/test-runs/<ts>/html/*.html (human-readable)
+# - reports/test-runs/<ts>/json/*.json (machine-readable)
+# - reports/test-runs/<ts>/coverage/ (HTML coverage)
+# - reports/test-runs/<ts>/logs/*.log (test logs)
 ```
 
 ### Run Specific Test Categories
@@ -48,6 +52,15 @@ python -m pytest tests/test_main_server.py -v
 
 # Integration tests
 python -m pytest tests/integration/ -v
+```
+
+### Smoke and Performance
+```bash
+# Smoke
+python tests/run_tests.py smoke -v
+
+# Performance (benchmarks)
+python tests/run_tests.py performance
 ```
 
 ## Test Categories
@@ -120,7 +133,12 @@ jobs:
           python-version: '3.10'
       - run: pip install -r requirements.txt
       - run: pip install -r tests/requirements-test.txt
-      - run: python -m pytest tests/ --cov
+      - run: python tests/run_tests.py all -c -v -r
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: reports/test-runs/**
 ```
 
 ## Performance Testing

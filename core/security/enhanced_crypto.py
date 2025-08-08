@@ -186,6 +186,11 @@ class EnhancedEncryptionManager:
         key = self._get_active_key(purpose)
         if not key:
             key = self._create_key(purpose, algorithm)
+        # If the requested algorithm differs from the active key's algorithm,
+        # create a new key for this purpose with the requested algorithm so
+        # decrypt will use the matching cipher.
+        if key and key.algorithm != algorithm:
+            key = self._create_key(purpose, algorithm)
             
         # Unwrap actual key material
         key_material = self._unwrap_key(key.key_material)

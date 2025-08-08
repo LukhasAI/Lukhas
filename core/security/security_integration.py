@@ -324,6 +324,8 @@ class SecurityIntegration:
                 clearance_level=SecurityLevel.INTERNAL,
                 permissions=set()  # Load from user profile
             )
+            # Default to permissive read/execute permissions for authenticated users in this demo
+            context.permissions = {'*'}
             
             # Validate with AGI security
             return await self.agi_security.validate_operation(

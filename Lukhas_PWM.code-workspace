@@ -4,5 +4,23 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"python.analysis.exclude": [
+			".venv/**",
+			"reports/**",
+			"data/**",
+			".pwm_cleanup_archive/**",
+			"**/__pycache__/**"
+		],
+		"files.watcherExclude": {
+			"**/.git/objects/**": true,
+			"**/.git/subtree-cache/**": true,
+			"**/.hg/store/**": true,
+			"**/node_modules/*/**": true,
+			"**/.venv/**": true,
+			"reports/**": true,
+			"data/**": true,
+			"**/__pycache__/**": true
+		}
+	}
 }

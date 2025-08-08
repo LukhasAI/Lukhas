@@ -12,6 +12,7 @@ import hashlib
 import hmac
 import secrets
 import json
+from collections import defaultdict
 from abc import ABC, abstractmethod
 
 class SecurityLevel(Enum):

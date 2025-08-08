@@ -7,11 +7,10 @@ Provides common test utilities and symbolic validation helpers
 import pytest
 import asyncio
 import sys
-import tempfile
 import json
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import List, Optional
 
 # Add project paths
 sys.path.append(str(Path(__file__).parent.parent))
@@ -26,6 +25,42 @@ def event_loop():
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture
+async def consciousness():
+    """Initialized UnifiedConsciousness instance for tests"""
+    from core.api.service_stubs import UnifiedConsciousness
+    c = UnifiedConsciousness()
+    await c.initialize()
+    return c
+
+
+@pytest.fixture
+async def memory_system():
+    """Initialized MemoryManager instance for tests"""
+    from core.api.service_stubs import MemoryManager
+    m = MemoryManager()
+    await m.initialize()
+    return m
+
+
+@pytest.fixture
+async def guardian_system():
+    """Initialized GuardianSystem instance for tests"""
+    from core.api.service_stubs import GuardianSystem
+    g = GuardianSystem()
+    await g.initialize()
+    return g
+
+
+@pytest.fixture
+async def symbolic_engine():
+    """Initialized SymbolicEngine instance for tests"""
+    from core.api.service_stubs import SymbolicEngine
+    e = SymbolicEngine()
+    await e.initialize()
+    return e
 
 
 @pytest.fixture
@@ -45,7 +80,7 @@ def symbolic_validator():
             "validation": ["✅", "❌", "⚠️", "🔄", "💪"]
         }
         
-        def validate_sequence(self, sequence: List[str], expected_pattern: str = None) -> bool:
+        def validate_sequence(self, sequence: List[str], expected_pattern: Optional[str] = None) -> bool:
             """Validate symbolic sequence structure and coherence"""
             if not sequence:
                 return False
@@ -63,7 +98,7 @@ def symbolic_validator():
             
             # Otherwise validate coherence
             return self.validate_coherence(clean_sequence)
-        
+
         def validate_coherence(self, sequence: List[str]) -> bool:
             """Check if symbolic sequence has thematic coherence"""
             if len(sequence) <= 1:
@@ -79,7 +114,7 @@ def symbolic_validator():
                 (["⚓", "🧘", "🔒"], "consciousness_anchoring")
             ]
             
-            for rule_sequence, rule_name in progression_rules:
+            for rule_sequence, _ in progression_rules:
                 if all(glyph in sequence for glyph in rule_sequence):
                     return True
             
@@ -94,7 +129,7 @@ def symbolic_validator():
             
             return len(sequence) <= 3  # Allow short mixed sequences
         
-        def extract_transitions(self, sequence: List[str]) -> List[str]:
+    def extract_transitions(self, sequence: List[str]) -> List[str]:
             """Extract state transitions from symbolic sequence"""
             clean_sequence = [s for s in sequence if s != "→"]
             transitions = []
@@ -105,7 +140,7 @@ def symbolic_validator():
             
             return transitions
         
-        def get_category(self, glyph: str) -> Optional[str]:
+    def get_category(self, glyph: str) -> Optional[str]:
             """Get the category of a glyph"""
             for category, glyphs in self.GLYPH_CATEGORIES.items():
                 if glyph in glyphs:
@@ -284,6 +319,71 @@ def pytest_configure(config):
     )
 
 
+# --- Integration/E2E fixture aliases and utilities ---
+
+@pytest.fixture
+async def consciousness_system(consciousness):
+    """Alias fixture for tests expecting 'consciousness_system'."""
+    return consciousness
+
+
+@pytest.fixture
+async def emotion_engine():
+    """Initialized EmotionEngine instance for tests."""
+    from core.api.service_stubs import EmotionEngine
+    e = EmotionEngine()
+    await e.initialize()
+    return e
+
+
+@pytest.fixture
+async def dream_engine():
+    """Initialized DreamEngine instance for tests."""
+    from core.api.service_stubs import DreamEngine
+    d = DreamEngine()
+    await d.initialize()
+    return d
+
+
+@pytest.fixture
+def performance_metrics():
+    """Simple performance metrics collector for performance tests."""
+    return {
+        'start_time': None,
+        'end_time': None,
+        'operations': [],
+        'memory_usage': [],
+        'response_times': [],
+    }
+
+
+class _SimpleEventBus:
+    """Minimal async event bus for integration tests."""
+    def __init__(self):
+        self._subs = {}
+
+    def subscribe(self, event_type: str, handler):
+        self._subs.setdefault(event_type, []).append(handler)
+
+    async def publish(self, event_type: str, event):
+        for h in self._subs.get(event_type, []):
+            if asyncio.iscoroutinefunction(h):
+                await h(event)
+            else:
+                h(event)
+
+    async def shutdown(self):
+        self._subs.clear()
+
+
+@pytest.fixture
+async def event_bus():
+    """Provide a simple event bus for tests that need it."""
+    bus = _SimpleEventBus()
+    yield bus
+    await bus.shutdown()
+
+
 # Test collection and reporting
 def pytest_collection_modifyitems(config, items):
     """Modify test collection to add markers automatically"""
@@ -310,7 +410,7 @@ def pytest_collection_modifyitems(config, items):
 
 
 # Helper functions for tests
-def assert_symbolic_sequence(sequence: List[str], expected_pattern: str = None, 
+def assert_symbolic_sequence(sequence: List[str], expected_pattern: Optional[str] = None, 
                            coherence_required: bool = True):
     """Assert that a symbolic sequence is valid"""
     assert isinstance(sequence, list), "Sequence must be a list"
@@ -339,7 +439,7 @@ def assert_symbolic_sequence(sequence: List[str], expected_pattern: str = None,
             assert len(glyph) > 0, "Glyphs cannot be empty strings"
 
 
-def assert_entropy_range(entropy_value: float, expected_class: str = None):
+def assert_entropy_range(entropy_value: float, expected_class: Optional[str] = None):
     """Assert entropy value is in valid range and class"""
     assert isinstance(entropy_value, (int, float)), "Entropy must be numeric"
     assert 0.0 <= entropy_value <= 1.0, f"Entropy {entropy_value} outside valid range [0.0, 1.0]"
@@ -353,7 +453,7 @@ def assert_entropy_range(entropy_value: float, expected_class: str = None):
             assert entropy_value >= 0.7, f"Unstable entropy should be >=0.7, got {entropy_value}"
 
 
-def assert_guardian_threat_level(severity: float, expected_level: str = None):
+def assert_guardian_threat_level(severity: float, expected_level: Optional[str] = None):
     """Assert Guardian threat severity and level"""
     assert isinstance(severity, (int, float)), "Severity must be numeric"
     assert 0.0 <= severity <= 1.0, f"Severity {severity} outside valid range [0.0, 1.0]"

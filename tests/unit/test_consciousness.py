@@ -3,13 +3,14 @@ Unit tests for LUKHAS Consciousness System
 """
 
 import pytest
-import numpy as np
+import asyncio
 from datetime import datetime, timezone
 from unittest.mock import Mock, AsyncMock, patch
 
 from tests.test_framework import (
-    LUKHASTestCase, MockDataGenerator, TestValidator
+    LUKHASTestCase, TestValidator
 )
+from core.api.service_stubs import UnifiedConsciousness
 
 
 class TestConsciousnessCore(LUKHASTestCase):

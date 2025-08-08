@@ -7,9 +7,12 @@ import pytest
 import asyncio
 from datetime import datetime, timezone
 from typing import Dict, Any, List
+from unittest.mock import AsyncMock
+
+from orchestration.symbolic_kernel_bus import kernel_bus
 
 from tests.test_framework import (
-    IntegrationTestCase, MockDataGenerator, TestValidator,
+    IntegrationTestCase, PerformanceTestCase, MockDataGenerator, TestValidator,
     TEST_DATASETS, PERFORMANCE_BENCHMARKS
 )
 
@@ -228,7 +231,7 @@ class TestCoreSystemIntegration(IntegrationTestCase):
         assert ethics_check['ethical_score'] > 0.7
 
 
-class TestSystemPerformance(IntegrationTestCase):
+class TestSystemPerformance(PerformanceTestCase):
     """Test performance of integrated systems"""
     
     @pytest.mark.asyncio

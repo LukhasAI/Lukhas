@@ -89,6 +89,10 @@ temp/
 setup_report.json
 test_results.json
 test_report.md
+reports/
+.pytest_cache/
+.venv/
+.venv_test/
 
 # Lambda products and packages - exclude generated files
 lambda_products_pack/test_results.json

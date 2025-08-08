@@ -1,0 +1,2 @@
+# Pin problematic packages to versions with prebuilt wheels on macOS ARM
+psycopg2-binary==2.9.9
