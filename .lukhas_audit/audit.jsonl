@@ -1,0 +1,1 @@
+{"audit_id": "A-TEST-1754722758804", "signals": {"alignment_risk": 0.3, "ambiguity": 0.2}, "params": {"safety_mode": "strict", "tool_allowlist": ["retrieval", "scheduler"], "temperature": 0.4, "top_p": 0.8}, "guardian": {"verdict": "approved", "tool_governance": "enforced"}, "explanation": "High-risk query with restricted tools"}

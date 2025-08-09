@@ -210,6 +210,8 @@ class UnifiedOpenAIClient:
         stream: bool = False,
         functions: Optional[List[Dict[str, Any]]] = None,
         function_call: Optional[Union[str, Dict[str, str]]] = None,
+        tools: Optional[List[Dict[str, Any]]] = None,
+        tool_choice: Optional[Union[str, Dict[str, str]]] = None,
         **kwargs
     ) -> Union[Dict[str, Any], AsyncIterator[Dict[str, Any]]]:
         """
@@ -255,6 +257,12 @@ class UnifiedOpenAIClient:
             params["functions"] = functions
         if function_call is not None:
             params["function_call"] = function_call
+            
+        # Add tools (newer function calling API) if provided
+        if tools:
+            params["tools"] = tools
+        if tool_choice is not None:
+            params["tool_choice"] = tool_choice
 
         # Execute request with retries
         for attempt in range(self.retry_attempts):

@@ -23,6 +23,7 @@ from orchestration.signals.homeostasis import (
     SystemEvent,
 )
 from orchestration.signals.modulator import PromptModulator, PromptModulation
+from lukhas_pwm.openai.tooling import build_tools_from_allowlist
 
 logger = logging.getLogger("ΛTRACE.bridge.openai_modulated_service")
 
@@ -111,13 +112,20 @@ class OpenAIModulatedService:
         temperature = api_payload.pop("temperature", None)
         metadata = api_payload.pop("metadata", {})
 
-        # Call OpenAI
+        # Build tools from allowlist
+        openai_tools = []
+        if params and params.tool_allowlist:
+            openai_tools = build_tools_from_allowlist(params.tool_allowlist)
+
+        # Call OpenAI with tools
         response = await self.client.chat_completion(
             messages=messages,
             task=task or "general",
             temperature=temperature,
             max_tokens=max_tokens,
             stream=stream,
+            tools=openai_tools if openai_tools else None,
+            tool_choice="auto" if openai_tools else None,
         )
 
         # Normalize to dict if streaming iterator was returned

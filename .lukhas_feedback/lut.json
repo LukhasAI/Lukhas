@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "updated_ms": 1754722442150,
+  "style": {
+    "temperature_delta": 0.05,
+    "top_p_delta": 0.05,
+    "memory_write_boost": 0.04,
+    "verbosity_bias": 0.1
+  }
+}
