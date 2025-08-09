@@ -4,21 +4,46 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "sunday"
+    open-pull-requests-limit: 10
     reviewers:
       - "LukhasAI"
     labels:
       - "dependencies"
+      - "security"
       - "🔧 auto-fix"
     commit-message:
-      prefix: "chore"
+      prefix: "deps"
       include: "scope"
-    
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "LukhasAI"
+    labels:
+      - "dependencies"
+      - "security"
+      - "🔧 auto-fix"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "sunday"
+    open-pull-requests-limit: 10
     reviewers:
       - "LukhasAI"
     labels:
       - "dependencies"
+      - "security"
       - "🔧 auto-fix"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
