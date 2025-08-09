@@ -63,7 +63,7 @@ except (ImportError, RuntimeError, OSError):
 
 
 @dataclass
-class ModelCommunicationEngine:
+class ModelDimensions:
     n_mels: int
     n_audio_ctx: int
     n_audio_state: int
@@ -76,12 +76,12 @@ class ModelCommunicationEngine:
     n_text_layer: int
 
 
-class ModelCommunicationEngine(nn.LayerNorm):
+class LayerNorm(nn.LayerNorm):
     def forward(self, x: Tensor) -> Tensor:
         return super().forward(x.float()).type(x.dtype)
 
 
-class ModelCommunicationEngine(nn.Linear):
+class Linear(nn.Linear):
     def forward(self, x: Tensor) -> Tensor:
         return F.linear(
             x,
@@ -90,7 +90,7 @@ class ModelCommunicationEngine(nn.Linear):
         )
 
 
-class ModelCommunicationEngine(nn.Conv1d):
+class Conv1d(nn.Conv1d):
     def _conv_forward(
         self, x: Tensor, weight: Tensor, bias: Optional[Tensor]
     ) -> Tensor:
@@ -118,7 +118,7 @@ def disable_sdpa():
         MultiHeadAttention.use_sdpa = prev_state
 
 
-class ModelCommunicationEngine(nn.Module):
+class MultiHeadAttention(nn.Module):
     use_sdpa = True
 
     def __init__(self, n_state: int, n_head: int):
@@ -179,7 +179,7 @@ class ModelCommunicationEngine(nn.Module):
         return out, qk
 
 
-class ModelCommunicationEngine(nn.Module):
+class ResidualAttentionBlock(nn.Module):
     def __init__(self, n_state: int, n_head: int, cross_attention: bool = False):
         super().__init__()
 
@@ -211,7 +211,7 @@ class ModelCommunicationEngine(nn.Module):
         return x
 
 
-class ModelCommunicationEngine(nn.Module):
+class AudioEncoder(nn.Module):
     def __init__(
         self, n_mels: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):
@@ -244,7 +244,7 @@ class ModelCommunicationEngine(nn.Module):
         return x
 
 
-class ModelCommunicationEngine(nn.Module):
+class TextDecoder(nn.Module):
     def __init__(
         self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):

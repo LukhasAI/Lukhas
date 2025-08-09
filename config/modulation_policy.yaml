@@ -1,0 +1,99 @@
+# Signal-to-Prompt Modulation Configuration
+# Core endocrine system for LUKHAS colony architecture
+
+signals:
+  - name: stress
+    weight: 0.9
+    cooldown_ms: 800
+    description: "System under pressure or resource constraints"
+  - name: alignment_risk
+    weight: 1.0
+    cooldown_ms: 0
+    description: "Detected potential safety or ethical concerns"
+  - name: novelty
+    weight: 0.6
+    cooldown_ms: 500
+    description: "New or unfamiliar context detected"
+  - name: trust
+    weight: 0.4
+    cooldown_ms: 500
+    description: "User trust level and relationship quality"
+  - name: urgency
+    weight: 0.5
+    cooldown_ms: 300
+    description: "Time-sensitive situation requiring quick response"
+  - name: ambiguity
+    weight: 0.7
+    cooldown_ms: 700
+    description: "Unclear or ambiguous input requiring clarification"
+
+bounds:
+  temperature:        [0.0, 1.0]
+  top_p:              [0.1, 1.0]
+  max_output_tokens:  [256, 2048]
+  reasoning_effort:   [0.0, 1.0]     # maps to e.g., "low|medium|high"
+  retrieval_k:        [2, 10]
+  planner_beam:       [1, 6]
+  memory_write:       [0.1, 1.0]     # write strength
+  safety_mode:        ["strict","balanced","creative"]
+  tool_allowlist:     ["search","code_exec","browser","retrieval","scheduler"]
+
+maps:
+  # Higher risk => lower creativity, smaller beams, stricter moderation
+  alignment_risk:
+    temperature:      "1 - 0.85*x"
+    top_p:            "max(0.2, 1 - 0.8*x)"
+    reasoning_effort: "min(1.0, 0.4 + 0.6*x)"   # reason more under risk
+    planner_beam:     "max(1, round(6 - 4*x))"
+    safety_mode:      "strict if x>0.3 else balanced"
+    tool_allowlist:   "['retrieval'] if x>0.7 else ['retrieval','browser']"
+  
+  stress:
+    temperature:      "max(0.1, 0.7 - 0.6*x)"
+    top_p:            "max(0.3, 0.9 - 0.5*x)"
+    max_output_tokens: "round(1400 - 600*x)"
+    retrieval_k:      "min(10, 4 + round(4*x))"  # focus more
+  
+  ambiguity:
+    reasoning_effort: "min(1.0, 0.3 + 0.7*x)"
+    retrieval_k:      "min(10, 6 + round(3*x))"
+    planner_beam:     "min(6, 2 + round(3*x))"
+  
+  urgency:
+    max_output_tokens: "round(900 - 500*x)"
+    reasoning_effort: "max(0.2, 0.8 - 0.6*x)"    # reason less under time pressure
+    tool_allowlist:   "['retrieval']"            # keep it tight
+  
+  novelty:
+    temperature:      "min(1.0, 0.6 + 0.6*x)"
+    top_p:            "min(1.0, 0.7 + 0.3*x)"
+    planner_beam:     "min(6, 3 + round(3*x))"
+    memory_write:     "min(1.0, 0.3 + 0.7*x)"
+  
+  trust:
+    temperature:      "min(1.0, 0.5 + 0.4*x)"
+    memory_write:     "min(1.0, 0.5 + 0.5*x)"
+    safety_mode:      "balanced if x>0.6 and alignment_risk<0.2 else current"
+
+prompt_styles:
+  strict:
+    system_preamble: |
+      You must prioritize safety, policy compliance, and verifiable sources.
+      Prefer concise, unambiguous language. Avoid speculation. Cite sources when applicable.
+      When in doubt, err on the side of caution and request clarification.
+    moderation_preset: "high"
+    stop_sequences: ["\nUnsafe:", "\nViolation:"]
+    
+  balanced:
+    system_preamble: |
+      Be helpful, precise, and transparent. Use stepwise reasoning summaries, not chain-of-thought.
+      Offer alternatives and ask clarifying questions when ambiguity is high.
+      Maintain ethical standards while being genuinely useful.
+    moderation_preset: "standard"
+    
+  creative:
+    system_preamble: |
+      Explore options and propose novel approaches while remaining respectful and safe.
+      Use vivid but concise language. Clearly label assumptions and speculative elements.
+      Balance creativity with responsibility.
+    moderation_preset: "standard"

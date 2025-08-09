@@ -39,8 +39,12 @@ from .symbolic_scopes import SymbolicScopesManager
 from .consent_history import ConsentHistoryManager
 from .policy_engine import ConsentPolicyEngine
 
+# Create alias for compatibility with interface.py
+ConsentManager = LambdaConsentManager
+
 __all__ = [
     'LambdaConsentManager',
+    'ConsentManager', 
     'SymbolicScopesManager',
     'ConsentHistoryManager',
     'ConsentPolicyEngine'

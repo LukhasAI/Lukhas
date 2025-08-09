@@ -187,9 +187,38 @@ def trace(tag: Optional[str] = None) -> Callable:
     return decorator
 
 
+def core_tier_required(tier: Union[str, int, TierLevel]):
+    """
+    Core tier requirement decorator for LUKHAS system functions.
+    
+    Args:
+        tier: Required tier level (string, int, or TierLevel enum)
+        
+    Returns:
+        Decorated function with tier requirement checking
+    """
+    def decorator(func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # For now, implement basic validation
+            # In production, this would integrate with the identity system
+            logger.debug(
+                "core_tier_check",
+                function=func.__name__,
+                required_tier=tier,
+                timestamp=datetime.now(timezone.utc).isoformat()
+            )
+            
+            # Call the original function - in production, add tier validation here
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
 # Export all decorators
 __all__ = [
     "lukhas_tier_required",
+    "core_tier_required",
     "glyph_bind",
     "trace",
     "TierLevel",

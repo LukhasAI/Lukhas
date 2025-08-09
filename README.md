@@ -1,5 +1,8 @@
 # 🧠 LUKHAS Modular AI Ecosystem
 
+## Docs
+- OpenAI Modulated Endpoints: see `docs/OPENAI_ENDPOINTS.md`
+
 **Advanced AI Modules Working Towards AGI - Pick What You Need, Integrate What Matters**
 
 ![Plugins](https://img.shields.io/badge/Plugins-✅_Passed-green)
@@ -55,6 +58,9 @@ Our modular ecosystem enables:
 - **🌐 Open Integration** - Compatible with Anthropic, OpenAI, and other AI systems
 
 ## 📊 Latest Updates (August 2025)
+
+### OpenAI Alignment Roadmap
+See the augmentation-first plan and milestones in ROADMAP_OPENAI_ALIGNMENT.md.
 
 ### Phase 2 Fine-Tuning Complete! 🎉
 - **Overall System Reliability:** 99%+ (improved from 89%)

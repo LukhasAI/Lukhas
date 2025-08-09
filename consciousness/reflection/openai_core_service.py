@@ -33,13 +33,20 @@
 import os
 import json
 import asyncio
-from core.common import get_logger
+import logging
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List, Union, AsyncIterator, Callable
 from dataclasses import dataclass, asdict
 from enum import Enum
 import hashlib
 from pathlib import Path
+
+# Try to import from core.common if available
+try:
+    from core.common import get_logger
+    logger = get_logger("ΛTRACE.bridge.openai_core")
+except ImportError:
+    logger = logging.getLogger("ΛTRACE.bridge.openai_core")
 
 # Mock imports for when OpenAI is not available
 try:
@@ -52,8 +59,6 @@ except ImportError:
         pass
     class OpenAI:
         pass
-
-logger = logging.getLogger("ΛTRACE.bridge.openai_core")
 
 
 class OpenAICapability(Enum):

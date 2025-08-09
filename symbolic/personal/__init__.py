@@ -1,0 +1,1 @@
+"""Personal Symbol Module"""

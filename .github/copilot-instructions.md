@@ -1,6 +1,101 @@
 # 🤖 Copilot Instructions for LUKHAS AGI Codebase
 
+This document provides essential instructions for AI agents working within the LUKHAS AGI codebase. It outlines project conventions, workflows, and architectural patterns to ensure efficient collaboration and development.
+
+---
+
+## 🏗️ Project Structure
+
+The LUKHAS AGI codebase is organized into several key directories:
+
+```
+lukhas/
+├── core/               # Core symbolic logic and graph systems
+├── identity/           # Identity management and tiered access control
+├── vivox/              # VIVOX consciousness system
+├── memory/             # Session persistence and pattern detection
+├── api/                # FastAPI backend and endpoints
+├── quantum/            # Quantum collapse simulation
+├── orchestration/      # High-level brain controllers
+├── tests/              # Comprehensive test suite
+├── data/               # Data storage and metrics
+└── README.md           # Main documentation file
+```
+
+---
+
+## 🛠️ Copilot Agent Guidelines
+
+### Tool Management & Optimization
+
+To optimize performance and avoid "too many tools enabled" warnings, follow these guidelines:
+
+- **Prioritize Core Tools:** Use `replace_string_in_file`, `read_file`, `run_in_terminal`, `file_search`, and `grep_search`.
+- **Limit Concurrent Operations:** Use a maximum of 5 tools simultaneously.
+- **Tool Selection Strategy:**
+  - Use `replace_string_in_file` for precise edits.
+  - Use `read_file` for context before making changes.
+  - Use `grep_search` for code patterns, and `file_search` for file discovery.
+  - Reserve `run_notebook_cell` for specific notebook interactions.
+
+### Workspace Optimization
+
+- Focus on core domains: `core/`, `vivox/`, `tests/`, and `api/`.
+- Exclude heavy directories like `.pwm_cleanup_archive/` from workspace analysis.
+- Ensure Python environment is correctly configured with `.venv/bin/python`.
+
+### Developer Workflows
+
+1. **Build the Project:**
+   - Install dependencies with `pip install -r requirements.txt`.
+   - Run the symbolic API or specific modules as needed.
+
+2. **Testing:**
+   - Run all tests using `python -m pytest tests/`.
+   - Validate individual components with targeted test files.
+
+3. **Documentation:**
+   - Refer to `README.md` for overall project information.
+   - Check individual domain directories for specific conventions.
+
+---
+
+## 🧠 Architectural Patterns
+
+LUK
+
 Welcome, AI agent! This guide will help you be productive in the LUKHAS AGI codebase. Focus on these project-specific conventions, workflows, and architectural patterns:
+
+## ⚙️ Copilot Tool Management & Optimization
+
+To address "too many tools enabled" warnings and optimize performance:
+
+### 🔧 Tool Usage Guidelines
+- **Prioritize Core Tools:** Focus on `replace_string_in_file`, `read_file`, `run_in_terminal`, `file_search`, `grep_search`
+- **Limit Concurrent Operations:** Use max 5 tools simultaneously
+- **Tool Selection Strategy:**
+  - File operations: Use `replace_string_in_file` for precise edits, `read_file` for context
+  - Search operations: Use `grep_search` for code patterns, `file_search` for file discovery
+  - Execution: Use `run_in_terminal` for commands, avoid `run_notebook_cell` unless specifically needed
+  - External tools: Minimize `fetch_webpage`, `open_simple_browser` usage
+
+### 🚀 Performance Settings Applied
+- Copilot suggestions limited to 3 per trigger
+- Inline suggestions optimized for Python/TypeScript
+- Chat features streamlined for code generation
+- Experimental features limited to essential tools only
+- Conflicting AI assistants (Tabnine, BlackBox, etc.) disabled
+
+### 📁 Workspace Optimization
+- Analysis focused on core domains: `core/`, `vivox/`, `tests/`, `api/`
+- Excluded heavy directories: `.pwm_cleanup_archive/`, `archive/`, `recovery/`
+- Python environment properly configured with `.venv/bin/python`
+
+### 🎯 Usage Recommendations
+1. **For Code Changes:** Use `replace_string_in_file` with 3-5 lines context
+2. **For Exploration:** Start with `file_search` then `read_file` for specifics  
+3. **For Testing:** Use `run_in_terminal` with the professional test runner
+4. **For Debugging:** Combine `grep_search` for patterns + `read_file` for details
 
 ## 🧠 Big Picture Architecture
 - **LUKHAS** is a modular AGI platform blending quantum, biological, and ethical systems.

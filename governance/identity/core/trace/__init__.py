@@ -11,3 +11,7 @@ Features:
 - Pattern recognition integration
 - Compliance tracking
 """
+
+from .activity_logger import LambdaTraceLogger as ActivityLogger
+
+__all__ = ['ActivityLogger']

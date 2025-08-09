@@ -172,7 +172,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         # Get user's lambda tier
         user_tier = "LAMBDA_TIER_1"  # Default
         try:
-            from identity.core.user_tier_mapping import get_user_tier
+            from governance.identity.core.user_tier_mapping import get_user_tier
             user_tier = get_user_tier(user_id)
         except:
             pass
@@ -348,6 +348,48 @@ def emotional_tier_required(tier: Union[str, 'EmotionalTier']):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")
+
+
+class TierUnificationAdapter:
+    """
+    Main adapter class for tier system unification.
+    
+    This class provides a unified interface to work with different tier systems
+    across the LUKHAS AI ecosystem.
+    """
+    
+    def __init__(self, config: Optional[Dict] = None):
+        """Initialize the tier unification adapter"""
+        self.config = config or {}
+        self.unified_adapter = get_unified_adapter()
+        logger.info("TierUnificationAdapter initialized")
+    
+    def normalize_tier(self, tier: Any, source_system: str = "lambda") -> str:
+        """Normalize a tier from any system to LAMBDA_TIER format"""
+        return self.unified_adapter.normalize_tier(tier, source_system)
+    
+    def validate_access(self, user_id: str, required_tier: Any, system: str = "lambda") -> bool:
+        """Validate user access for a given tier requirement"""
+        try:
+            normalized_tier = self.normalize_tier(required_tier, system)
+            return self.unified_adapter.client.verify_user_access(user_id, normalized_tier)
+        except Exception as e:
+            logger.error(f"Access validation failed: {e}")
+            return False
+    
+    def create_decorator(self, tier: Any, system: str = "lambda"):
+        """Create a tier requirement decorator"""
+        return self.unified_adapter.create_unified_decorator(tier, system)
+
+
+# Export all classes and functions
+__all__ = [
+    'TierUnificationAdapter',
+    'UnifiedTierAdapter', 
+    'get_unified_adapter',
+    'oneiric_tier_required',
+    'emotional_tier_required'
+]
 
 
 # Export all key components

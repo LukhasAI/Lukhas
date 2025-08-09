@@ -91,6 +91,39 @@ except ImportError as e:
     logger.warning(f"Could not import EthicsSwarmColony: {e}")
     EthicsSwarmColony = None
 
+try:
+    from .enhanced_colony import EnhancedReasoningColony, SwarmSignalNetwork
+    logger.debug("Imported EnhancedReasoningColony and SwarmSignalNetwork from .enhanced_colony")
+except ImportError as e:
+    logger.warning(f"Could not import from enhanced_colony: {e}")
+    EnhancedReasoningColony = None
+    SwarmSignalNetwork = None
+
+try:
+    from .consensus_mechanisms import ColonyConsensus, ConsensusMethod, VoteType, ConsensusProposal
+    logger.debug("Imported consensus mechanisms from .consensus_mechanisms")
+except ImportError as e:
+    logger.warning(f"Could not import from consensus_mechanisms: {e}")
+    ColonyConsensus = None
+    ConsensusMethod = None
+    VoteType = None
+    ConsensusProposal = None
+
+try:
+    from .swarm_simulation import SwarmNetwork, SimAgent
+    logger.debug("Imported SwarmNetwork and SimAgent from .swarm_simulation")
+except ImportError as e:
+    logger.warning(f"Could not import from swarm_simulation: {e}")
+    SwarmNetwork = None
+    SimAgent = None
+
+try:
+    from .tag_propagation import SymbolicReasoningColony
+    logger.debug("Imported SymbolicReasoningColony from .tag_propagation")
+except ImportError as e:
+    logger.warning(f"Could not import SymbolicReasoningColony: {e}")
+    SymbolicReasoningColony = None
+
 __all__ = [
     'MemoryColony',
     'GovernanceColonyEnhanced',
@@ -104,6 +137,15 @@ __all__ = [
     'TemporalColony',
     'TensorColonyOps',
     'EthicsSwarmColony',
+    'EnhancedReasoningColony',
+    'SwarmSignalNetwork',
+    'ColonyConsensus',
+    'ConsensusMethod',
+    'VoteType',
+    'ConsensusProposal',
+    'SwarmNetwork',
+    'SimAgent',
+    'SymbolicReasoningColony',
 ]
 
 # Filter out None values from __all__ if imports failed

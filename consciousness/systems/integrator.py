@@ -34,7 +34,7 @@ seamless communication between all cognitive modules.
 """
 
 import asyncio
-from core.common import get_logger
+import logging
 import json
 import time
 from typing import Dict, List, Optional, Any, Union, Tuple
@@ -45,6 +45,13 @@ import uuid
 import threading
 from pathlib import Path
 
+# Try to import from core.common if available
+try:
+    from core.common import get_logger
+    logger = get_logger("consciousness")
+except ImportError:
+    logger = logging.getLogger("consciousness")
+
 # Import core components
 try:
     from ...memory.enhanced_memory_manager import EnhancedMemoryManager
@@ -53,7 +60,7 @@ try:
     from ...core.identity.identity_manager import IdentityManager
     from ...memory.emotional import EmotionEngine  # Using available emotion module
 except ImportError as e:
-    logging.warning(f"Some core components not available: {e}")
+    logger.warning(f"Some core components not available: {e}")
 
     # Create mock classes for missing components
     class EnhancedMemoryManager:
@@ -81,8 +88,6 @@ except ImportError as e:
     class EmotionEngine:
         async def process_emotional_context(self, **kwargs): return {}
         async def process_consciousness_event(self, event): pass
-
-logger = logging.getLogger("consciousness")
 
 class ConsciousnessState(Enum):
     """Consciousness states for the AGI system"""

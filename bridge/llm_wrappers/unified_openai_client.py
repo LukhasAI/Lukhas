@@ -30,6 +30,7 @@
 """
 
 import os
+import logging
 from core.common import get_logger
 import json
 import uuid
@@ -99,8 +100,9 @@ class UnifiedOpenAIClient:
         if not self.api_key:
             raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
-        # Store organization ID for reference
+        # Store organization and project IDs for reference
         self.organization_id = os.getenv('OPENAI_ORGANIZATION_ID')
+        self.project_id = os.getenv('OPENAI_PROJECT')
 
         # Initialize clients using auto-detection from environment
         # The OpenAI library will automatically use:

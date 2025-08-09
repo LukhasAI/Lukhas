@@ -24,7 +24,7 @@ from datetime import datetime, timezone
 from functools import wraps
 import structlog
 
-from identity.interface import IdentityClient
+from governance.identity.interface import IdentityClient
 from core.identity_integration import get_identity_client, require_identity
 
 logger = structlog.get_logger(__name__)
@@ -170,7 +170,7 @@ class IdentityAwareService(ABC):
             return self._user_cache[user_id]
 
         try:
-            from identity.core.user_tier_mapping import get_tier_mapping_service
+            from governance.identity.core.user_tier_mapping import get_tier_mapping_service
             service = get_tier_mapping_service()
             profile = service.get_user_profile(user_id)
 

@@ -105,6 +105,24 @@ class LambdaIDValidator:
             r'^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'
         )
 
+    def _get_default_config_path(self) -> str:
+        """Get the default configuration file path"""
+        import os
+        default_path = os.path.join(os.path.dirname(__file__), 'lambd_id_config.json')
+        if not os.path.exists(default_path):
+            # Create basic config if it doesn't exist
+            basic_config = {
+                "validation_rules": {},
+                "geo_codes": [],
+                "reserved_ids": [],
+                "emoji_combinations": {}
+            }
+            os.makedirs(os.path.dirname(default_path), exist_ok=True)
+            with open(default_path, 'w') as f:
+                import json
+                json.dump(basic_config, f, indent=2)
+        return default_path
+
     def validate(
         self,
         lambda_id: str,
@@ -395,6 +413,58 @@ class LambdaIDValidator:
             "Λ0-NULL-○-NULL",  # Null pattern
             "Λ5-TEST-⟐-TEST"   # Test pattern
         }
+
+    def _compile_validation_patterns(self) -> Dict[str, re.Pattern]:
+        """Compile regex patterns for validation"""
+        return {
+            'basic_pattern': re.compile(r'^Λ([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'),
+            'legacy_pattern': re.compile(r'^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'),
+            'hex_pattern': re.compile(r'^[A-F0-9]+$'),
+            'tier_pattern': re.compile(r'^[0-5]$')
+        }
+
+    def _load_valid_geo_codes(self) -> Set[str]:
+        """Load valid geographical codes"""
+        return {
+            'US', 'EU', 'UK', 'CA', 'AU', 'JP', 'DE', 'FR', 'IT', 'ES', 
+            'BR', 'IN', 'CN', 'RU', 'KR', 'MX', 'AR', 'CL', 'PE', 'CO'
+        }
+
+    def _load_emoji_combinations(self) -> Dict[str, List[str]]:
+        """Load valid emoji combinations for different tiers"""
+        return {
+            'tier_0': ['○', '◊', '□'],
+            'tier_1': ['○', '◊', '□', '△', '▽'],
+            'tier_2': ['🌀', '✨', '🔮', '◊', '⟐'],
+            'tier_3': ['🌀', '✨', '🔮', '⟐', '◈', '⬟'],
+            'tier_4': ['⟐', '◈', '⬟', '⬢', '⟁', '◐'],
+            'tier_5': ['⟐', '◈', '⬟', '⬢', '⟁', '◐', '◑', '⬧']
+        }
+
+    def validate_identity(self, user_id: str) -> bool:
+        """
+        Simple identity validation method for interface compatibility.
+        
+        Args:
+            user_id: The user ID or Lambda ID to validate
+            
+        Returns:
+            bool: True if identity is valid, False otherwise
+        """
+        try:
+            if not user_id:
+                return False
+            
+            # If it looks like a Lambda ID, use comprehensive validation
+            if 'Λ' in user_id or 'LUKHAS' in user_id:
+                result = self.validate(user_id)
+                return result.valid
+            
+            # For other user IDs, basic validation
+            return len(user_id) > 0 and len(user_id) <= 100
+            
+        except Exception:
+            return False
 
     def _load_tier_symbols(self) -> Dict[str, List[str]]:
         """Load tier-appropriate symbolic characters"""

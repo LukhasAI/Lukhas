@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
 
 
@@ -41,3 +41,17 @@ class PluginLoadResponse(BaseModel):
 class MemoryDumpResponse(BaseModel):
     folds: List[Dict[str, Any]]
     emotional_state: Dict[str, float]
+
+
+# --- OpenAI Modulated Service Schemas ---
+class ModulatedChatRequest(BaseModel):
+    prompt: str
+    context: Optional[Dict[str, Any]] = None
+    task: Optional[str] = None
+
+
+class ModulatedChatResponse(BaseModel):
+    content: str
+    raw: Dict[str, Any]
+    modulation: Dict[str, Any]
+    metadata: Dict[str, Any]

@@ -40,6 +40,7 @@
 """
 
 # Module imports
+import logging
 from core.common import get_logger
 import openai
 
@@ -78,11 +79,19 @@ for wrapper_name, class_name in [
         logger.debug(f"Optional wrapper {wrapper_name} not available")
         globals()[class_name] = None
 
+try:
+    from .openai_modulated_service import OpenAIModulatedService
+    logger.info("OpenAIModulatedService available")
+except Exception as e:
+    logger.debug(f"OpenAIModulatedService not available: {e}")
+    OpenAIModulatedService = None  # type: ignore
+
 __all__ = [
     'UnifiedOpenAIClient',
     'GPTClient',
     'LukhasOpenAIClient',
-    'OpenAIWrapper'
+    'OpenAIWrapper',
+    'OpenAIModulatedService',
 ] + optional_imports
 
 """
