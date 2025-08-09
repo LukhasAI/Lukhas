@@ -7,7 +7,7 @@ elevenlabs==1.58.1
 fastapi==0.115.12
 Flask==3.2.0
 h2==4.2.0
-huggingface_hub==0.31.1
+huggingface_hub==0.34.4
 jsonschema==4.23.0
 lukhas==0.0.1
 matplotlib==3.10.3
