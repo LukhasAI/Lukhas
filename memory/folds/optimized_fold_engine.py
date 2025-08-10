@@ -28,6 +28,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 import threading
+from functools import partial
 
 # Compression backend helpers
 # Prefer lz4 for speed; if unavailable, fall back to zlib so tests run without optional deps.
@@ -432,22 +433,18 @@ class OptimizedFoldEngine:
         """
         Create multiple folds in parallel
         """
-        tasks = []
-        
+        loop = asyncio.get_running_loop()
+        futures = []
         for key, content, metadata in items:
-            task = asyncio.create_task(
-                asyncio.get_event_loop().run_in_executor(
-                    self.thread_pool,
-                    self.create_fold,
-                    key,
-                    content,
-                    metadata.get("tags"),
-                    metadata
-                )
+            func = partial(
+                self.create_fold,
+                key,
+                content,
+                metadata.get("tags"),
+                **{k: v for k, v in metadata.items() if k != "tags"},
             )
-            tasks.append(task)
-        
-        return await asyncio.gather(*tasks)
+            futures.append(loop.run_in_executor(self.thread_pool, func))
+        return await asyncio.gather(*futures)
     
     async def parallel_search(
         self,
@@ -477,18 +474,15 @@ class OptimizedFoldEngine:
                         break
             return chunk_results
         
-        # Search chunks in parallel
-        tasks = [
-            asyncio.create_task(
-                asyncio.get_event_loop().run_in_executor(
-                    self.thread_pool,
-                    lambda keys: asyncio.run(search_chunk(keys)),
-                    chunk
-                )
-            )
-            for chunk in chunks
-        ]
-        
+        # Search chunks in parallel using threads invoking sync function
+        loop = asyncio.get_running_loop()
+
+        def _search_chunk_sync(keys: List[str]) -> List[OptimizedMemoryFold]:
+            # Synchronous wrapper around the async search to run in executor
+            return asyncio.run(search_chunk(keys))
+
+        tasks = [loop.run_in_executor(self.thread_pool, _search_chunk_sync, chunk) for chunk in chunks]
+
         chunk_results = await asyncio.gather(*tasks)
         
         # Combine results

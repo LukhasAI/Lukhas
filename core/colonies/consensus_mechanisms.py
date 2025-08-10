@@ -84,6 +84,7 @@ class ConsensusOutcome:
     hormone_levels: dict[str, float] = field(default_factory=dict)
     convergence_time: float = 0.0
     dissent_analysis: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_approved(self) -> bool:
@@ -128,7 +129,7 @@ class ColonyConsensus:
         self,
         agent_id: str,
         weight: float = 1.0,
-        capabilities: list[str] = None,
+        capabilities: Optional[list[str]] = None,
     ):
         """Register an agent in the colony"""
         self.agents[agent_id] = {

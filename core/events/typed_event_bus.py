@@ -9,7 +9,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, TypeVar, Union, cast
 
 from core.container.service_container import ServiceLifetime, injectable
 from core.events.contracts import DomainEvent, EventPriority
@@ -88,8 +88,8 @@ class TypedEventBus:
 
         subscription = EventSubscription(
             event_type=event_type,
-            handler=handler,
-            filter_func=filter_func,
+            handler=cast(Callable[[DomainEvent], Union[None, asyncio.Future]], handler),
+            filter_func=cast(Optional[Callable[[DomainEvent], bool]], filter_func),
             subscription_id=subscription_id,
         )
 
@@ -262,13 +262,13 @@ class EventBusService:
         handler: Callable[[T], Union[None, asyncio.Future]],
         filter_func: Optional[Callable[[T], bool]] = None,
     ) -> str:
-        return self._kernel_bus.subscribe(event_type, handler, filter_func)
+    return self._event_bus.subscribe(event_type, handler, filter_func)
 
     def unsubscribe(self, subscription_id: str) -> bool:
-        return self._event_bus.unsubscribe(subscription_id)
+    return self._event_bus.unsubscribe(subscription_id)
 
     async def publish(self, event: DomainEvent) -> None:
-        await self._kernel_bus.emit(event)
+    await self._event_bus.publish(event)
 
     def get_event_history(
         self,
@@ -313,7 +313,7 @@ def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> list[str]:
         attr = getattr(obj, attr_name)
         if callable(attr) and hasattr(attr, "_event_handler_type"):
             event_type = attr._event_handler_type
-            subscription_id = kernel_bus.subscribe(event_type, attr)
+            subscription_id = event_bus.subscribe(event_type, attr)
             subscription_ids.append(subscription_id)
             logger.info(
                 f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {event_type.__name__}"

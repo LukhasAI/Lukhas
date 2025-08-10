@@ -563,6 +563,32 @@ class GlyphFactory:
         glyph.add_semantic_tag("lineage_tracker")
         return glyph
 
+    @staticmethod
+    def create_action_glyph(
+        action: str,
+        params: Optional[dict[str, Any]] = None,
+        priority: GlyphPriority = GlyphPriority.MEDIUM,
+    ) -> Glyph:
+        """Create an action glyph used to encode intended actions.
+
+        Args:
+            action: Action name or verb.
+            params: Optional action parameters to embed in content.
+            priority: Processing priority for this action glyph.
+
+        Returns:
+            Glyph configured as an ACTION type with content/metadata.
+        """
+        glyph = Glyph(
+            glyph_type=GlyphType.ACTION,
+            symbol="⚡",
+            priority=priority,
+            content={"action": action, "params": params or {}},
+        )
+        glyph.add_semantic_tag("action")
+        glyph.add_semantic_tag(f"action:{action}")
+        return glyph
+
 
 # {ΛGLYPH} Module initialization complete
 logger.info("LUKHAS Core Glyph Engine initialized successfully")

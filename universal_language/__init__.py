@@ -27,7 +27,7 @@ from universal_language.core import (
 
 from universal_language.glyph import (
     GLYPHEngine,
-    GLYPHMap,
+    GLYPH_MAP,
     GLYPHToken
 )
 
@@ -62,7 +62,39 @@ from universal_language.privacy import (
     ConceptAnonymizer
 )
 
-__version__ = "1.0.0"
+# AGI-level enhancements
+from universal_language.llm_integration import (
+    LLMLanguageBridge,
+    LLMSymbolAPI,
+    SymbolRLHF,
+    get_llm_symbol_api
+)
+
+from universal_language.constitutional import (
+    ConstitutionalValidator,
+    ConstitutionalGuardrails,
+    SymbolSandbox,
+    ConstitutionalAPI,
+    get_constitutional_api
+)
+
+from universal_language.neuromemory import (
+    NeuroSymbolicMemory,
+    HippocampalBuffer,
+    CorticalNetwork,
+    WorkingMemory,
+    get_neurosymbolic_memory
+)
+
+from universal_language.compositional import (
+    SymbolComposer,
+    SymbolProgramSynthesizer,
+    CompositionTemplate,
+    get_symbol_composer,
+    get_program_synthesizer
+)
+
+__version__ = "2.0.0"  # Upgraded for AGI capabilities
 __all__ = [
     # Core
     "UniversalLanguageCore",
@@ -72,7 +104,7 @@ __all__ = [
     "Vocabulary",
     # GLYPH
     "GLYPHEngine",
-    "GLYPHMap",
+    "GLYPH_MAP",
     "GLYPHToken",
     # Grammar
     "GrammarEngine",
@@ -94,5 +126,28 @@ __all__ = [
     # Privacy
     "PrivateSymbolVault",
     "SymbolEncryption",
-    "ConceptAnonymizer"
+    "ConceptAnonymizer",
+    # AGI Enhancements - LLM Integration
+    "LLMLanguageBridge",
+    "LLMSymbolAPI",
+    "SymbolRLHF",
+    "get_llm_symbol_api",
+    # AGI Enhancements - Constitutional AI
+    "ConstitutionalValidator",
+    "ConstitutionalGuardrails",
+    "SymbolSandbox",
+    "ConstitutionalAPI",
+    "get_constitutional_api",
+    # AGI Enhancements - Neuroscience Memory
+    "NeuroSymbolicMemory",
+    "HippocampalBuffer",
+    "CorticalNetwork",
+    "WorkingMemory",
+    "get_neurosymbolic_memory",
+    # AGI Enhancements - Compositional & Synthesis
+    "SymbolComposer",
+    "SymbolProgramSynthesizer",
+    "CompositionTemplate",
+    "get_symbol_composer",
+    "get_program_synthesizer"
 ]

@@ -39,6 +39,7 @@
 """
 
 import asyncio
+import logging
 import hashlib
 import time
 from collections import defaultdict
@@ -51,6 +52,9 @@ from .interfaces.memory_interface import (
     MemoryOperation,
     ValidationResult,
 )
+
+# Module logger
+logger = logging.getLogger(__name__)
 
 
 class ValidationMode(Enum):
@@ -148,6 +152,9 @@ class ConsensusOutcome:
     total_time_ms: float = 0.0
     fastest_response_ms: float = 0.0
     slowest_response_ms: float = 0.0
+
+    # Additional metadata for integration points
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ColonyMemoryValidator:
