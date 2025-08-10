@@ -420,9 +420,8 @@ class OpenAIModulatedService:
         ):
             async def _once():
                 try:
-                    text = stream_iter["choices"][0]["message"][
-                        "content"
-                    ]  # type: ignore
+                    si = cast(Dict[str, Any], stream_iter)
+                    text = si["choices"][0]["message"]["content"]
                 except Exception:  # pragma: no cover
                     text = str(stream_iter)
                 yield text
@@ -437,7 +436,9 @@ class OpenAIModulatedService:
                         or chunk["choices"][0].get("message")
                     )
                     piece = (
-                        delta.get("content") if isinstance(delta, dict) else None
+                        delta.get("content")
+                        if isinstance(delta, dict)
+                        else None
                     ) or ""
                 except Exception:
                     piece = ""
@@ -457,11 +458,11 @@ class OpenAIModulatedService:
         return _gen()
 
     def _pre_moderation_check(self, modulation: PromptModulation) -> None:
-        """Run Guardian moderation if available; fallback to OpenAI moderation."""
+        """Guardian pre-check; provider fallback is a no-op."""
         # Guardian
         try:
-            from governance.guardian_sentinel import (
-                get_guardian_sentinel,  # lazy import
+            from governance.guardian_sentinel import (  # lazy import
+                get_guardian_sentinel,
             )
             guardian = get_guardian_sentinel()
             allow, message, _meta = guardian.assess_threat(
@@ -473,17 +474,15 @@ class OpenAIModulatedService:
                 },
                 drift_score=0.0,
             )
-                if not allow:
-                    self.metrics["moderation_blocks"] += 1
-                    raise PermissionError(f"Pre-moderation blocked: {message}")
-            except Exception:
-                pass
-            # OpenAI moderation fallback (best-effort); skip in this path
-            return
+            if not allow:
+                self.metrics["moderation_blocks"] += 1
+                raise PermissionError(
+                    f"Pre-moderation blocked: {message}"
+                )
         except Exception:
+            # Fallback: do nothing
             pass
-    # OpenAI moderation fallback (best-effort); skip in this path
-    return
+        return
 
     def _post_moderation_check(self, response: Dict[str, Any]) -> None:
         """Guardian post-check with fallback no-op."""
@@ -528,9 +527,6 @@ class OpenAIModulatedService:
 # ============================================================================
 # HELPER FUNCTIONS FOR TESTING AND SCRIPTING
 # ============================================================================
-
-
-
 async def _run_modulated_completion_impl(
     client,
     user_msg: str,
@@ -542,16 +538,17 @@ async def _run_modulated_completion_impl(
 ):
     """
     One-shot entrypoint: modulate → tool loop → final.
-    
+
     Args:
         client: OpenAI client instance
         user_msg: User's prompt
         ctx_snips: Context snippets to include
-        endocrine_signals: Signal levels (alignment_risk, stress, ambiguity, novelty)
+        endocrine_signals: Signal levels (alignment_risk,
+            stress, ambiguity, novelty)
         base_model: OpenAI model to use
         audit_id: Audit ID for tracking
         max_steps: Maximum tool execution iterations
-        
+
     Returns:
         OpenAI completion response
     """
@@ -585,7 +582,8 @@ async def _run_modulated_completion_impl(
                 signal_type = SignalType(name)
                 signals.append(Signal(
                     name=signal_type,
-                            piece = delta.get("content") if isinstance(delta, dict) else None or ""
+                    level=level,
+                    source="helper"
                 ))
             except ValueError:
                 continue
@@ -754,25 +752,45 @@ def resume_with_tools(
             )
             out.append({
                 "role": "system",
-                "content": f"Tool '{name}' blocked by governance. Not in allowlist."
+                "content": (
+                    f"Tool '{name}' blocked by governance. "
+                    "Not in allowlist."
+                ),
             })
             continue
-        
+
         # Execute tool
+        text = ""
         try:
             # Run async executor in sync context
-            loop = asyncio.get_event_loop() if asyncio.get_event_loop().is_running() else asyncio.new_event_loop()
-            if not loop.is_running():
-                text = loop.run_until_complete(executor.execute(name, args_json))
-            else:
+            loop_running = False
+            try:
+                loop = asyncio.get_event_loop()
+                loop_running = loop.is_running()
+            except Exception:
+                loop = asyncio.new_event_loop()
+                loop_running = False
+            # Run async executor in the appropriate context
+            if not loop_running:
+                text = loop.run_until_complete(
+                    executor.execute(name, args_json)
+                )
+            if loop_running:
                 # If already in async context
                 text = asyncio.run_coroutine_threadsafe(
                     executor.execute(name, args_json),
                     loop
                 ).result()
+            if not text:
+                text = ""
             
             # Track success
-            call_id = analytics.start_tool_call(name, json.loads(args_json) if isinstance(args_json, str) else args_json)
+            call_id = analytics.start_tool_call(
+                name,
+                json.loads(args_json)
+                if isinstance(args_json, str)
+                else args_json,
+            )
             analytics.complete_tool_call(call_id, status="success")
             
         except Exception as e:
@@ -785,7 +803,7 @@ def resume_with_tools(
             "role": "tool",
             "tool_call_id": tc.get("id", "call_0"),
             "name": name,
-            "content": text
+            "content": text,
         })
     
     return out
