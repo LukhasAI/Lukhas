@@ -157,14 +157,16 @@ class HomeostasisController:
         self.emergency_mode = False
         self.rate_limiters: dict[SignalType, float] = {}
 
-        # Metrics
-        self.metrics = {
+    # Metrics
+    self.metrics = {
             "events_processed": 0,
             "signals_regulated": 0,
             "oscillations_prevented": 0,
             "emergency_activations": 0,
             "modulations_computed": 0,
-        }
+    }
+    # Compatibility: store last processed signals for legacy API
+    self._last_processed_signals = []  # type: ignore[var-annotated]
 
     def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load modulation policy configuration"""
@@ -623,3 +625,31 @@ class HomeostasisController:
         parts.append(f"Safety: {modulation.safety_mode}")
 
         return " | ".join(parts)
+
+    # --- Backward compatibility layer (legacy tests expect these) ---
+    def process_signals(self, signals: list[Signal]) -> list[Signal]:
+        """Legacy API: process raw signals to update oscillation detector.
+
+        Returns the regulated signals for downstream use.
+        """
+        self._last_processed_signals = signals or []
+        # Update oscillation detector and apply basic regulation
+        for sig in self._last_processed_signals:
+            self.oscillation_detector.update(sig)
+        return self.regulate_signals(self._last_processed_signals)
+
+    def get_system_state(self) -> dict[str, Any]:
+        """Legacy API: return a minimal state snapshot used in tests.
+
+        Includes an 'oscillating_signals' list when oscillations are detected.
+        """
+        oscillating = [
+            st.value if isinstance(st, SignalType) else str(st)
+            for st in SignalType
+            if self.oscillation_detector.detect_oscillation(st)
+        ]
+        return {
+            "emergency_mode": self.emergency_mode,
+            "oscillating_signals": oscillating,
+            "metrics": self.get_metrics(),
+        }

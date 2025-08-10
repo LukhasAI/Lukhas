@@ -97,8 +97,18 @@ class Symbol:
         # Add entropy from relationships
         relationship_entropy = len(self.relationships) * 8.0
         
-        # Add entropy from attributes
-        attr_entropy = len(json.dumps(self.attributes)) * 2.0
+        # Add entropy from attributes (safe JSON serialization)
+        try:
+            # Only serialize JSON-safe attributes
+            safe_attrs = {}
+            for k, v in self.attributes.items():
+                if isinstance(v, (str, int, float, bool, list, dict, type(None))):
+                    safe_attrs[k] = v
+                else:
+                    safe_attrs[k] = str(v)  # Convert to string for non-JSON types
+            attr_entropy = len(json.dumps(safe_attrs)) * 2.0
+        except (TypeError, ValueError):
+            attr_entropy = len(str(self.attributes)) * 1.5
         
         return base_entropy + relationship_entropy + attr_entropy
     

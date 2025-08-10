@@ -8,8 +8,9 @@ providing the foundation for all symbolic communication in LUKHAS.
 This replaces the basic glyph_engine.py with full multi-modal support.
 """
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, cast
 from datetime import datetime, timezone
+import asyncio
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
@@ -83,7 +84,11 @@ class EnhancedGlyphEngine:
         # Create base GLYPH using original logic
         emotion_vector = None
         if emotion:
-            emotion_vector = EmotionVector(**emotion)
+            # Use robust parsing to ignore unknown keys
+            try:
+                emotion_vector = EmotionVector.from_dict(emotion)
+            except Exception:
+                emotion_vector = EmotionVector()
         
         # Determine GLYPH type based on concept
         if any(word in concept.lower() for word in ["remember", "memory", "recall"]):
@@ -100,10 +105,11 @@ class EnhancedGlyphEngine:
                 semantic_tags={concept},
             )
         else:
+            # Use factory with alias-compatible parameters
             glyph = self.factory.create_action_glyph(
                 action_type=concept,
                 parameters={},
-                required_tier=1
+                required_tier=1,
             )
         
         # Create Universal Symbol with GLYPH core
@@ -124,12 +130,19 @@ class EnhancedGlyphEngine:
         
         # Emit event for system-wide awareness
         if self.event_bus:
-            self.event_bus.publish(GlyphCreated(
+            # Fire-and-forget publish; tolerate absence of running loop
+            event = GlyphCreated(
                 glyph_id=glyph.id,
                 symbol_id=symbol.symbol_id,
                 concept=concept,
-                source_module=source_module
-            ))
+                source_module=source_module or "unknown",
+            )
+            try:
+                loop = asyncio.get_running_loop()
+                loop.create_task(self.event_bus.publish(event))
+            except RuntimeError:
+                # No running loop; best-effort synchronous dispatch
+                asyncio.run(self.event_bus.publish(event))
         
         self.stats["glyphs_created"] += 1
         
@@ -195,11 +208,16 @@ class EnhancedGlyphEngine:
             
             # Emit translation event
             if self.event_bus:
-                self.event_bus.publish(SymbolTranslated(
+                event = SymbolTranslated(
                     original_id=symbol.symbol_id,
                     translated_id=translated.symbol_id,
-                    target_module=target_module
-                ))
+                    target_module=target_module,
+                )
+                try:
+                    loop = asyncio.get_running_loop()
+                    loop.create_task(self.event_bus.publish(event))
+                except RuntimeError:
+                    asyncio.run(self.event_bus.publish(event))
             
             self.stats["symbols_translated"] += 1
             
@@ -245,11 +263,9 @@ class EnhancedGlyphEngine:
     def get_module_symbols(self, module_name: str) -> List[UniversalSymbol]:
         """Get all symbols created by a specific module"""
         module_symbols = []
-        
-        for sym_id, reg_entry in self.global_symbol_registry.items():
+        for _, reg_entry in self.global_symbol_registry.items():
             if reg_entry["source_module"] == module_name:
                 module_symbols.append(reg_entry["symbol"])
-        
         return module_symbols
     
     def compress_module_state(self, module_name: str) -> UniversalSymbol:
@@ -335,11 +351,10 @@ class EnhancedGlyphEngine:
     ) -> List[UniversalSymbol]:
         """
         Create a chain of causally linked symbols representing a cognitive process.
-        Used by consciousness and reasoning modules.
-        """
-        symbols = []
-        
-        for i, concept in enumerate(concepts):
+    Used by consciousness and reasoning modules.
+    """
+    symbols = []
+    for concept in concepts:
             # Determine domains based on concept type
             if "decide" in concept.lower() or "choose" in concept.lower():
                 domains = {SymbolDomain.ETHICAL, SymbolDomain.COGNITIVE}
@@ -357,8 +372,8 @@ class EnhancedGlyphEngine:
             )
             symbols.append(symbol)
         
-        # Create causal chain
-        return self.universal_protocol.create_causal_chain(symbols)
+    # Create causal chain
+    return self.universal_protocol.create_causal_chain(symbols)
     
     def get_system_statistics(self) -> Dict[str, Any]:
         """Get comprehensive statistics about symbol usage"""
@@ -394,12 +409,12 @@ class EnhancedGlyphEngine:
         emotion: Optional[Dict[str, float]] = None
     ) -> Glyph:
         """Backward compatibility method"""
-        symbol = self.encode_concept(
+    symbol = self.encode_concept(
             memory_content,
             emotion=emotion,
             domains={SymbolDomain.MEMORY}
         )
-        return symbol.core_glyph
+    return cast(Glyph, symbol.core_glyph)
     
     def create_emotion_glyph(self, emotion: Dict[str, float]) -> Glyph:
         """Backward compatibility method"""
@@ -408,7 +423,7 @@ class EnhancedGlyphEngine:
             emotion=emotion,
             domains={SymbolDomain.EMOTIONAL}
         )
-        return symbol.core_glyph
+    return cast(Glyph, symbol.core_glyph)
 
 
 # Global singleton instance

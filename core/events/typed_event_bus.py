@@ -262,13 +262,13 @@ class EventBusService:
         handler: Callable[[T], Union[None, asyncio.Future]],
         filter_func: Optional[Callable[[T], bool]] = None,
     ) -> str:
-    return self._event_bus.subscribe(event_type, handler, filter_func)
+        return self._event_bus.subscribe(event_type, handler, filter_func)
 
     def unsubscribe(self, subscription_id: str) -> bool:
-    return self._event_bus.unsubscribe(subscription_id)
+        return self._event_bus.unsubscribe(subscription_id)
 
     async def publish(self, event: DomainEvent) -> None:
-    await self._event_bus.publish(event)
+        await self._event_bus.publish(event)
 
     def get_event_history(
         self,
@@ -298,8 +298,8 @@ def event_handler(event_type: type[DomainEvent]):
     """Decorator for marking event handlers"""
 
     def decorator(func: Callable[[DomainEvent], Union[None, asyncio.Future]]):
-        # Add metadata to function
-        func._event_handler_type = event_type
+        # Add metadata to function (dynamic attribute for discovery)
+        cast(Any, func)._event_handler_type = event_type  # type: ignore[attr-defined]
         return func
 
     return decorator
@@ -311,12 +311,17 @@ def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> list[str]:
 
     for attr_name in dir(obj):
         attr = getattr(obj, attr_name)
-        if callable(attr) and hasattr(attr, "_event_handler_type"):
-            event_type = attr._event_handler_type
-            subscription_id = event_bus.subscribe(event_type, attr)
+        if callable(attr):
+            event_type = getattr(attr, "_event_handler_type", None)
+            if event_type is None:
+                continue
+            # Cast types for subscription
+            typed_event_type = cast(type[DomainEvent], event_type)
+            handler = cast(Callable[[DomainEvent], Union[None, asyncio.Future]], attr)
+            subscription_id = event_bus.subscribe(typed_event_type, handler)
             subscription_ids.append(subscription_id)
             logger.info(
-                f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {event_type.__name__}"
+                f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {typed_event_type.__name__}"
             )
 
     return subscription_ids

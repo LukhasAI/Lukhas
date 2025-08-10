@@ -548,6 +548,33 @@ class GlyphFactory:
         return glyph
 
     @staticmethod
+    def create_emotion_glyph(
+        emotion_vector: Optional[EmotionVector] = None,
+        *,
+        # Back-compat aliases
+        emotion: Optional[dict[str, float]] = None,
+    ) -> Glyph:
+        """Create an emotion glyph.
+
+        Accepts either an EmotionVector or a raw dict (emotion) for backward compatibility.
+        Unknown keys in the dict will be ignored safely.
+        """
+        ev = emotion_vector
+        if ev is None and emotion is not None:
+            try:
+                ev = EmotionVector.from_dict(emotion)
+            except Exception:
+                ev = EmotionVector()
+        glyph = Glyph(
+            glyph_type=GlyphType.EMOTION,
+            symbol="💭",
+            emotion_vector=ev or EmotionVector(),
+            priority=GlyphPriority.MEDIUM,
+        )
+        glyph.add_semantic_tag("emotion_state")
+        return glyph
+
+    @staticmethod
     def create_causal_link_glyph(parent_id: str, event_chain: str) -> Glyph:
         """Create a causal linkage tracking glyph."""
         glyph = Glyph(
@@ -565,9 +592,14 @@ class GlyphFactory:
 
     @staticmethod
     def create_action_glyph(
-        action: str,
+        action: Optional[str] = None,
         params: Optional[dict[str, Any]] = None,
         priority: GlyphPriority = GlyphPriority.MEDIUM,
+        *,
+        # Back-compat alias parameters (from enhanced engine callers)
+        action_type: Optional[str] = None,
+        parameters: Optional[dict[str, Any]] = None,
+        required_tier: Optional[int] = None,
     ) -> Glyph:
         """Create an action glyph used to encode intended actions.
 
@@ -579,11 +611,21 @@ class GlyphFactory:
         Returns:
             Glyph configured as an ACTION type with content/metadata.
         """
+        # Map aliases if primary args not provided
+        if action is None:
+            action = action_type or "unknown"
+        if params is None:
+            params = parameters or {}
+
         glyph = Glyph(
             glyph_type=GlyphType.ACTION,
             symbol="⚡",
             priority=priority,
-            content={"action": action, "params": params or {}},
+            content={
+                "action": action,
+                "params": params or {},
+                **({"required_tier": required_tier} if required_tier is not None else {}),
+            },
         )
         glyph.add_semantic_tag("action")
         glyph.add_semantic_tag(f"action:{action}")

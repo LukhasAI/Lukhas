@@ -336,15 +336,15 @@ class OptimizedFoldEngine:
             self._update_lru(key, fold)
             return fold
         
-        # Check main index
+    # Check main index
         fold = self.index.get(key)
         if fold:
             self.stats["hits"] += 1
             self._update_lru(key, fold)
             return fold
         
-        # Check mmap storage
-        if self.enable_mmap and key in self.mmap_index:
+    # Check mmap storage
+    if self.enable_mmap and key in self.mmap_index:
             fold = self._load_from_mmap(key)
             if fold:
                 self.stats["hits"] += 1
@@ -391,7 +391,7 @@ class OptimizedFoldEngine:
     
     def _save_to_mmap(self, key: str, fold: OptimizedMemoryFold):
         """Save fold to memory-mapped file"""
-        if not self.mmap or not fold.compressed_content:
+        if not getattr(self, "mmap", None) or not fold.compressed_content:
             return
         
         data = fold.compressed_content
@@ -409,7 +409,7 @@ class OptimizedFoldEngine:
     
     def _load_from_mmap(self, key: str) -> Optional[OptimizedMemoryFold]:
         """Load fold from memory-mapped file"""
-        if key not in self.mmap_index:
+        if key not in self.mmap_index or not getattr(self, "mmap", None):
             return None
         
         offset, size = self.mmap_index[key]
@@ -539,7 +539,7 @@ class OptimizedFoldEngine:
     
     def _defragment_mmap(self):
         """Defragment memory-mapped storage"""
-        if not self.mmap:
+    if not getattr(self, "mmap", None):
             return
         
         # Create new mmap file
@@ -606,9 +606,12 @@ class OptimizedFoldEngine:
         self.process_pool.shutdown(wait=True)
         
         # Close mmap
-        if self.mmap:
-            self.mmap.close()
-            self.mmap_file.close()
+        if getattr(self, "mmap", None):
+            try:
+                self.mmap.close()
+            finally:
+                if getattr(self, "mmap_file", None):
+                    self.mmap_file.close()
 
 
 # Demo functionality

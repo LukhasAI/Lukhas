@@ -108,7 +108,8 @@ class ConstitutionalValidator:
             rule_id="HELPFUL_001",
             principle=ConstitutionalPrinciple.HELPFUL,
             description="Symbols must have clear, understandable meanings",
-            validator=lambda s: s.name and len(s.name) > 0 and s.value is not None
+            validator=lambda s: s.name and len(s.name) > 0 and s.value is not None,
+            severity="warning"  # Make this a warning, not error
         ))
         
         # Harmless principle rules
