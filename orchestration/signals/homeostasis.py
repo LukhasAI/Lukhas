@@ -157,16 +157,17 @@ class HomeostasisController:
         self.emergency_mode = False
         self.rate_limiters: dict[SignalType, float] = {}
 
-    # Metrics
-    self.metrics = {
+        # Metrics
+        self.metrics = {
             "events_processed": 0,
             "signals_regulated": 0,
             "oscillations_prevented": 0,
             "emergency_activations": 0,
             "modulations_computed": 0,
-    }
-    # Compatibility: store last processed signals for legacy API
-    self._last_processed_signals = []  # type: ignore[var-annotated]
+        }
+
+        # Compatibility: store last processed signals for legacy API
+        self._last_processed_signals = []  # type: ignore[var-annotated]
 
     def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load modulation policy configuration"""

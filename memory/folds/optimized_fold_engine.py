@@ -335,22 +335,22 @@ class OptimizedFoldEngine:
             fold = self.lru_cache[key]
             self._update_lru(key, fold)
             return fold
-        
-    # Check main index
+
+        # Check main index
         fold = self.index.get(key)
         if fold:
             self.stats["hits"] += 1
             self._update_lru(key, fold)
             return fold
-        
-    # Check mmap storage
-    if self.enable_mmap and key in self.mmap_index:
+
+        # Check mmap storage
+        if self.enable_mmap and key in self.mmap_index:
             fold = self._load_from_mmap(key)
             if fold:
                 self.stats["hits"] += 1
                 self._update_lru(key, fold)
                 return fold
-        
+
         self.stats["misses"] += 1
         return None
     
@@ -539,7 +539,7 @@ class OptimizedFoldEngine:
     
     def _defragment_mmap(self):
         """Defragment memory-mapped storage"""
-    if not getattr(self, "mmap", None):
+        if not getattr(self, "mmap", None):
             return
         
         # Create new mmap file

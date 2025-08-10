@@ -351,10 +351,10 @@ class EnhancedGlyphEngine:
     ) -> List[UniversalSymbol]:
         """
         Create a chain of causally linked symbols representing a cognitive process.
-    Used by consciousness and reasoning modules.
-    """
-    symbols = []
-    for concept in concepts:
+        Used by consciousness and reasoning modules.
+        """
+        symbols: List[UniversalSymbol] = []
+        for concept in concepts:
             # Determine domains based on concept type
             if "decide" in concept.lower() or "choose" in concept.lower():
                 domains = {SymbolDomain.ETHICAL, SymbolDomain.COGNITIVE}
@@ -364,16 +364,16 @@ class EnhancedGlyphEngine:
                 domains = {SymbolDomain.MEMORY}
             else:
                 domains = {SymbolDomain.COGNITIVE}
-            
+
             symbol = self.encode_concept(
                 concept,
                 domains=domains,
-                source_module=source_module
+                source_module=source_module,
             )
             symbols.append(symbol)
-        
-    # Create causal chain
-    return self.universal_protocol.create_causal_chain(symbols)
+
+        # Create causal chain
+        return self.universal_protocol.create_causal_chain(symbols)
     
     def get_system_statistics(self) -> Dict[str, Any]:
         """Get comprehensive statistics about symbol usage"""
@@ -409,21 +409,21 @@ class EnhancedGlyphEngine:
         emotion: Optional[Dict[str, float]] = None
     ) -> Glyph:
         """Backward compatibility method"""
-    symbol = self.encode_concept(
+        symbol = self.encode_concept(
             memory_content,
             emotion=emotion,
-            domains={SymbolDomain.MEMORY}
+            domains={SymbolDomain.MEMORY},
         )
-    return cast(Glyph, symbol.core_glyph)
+        return cast(Glyph, symbol.core_glyph)
     
     def create_emotion_glyph(self, emotion: Dict[str, float]) -> Glyph:
         """Backward compatibility method"""
         symbol = self.encode_concept(
             "emotional_state",
             emotion=emotion,
-            domains={SymbolDomain.EMOTIONAL}
+            domains={SymbolDomain.EMOTIONAL},
         )
-    return cast(Glyph, symbol.core_glyph)
+        return cast(Glyph, symbol.core_glyph)
 
 
 # Global singleton instance
