@@ -20,7 +20,7 @@ Version: 1.0.0
 
 ### 3. ✅ Feature flags available in code
 ```python
-from lukhas_pwm.flags.ff import Flags
+from lukhas.flags.ff import Flags
 Flags.get("BROWSER_TOOL")  # Returns boolean
 ```
 

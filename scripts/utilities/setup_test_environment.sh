@@ -26,7 +26,7 @@ mkdir -p .lukhas_feedback
 echo ""
 echo "Starting API server..."
 echo "Run in a separate terminal:"
-echo "  uvicorn lukhas_pwm.api.app:app --reload --port 8000"
+echo "  uvicorn lukhas.api.app:app --reload --port 8000"
 echo ""
 
 # Wait for user to start server
@@ -38,7 +38,7 @@ if curl -s http://127.0.0.1:8000/tools/registry > /dev/null; then
     echo "✅ API server is running"
 else
     echo "❌ API server not reachable"
-    echo "Please start it with: uvicorn lukhas_pwm.api.app:app --reload"
+    echo "Please start it with: uvicorn lukhas.api.app:app --reload"
     exit 1
 fi
 

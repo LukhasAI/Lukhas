@@ -349,8 +349,7 @@ class LearningAssistant:
         """Generate answer when no direct information is found"""
         self._extract_key_terms(question)
 
-        answer = "I don't have specific information about this in your journal yet,
-    but let's explore it together.\n\n"
+        answer = "I don't have specific information about this in your journal yet, but let's explore it together.\n\n"
 
       # Check if it's about LUKHAS concepts
       lukhas_concepts_mentioned = []
@@ -924,7 +923,7 @@ Remember: Being stuck is temporary. You've solved {len(self.knowledge_base.get('
 
     def _mentor_for_failures(self, situation: str) -> str:
         """Mentorship for failures"""
-        return """Failures are powerful teachers. Let's extract the learning here.
+        return """Failures are powerful teachers. Let's extract the learning here."
 
 **Immediate steps:**
 1. Document what happened (no judgment, just facts)
@@ -1005,7 +1004,7 @@ Keep that curiosity alive - it's your superpower!"""
 
     def _mentor_general(self, situation: str) -> str:
         """General mentorship"""
-        return """I'm here to support your journey. Let's explore this together.
+        return """I'm here to support your journey. Let's explore this together."
 
 **Reflection prompts:**
 - What's the core challenge here?

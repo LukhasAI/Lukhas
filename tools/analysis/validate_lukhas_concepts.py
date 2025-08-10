@@ -221,7 +221,7 @@ class LUKHASConceptValidator:
 
     def _create_preservation_guidelines(self):
         """Create guidelines for preserving concepts"""
-        guidelines = """# LUKHAS Concept Preservation Guidelines
+        guidelines = """# LUKHAS Concept Preservation Guidelines"
 
 ## Critical Concepts to Preserve
 

@@ -70,7 +70,7 @@ dev:
 
 # API server
 api:
-	uvicorn lukhas_pwm.api.app:app --reload --port 8000
+	uvicorn lukhas.api.app:app --reload --port 8000
 
 # Export OpenAPI spec
 openapi:
@@ -151,7 +151,7 @@ smoke:
 ci-local:
 	pytest -q --maxfail=1 --disable-warnings --cov=lukhas_pwm --cov-report=term
 	python scripts/testing/smoke_check.py --json out/smoke.json || true
-	uvicorn lukhas_pwm.api.app:app --port 8000 & echo $$! > .pid; sleep 2; \
+	uvicorn lukhas.api.app:app --port 8000 & echo $$! > .pid; sleep 2; \
 	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json; \
 	kill `cat .pid` || true; rm -f .pid
 	@echo 'Artifacts in ./out'

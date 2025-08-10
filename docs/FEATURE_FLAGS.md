@@ -101,7 +101,7 @@ Feature flags are cached for 5 seconds to avoid excessive environment variable l
 
 ### Flag Reader
 ```python
-from lukhas_pwm.flags.ff import Flags
+from lukhas.flags.ff import Flags
 
 # Check a flag with default
 is_enabled = Flags.get("BROWSER_TOOL", False)
@@ -139,7 +139,7 @@ To add a new feature flag:
    - Usage examples
 3. **Implement the check** using `Flags.get()`:
    ```python
-   from lukhas_pwm.flags.ff import Flags
+    from lukhas.flags.ff import Flags
    
    if Flags.get("YOUR_FEATURE", False):
        # Feature enabled path

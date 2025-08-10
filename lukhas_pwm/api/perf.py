@@ -1,10 +1,8 @@
-from __future__ import annotations
-
 import json
 import os
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Body, Header, HTTPException, Query
 
@@ -15,7 +13,7 @@ _BASE.mkdir(parents=True, exist_ok=True)
 _SERIES = _BASE / "k6_series.jsonl"  # 1 JSON per line
 
 
-def _require_enabled(x_api_key: str | None):
+def _require_enabled(x_api_key: Optional[str]):
     """Check if perf ingestion is enabled and API key is valid."""
     # Check feature flag
     try:
@@ -36,7 +34,7 @@ def _require_enabled(x_api_key: str | None):
 
 @router.post("/k6")
 def ingest_k6_summary(
-    payload: dict[str, Any] = Body(...), x_api_key: str | None = Header(default=None)
+    payload: Dict[str, Any] = Body(...), x_api_key: Optional[str] = Header(default=None)
 ):
     """Ingests k6 summary.json (or a subset). Stores p95 per endpoint with timestamp."""
     _require_enabled(x_api_key)
@@ -68,7 +66,7 @@ def series(
     """Returns recent (ts, p95_ms) for the requested endpoint."""
     now = int(time.time() * 1000)
     window_ms = hours * 3600 * 1000
-    out: list[dict[str, Any]] = []
+    out: List[Dict[str, Any]] = []
 
     if not _SERIES.exists():
         return {"points": out}

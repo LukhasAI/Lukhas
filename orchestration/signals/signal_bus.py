@@ -1,405 +1,345 @@
+#!/usr/bin/env python3
 """
-Signal Bus Architecture for LUKHAS Colony Communication
-========================================================
-Enhanced publish-subscribe system with signal modulation capabilities.
-Integrates with the existing SymbolicKernelBus for event coordination.
+Signal Bus for Endocrine System
+================================
+Non-hierarchical communication system allowing modules to communicate
+through hormone-like signals without tight coupling.
+
+This implements the "AI endocrine system" concept from the GPT5 audit.
 """
 
 import asyncio
-import contextlib
-import logging
-import os
 import time
-from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from threading import RLock
-from typing import Any, Callable, Optional
-
-import yaml
+from typing import Any, Callable, Dict, List, Optional, Set
+import logging
+from collections import defaultdict, deque
 
 logger = logging.getLogger(__name__)
 
 
-class SignalType(str, Enum):
-    """Core signal types for the colony endocrine system"""
-
-    STRESS = "stress"
-    ALIGNMENT_RISK = "alignment_risk"
-    NOVELTY = "novelty"
-    TRUST = "trust"
-    URGENCY = "urgency"
-    AMBIGUITY = "ambiguity"
+class SignalType(Enum):
+    """Types of endocrine signals in the system"""
+    STRESS = "stress"                    # System under load or threat
+    NOVELTY = "novelty"                  # New/unexpected input
+    ALIGNMENT_RISK = "alignment_risk"    # Ethical/safety concern
+    TRUST = "trust"                      # Confidence in current state
+    URGENCY = "urgency"                  # Time pressure
+    AMBIGUITY = "ambiguity"             # Uncertainty in interpretation
+    HOMEOSTASIS = "homeostasis"         # Return to baseline
+    CURIOSITY = "curiosity"              # Exploration drive
+    FATIGUE = "fatigue"                  # Resource depletion
 
 
 @dataclass
 class Signal:
-    """
-    Core signal structure for colony communication.
-    Represents a hormonal-like signal that modulates system behavior.
-    """
-
+    """A hormone-like signal that flows through the system"""
     name: SignalType
     level: float  # 0.0 to 1.0
     source: str  # Module that emitted the signal
-    ttl_ms: int = 1000  # Time-to-live in milliseconds
-
-    # Metadata
-    audit_id: str = field(default_factory=lambda: f"sig_{int(time.time()*1000)}")
-    metadata: dict[str, Any] = field(default_factory=dict)
+    target: Optional[str] = None  # Optional specific target module
+    ttl_ms: int = 1000  # Time to live in milliseconds
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    audit_id: str = ""
     timestamp: float = field(default_factory=time.time)
-    correlation_id: Optional[str] = None
-
-    # Modulation parameters
-    weight: float = 1.0  # From config
-    cooldown_ms: int = 0  # From config
-    last_emit_time: Optional[float] = None
-
+    
     def is_expired(self) -> bool:
-        """Check if signal has expired based on TTL"""
+        """Check if signal has expired"""
         return (time.time() - self.timestamp) * 1000 > self.ttl_ms
-
-    def is_in_cooldown(self) -> bool:
-        """Check if signal is in cooldown period"""
-        if self.last_emit_time is None or self.cooldown_ms == 0:
-            return False
-        return (time.time() - self.last_emit_time) * 1000 < self.cooldown_ms
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert to dictionary for serialization"""
-        return {
-            "name": self.name.value,
-            "level": self.level,
-            "source": self.source,
-            "ttl_ms": self.ttl_ms,
-            "audit_id": self.audit_id,
-            "metadata": self.metadata,
-            "timestamp": self.timestamp,
-            "correlation_id": self.correlation_id,
-            "weight": self.weight,
-            "cooldown_ms": self.cooldown_ms,
-        }
-
-
-@dataclass
-class SignalPattern:
-    """Represents a pattern of signals for complex behaviors"""
-
-    pattern_id: str
-    signals: list[Signal]
-    time_window_ms: int = 5000
-    min_signals: int = 1
-    max_signals: Optional[int] = None
-
-    def matches(self, signals: list[Signal]) -> bool:
-        """Check if a list of signals matches this pattern"""
-        if len(signals) < self.min_signals:
-            return False
-        if self.max_signals and len(signals) > self.max_signals:
-            return False
-
-        # Check time window
-        if signals:
-            time_span = (signals[-1].timestamp - signals[0].timestamp) * 1000
-            if time_span > self.time_window_ms:
-                return False
-
-        return True
+    
+    def __hash__(self):
+        return hash((self.name, self.source, self.timestamp))
 
 
 class SignalBus:
     """
-    Central signal bus for colony-wide communication.
-    Implements publish-subscribe with signal modulation and pattern detection.
+    Central signal bus for hormone-like communication between modules.
+    Implements publish-subscribe pattern with signal modulation.
     """
-
-    def __init__(self, config_path: Optional[str] = None):
-        """
-        Initialize the signal bus.
-
-        Args:
-            config_path: Path to modulation_policy.yaml configuration
-        """
-        self._lock = RLock()
-        self._subscribers: dict[SignalType, set[Callable]] = defaultdict(set)
-        self._signal_history: deque = deque(maxlen=1000)
-        self._active_signals: list[Signal] = []
-        self._patterns: dict[str, SignalPattern] = {}
-        self._pattern_handlers: dict[str, list[Callable]] = defaultdict(list)
-
-        # Load configuration
-        self.config = self._load_config(config_path)
-        self._signal_configs = self._parse_signal_configs()
-
-        # Metrics
-        self.metrics = {
+    
+    def __init__(self, max_signal_history: int = 100):
+        # Subscribers: signal_type -> list of handlers
+        self.subscribers: Dict[SignalType, List[Callable]] = defaultdict(list)
+        
+        # Signal history for analysis
+        self.signal_history: deque = deque(maxlen=max_signal_history)
+        
+        # Active signals (not yet expired)
+        self.active_signals: Set[Signal] = set()
+        
+        # Signal modulation rules
+        self.modulation_rules: List[Callable] = []
+        
+        # Cooldowns to prevent signal flooding
+        self.cooldowns: Dict[tuple[SignalType, str], float] = {}
+        self.cooldown_periods: Dict[SignalType, float] = {
+            SignalType.STRESS: 0.8,
+            SignalType.ALIGNMENT_RISK: 0.0,  # No cooldown for safety
+            SignalType.NOVELTY: 0.5,
+            SignalType.TRUST: 0.5,
+            SignalType.URGENCY: 0.3,
+            SignalType.AMBIGUITY: 0.7,
+            SignalType.HOMEOSTASIS: 2.0,
+            SignalType.CURIOSITY: 1.0,
+            SignalType.FATIGUE: 1.5,
+        }
+        
+        # Statistics
+        self.stats = {
             "signals_published": 0,
             "signals_delivered": 0,
-            "patterns_detected": 0,
-            "cooldown_blocks": 0,
+            "signals_modulated": 0,
+            "signals_dropped": 0,
         }
-
-        # Start cleanup task
+        
+        # Background task for cleanup
         self._cleanup_task = None
         self._running = False
-
-    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
-        """Load modulation policy configuration"""
-        # Allow env override
-        env_path = os.getenv("LUKHAS_MODULATION_CONFIG")
-        if env_path and not config_path:
-            config_path = env_path
-        # Default to repo-relative config
-        if config_path is None:
-            repo_root = Path(__file__).resolve().parents[2]
-            config_path = str(repo_root / "config/modulation_policy.yaml")
-
-        try:
-            with open(config_path) as f:
-                return yaml.safe_load(f)
-        except FileNotFoundError:
-            logger.warning(f"Config file not found: {config_path}, using defaults")
-            return self._get_default_config()
-
-    def _get_default_config(self) -> dict[str, Any]:
-        """Get default configuration if file not found"""
-        return {
-            "signals": [
-                {"name": "stress", "weight": 0.9, "cooldown_ms": 800},
-                {"name": "alignment_risk", "weight": 1.0, "cooldown_ms": 0},
-                {"name": "novelty", "weight": 0.6, "cooldown_ms": 500},
-                {"name": "trust", "weight": 0.4, "cooldown_ms": 500},
-                {"name": "urgency", "weight": 0.5, "cooldown_ms": 300},
-                {"name": "ambiguity", "weight": 0.7, "cooldown_ms": 700},
-            ]
-        }
-
-    def _parse_signal_configs(self) -> dict[SignalType, dict[str, Any]]:
-        """Parse signal configurations from config"""
-        configs = {}
-        for sig_config in self.config.get("signals", []):
-            name = sig_config["name"]
-            try:
-                signal_type = SignalType(name)
-                configs[signal_type] = sig_config
-            except ValueError:
-                logger.warning(f"Unknown signal type in config: {name}")
-        return configs
-
-    async def start(self):
-        """Start the signal bus and background tasks"""
+    
+    async def initialize(self):
+        """Start the signal bus"""
         self._running = True
-        self._cleanup_task = asyncio.create_task(self._cleanup_expired_signals())
-        logger.info("Signal bus started")
-
-    async def stop(self):
-        """Stop the signal bus and cleanup"""
+        self._cleanup_task = asyncio.create_task(self._cleanup_loop())
+        logger.info("Signal bus initialized")
+    
+    async def shutdown(self):
+        """Shutdown the signal bus"""
         self._running = False
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            with contextlib.suppress(asyncio.CancelledError):
+            try:
                 await self._cleanup_task
-        logger.info("Signal bus stopped")
-
-    async def _cleanup_expired_signals(self):
-        """Background task to remove expired signals"""
+            except asyncio.CancelledError:
+                pass
+        logger.info("Signal bus shutdown")
+    
+    async def _cleanup_loop(self):
+        """Remove expired signals periodically"""
         while self._running:
             try:
-                with self._lock:
-                    # Remove expired signals
-                    self._active_signals = [
-                        sig for sig in self._active_signals if not sig.is_expired()
-                    ]
-                await asyncio.sleep(1)  # Check every second
+                # Remove expired signals
+                expired = [s for s in self.active_signals if s.is_expired()]
+                for signal in expired:
+                    self.active_signals.discard(signal)
+                
+                if expired:
+                    logger.debug(f"Cleaned up {len(expired)} expired signals")
+                
+                await asyncio.sleep(1)  # Cleanup every second
+                
             except Exception as e:
                 logger.error(f"Error in signal cleanup: {e}")
-
-    def publish(self, signal: Signal) -> bool:
-        """
-        Publish a signal to all subscribers.
-
-        Args:
-            signal: The signal to publish
-
-        Returns:
-            True if signal was published, False if blocked by cooldown
-        """
-        with self._lock:
-            # Apply configuration
-            if signal.name in self._signal_configs:
-                config = self._signal_configs[signal.name]
-                signal.weight = config.get("weight", 1.0)
-                signal.cooldown_ms = config.get("cooldown_ms", 0)
-
-            # Check cooldown
-            if signal.is_in_cooldown():
-                self.metrics["cooldown_blocks"] += 1
-                logger.debug(f"Signal {signal.name} blocked by cooldown")
-                return False
-
-            # Update last emit time
-            signal.last_emit_time = time.time()
-
-            # Add to active signals and history
-            self._active_signals.append(signal)
-            self._signal_history.append(signal)
-            self.metrics["signals_published"] += 1
-
-            # Notify subscribers
-            subscribers = self._subscribers.get(signal.name, set())
-            for handler in subscribers:
-                try:
-                    if asyncio.iscoroutinefunction(handler):
-                        asyncio.create_task(handler(signal))
-                    else:
-                        handler(signal)
-                    self.metrics["signals_delivered"] += 1
-                except Exception as e:
-                    logger.error(f"Error in signal handler: {e}")
-
-            # Check for pattern matches
-            self._check_patterns(signal)
-
-            logger.debug(f"Published signal: {signal.name} (level={signal.level:.2f})")
-            return True
-
-    def subscribe(self, signal_type: SignalType, handler: Callable[[Signal], None]):
-        """
-        Subscribe to a signal type.
-
-        Args:
-            signal_type: Type of signal to subscribe to
-            handler: Function to call when signal is received
-        """
-        with self._lock:
-            self._subscribers[signal_type].add(handler)
-            logger.debug(f"Subscribed to {signal_type}")
-
-    def unsubscribe(self, signal_type: SignalType, handler: Callable[[Signal], None]):
-        """
-        Unsubscribe from a signal type.
-
-        Args:
-            signal_type: Type of signal to unsubscribe from
-            handler: Handler function to remove
-        """
-        with self._lock:
-            self._subscribers[signal_type].discard(handler)
-            logger.debug(f"Unsubscribed from {signal_type}")
-
-    def register_pattern(
-        self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]
+    
+    def subscribe(
+        self,
+        signal_type: SignalType,
+        handler: Callable[[Signal], None],
+        module_name: Optional[str] = None
     ):
         """
-        Register a pattern detector with handler.
-
+        Subscribe to a signal type.
+        
         Args:
-            pattern: Pattern to detect
-            handler: Function to call when pattern is detected
+            signal_type: Type of signal to subscribe to
+            handler: Async function to handle the signal
+            module_name: Optional module name for tracking
         """
-        with self._lock:
-            self._patterns[pattern.pattern_id] = pattern
-            self._pattern_handlers[pattern.pattern_id].append(handler)
-            logger.debug(f"Registered pattern: {pattern.pattern_id}")
-
-    def _check_patterns(self, new_signal: Signal):
-        """Check if new signal completes any patterns"""
-        with self._lock:
-            recent_signals = list(self._signal_history)[-20:]  # Check last 20 signals
-
-            for pattern_id, pattern in self._patterns.items():
-                # Get signals within pattern's time window
-                cutoff_time = time.time() - (pattern.time_window_ms / 1000)
-                window_signals = [
-                    sig for sig in recent_signals if sig.timestamp >= cutoff_time
-                ]
-
-                if pattern.matches(window_signals):
-                    self.metrics["patterns_detected"] += 1
-                    handlers = self._pattern_handlers.get(pattern_id, [])
-                    for handler in handlers:
-                        try:
-                            if asyncio.iscoroutinefunction(handler):
-                                asyncio.create_task(handler(window_signals))
-                            else:
-                                handler(window_signals)
-                        except Exception as e:
-                            logger.error(f"Error in pattern handler: {e}")
-
-    def get_active_signals(self) -> list[Signal]:
-        """Get all currently active (non-expired) signals"""
-        with self._lock:
-            return [sig for sig in self._active_signals if not sig.is_expired()]
-
-    def get_signal_levels(self) -> dict[SignalType, float]:
-        """Get current levels for all signal types"""
-        levels = dict.fromkeys(SignalType, 0.0)
-
-        with self._lock:
-            for signal in self.get_active_signals():
-                # Use weighted average for multiple signals of same type
-                current = levels[signal.name]
-                levels[signal.name] = max(current, signal.level * signal.weight)
-
+        self.subscribers[signal_type].append(handler)
+        logger.debug(f"Module {module_name or 'unknown'} subscribed to {signal_type.value}")
+    
+    def unsubscribe(
+        self,
+        signal_type: SignalType,
+        handler: Callable[[Signal], None]
+    ):
+        """Unsubscribe from a signal type"""
+        if handler in self.subscribers[signal_type]:
+            self.subscribers[signal_type].remove(handler)
+    
+    def add_modulation_rule(self, rule: Callable[[Signal], Optional[Signal]]):
+        """
+        Add a rule that can modulate signals before delivery.
+        Rules can modify or filter signals.
+        """
+        self.modulation_rules.append(rule)
+    
+    def _check_cooldown(self, signal: Signal) -> bool:
+        """Check if signal is in cooldown period"""
+        key = (signal.name, signal.source)
+        cooldown_period = self.cooldown_periods.get(signal.name, 0)
+        
+        if cooldown_period <= 0:
+            return True  # No cooldown
+        
+        last_emit = self.cooldowns.get(key, 0)
+        current_time = time.time()
+        
+        if current_time - last_emit >= cooldown_period:
+            self.cooldowns[key] = current_time
+            return True
+        
+        return False
+    
+    def _apply_modulation(self, signal: Signal) -> Optional[Signal]:
+        """Apply modulation rules to a signal"""
+        current_signal = signal
+        
+        for rule in self.modulation_rules:
+            try:
+                current_signal = rule(current_signal)
+                if current_signal is None:
+                    # Signal filtered out
+                    self.stats["signals_dropped"] += 1
+                    return None
+                self.stats["signals_modulated"] += 1
+            except Exception as e:
+                logger.error(f"Error in modulation rule: {e}")
+        
+        return current_signal
+    
+    def publish(self, signal: Signal) -> bool:
+        """
+        Publish a signal to the bus.
+        
+        Returns:
+            True if signal was published, False if dropped (cooldown/modulation)
+        """
+        # Check cooldown
+        if not self._check_cooldown(signal):
+            logger.debug(f"Signal {signal.name.value} from {signal.source} in cooldown")
+            self.stats["signals_dropped"] += 1
+            return False
+        
+        # Apply modulation
+        modulated_signal = self._apply_modulation(signal)
+        if modulated_signal is None:
+            return False
+        
+        # Add to active signals
+        self.active_signals.add(modulated_signal)
+        self.signal_history.append(modulated_signal)
+        self.stats["signals_published"] += 1
+        
+        # Deliver to subscribers
+        handlers = self.subscribers.get(modulated_signal.name, [])
+        
+        for handler in handlers:
+            try:
+                # Check if targeted signal
+                if modulated_signal.target and hasattr(handler, '__module__'):
+                    if handler.__module__ != modulated_signal.target:
+                        continue
+                
+                # Call handler (async or sync)
+                if asyncio.iscoroutinefunction(handler):
+                    asyncio.create_task(handler(modulated_signal))
+                else:
+                    handler(modulated_signal)
+                
+                self.stats["signals_delivered"] += 1
+                
+            except Exception as e:
+                logger.error(f"Error delivering signal to handler: {e}")
+        
+        logger.debug(
+            f"Published {modulated_signal.name.value} signal "
+            f"from {modulated_signal.source} (level: {modulated_signal.level:.2f})"
+        )
+        
+        return True
+    
+    def get_current_levels(self) -> Dict[SignalType, float]:
+        """Get current levels of all signal types"""
+        levels = {signal_type: 0.0 for signal_type in SignalType}
+        
+        # Average levels from active signals
+        for signal in self.active_signals:
+            if not signal.is_expired():
+                # Use exponential decay based on age
+                age_ms = (time.time() - signal.timestamp) * 1000
+                decay = max(0, 1 - (age_ms / signal.ttl_ms))
+                levels[signal.name] = max(levels[signal.name], signal.level * decay)
+        
         return levels
-
-    def get_metrics(self) -> dict[str, Any]:
-        """Get bus metrics"""
-        with self._lock:
-            return {
-                **self.metrics,
-                "active_signals": len(self.get_active_signals()),
-                "subscribers": sum(len(subs) for subs in self._subscribers.values()),
-                "patterns_registered": len(self._patterns),
+    
+    def get_signal_history(
+        self,
+        signal_type: Optional[SignalType] = None,
+        source: Optional[str] = None,
+        limit: int = 50
+    ) -> List[Signal]:
+        """Get historical signals with optional filtering"""
+        history = list(self.signal_history)
+        
+        if signal_type:
+            history = [s for s in history if s.name == signal_type]
+        
+        if source:
+            history = [s for s in history if s.source == source]
+        
+        return history[-limit:]
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Get bus statistics"""
+        return {
+            **self.stats,
+            "active_signals": len([s for s in self.active_signals if not s.is_expired()]),
+            "total_history": len(self.signal_history),
+            "subscribers": {
+                signal_type.value: len(handlers)
+                for signal_type, handlers in self.subscribers.items()
+            },
+            "current_levels": {
+                k.value: v for k, v in self.get_current_levels().items()
             }
-
-    def clear_history(self):
-        """Clear signal history (for testing)"""
-        with self._lock:
-            self._signal_history.clear()
-            self._active_signals.clear()
-            logger.debug("Signal history cleared")
+        }
 
 
-# Singleton instance
-_signal_bus_instance: Optional[SignalBus] = None
+# Global signal bus instance
+_global_signal_bus = None
 
 
 def get_signal_bus() -> SignalBus:
-    """Get the singleton signal bus instance"""
-    global _signal_bus_instance
-    if _signal_bus_instance is None:
-        _signal_bus_instance = SignalBus()
-    return _signal_bus_instance
+    """Get the global signal bus instance"""
+    global _global_signal_bus
+    if _global_signal_bus is None:
+        _global_signal_bus = SignalBus()
+    return _global_signal_bus
 
 
-async def emit_signal(
-    signal_type: SignalType,
-    level: float,
-    source: str,
-    metadata: Optional[dict[str, Any]] = None,
-    correlation_id: Optional[str] = None,
-) -> bool:
-    """
-    Convenience function to emit a signal.
-
-    Args:
-        signal_type: Type of signal to emit
-        level: Signal strength (0.0 to 1.0)
-        source: Module emitting the signal
-        metadata: Optional metadata
-        correlation_id: Optional ID to correlate related signals
-
-    Returns:
-        True if signal was emitted, False if blocked
-    """
+# Convenience functions for common signals
+def emit_stress(level: float, source: str, metadata: Optional[Dict] = None):
+    """Emit a stress signal"""
     bus = get_signal_bus()
     signal = Signal(
-        name=signal_type,
-        level=min(1.0, max(0.0, level)),  # Clamp to [0, 1]
+        name=SignalType.STRESS,
+        level=level,
         source=source,
-        metadata=metadata or {},
-        correlation_id=correlation_id,
+        metadata=metadata or {}
+    )
+    return bus.publish(signal)
+
+
+def emit_alignment_risk(level: float, source: str, metadata: Optional[Dict] = None):
+    """Emit an alignment risk signal"""
+    bus = get_signal_bus()
+    signal = Signal(
+        name=SignalType.ALIGNMENT_RISK,
+        level=level,
+        source=source,
+        metadata=metadata or {}
+    )
+    return bus.publish(signal)
+
+
+def emit_novelty(level: float, source: str, metadata: Optional[Dict] = None):
+    """Emit a novelty signal"""
+    bus = get_signal_bus()
+    signal = Signal(
+        name=SignalType.NOVELTY,
+        level=level,
+        source=source,
+        metadata=metadata or {}
     )
     return bus.publish(signal)

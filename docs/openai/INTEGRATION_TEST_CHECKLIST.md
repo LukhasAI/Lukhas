@@ -65,7 +65,7 @@ GET /feedback/lut
 export OPENAI_API_KEY='sk-...'
 
 # Start API server
-uvicorn lukhas_pwm.api.app:app --reload
+uvicorn lukhas.api.app:app --reload
 
 # Run live tests
 python3 live_integration_test.py
@@ -99,7 +99,7 @@ curl http://127.0.0.1:8000/tools/incidents
 ### In Code
 ```python
 # 1. Tool gating in openai_modulated_service.py
-from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+from lukhas.openai.tooling import build_tools_from_allowlist
 openai_tools = build_tools_from_allowlist(params.tool_allowlist)
 
 # 2. Audit logging with tools

@@ -43,7 +43,7 @@ jobs:
 
       - name: Export OpenAPI (local uvicorn)
         run: |
-          uvicorn lukhas_pwm.api.app:app --port 8000 & echo $! > .pid
+          uvicorn lukhas.api.app:app --port 8000 & echo $! > .pid
           sleep 2
           curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
           kill $(cat .pid)
@@ -53,7 +53,7 @@ jobs:
           FLAG_OPS_PERF_INGEST: 'true'
           LUKHAS_API_KEY: ${{ secrets.LUKHAS_API_KEY }}
         run: |
-          uvicorn lukhas_pwm.api.app:app --port 8000 & echo $! > .apid
+          uvicorn lukhas.api.app:app --port 8000 & echo $! > .apid
           sleep 2
 
       - name: Setup k6

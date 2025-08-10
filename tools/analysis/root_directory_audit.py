@@ -293,7 +293,7 @@ class RootDirectoryAuditor:
         print(f"✅ Created {{directory}}")
 
     # Create README.md
-    readme_content = """# {module.upper()} Module
+    readme_content = """# {module.upper()} Module"
 
                                                                                                         ## Overview
                                                                                                         {module.upper()} - {get_module_description(module)}
@@ -343,7 +343,7 @@ class RootDirectoryAuditor:
     print("✅ Created README.md")
 
     # Create Makefile
-    makefile_content = """.PHONY: test clean install lint format
+    makefile_content = """.PHONY: test clean install lint format"
 
                                                                                                             test:
                                                                                                             pytest tests/ -v --cov={module}
@@ -432,7 +432,7 @@ class RootDirectoryAuditor:
     print("✅ Created test structure")
 
     # Create API documentation template
-    api_doc = """# {module.upper()} API Reference
+    api_doc = """# {module.upper()} API Reference"
 
                                                                                                                                 ## Core Classes
 

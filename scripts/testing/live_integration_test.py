@@ -391,7 +391,7 @@ async def main():
                 )
     except Exception as e:
         print(f"{RED}❌ API server not reachable at http://127.0.0.1:8000{RESET}")
-        print("Start it with: uvicorn lukhas_pwm.api.app:app --reload")
+        print("Start it with: uvicorn lukhas.api.app:app --reload")
         print(f"Error: {e}")
         return
 

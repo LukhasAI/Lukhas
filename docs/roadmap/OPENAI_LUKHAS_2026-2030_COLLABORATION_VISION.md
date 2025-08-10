@@ -177,7 +177,7 @@ maps:
 ```
   
 from typing import Dict, Any
-from lukhas_pwm.feedback.store import get_lut
+from lukhas.feedback.store import get_lut
 
 
 def apply_lut(params: Dict[str, Any]) -> Dict[str, Any]:
@@ -316,7 +316,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional
-from lukhas_pwm.feedback.store import record_feedback, get_lut
+from lukhas.feedback.store import record_feedback, get_lut
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 

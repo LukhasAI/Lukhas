@@ -667,8 +667,7 @@ class ModuleEnhancer:
 
                                                                                                                                                                     def create_gitignore(self, module_name):
                                                                                                                                                                         """Create module-specific .gitignore"""
-        gitignore_content = """# Module-specific ignores
-                                                                                                                                                                        __pycache__/
+        gitignore_content = """# Module-specific ignores __pycache__/"
                                                                                                                                                                         *.pyc
                                                                                                                                                                         *.pyo
                                                                                                                                                                         *.pyd
@@ -747,8 +746,7 @@ class ModuleEnhancer:
                                                                                                                                                                                                     def create_requirements(self, module_name):
                                                                                                                                                                                                         """Create module-specific requirements.txt"""
         # Base requirements that all modules need
-        base_requirements = """# Core dependencies
-                                                                                                                                                                                                        numpy>=1.21.0
+        base_requirements = """# Core dependencies numpy>=1.21.0"
                                                                                                                                                                                                         typing-extensions>=4.0.0
 
                                                                                                                                                                                                         # Testing

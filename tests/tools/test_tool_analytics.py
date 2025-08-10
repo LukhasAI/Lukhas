@@ -289,7 +289,7 @@ def main():
     print("   • Cost attribution by tool usage")
 
     print("\n🚀 Ready for production deployment!")
-    print("   Start API: uvicorn lukhas_pwm.api.app:app --reload")
+    print("   Start API: uvicorn lukhas.api.app:app --reload")
     print("   View incidents: GET /tools/incidents")
     print("   See enhanced audits: GET /audit/view/{audit_id}")
 

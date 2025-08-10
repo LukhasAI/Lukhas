@@ -316,7 +316,7 @@ def main():
 
     print(f"\n{BLUE}View Results:{RESET}")
     print("Start the API server to view audit bundles:")
-    print("  uvicorn lukhas_pwm.api.app:app --reload\n")
+    print("  uvicorn lukhas.api.app:app --reload\n")
 
     for audit_id in audit_ids:
         print(f"  http://127.0.0.1:8000/audit/view/{audit_id}")

@@ -7,7 +7,7 @@
 ## Export locally
 
 ```bash
-uvicorn lukhas_pwm.api.app:app --reload --port 8000 &
+uvicorn lukhas.api.app:app --reload --port 8000 &
 sleep 2
 curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
 kill %1

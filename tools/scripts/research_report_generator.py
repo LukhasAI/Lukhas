@@ -81,13 +81,7 @@ def create_comprehensive_research_report():
             "overview": system_data["metadata"],
             "core_components": {
                 "trinity_framework": {
-                    "identity": "⚛️ - Consciousness, symbolic identity,
-                    authentic self - expression",
-                    "consciousness": "🧠 - Memory, cognition, dream states,
-                    neural processing",
-                    "guardian": "🛡️ - Ethical protection, drift detection,
-                    symbolic drift repair",
-                },
+                    "identity": "⚛️ - Consciousness, symbolic identity, authentic self - expression",                    "consciousness": "🧠 - Memory, cognition, dream states, neural processing",                    "guardian": "🛡️ - Ethical protection, drift detection, symbolic drift repair",                },
                 "primary_modules": system_data["core_modules"],
                 "vivox_system": {
                     "description": "VIVOX consciousness system with 4 components",

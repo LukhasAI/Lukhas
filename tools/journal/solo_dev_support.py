@@ -313,13 +313,11 @@ class SoloDeveloperSupport:
         problem_lower = problem.lower()
 
         if "error" in problem_lower or "bug" in problem_lower:
-            return "Break down the error: 1) Isolate the issue, 2) Add logging,
-    3) Test smallest unit"
+            return "Break down the error: 1) Isolate the issue, 2) Add logging, 3) Test smallest unit"
         elif "stuck" in problem_lower or "blocked" in problem_lower:
             return "Try: 1) Explain to rubber duck, 2) Take a break, 3) Search similar solved problems"
         elif "design" in problem_lower or "architecture" in problem_lower:
-            return "Sketch it out: 1) Draw the flow, 2) List pros / cons,
-    3) Start with simplest approach"
+            return "Sketch it out: 1) Draw the flow, 2) List pros / cons, 3) Start with simplest approach"
         else:
             return "Document the challenge clearly, then tackle it piece by piece"
 

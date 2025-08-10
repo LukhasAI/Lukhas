@@ -216,7 +216,7 @@ def main():
     print("✅ Production-ready OpenAI function calling integration")
 
     print("\n🚀 Ready for deployment!")
-    print("   1. Start API server: uvicorn lukhas_pwm.api.app:app --reload")
+    print("   1. Start API server: uvicorn lukhas.api.app:app --reload")
     print("   2. Test with OpenAI API key in environment")
     print("   3. All tool usage will be governed and auditable")
 

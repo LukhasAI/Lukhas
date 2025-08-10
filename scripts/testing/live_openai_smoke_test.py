@@ -453,7 +453,7 @@ async def main():
                 print(f"{RED}⚠️  API returned {response.status_code}{RESET}")
     except Exception:
         print(f"{RED}❌ API server not reachable{RESET}")
-        print("Start with: uvicorn lukhas_pwm.api.app:app --reload")
+        print("Start with: uvicorn lukhas.api.app:app --reload")
         return
 
     # Run smoke tests
