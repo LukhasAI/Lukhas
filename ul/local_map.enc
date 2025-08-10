@@ -1,0 +1,48 @@
+# Local Symbol Map Storage
+# ========================
+# This file represents the encrypted local storage for personal symbol mappings.
+# In production, this would be an encrypted database or secure enclave.
+#
+# Format: JSON encrypted with user's device key
+# Never synchronized to server - completely local
+#
+# Example structure (when decrypted):
+# {
+#   "version": "1.0",
+#   "user_lid": "gonzo",
+#   "symbols": [
+#     {
+#       "symbol_id": "sym_abc123",
+#       "symbol_type": "emoji",
+#       "symbol_hash": "a3f2b8...",
+#       "salt": "rnd_salt_xyz",
+#       "meaning_type": "emotion",
+#       "meaning_value": "calm",
+#       "created_at": "2024-01-15T10:00:00Z",
+#       "last_used_at": "2024-01-16T14:30:00Z",
+#       "use_count": 5,
+#       "quality_score": 0.85
+#     }
+#   ],
+#   "compositions": [
+#     {
+#       "composition_id": "comp_def456",
+#       "name": "approval_gesture",
+#       "symbols": ["sym_abc123", "sym_xyz789"],
+#       "operators": ["+"],
+#       "meaning": "strong_approval",
+#       "created_at": "2024-01-15T10:00:00Z"
+#     }
+#   ]
+# }
+#
+# SECURITY NOTES:
+# - Encrypted at rest with AES-256-GCM
+# - Key derived from user's device biometrics + PIN
+# - Automatic re-encryption on each write
+# - Tamper detection via HMAC
+# - No cloud backup - regenerate if lost
+
+[ENCRYPTED_CONTENT]
+# This is a placeholder for the encrypted symbol map
+# Actual implementation would use proper encryption
