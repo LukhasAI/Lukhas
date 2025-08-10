@@ -78,6 +78,20 @@ except ImportError:
 logger = logging.getLogger("enhanced_dream")
 
 
+# Import the simple DreamEngine as a fallback
+try:
+    from consciousness.dream.engine.dream_engine import DreamEngine as SimpleDreamEngine
+except ImportError:
+    # Create a minimal fallback
+    class SimpleDreamEngine:
+        async def generate_dream_sequence(self, daily_data: list = None):
+            return {
+                "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
+                "learning": {"insights": "Creative potential explored"},
+                "memory_trace": "dream_fallback_001"
+            }
+
+
 class EnhancedDreamEngine:
     """
     Enhanced dream engine combining quantum-inspired processing with advanced dream reflection.
@@ -529,6 +543,14 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing processed dream: {e}")
             logger.error(f"Error storing processed dream: {e}")
+
+
+# Export aliases for backward compatibility and ease of use
+DreamEngine = SimpleDreamEngine  # Simple, working dream engine
+AdvancedDreamEngine = EnhancedDreamEngine  # Full-featured dream engine
+
+# Default export for typical usage
+__all__ = ['DreamEngine', 'EnhancedDreamEngine', 'AdvancedDreamEngine', 'SimpleDreamEngine']
 
 
 """

@@ -394,6 +394,41 @@ When working with LUKHAS AI components:
 
 When in doubt about a component's implementation, check the Prototype repository for the original LUKHAS AI vision and adapt it to PWM's lean requirements.
 
+## Branding and Terminology Requirements
+
+**IMPORTANT**: All development work must comply with LUKHAS AI branding standards.
+
+### Required Terminology
+- **Always use**: "LUKHAS AI" (never "LUKHAS AGI")
+- **Always use**: "quantum-inspired" (not "quantum process/processing/processes")
+- **Always use**: "bio-inspired" (not "bio process/processing/processes")
+- **Standalone "quantum"** should be "quantum-inspired" unless followed by "inspired", "metaphor", or "metaphors"
+
+### Automatic Enforcement
+The system includes automatic terminology normalization:
+```python
+from lukhas_pwm.branding.terminology import normalize_output
+
+# Automatic correction of terminology
+text = "LUKHAS AGI uses quantum processing and bio processes"
+corrected = normalize_output(text)
+# Result: "LUKHAS AI uses quantum-inspired and bio-inspired"
+```
+
+### Import Aliasing
+The system supports both import paths for compatibility:
+```python
+# Both of these work identically:
+from lukhas.branding.terminology import normalize_output
+from lukhas_pwm.branding.terminology import normalize_output
+```
+
+### Branding Compliance
+- All agent outputs should use correct terminology
+- Documentation and comments should follow branding guidelines
+- Test code should verify branding compliance where applicable
+- External integrations must respect LUKHAS AI branding
+
 ## External Integration Examples
 
 ### Anthropic Claude Integration

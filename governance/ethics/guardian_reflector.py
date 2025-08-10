@@ -682,6 +682,41 @@ class GuardianReflector:
                 await self.protect_consciousness(event_data)
         except Exception as e:
             logger.error(f"Error handling consciousness event: {e}")
+    
+    async def validate_action(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Validate an action through ethical reflection
+        
+        Args:
+            action_data: Dictionary containing action details
+            
+        Returns:
+            Dictionary with validation results
+        """
+        try:
+            # Perform ethical reflection on the action
+            reflection = await self.reflect_on_decision(action_data)
+            
+            # Convert reflection to validation format expected by tests
+            return {
+                "approved": reflection.moral_score >= 0.7,  # Approve if moral score is high
+                "risk_level": reflection.severity.lower(),
+                "reasoning": reflection.justification,
+                "moral_score": reflection.moral_score,
+                "concerns": reflection.concerns,
+                "recommendations": reflection.recommendations
+            }
+            
+        except Exception as e:
+            logger.error(f"Action validation failed: {e}")
+            return {
+                "approved": False,
+                "risk_level": "high",
+                "reasoning": f"Validation failed: {str(e)}",
+                "moral_score": 0.0,
+                "concerns": ["validation_error"],
+                "recommendations": ["retry_action_validation"]
+            }
 
     def get_status(self) -> Dict[str, Any]:
         """Get current plugin status"""

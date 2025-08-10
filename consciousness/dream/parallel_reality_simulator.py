@@ -789,6 +789,28 @@ class ParallelRealitySimulator(CoreInterface):
         # Combine causal chains
         for branch in branches_to_merge:
             merged_branch.causal_chain.extend(branch.causal_chain)
+            
+            # Add entry for each branch being merged
+            branch_merge_event = {
+                "event_type": "branch_merged",
+                "branch_id": branch.branch_id,
+                "timestamp": branch.timestamp.isoformat(),
+                "probability": branch.probability,
+                "ethical_score": branch.ethical_score,
+                "reality_type": branch.reality_type.value,
+            }
+            merged_branch.causal_chain.append(branch_merge_event)
+        
+        # Add overall merge event to causal chain
+        merge_event = {
+            "event_type": "reality_merge",
+            "timestamp": merged_branch.timestamp.isoformat(),
+            "merged_branches": branch_ids,
+            "branch_count": len(branches_to_merge),
+            "merged_probability": merged_probability,
+            "merged_ethical_score": merged_ethical,
+        }
+        merged_branch.causal_chain.append(merge_event)
 
         # Add to simulation
         simulation.branches.append(merged_branch)

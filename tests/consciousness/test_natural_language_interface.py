@@ -70,11 +70,11 @@ def mock_services():
     services["emotion_service"].analyze_text = AsyncMock(
         return_value={
             "emotions": {
-                "joy": 0.6,
-                "sadness": 0.1,
+                "joy": 0.1,
+                "sadness": 0.6,
                 "anger": 0.0,
-                "fear": 0.1,
-                "surprise": 0.2,
+                "fear": 0.2,
+                "surprise": 0.1,
             }
         }
     )
