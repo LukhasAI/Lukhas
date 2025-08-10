@@ -13,6 +13,7 @@ from __future__ import annotations
 import importlib
 import importlib.abc
 import importlib.machinery
+import importlib.util
 from importlib.machinery import PathFinder
 import sys
 from types import ModuleType
@@ -41,13 +42,13 @@ class _AliasFinder(importlib.abc.MetaPathFinder):
         # Only handle submodules under lukhas.*
         if not fullname.startswith(_ALIASED_PREFIX + "."):
             return None
-        # If the real `lukhas.*` exists, do nothing
-        if PathFinder.find_spec(fullname) is not None:
+    # If the real `lukhas.*` exists, do nothing
+    if PathFinder.find_spec(fullname, path) is not None:
             return None
         # Map to legacy `lukhas_pwm.*` if available
         suffix = fullname[len(_ALIASED_PREFIX) :]
         target_name = _TARGET_PREFIX + suffix
-        target_spec = PathFinder.find_spec(target_name)
+        target_spec = importlib.util.find_spec(target_name)
         if target_spec is None:
             return None
         is_pkg = target_spec.submodule_search_locations is not None
