@@ -550,6 +550,14 @@ async def shutdown_event():
 # ==================== Run Server ====================
 
 if __name__ == "__main__":
+    import os
     import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="info")
+    
+    # Configuration from environment variables with sensible defaults
+    host = os.getenv("LUKHAS_LANG_API_HOST", "0.0.0.0")
+    port = int(os.getenv("LUKHAS_LANG_API_PORT", "8081"))  # Different default port
+    log_level = os.getenv("LUKHAS_LOG_LEVEL", "info").lower()
+    
+    logger.info(f"Starting LUKHAS Universal Language API on {host}:{port}")
+    
+    uvicorn.run(app, host=host, port=port, log_level=log_level)

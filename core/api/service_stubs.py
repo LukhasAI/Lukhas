@@ -541,23 +541,27 @@ class GuardianSystem:
         }
 
     async def validate_response(self, response: dict[str, Any]) -> dict[str, Any]:
-        """Validate system response for ethical compliance"""
-        # Simple validation
-        approved = random.random() > 0.1  # 90% approval rate
+        """Validate system response for ethical compliance (deterministic)."""
+        # Deterministic rule-based check to keep tests stable
+        text_blob = str(response).lower()
+        # Reuse harm keyword sets
+        risky = any(any(k in text_blob for k in kws) for kws in self._harm_keywords.values())
 
-        result = {
-            "approved": approved,
-            "confidence": random.uniform(0.8, 0.98),
+        if risky:
+            return {
+                "approved": False,
+                "confidence": 0.85,
+                "reason": "Potential ethical concern detected",
+                "constraints": [
+                    "reduce_assertiveness",
+                    "add_uncertainty_markers",
+                ],
+            }
+
+        return {
+            "approved": True,
+            "confidence": 0.95,
         }
-
-        if not approved:
-            result["reason"] = "Potential ethical concern detected"
-            result["constraints"] = [
-                "reduce_assertiveness",
-                "add_uncertainty_markers",
-            ]
-
-        return result
 
     def get_capabilities(self) -> dict[str, Any]:
         """Get Guardian capabilities"""

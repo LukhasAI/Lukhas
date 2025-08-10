@@ -14,13 +14,13 @@ from lukhas_pwm.audit.analytics_read import (
     summarize_safety_modes,
     summarize_tools,
 )
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags, is_enabled
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
 def _require_enabled():
-    if not Flags.get("ADMIN_DASHBOARD", default=False):
+    if not is_enabled("admin_dashboard"):
         raise HTTPException(status_code=404, detail="Admin dashboard disabled")
 
 

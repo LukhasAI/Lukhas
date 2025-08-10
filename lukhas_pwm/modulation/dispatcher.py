@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 import yaml
 
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags, is_enabled
 
 PRECEDENCE = ["alignment_risk", "stress", "ambiguity", "novelty"]
 
@@ -70,7 +70,7 @@ class Modulator:
         # 2) defaults
         # Check FLAG_STRICT_DEFAULT to force strict safety mode
         default_safety_mode = (
-            "strict" if Flags.get("STRICT_DEFAULT", False) else "balanced"
+            "strict" if is_enabled("strict_default") else "balanced"
         )
 
         params = {

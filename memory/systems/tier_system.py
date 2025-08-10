@@ -23,6 +23,10 @@ from enum import Enum
 from functools import wraps
 from typing import Any, Callable, Optional
 
+import structlog
+
+logger = structlog.get_logger(__name__)
+
 
 class TierLevel(Enum):
     """Hierarchical tier levels with increasing privileges."""

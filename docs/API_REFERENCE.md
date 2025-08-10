@@ -22,7 +22,28 @@ The LUKHAS PWM API provides RESTful endpoints for interacting with the AGI syste
 Production: https://api.lukhas.ai/v1
 Staging: https://staging-api.lukhas.ai/v1
 Development: http://localhost:8000/v1
+PWM Core API: http://localhost:8080 (when running locally)
 ```
+
+### Current Implementation Status
+
+The LUKHAS PWM system provides two API layers:
+
+1. **Core PWM API** (`/lukhas_pwm/api/`) - Production-ready FastAPI endpoints
+   - ✅ Feedback system (`/feedback/`)
+   - ✅ Tools management (`/tools/`)
+   - ✅ Audit trail (`/audit/`)
+   - ✅ Security incidents (`/incidents/`)
+   - ✅ Admin dashboard (`/admin/`)
+   - ✅ Performance metrics (`/perf/`)
+   - ✅ Operations (`/ops/`)
+   - ✅ DNA system (`/dna/`)
+
+2. **Consciousness APIs** (`/api/`) - Higher-level interaction endpoints  
+   - ✅ Consciousness chat (`consciousness_chat_api.py`)
+   - ✅ Universal language (`universal_language_api.py`)
+   - ✅ Integrated consciousness (`integrated_consciousness_api.py`)
+   - ✅ Feedback collection (`feedback_api.py`)
 
 ### API Versioning
 

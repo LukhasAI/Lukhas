@@ -1,7 +1,7 @@
 from typing import Optional
 
 from lukhas_pwm.dna.interfaces import HelixMemory
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags
 from lukhas_pwm.migration.legacy_store import LegacyStore
 
 

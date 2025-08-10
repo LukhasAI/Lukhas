@@ -682,8 +682,9 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
                     try:
                         # Try to parse the date
                         current_date = part
-                    except BaseException:
-                        pass
+                    except (ValueError, TypeError) as e:
+                        print_warning(f"Failed to parse date '{part}': {e}")
+                        current_date = None
                 elif part.strip() and i > 0:
                     entries.append(
                         {

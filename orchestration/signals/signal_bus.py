@@ -40,9 +40,12 @@ class Signal:
     source: str  # Module that emitted the signal
     target: Optional[str] = None  # Optional specific target module
     ttl_ms: int = 1000  # Time to live in milliseconds
+    cooldown_ms: int = 0  # Optional per-signal cooldown hint (ms) for regulators/tests
     metadata: Dict[str, Any] = field(default_factory=dict)
     audit_id: str = ""
     timestamp: float = field(default_factory=time.time)
+    # Optional helper used in some tests/utilities when simulating cooldown behavior
+    last_emit_time: float = 0.0
     
     def is_expired(self) -> bool:
         """Check if signal has expired"""
@@ -60,6 +63,11 @@ class SignalPattern:
     level_min: float = 0.0  # Minimum signal level
     level_max: float = 1.0  # Maximum signal level
     metadata_match: Dict[str, Any] = field(default_factory=dict)
+    # Extended pattern fields for simple temporal detection
+    pattern_id: Optional[str] = None
+    signals: List[SignalType] = field(default_factory=list)
+    time_window_ms: int = 0
+    min_signals: int = 0
     
     def matches(self, signal: Signal) -> bool:
         """Check if a signal matches this pattern"""
@@ -119,12 +127,23 @@ class SignalBus:
         # Background task for cleanup
         self._cleanup_task = None
         self._running = False
+        
+        # Pattern detection support (pattern, handler)
+        self._patterns: List[tuple[SignalPattern, Callable[[List[Signal]], None]]] = []
+        self._recent_by_type: Dict[SignalType, deque] = {
+            st: deque(maxlen=max_signal_history) for st in SignalType
+        }
     
     async def initialize(self):
         """Start the signal bus"""
         self._running = True
         self._cleanup_task = asyncio.create_task(self._cleanup_loop())
         logger.info("Signal bus initialized")
+    
+    # Backwards/forwards compatibility aliases used in tests
+    async def start(self):
+        """Alias for initialize() to match test helpers."""
+        await self.initialize()
     
     async def shutdown(self):
         """Shutdown the signal bus"""
@@ -136,6 +155,10 @@ class SignalBus:
             except asyncio.CancelledError:
                 pass
         logger.info("Signal bus shutdown")
+    
+    async def stop(self):
+        """Alias for shutdown() to match test helpers."""
+        await self.shutdown()
     
     async def _cleanup_loop(self):
         """Remove expired signals periodically"""
@@ -243,6 +266,11 @@ class SignalBus:
         self.active_signals.add(modulated_signal)
         self.signal_history.append(modulated_signal)
         self.stats["signals_published"] += 1
+        # Track recent by type for pattern evaluation
+        try:
+            self._recent_by_type[modulated_signal.name].append(modulated_signal)
+        except Exception:
+            pass
         
         # Deliver to subscribers
         handlers = self.subscribers.get(modulated_signal.name, [])
@@ -270,7 +298,58 @@ class SignalBus:
             f"from {modulated_signal.source} (level: {modulated_signal.level:.2f})"
         )
         
+        # Best-effort pattern evaluation
+        try:
+            self._evaluate_patterns()
+        except Exception as e:
+            logger.error(f"Error evaluating patterns: {e}")
+        
         return True
+
+    def _evaluate_patterns(self) -> None:
+        """Evaluate registered patterns and invoke handlers if thresholds met.
+
+        This minimal implementation supports "min_signals within time_window"
+        over a set of SignalType(s), plus simple filters from legacy fields.
+        """
+        if not self._patterns:
+            return
+        now = time.time()
+        for pattern, handler in list(self._patterns):
+            types_to_scan = pattern.signals or (
+                [pattern.name_pattern] if pattern.name_pattern else list(SignalType)
+            )
+            collected: List[Signal] = []
+            window_ms = max(0, pattern.time_window_ms)
+            for st in types_to_scan:
+                if st is None:
+                    continue
+                recent = list(self._recent_by_type.get(st, []))
+                if window_ms:
+                    recent = [s for s in recent if (now - s.timestamp) * 1000 <= window_ms]
+                collected.extend(recent)
+            # Apply simple field filters
+            filtered: List[Signal] = []
+            for s in collected:
+                if pattern.source_pattern and not s.source.startswith(pattern.source_pattern):
+                    continue
+                if not (pattern.level_min <= s.level <= pattern.level_max):
+                    continue
+                ok = True
+                for k, v in pattern.metadata_match.items():
+                    if s.metadata.get(k) != v:
+                        ok = False
+                        break
+                if ok:
+                    filtered.append(s)
+            if len(filtered) >= max(0, pattern.min_signals):
+                try:
+                    if asyncio.iscoroutinefunction(handler):
+                        asyncio.create_task(handler(list(filtered)))
+                    else:
+                        handler(list(filtered))
+                except Exception as e:
+                    logger.error(f"Pattern handler error: {e}")
     
     def get_current_levels(self) -> Dict[SignalType, float]:
         """Get current levels of all signal types"""
@@ -317,6 +396,44 @@ class SignalBus:
                 k.value: v for k, v in self.get_current_levels().items()
             }
         }
+
+    def get_metrics(self) -> Dict[str, Any]:
+        """Alias for tests expecting get_metrics()."""
+        return self.get_statistics()
+
+    def get_active_signals(
+        self,
+        signal_type: Optional[SignalType] = None,
+        source: Optional[str] = None,
+    ) -> List[Signal]:
+        """Return non-expired active signals with optional filters, newest first."""
+        signals = [s for s in self.active_signals if not s.is_expired()]
+        if signal_type is not None:
+            signals = [s for s in signals if s.name == signal_type]
+        if source is not None:
+            signals = [s for s in signals if s.source == source]
+        return sorted(signals, key=lambda s: s.timestamp, reverse=True)
+
+    def register_pattern(
+        self, pattern: SignalPattern, handler: Callable[[List[Signal]], None]
+    ) -> None:
+        """Register a simple detection pattern with handler callback."""
+        self._patterns.append((pattern, handler))
+
+    def clear_history(self, reset_stats: bool = False) -> None:
+        """Clear signal history and optionally reset stats.
+
+        This is primarily used in tests to ensure a clean slate between runs.
+
+        Args:
+            reset_stats: When True, zero out published/delivered/modulated/dropped counters.
+        """
+        self.signal_history.clear()
+        self.active_signals.clear()
+        # Do not touch subscribers; tests expect subscriptions to persist.
+        if reset_stats:
+            for k in list(self.stats.keys()):
+                self.stats[k] = 0
 
 
 # Global signal bus instance

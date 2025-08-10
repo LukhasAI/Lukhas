@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 from lukhas_pwm.dna.interfaces import DNAWriteReceipt, HelixMemory
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags, is_enabled
 from lukhas_pwm.migration.legacy_store import LegacyStore
 
 
@@ -26,7 +26,7 @@ def write_memory_dual(
         key, value, version=version, strength=strength, meta=meta
     )
     dna_receipt: Optional[DNAWriteReceipt] = None
-    if Flags.get("DNA_DUAL_WRITE", default=False):
+    if is_enabled("dna_dual_write"):
         dna_receipt = dna.write(
             key, value, version=version, strength=strength, meta=meta
         )

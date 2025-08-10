@@ -38,7 +38,7 @@
 """
 
 # Module imports
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st  # Streamlit available - enabled visualization
 from dataclasses import dataclass
 from datetime import datetime  # timedelta not used
 from typing import Any, Optional

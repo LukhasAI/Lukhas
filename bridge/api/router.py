@@ -1,8 +1,7 @@
 # dashboards/router.py
 
 from id_portal.backend.app.tier_manager import get_user_tier
-
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st  # Streamlit available - dashboard routing enabled
 
 # #ΛGATEWAY_NODE
 

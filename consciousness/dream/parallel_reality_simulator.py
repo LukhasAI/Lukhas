@@ -45,6 +45,9 @@ class RealityType(Enum):
     ETHICAL = "ethical"  # Different ethical frameworks
     CREATIVE = "creative"  # Pure imagination-based
     PREDICTIVE = "predictive"  # Future prediction scenarios
+    # Backwards-compatibility alias for tests that reference CamelCase member name
+    # while keeping canonical enum members uppercase.
+    Temporal = TEMPORAL
 
 
 @dataclass

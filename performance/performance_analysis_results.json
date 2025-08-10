@@ -1,0 +1,202 @@
+{
+  "System Resources": {
+    "result": {
+      "cpu": {
+        "count": 10,
+        "physical_cores": 10,
+        "current_usage": 12.4,
+        "load_average": [
+          3.13037109375,
+          3.0537109375,
+          2.61962890625
+        ]
+      },
+      "memory": {
+        "total_gb": 16.0,
+        "available_gb": 3.82,
+        "used_percent": 76.1,
+        "free_gb": 0.97
+      },
+      "disk": {
+        "total_gb": 460.43,
+        "used_gb": 11.01,
+        "free_gb": 282.18,
+        "used_percent": 2.4
+      },
+      "process": {
+        "memory_mb": 18.94,
+        "cpu_percent": 0.0,
+        "threads": 1,
+        "open_files": 0,
+        "connections": 0
+      },
+      "timestamp": 1754843503.8670971
+    },
+    "analysis_duration": 1.0070550441741943,
+    "status": "success"
+  },
+  "Memory Usage": {
+    "result": {
+      "current_usage_mb": 4832.453125,
+      "garbage_collection": {
+        "collections": [
+          {
+            "collections": 44,
+            "collected": 360,
+            "uncollectable": 0
+          },
+          {
+            "collections": 3,
+            "collected": 0,
+            "uncollectable": 0
+          },
+          {
+            "collections": 0,
+            "collected": 0,
+            "uncollectable": 0
+          }
+        ],
+        "garbage_objects": 0,
+        "tracked_objects": 17488
+      },
+      "memory_test": {
+        "baseline_mb": 19.1875,
+        "post_allocation_mb": 19.421875,
+        "post_cleanup_mb": 19.421875,
+        "growth_mb": 0.234375,
+        "leaked_mb": 0.234375
+      }
+    },
+    "analysis_duration": 0.01230168342590332,
+    "status": "success"
+  },
+  "Import Performance": {
+    "result": {
+      "import_times": {
+        "lukhas_pwm.flags": {
+          "duration_ms": 0,
+          "status": "error",
+          "error": "No module named 'lukhas_pwm'"
+        },
+        "governance.policy.base": {
+          "duration_ms": 0,
+          "status": "error",
+          "error": "No module named 'governance'"
+        },
+        "orchestration.signals.signal_bus": {
+          "duration_ms": 0,
+          "status": "error",
+          "error": "No module named 'orchestration'"
+        },
+        "consciousness.unified.auto_consciousness": {
+          "duration_ms": 0,
+          "status": "error",
+          "error": "No module named 'consciousness'"
+        },
+        "memory.folds.optimized_fold_engine": {
+          "duration_ms": 0,
+          "status": "error",
+          "error": "No module named 'memory'"
+        }
+      },
+      "statistics": {
+        "total_imports": 5,
+        "successful_imports": 0
+      }
+    },
+    "analysis_duration": 0.0007507801055908203,
+    "status": "success"
+  },
+  "Function Profiling": {
+    "result": {
+      "profile_output": "         341 function calls (339 primitive calls) in 0.002 seconds\n\n   Ordered by: cumulative time\n   List reduced from 86 to 20 due to restriction <20>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:1815(_run_once)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/selectors.py:554(select)\n        2    0.001    0.001    0.001    0.001 {method 'control' of 'select.kqueue' objects}\n        2    0.000    0.000    0.001    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performance/optimization_analysis.py:238(_simulate_typical_operations)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performance/optimization_analysis.py:250(<listcomp>)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1002(_find_and_load)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:967(_find_and_load_unlocked)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:220(_call_with_frames_removed)\n        1    0.000    0.000    0.000    0.000 {built-in method builtins.__import__}\n        2    0.000    0.000    0.000    0.000 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/events.py:78(_run)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:901(_find_spec)\n        2    0.000    0.000    0.000    0.000 {method 'run' of 'Context' objects}\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1406(find_spec)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1374(_get_spec)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performa",
+      "total_calls": 341,
+      "primitive_calls": 339
+    },
+    "analysis_duration": 0.002621173858642578,
+    "status": "success"
+  },
+  "API Performance": {
+    "result": {
+      "average_response_ms": 11.08,
+      "p95_response_ms": 11.24,
+      "max_response_ms": 11.24,
+      "min_response_ms": 10.2,
+      "total_requests": 10
+    },
+    "analysis_duration": 0.11086106300354004,
+    "status": "success"
+  },
+  "Database Performance": {
+    "result": {
+      "write_performance": {
+        "duration_ms": 1.23,
+        "lines_per_second": 814902.66
+      },
+      "read_performance": {
+        "duration_ms": 0.55,
+        "lines_per_second": 1804777.97
+      }
+    },
+    "analysis_duration": 0.0020911693572998047,
+    "status": "success"
+  },
+  "Concurrency Analysis": {
+    "result": {
+      "sequential_duration_ms": 110.45,
+      "concurrent_duration_ms": 11.52,
+      "speedup_factor": 9.58,
+      "task_count": 10
+    },
+    "analysis_duration": 0.12199997901916504,
+    "status": "success"
+  },
+  "Optimization Opportunities": {
+    "result": {},
+    "analysis_duration": 1.3113021850585938e-05,
+    "status": "success"
+  },
+  "recommendations": [
+    {
+      "category": "Memory Management",
+      "priority": "high",
+      "title": "Implement Memory Pooling",
+      "description": "Use object pooling for frequently created/destroyed objects",
+      "implementation": "Create memory pools for GLYPH tokens, API responses, and temporary objects",
+      "estimated_improvement": "15-25% memory reduction"
+    },
+    {
+      "category": "Async Operations",
+      "priority": "high",
+      "title": "Optimize Async/Await Usage",
+      "description": "Ensure all I/O operations are properly async",
+      "implementation": "Audit and convert blocking operations to async equivalents",
+      "estimated_improvement": "20-40% response time improvement"
+    },
+    {
+      "category": "Caching",
+      "priority": "medium",
+      "title": "Implement Multi-Layer Caching",
+      "description": "Add caching at multiple levels (memory, Redis, CDN)",
+      "implementation": "LRU cache for hot paths, Redis for session data, CDN for static assets",
+      "estimated_improvement": "30-50% response time improvement"
+    },
+    {
+      "category": "Database",
+      "priority": "medium",
+      "title": "Connection Pooling",
+      "description": "Implement database connection pooling",
+      "implementation": "Use SQLAlchemy connection pools with proper sizing",
+      "estimated_improvement": "10-20% database performance improvement"
+    },
+    {
+      "category": "Monitoring",
+      "priority": "low",
+      "title": "Implement Performance Profiling",
+      "description": "Add continuous performance monitoring",
+      "implementation": "Integrate with APM tools (e.g., New Relic, DataDog)",
+      "estimated_improvement": "Enables ongoing optimization"
+    }
+  ],
+  "total_analysis_time": 1.259070873260498
+}

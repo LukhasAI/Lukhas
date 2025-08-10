@@ -399,8 +399,8 @@ class LogicalReasoningAgent(ReasoningAgent):
                         ):
                             conclusions.append(
                                 {
-                                    "conclusion": f"Based on {antecedent},"
-                                    we can deduce: {consequent}",
+                                    "conclusion": f"Based on {antecedent}, "
+                                    f"we can deduce: {consequent}",
                                     "confidence": 0.8,
                                     "symbols": self._extract_symbols(content_str),
                                 }
@@ -670,14 +670,12 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         # Generate creative connection
         if assoc1["type"] == "metaphor":
-            return f"By viewing '{content1}' through the lens of '{content2}',
-    we discover a new perspective"
-       elif assoc1["type"] == "lateral":
+            return f"By viewing '{content1}' through the lens of '{content2}', " \
+                   f"we discover a new perspective"
+        elif assoc1["type"] == "lateral":
             return f"The unexpected connection between '{content1}' and '{content2}' suggests a novel approach"
         else:
-            return (
-                f"Synthesizing '{content1}' with '{content2}' reveals hidden patterns"
-            )
+            return f"Synthesizing '{content1}' with '{content2}' reveals hidden patterns"
 
     def _extract_symbols(self, text: str) -> list[str]:
         """Extract symbolic tokens from text"""

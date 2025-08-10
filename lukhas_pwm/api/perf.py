@@ -17,7 +17,7 @@ def _require_enabled(x_api_key: Optional[str]):
     """Check if perf ingestion is enabled and API key is valid."""
     # Check feature flag
     try:
-        from lukhas_pwm.flags.ff import Flags
+        from lukhas_pwm.flags import get_flags
 
         if not Flags.get("OPS_PERF_INGEST", default=False):
             raise HTTPException(status_code=404, detail="Perf ingest disabled")

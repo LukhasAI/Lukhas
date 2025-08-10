@@ -1,0 +1,8 @@
+{
+  "global_cache_size": 1000,
+  "global_cache_ttl": 300,
+  "api_cache_size": 500,
+  "api_cache_ttl": 60,
+  "memory_cache_size": 2000,
+  "memory_cache_ttl": 600
+}

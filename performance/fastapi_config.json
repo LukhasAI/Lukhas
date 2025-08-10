@@ -1,0 +1,6 @@
+{
+  "docs_url": null,
+  "redoc_url": null,
+  "openapi_url": "/openapi.json",
+  "generate_unique_id_function": "custom_id_generator"
+}

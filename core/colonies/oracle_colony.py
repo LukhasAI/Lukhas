@@ -166,13 +166,12 @@ class OracleAgent:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an AI Dream Oracle that creates meaningful,"
-                        symbolic dreams based on user context and predictive insights.",
+                        "content": "You are an AI Dream Oracle that creates meaningful, "
+                        "symbolic dreams based on user context and predictive insights.",
                     },
                     {
                         "role": "user",
-                        "content": f"User Context: {json.dumps(context,
-                                                               indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
+                        "content": f"User Context: {json.dumps(context, indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
                     },
                 ],
                 temperature=0.9,

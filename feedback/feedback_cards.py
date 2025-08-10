@@ -398,8 +398,12 @@ class FeedbackCardsManager:
         elif card.category == FeedbackCategory.ACCURACY:
             score *= 1.2
         
-        # User reputation (if available)
-        # TODO: Implement user reputation system
+        # User reputation boost (implemented basic system)
+        if card.user_id:
+            user_reputation = self._get_user_reputation(card.user_id)
+            # Apply reputation boost: trusted users get up to 20% boost
+            reputation_boost = min(user_reputation / 5.0, 0.2)
+            score *= (1.0 + reputation_boost)
         
         return min(score, 1.0)
     
@@ -416,7 +420,30 @@ class FeedbackCardsManager:
         if card.rating == 1:
             print(f"   ⚠️ Low rating (1 star) - needs immediate review")
         
-        # TODO: Trigger immediate model update or alert
+        # Alert system for high-impact feedback
+        self._log_high_impact_alert(card)
+    
+    def _log_high_impact_alert(self, card: FeedbackCard):
+        """Log high-impact feedback for monitoring and alerts"""
+        alert_data = {
+            "timestamp": datetime.now().isoformat(),
+            "card_id": card.card_id,
+            "user_id": card.user_id,
+            "category": card.category.value,
+            "impact_score": card.impact_score,
+            "rating": card.rating,
+            "correction": card.correction,
+            "session_id": card.session_id
+        }
+        
+        # Log to file for monitoring systems
+        alert_file = Path(self.db_path).parent / "high_impact_alerts.jsonl"
+        with open(alert_file, "a") as f:
+            f.write(json.dumps(alert_data) + "\n")
+        
+        # If extremely critical (impact > 0.9), could trigger immediate alerts
+        if card.impact_score > 0.9:
+            print(f"🚨 CRITICAL FEEDBACK ALERT: {card.card_id}")
     
     def _save_card(self, card: FeedbackCard):
         """Save feedback card to database"""
@@ -445,6 +472,70 @@ class FeedbackCardsManager:
         
         conn.commit()
         conn.close()
+    
+    def _get_user_reputation(self, user_id: str) -> float:
+        """
+        Calculate user reputation based on feedback history
+        Returns score from 0.0 (new/untrusted) to 5.0 (highly trusted)
+        """
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        # Get user's feedback history
+        cursor.execute("""
+            SELECT rating, category, validated, impact_score, timestamp
+            FROM feedback_cards 
+            WHERE user_id = ? 
+            ORDER BY timestamp DESC 
+            LIMIT 50
+        """, (user_id,))
+        
+        history = cursor.fetchall()
+        conn.close()
+        
+        if not history:
+            return 0.5  # Default for new users
+        
+        # Calculate reputation based on multiple factors
+        total_feedback = len(history)
+        
+        # Factor 1: Consistency in ratings (avoid extreme variations)
+        ratings = [row[0] for row in history if row[0] is not None]
+        if ratings:
+            rating_variance = np.var(ratings)
+            consistency_score = max(0, 1.0 - (rating_variance / 2.0))
+        else:
+            consistency_score = 0.5
+        
+        # Factor 2: Accuracy validation rate (when available)
+        validations = [row[2] for row in history if row[2] is not None]
+        if validations:
+            accuracy_rate = sum(validations) / len(validations)
+        else:
+            accuracy_rate = 0.5
+        
+        # Factor 3: Activity level (more feedback = more reliable)
+        activity_score = min(total_feedback / 20.0, 1.0)  # Max at 20 feedbacks
+        
+        # Factor 4: Quality categories (accuracy feedback is valued)
+        accuracy_feedback = sum(1 for row in history if row[1] == 'accuracy')
+        quality_score = min(accuracy_feedback / max(total_feedback, 1) + 0.5, 1.0)
+        
+        # Factor 5: Time factor (recent activity is valued)
+        recent_feedback = sum(1 for row in history if 
+                            (datetime.now().timestamp() - float(row[4])) < 604800)  # 1 week
+        recency_score = min(recent_feedback / 5.0, 1.0)
+        
+        # Weighted combination
+        reputation = (
+            consistency_score * 0.25 +
+            accuracy_rate * 0.25 +
+            activity_score * 0.20 +
+            quality_score * 0.15 +
+            recency_score * 0.15
+        ) * 5.0  # Scale to 0-5
+        
+        return min(reputation, 5.0)
     
     def get_cards_for_training(
         self,

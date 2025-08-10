@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "sample_rate": 0.1,
+  "buffer_size": 1000,
+  "flush_interval": 60,
+  "metrics_retention": 3600
+}

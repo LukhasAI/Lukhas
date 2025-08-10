@@ -18,7 +18,6 @@ Performance Features:
 import asyncio
 import hashlib
 import json
-import lz4.frame
 import mmap
 import numpy as np
 import pickle
@@ -33,6 +32,26 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 import threading
 import uuid
+
+# Compression backend helpers
+# Prefer lz4 for speed; if unavailable, fall back to zlib so tests run without optional deps.
+try:  # Optional dependency
+    import lz4.frame as _lz4frame  # type: ignore
+
+    def _compress_bytes(data: bytes) -> bytes:
+        return _lz4frame.compress(data)
+
+    def _decompress_bytes(data: bytes) -> bytes:
+        return _lz4frame.decompress(data)
+
+except Exception:  # Fallback to stdlib
+    import zlib as _zlib
+
+    def _compress_bytes(data: bytes) -> bytes:
+        return _zlib.compress(data, level=6)
+
+    def _decompress_bytes(data: bytes) -> bytes:
+        return _zlib.decompress(data)
 
 # Import bloom filter for fast membership testing
 try:
@@ -83,11 +102,11 @@ class OptimizedMemoryFold:
     def _compress(self, data: Any) -> bytes:
         """Compress data using LZ4"""
         serialized = pickle.dumps(data)
-        return lz4.frame.compress(serialized, compression_level=lz4.frame.COMPRESSIONLEVEL_MINHC)
+        return _compress_bytes(serialized)
     
     def _decompress(self, data: bytes) -> Any:
         """Decompress LZ4 data"""
-        decompressed = lz4.frame.decompress(data)
+        decompressed = _decompress_bytes(data)
         return pickle.loads(decompressed)
     
     def evict(self):
@@ -742,7 +761,7 @@ async def demo_optimized_folds():
     engine.shutdown()
     
     print("\n✅ Optimized memory fold demonstration complete!")
-    print(f"\nFinal Statistics:")
+    print("\nFinal Statistics:")
     for key, value in final_stats.items():
         if isinstance(value, float):
             print(f"   {key}: {value:.3f}")

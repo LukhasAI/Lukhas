@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from lukhas_pwm.colony.contracts import ConsensusResult
 from lukhas_pwm.dna.interfaces import DNAWriteReceipt, HelixMemory
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags, is_enabled
 
 
 def persist_consensus_to_dna(
@@ -25,7 +25,7 @@ def persist_consensus_to_dna(
     # Optional privacy: encrypt personal payloads (placeholder toggle)
     value = c.decided_value
     if (
-        Flags.get("DNA_ENCRYPT_PERSONAL", default=False)
+        is_enabled("dna_encrypt_personal")
         and isinstance(value, dict)
         and value.get("_personal")
     ):

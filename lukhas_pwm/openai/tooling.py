@@ -4,7 +4,7 @@ Canonical tool registry for OpenAI function-calling with governance.
 
 from typing import Any
 
-from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.flags import get_flags
 
 # Canonical tool registry (JSON-schema-like) used to expose tools to OpenAI function-calling.
 # Keep descriptions concise; expand schemas as needed.

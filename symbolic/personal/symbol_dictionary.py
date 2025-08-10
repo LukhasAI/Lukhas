@@ -16,9 +16,10 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from base64 import urlsafe_b64encode
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 # Import our vocabularies
 
@@ -152,13 +153,14 @@ class PersonalSymbolDictionary:
         """Unlock the dictionary with user passphrase"""
         try:
             # Derive encryption key from passphrase
-            kdf = PBKDF2(
+            kdf = PBKDF2HMAC(
                 algorithm=hashes.SHA256(),
                 length=32,
                 salt=self.user_id.encode(),
-                iterations=100000,
+                iterations=100_000,
             )
-            self.encryption_key = kdf.derive(passphrase.encode())
+            # Fernet expects a URL-safe base64-encoded 32-byte key
+            self.encryption_key = urlsafe_b64encode(kdf.derive(passphrase.encode()))
             self.is_locked = False
 
             # Try to load existing data
