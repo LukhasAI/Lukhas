@@ -624,7 +624,11 @@ class GlyphFactory:
             content={
                 "action": action,
                 "params": params or {},
-                **({"required_tier": required_tier} if required_tier is not None else {}),
+                **(
+                    {"required_tier": required_tier}
+                    if required_tier is not None
+                    else {}
+                ),
             },
         )
         glyph.add_semantic_tag("action")

@@ -355,7 +355,10 @@ class UserFeedbackSystem(CoreInterface):
         return feedback_id
 
     async def _check_user_consent(
-        self, user_id: str, region: ComplianceRegion, context: Optional[Dict[str, Any]] = None
+        self,
+        user_id: str,
+        region: ComplianceRegion,
+        context: Optional[Dict[str, Any]] = None,
     ) -> bool:
         """Check if user has given consent for feedback collection.
 
@@ -377,7 +380,9 @@ class UserFeedbackSystem(CoreInterface):
         profile = self.user_profiles[user_id]
         return profile.consent_given
 
-    async def _check_rate_limit(self, user_id: str, action_id: Optional[str] = None) -> bool:
+    async def _check_rate_limit(
+        self, user_id: str, action_id: Optional[str] = None
+    ) -> bool:
         """Check if user is within rate limits.
 
         Policy: prevent ultra-rapid duplicate submissions (<0.1s) globally.
@@ -630,7 +635,7 @@ class UserFeedbackSystem(CoreInterface):
                 time_period=(datetime.now(timezone.utc), datetime.now(timezone.utc)),
             )
 
-    # Aggregate feedback
+        # Aggregate feedback
         ratings = []
         sentiments = defaultdict(float)
         emojis = defaultdict(int)

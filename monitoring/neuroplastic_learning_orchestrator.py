@@ -58,6 +58,7 @@ except Exception:
             hormone_context: Dict[str, float] = field(default_factory=dict)
             reason: str = ""
 
+
 # Plasticity trigger manager types
 try:
     from monitoring.plasticity_trigger_manager import (
@@ -593,9 +594,11 @@ class NeuroplasticLearningOrchestrator:
         trigger_type = (
             PlasticityTriggerType.STRESS_ADAPTATION
             if "stress" in hypothesis.lower()
-            else PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
-            if hasattr(PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION")
-            else list(PlasticityTriggerType)[0]
+            else (
+                PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
+                if hasattr(PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION")
+                else list(PlasticityTriggerType)[0]
+            )
         )
 
         rule = AdaptationRule(
@@ -972,9 +975,7 @@ class NeuroplasticLearningOrchestrator:
         # fall back to 0.0 if no goals have progress yet.
         try:
             goals = list(self.learning_goals.values())
-            numeric_progress = (
-                sum(g.progress for g in goals) / (len(goals) or 1)
-            )
+            numeric_progress = sum(g.progress for g in goals) / (len(goals) or 1)
             numeric_progress = max(0.0, min(1.0, numeric_progress))
         except Exception:
             numeric_progress = 0.0

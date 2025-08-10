@@ -1,6 +1,134 @@
-# LUKHAS PWM Enterprise & OAuth User ID Examples
+# LUKHΛS LucasID: Enterprise & OAuth User ID Examples
+
+## 🔑 What is LucasID (ΛID)?
+
+LucasID (written as **ΛID**) is the **canonical user handle** in the LUKHΛS ecosystem. All other identifiers (Google, Apple, enterprise SSO, phone, etc.) are *federated aliases* that can be linked to a single ΛID. Users may choose parts of their ΛID during signup, while enterprises can reserve **namespaces** (e.g., `openai/`, `stanford/`).
+
+**Design goals**
+- One canonical ΛID per person (stable handle)
+- Optional **provider alias** (Google/Apple/etc.) during login for convenience
+- **Namespace** support for enterprises, schools, guilds, gyms, private groups
+- Privacy-first: email/phone/GovID **not required** as the username; can be verified privately
+- Human-legible, machine-parseable, and easy to type
+
+## 🧩 ΛID Format
+
+**Canonical handle (no PII):**
+```
+`#ΛID {namespace?}:{username} [@{provider?}] [~{locale?}] [{emoji?}]`
+```
+
+Where:
+- `{namespace?}` optional org/community namespace (e.g., `openai`, `stanford`, `acme`)
+- `{username}` user-chosen handle (letters, digits, `_` and `-`), 3–32 chars
+- `@{provider?}` optional **login alias** (e.g., `@google`, `@apple`, `@github`)
+- `~{locale?}` optional location code (ISO country/city slug or 3-word code)
+- `{emoji?}` optional single emoji/sigil for personalization (stored as metadata)
+
+**Examples**
+- `#ΛID openai:reviewer @apple`
+- `#ΛID stanford:alice_smith @google ~us-sf 🦉`
+- `#ΛID gonzo @lukhas` (no namespace; first-party LUKHΛS login)
+
+> Note: The `#` and `ΛID` prefix are UI affordances; the **canonical stored form** is `openai:reviewer` with separate metadata fields for provider/locale/emoji.
+
+## 🧾 ABNF (Grammar) & Regex
+
+**ABNF**
+```
+LUCASID = [NAMESPACE ":"] USERNAME [SP PROVIDER] [SP LOCALE] [SP EMOJI]
+NAMESPACE = 1*(ALPHA / DIGIT / "-" / "_")
+USERNAME  = 3*32(ALPHA / DIGIT / "-" / "_")
+PROVIDER  = "@" ("google" / "apple" / "github" / "lukhas" / 1*ALPHA )
+LOCALE    = "~" 1*(ALPHA / DIGIT / "-" )
+EMOJI     = %x1F300-1FAD6 / %x2600-26FF ; stored as UTF-8 codepoint
+SP        = 1*WSP
+```
+
+**Validation Regex (canonical core)**
+```
+^(?:(?<namespace>[a-z0-9_-]{1,48}):)?(?<username>[a-z0-9_-]{3,32})$ 
+```
+
+## 🧭 Login Flow: Provider Dropdown + Username-Only
+
+### UX
+1) User selects a provider from a dropdown **(optional)**: Google / Apple / GitHub / LUKHΛS
+2) User types **only the username part** (e.g., `alice.smith` for Google; no `@gmail.com`)
+3) System resolves final identifier and launches the OAuth flow or first‑party login
+
+### Resolution Rules
+- If provider is chosen: build alias `@provider` and map to that OAuth journey
+- If no provider: default to first‑party LUKHΛS login (`@lukhas`)
+- Namespace typed? Route under that namespace; else global
+
+### Example API
+```http
+POST /identity/resolve-login
+{
+  "input": "stanford:alice_smith",
+  "provider": "google"    // optional; if omitted → "lukhas"
+}
+
+→ 200 OK
+{
+  "canonical_lid": "stanford:alice_smith",
+  "provider": "google",
+  "auth_url": "https://accounts.google.com/o/oauth2/auth?...",
+  "state": "csrf_nonce"
+}
+```
+
+## 🏛️ Namespaces & Monetization
+
+- **Reserved namespaces** for verified orgs (OpenAI, Stanford, ACME). Paid or verified.
+- **Community namespaces** for clubs/crews/schools/gyms (reviewed on request).
+- **Personal namespaces** (e.g., `gonzo:`) are allowed if globally unique.
+- Squatting rules + grace periods + dispute policy recommended.
+
+## 🔒 Privacy & PII Policy (Important)
+
+- **Never use raw PII as a username** (email, phone, passport/DNI/SSN). 
+- If a user prefers phone/passport/DNI for login, treat it as a **verification factor** only.
+- Store **hashed, salted, and tokenized** proofs or third‑party attestations (e.g., Stripe Identity, Passkeys/WebAuthn). Do not persist raw numbers.
+- Recommend **Passkeys/WebAuthn** as the default strong login; provider aliases remain for convenience.
+- Support **2FA** (TOTP, WebAuthn, or GTΨ gesture token) for high‑risk actions.
+
+## 🔐 Security Options (AuthN/AuthZ)
+
+- First‑party login: **Passkeys/WebAuthn** (preferred), email+magic link (fallback)
+- Federated login: Google/Apple/GitHub via OAuth/OIDC (username‑only UX)
+- Phone verification: SMS/WhatsApp OTP → verified claim, not username
+- Government ID: third‑party verification → store attestation token only
+- Gesture Token (GTΨ): optional high‑entropy factor for consent/approvals
+
+**Example: linked aliases on a single ΛID**
+```json
+{
+  "lid": "openai:reviewer",
+  "aliases": [
+    { "provider": "lukhas",  "verified": true },
+    { "provider": "google",  "username_hint": "reviewer", "verified": true },
+    { "provider": "apple",   "username_hint": "reviewer", "verified": false },
+    { "provider": "phone",   "e164_hash": "h:sha256:…",   "verified": true }
+  ],
+  "mfa": ["webauthn", "totp", "gtpsi"],
+  "tier": "T3"
+}
+```
+
+## 🧪 Validation Matrix (SWOT‑ready)
+
+| Vector | What to test | KPIs |
+|---|---|---|
+| GTΨ gesture factor | Spoofing, replay, kinesthetic variance | FAR/FRR, entropy/bitrate |
+| Runtime grammar | Parser determinism, perf | p50/p95 parse time, error rate |
+| Namespace policy | Squatting, dispute | time‑to‑resolution, abuse reports |
+| Privacy | PII handling, data retention | 0 raw PII stored, DPIA pass |
 
 ## 🏢 Enterprise User ID System
+
+**Note:** All enterprise handles are just **namespaced ΛIDs**. The canonical form is `namespace:username`. Provider aliases (e.g., `@google`) are optional at login time and do not change the canonical ΛID.
 
 ### User ID Format Examples
 
@@ -21,7 +149,7 @@ Organizations can configure custom user ID formats:
   "acme_corp": {
     "organization_id": "acme",
     "domain_pattern": "*.acme.com",
-    "user_id_format": "acme_{department}_{username}",
+    "user_id_format": "acme:{department}-{username}",
     "default_tier": "T2"
   }
 }
@@ -332,3 +460,10 @@ OAuth Users:
 ```
 
 This system provides **flexible, secure, and scalable** user identity management that works across consumer OAuth, enterprise SSO, and institutional access patterns! 🚀
+
+## 📚 Developer Notes
+
+- Store canonical ΛID as two columns: `namespace` (nullable) and `username`.
+- Enforce uniqueness on `(namespace, username)`.
+- Keep provider alias, locale, emoji in separate columns (or JSONB) and **do not** include them in uniqueness.
+- Provide a `/identity/resolve-login` endpoint (see above) and keep provider‑specific logic isolated in adapters.

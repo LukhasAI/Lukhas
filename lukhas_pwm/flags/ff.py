@@ -44,7 +44,7 @@ def _env_overrides() -> Dict[str, bool]:
     for k, v in os.environ.items():
         if not k.startswith("LUKHAS_FLAG_"):
             continue
-        name = k[len("LUKHAS_FLAG_"):]
+        name = k[len("LUKHAS_FLAG_") :]
         val = str(v).strip().lower()
         if val in ("1", "true", "yes", "on"):
             merged[name] = True
@@ -89,4 +89,3 @@ class Flags:
             yield None
         finally:
             _override_stack.pop()
-

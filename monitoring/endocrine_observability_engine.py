@@ -362,7 +362,10 @@ class EndocrineObservabilityEngine:
         hormone_levels = snapshot.hormone_levels
         system_metrics = snapshot.system_metrics
         # Compatibility: map generic performance metric to processing_efficiency if provided
-        if "processing_efficiency" not in system_metrics and "performance" in system_metrics:
+        if (
+            "processing_efficiency" not in system_metrics
+            and "performance" in system_metrics
+        ):
             try:
                 perf = float(system_metrics.get("performance", 0.8))
             except Exception:

@@ -545,7 +545,9 @@ class GuardianSystem:
         # Deterministic rule-based check to keep tests stable
         text_blob = str(response).lower()
         # Reuse harm keyword sets
-        risky = any(any(k in text_blob for k in kws) for kws in self._harm_keywords.values())
+        risky = any(
+            any(k in text_blob for k in kws) for kws in self._harm_keywords.values()
+        )
 
         if risky:
             return {

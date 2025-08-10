@@ -343,7 +343,17 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # Check for question words for general queries
         if any(
             word in user_input.lower()
-            for word in ["what", "how", "why", "when", "where", "do you remember", "hello", "hi", "hey"]
+            for word in [
+                "what",
+                "how",
+                "why",
+                "when",
+                "where",
+                "do you remember",
+                "hello",
+                "hi",
+                "hey",
+            ]
         ):
             return ConversationIntent.GENERAL_CHAT
 
@@ -437,7 +447,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # Merge results, preferring the stronger signal per emotion
         emotions = {k: 0.0 for k in fallback.keys()}
         for k in emotions.keys():
-            emotions[k] = max(float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0)))
+            emotions[k] = max(
+                float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0))
+            )
 
         # Clamp to [0, 1] without normalizing (avoid diluting a clear primary emotion like joy)
         for k, v in list(emotions.items()):

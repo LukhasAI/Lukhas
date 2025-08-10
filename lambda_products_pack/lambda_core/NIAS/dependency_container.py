@@ -61,6 +61,9 @@ class DependencyContainer:
         self.health_checks: dict[str, Callable] = {}
         self.fallback_services: dict[str, str] = {}  # Primary -> Fallback mapping
         self._lock = asyncio.Lock()
+        # Guardrails to avoid hangs during health checks/creation
+        self.health_check_timeout = 0.5  # seconds
+        self.instance_creation_timeout = 1.0  # seconds (for async factories)
 
     async def register_service(
         self,
@@ -231,8 +234,13 @@ class DependencyContainer:
 
             # Create instance
             if inspect.iscoroutinefunction(descriptor.factory):
-                instance = await descriptor.factory(**dependencies)
+                # Protect against long-running async factories
+                instance = await asyncio.wait_for(
+                    descriptor.factory(**dependencies),
+                    timeout=self.instance_creation_timeout,
+                )
             else:
+                # Synchronous factory; assume fast (can't timebox without thread)
                 instance = descriptor.factory(**dependencies)
 
             return instance
@@ -276,7 +284,10 @@ class DependencyContainer:
         try:
             health_check = self.health_checks[service_name]
             if inspect.iscoroutinefunction(health_check):
-                return await health_check()
+                # Bound health checks to avoid hanging
+                return await asyncio.wait_for(
+                    health_check(), timeout=self.health_check_timeout
+                )
             else:
                 return health_check()
         except Exception:
@@ -479,6 +490,4 @@ if __name__ == "__main__":
         print("=" * 80)
 
     # Run test
-    import asyncio
-
     asyncio.run(test_container())

@@ -454,7 +454,12 @@ class IntegratedMonitoringSystem:
 
         try:
             # Connect to HomeostasisController
-            self.homeostasis_controller = HomeostasisController()
+            try:
+                # Prefer passing the shared bus when supported
+                self.homeostasis_controller = HomeostasisController(self.signal_bus)  # type: ignore[arg-type]
+            except TypeError:
+                # Fallback to no-arg constructor
+                self.homeostasis_controller = HomeostasisController()
 
             # Register for homeostasis state changes
             self.homeostasis_controller.register_state_callback(
@@ -488,6 +493,26 @@ class IntegratedMonitoringSystem:
         self._setup_correlation_tracking()
 
         logger.info("Cross-component integration configured")
+
+    async def _load_system_baselines(self):
+        """Load or initialize performance/coherence baselines.
+
+        This is a lightweight, non-blocking stub to quiet initialization warnings
+        when no baseline file exists. It seeds sensible defaults.
+        """
+        try:
+            # Seed minimal baselines if none exist yet
+            if not self.performance_baselines:
+                self.performance_baselines = {
+                    "response_time_target": 0.2,   # seconds
+                    "cpu_utilization_target": 0.75,  # 75%
+                    "coherence_target": 0.8,
+                    "adaptation_success_target": 0.6,
+                }
+            return True
+        except Exception as e:
+            logger.warning("Baseline initialization skipped", error=str(e))
+            return False
 
     def _setup_correlation_tracking(self):
         """Set up correlation tracking between components"""

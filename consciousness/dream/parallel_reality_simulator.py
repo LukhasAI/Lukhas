@@ -789,7 +789,7 @@ class ParallelRealitySimulator(CoreInterface):
         # Combine causal chains
         for branch in branches_to_merge:
             merged_branch.causal_chain.extend(branch.causal_chain)
-            
+
             # Add entry for each branch being merged
             branch_merge_event = {
                 "event_type": "branch_merged",
@@ -800,7 +800,7 @@ class ParallelRealitySimulator(CoreInterface):
                 "reality_type": branch.reality_type.value,
             }
             merged_branch.causal_chain.append(branch_merge_event)
-        
+
         # Add overall merge event to causal chain
         merge_event = {
             "event_type": "reality_merge",
