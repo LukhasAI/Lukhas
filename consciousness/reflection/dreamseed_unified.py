@@ -287,7 +287,7 @@ class UnifiedDreamSeedEmotionEngine:
         if self.identity_client:
             try:
                 # Get from central tier mapping service
-                from identity.core.user_tier_mapping import get_user_tier
+                from governance.identity.core.user_tier_mapping import get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
             except BaseException:
@@ -635,7 +635,7 @@ class UnifiedDreamSeedEmotionEngine:
 
         if self.identity_client:
             try:
-                from identity.core.user_tier_mapping import get_user_tier
+                from governance.identity.core.user_tier_mapping import get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
             except BaseException:

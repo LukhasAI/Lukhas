@@ -27,7 +27,7 @@ Symbolic Ecosystem Integration:
 - ΛSENT → Consent and permission control
 
 Usage:
-    from identity.core.sent import LambdaConsentManager
+    from governance.identity.core.sent import LambdaConsentManager
 
     consent_mgr = LambdaConsentManager(config, trace_logger, tier_manager)
     result = consent_mgr.collect_consent(user_id, "memory", metadata)

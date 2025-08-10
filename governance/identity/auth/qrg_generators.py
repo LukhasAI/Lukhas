@@ -40,7 +40,7 @@ try:
     from core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
-    from identity.auth.entropy_synchronizer import EntropySynchronizer
+    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 

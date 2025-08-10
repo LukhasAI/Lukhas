@@ -23,11 +23,11 @@ from core.colonies.base_colony import BaseColony
 from core.swarm import AgentState, SwarmAgent
 
 # Import identity components
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventType,
     get_identity_event_publisher,
 )
-from identity.core.visualization.lukhas_orb import OrbVisualization
+from governance.identity.core.visualization.lukhas_orb import OrbVisualization
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 

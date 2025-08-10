@@ -76,7 +76,7 @@ from systems.synthesis import *
 from systems.voice_synthesis import *
 
 from core.bridges.orchestration_core_bridge import OrchestrationCoreBridge
-from identity.interface import IdentityClient
+from governance.identity.interface import IdentityClient
 from orchestration.migrate_orchestrators import OrchestratorMigrator
 from orchestration.module_orchestrator import ModuleOrchestratorConfig
 from orchestration.resonance_orchestrator import (
@@ -116,7 +116,7 @@ except ImportError:
     print("⚠️ Performance orchestrator not available - performance features disabled")
 
 try:
-    from identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
 except ImportError:
     # Fallback for development
     class IdentityClient:

@@ -171,13 +171,13 @@ try:
     sys.path.insert(
         0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     )
-    from identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
 
     IDENTITY_CLIENT_AVAILABLE = True
-    logger.info("ΛTRACE: IdentityClient imported successfully from identity.interface.")
+    logger.info("ΛTRACE: IdentityClient imported successfully from governance.identity.interface.")
 except ImportError as e_ic:
     logger.error(
-        "ΛTRACE: Failed to import IdentityClient from identity.interface. Using fallback.",
+        "ΛTRACE: Failed to import IdentityClient from governance.identity.interface. Using fallback.",
         error_message=str(e_ic),
         exc_info=True,
     )

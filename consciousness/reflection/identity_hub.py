@@ -21,15 +21,15 @@ from typing import Any, Optional
 
 from core.bridges.identity_core_bridge import IdentityCoreBridge
 from core.common import get_logger
-from identity.auth_backend.trust_scorer import LukhasTrustScorer
-from identity.core.auth.biometric_integration import (
+from governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
+from governance.identity.core.auth.biometric_integration import (
     BiometricIntegrationManager,
 )
-from identity.core.qrs_manager import QRSManager
-from identity.core.sent.consent_manager import LambdaConsentManager
-from identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
+from governance.identity.core.qrs_manager import QRSManager
+from governance.identity.core.sent.consent_manager import LambdaConsentManager
+from governance.identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
 from identity.deployment_package import DemoOrchestrator, TestOrchestrator
-from identity.interface import ConsentManager
+from governance.identity.interface import ConsentManager
 from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
 from identity.qrg_test_suite import TestQRGCore
 
@@ -84,7 +84,7 @@ except ImportError as e:
 
 # Agent 1 Task 8: Add attention monitor imports
 try:
-    from identity.auth_utils.attention_monitor import (
+    from governance.identity.auth_utils.attention_monitor import (
         AttentionMetrics,
         AttentionMonitor,
         AttentionState,
@@ -124,7 +124,7 @@ except ImportError as e:
 
 # Agent 1 Task 9: Add grid size calculator imports
 try:
-    from identity.auth_utils.grid_size_calculator import (
+    from governance.identity.auth_utils.grid_size_calculator import (
         GridCalculationResult,
         GridConstraints,
         GridPattern,
@@ -238,7 +238,7 @@ except ImportError as e:
 
 # Brain Identity Integration
 try:
-    from identity.core.brain_identity_integration import (
+    from governance.identity.core.brain_identity_integration import (
         create_brain_identity_integration,
     )
 
@@ -847,7 +847,7 @@ class IdentityHub:
             monitor = self.get_service("attention_monitor")
             if monitor:
                 # Convert dict to InputEvent if needed
-                from identity.auth_utils.attention_monitor import (
+                from governance.identity.auth_utils.attention_monitor import (
                     InputEvent,
                     InputModality,
                 )

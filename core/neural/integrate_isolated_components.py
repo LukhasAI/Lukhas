@@ -165,7 +165,7 @@ identity_governance = IdentityGovernance()
 
 # Import identity components
 try:
-    from identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
+    from governance.identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
     identity_governance.register_auth_provider('cognitive_sync', CognitiveSyncAdapter())
 except ImportError:
     pass

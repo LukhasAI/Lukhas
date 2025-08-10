@@ -22,7 +22,7 @@ from core.enhanced_swarm import AgentCapability
 from core.swarm import AgentState, SwarmAgent
 
 # Import identity events
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
     VerificationResult,
@@ -290,7 +290,7 @@ class BiometricVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event publisher
-        from identity.core.events import get_identity_event_publisher
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
 

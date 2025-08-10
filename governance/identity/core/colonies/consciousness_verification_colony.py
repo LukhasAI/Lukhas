@@ -21,17 +21,17 @@ from core.enhanced_swarm import AgentCapability, AgentMemory
 from core.swarm import AgentState, SwarmAgent
 
 # Import identity events
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
     VerificationResult,
 )
-from identity.core.integrations.consciousness_bridge import (
+from governance.identity.core.integrations.consciousness_bridge import (
     ConsciousnessBridge,
 )
 
 # Import consciousness components
-from identity.core.visualization.consciousness_mapper import (
+from governance.identity.core.visualization.consciousness_mapper import (
     BiometricData,
     CognitiveMetrics,
     ConsciousnessState,
@@ -616,7 +616,7 @@ class ConsciousnessVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event publisher
-        from identity.core.events import get_identity_event_publisher
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
 

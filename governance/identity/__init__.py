@@ -5,7 +5,7 @@ Provides backward compatibility for old import paths and centralizes
 all identity system exports. This is a PRODUCTION solution, not a stub.
 
 Migration Path:
-  OLD: from identity.auth.something import Something
+  OLD: from governance.identity.auth.something import Something
   NEW: from governance.identity.auth.something import Something
 
 This module provides compatibility shims to support both patterns.

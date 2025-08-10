@@ -47,7 +47,7 @@ except ImportError as e:
     class TierValidator:
         def validate_tier(self, user_id: str, required_tier: str) -> bool:
             try:
-                from identity.core.user_tier_mapping import check_tier_access
+                from governance.identity.core.user_tier_mapping import check_tier_access
 
                 return check_tier_access(user_id, required_tier)
             except ImportError:

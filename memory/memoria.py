@@ -1,20 +1,32 @@
 """Memoria core component for symbolic trace management."""
 
-try:
-from quantum_mind import ConsciousnessPhase, get_current_phase
 from typing import Any, Optional
 from dataclasses import dataclass
-import structlog  # type: ignore
 
-from core.common import get_logger
-except ImportError:  # pragma: no cover - fallback when structlog isn't installed
+# Optional dependency: quantum_mind
+try:
+    from quantum_mind import ConsciousnessPhase, get_current_phase  # type: ignore
+except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
+    from enum import Enum
+
+    class ConsciousnessPhase(Enum):  # minimal stub for tests/smoke
+        ACTIVE = "active"
+
+    def get_current_phase() -> ConsciousnessPhase:
+        return ConsciousnessPhase.ACTIVE
+
+# Logging setup with optional structlog
+try:
+    import structlog  # type: ignore  # noqa: F401
+    from core.common import get_logger
+    logger = get_logger(__name__)
+except Exception:  # pragma: no cover - fallback when structlog or core is unavailable
     import logging
 
-    def get_logger(name):
+    def get_logger(name):  # type: ignore[override]
         return logging.getLogger(name)
 
-
-logger = get_logger(__name__)
+    logger = get_logger(__name__)
 
 
 MODULE_VERSION = "1.0.0"

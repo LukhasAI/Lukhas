@@ -20,7 +20,7 @@ import psutil
 from core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
 
 # Import identity components
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventPriority,
     IdentityEventPublisher,
     get_identity_event_publisher,

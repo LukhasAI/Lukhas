@@ -72,7 +72,7 @@ try:
     from consciousness.consciousness_service import ConsciousnessService
     from creativity.creativity_service import CreativityService
     from ethics.ethics_service import EthicsService
-    from identity.interface import IdentityClient  # Needs to be a defined interface
+    from governance.identity.interface import IdentityClient  # Needs to be a defined interface
     from memory.memory_service import MemoryService
 
     # Learning service is now obtained through the service registry

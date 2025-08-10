@@ -27,7 +27,7 @@ from typing import Any, Optional
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 try:
-    from identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
 except ImportError:
     # Fallback for development
     class IdentityClient:

@@ -23,7 +23,7 @@ from core.enhanced_swarm import AgentCapability, AgentMemory
 from core.swarm import AgentState, SwarmAgent
 
 # Import dream system components
-from identity.core.auth.dream_auth import (
+from governance.identity.core.auth.dream_auth import (
     DreamAuthenticationResult,
     DreamAuthenticator,
     DreamPattern,
@@ -32,7 +32,7 @@ from identity.core.auth.dream_auth import (
 )
 
 # Import identity events
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
 )
@@ -612,7 +612,7 @@ class DreamVerificationColony(BaseColony):
 
         # Get event systems
         from core.event_bus import get_global_event_bus
-        from identity.core.events import get_identity_event_publisher
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()

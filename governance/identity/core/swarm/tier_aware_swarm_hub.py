@@ -16,14 +16,14 @@ from core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
 from core.swarm import SwarmTask, TaskPriority
-from identity.core.colonies import (
+from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
     DreamVerificationColony,
 )
 
 # Import identity components
-from identity.core.events import (
+from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
     get_identity_event_publisher,
@@ -723,7 +723,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             del self.migration_requests[migration_request["migration_id"]]
 
             # Publish migration result
-            from identity.core.events import TierChangeContext
+            from governance.identity.core.events import TierChangeContext
 
             tier_context = TierChangeContext(
                 previous_tier=migration_request["current_tier"],

@@ -60,7 +60,7 @@ from pydantic import BaseModel, Field
 
 # Import core components
 try:
-    from identity.interface import IdentityClient, check_consent, verify_access
+    from governance.identity.interface import IdentityClient, check_consent, verify_access
 
     IDENTITY_AVAILABLE = True
 except ImportError:

@@ -43,7 +43,7 @@ try:
     from core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
-    from identity.auth.cultural_profile_manager import CulturalProfileManager
+    from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
 except ImportError:
     # Fallback for standalone operation
     print("⚠️ Core modules not available, using mock implementations")
