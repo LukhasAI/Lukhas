@@ -6,17 +6,14 @@ Trinity Framework: ⚛️🧠🛡️
 """
 
 import asyncio
-import json
 import logging
 import time
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 import uvicorn
 
 # Configure logging
@@ -45,7 +42,7 @@ active_connections: List[WebSocket] = []
 # Dashboard configuration
 DASHBOARD_CONFIG = {
     "port": 3000,
-    "host": "0.0.0.0", 
+    "host": "0.0.0.0",
     "title": "LUKHAS PWM Unified Dashboard",
     "refresh_rate": 5,  # seconds
     "enable_auth": False,
@@ -54,8 +51,8 @@ DASHBOARD_CONFIG = {
         "drift_critical": 0.8,
         "memory_usage_high": 85.0,
         "response_time_slow": 1000,  # ms
-        "error_rate_high": 0.05
-    }
+        "error_rate_high": 0.05,
+    },
 }
 
 # In-memory data store (would be replaced with proper DB in production)
@@ -63,42 +60,43 @@ system_metrics = {}
 alerts = []
 historical_data = []
 
+
 class MetricsCollector:
     """Collects and aggregates metrics from all PWM systems"""
-    
+
     def __init__(self):
         self.last_collection = 0
         self.collection_interval = 1  # seconds
-    
+
     async def collect_all_metrics(self) -> Dict[str, Any]:
         """Collect metrics from all systems"""
         now = time.time()
-        
+
         try:
             # System metrics
             system_stats = await self._collect_system_metrics()
-            
+
             # API metrics (from our FastAPI endpoints)
             api_stats = await self._collect_api_metrics()
-            
+
             # Consciousness metrics
             consciousness_stats = await self._collect_consciousness_metrics()
-            
-            # Memory metrics 
+
+            # Memory metrics
             memory_stats = await self._collect_memory_metrics()
-            
+
             # Ethics/Guardian metrics
             ethics_stats = await self._collect_ethics_metrics()
-            
+
             # Dream engine metrics
             dream_stats = await self._collect_dream_metrics()
-            
+
             # Feature flags status
             flags_stats = await self._collect_flags_metrics()
-            
+
             # Performance metrics
             perf_stats = await self._collect_performance_metrics()
-            
+
             combined_metrics = {
                 "timestamp": now,
                 "system": system_stats,
@@ -109,39 +107,43 @@ class MetricsCollector:
                 "dream": dream_stats,
                 "flags": flags_stats,
                 "performance": perf_stats,
-                "health_score": self._calculate_health_score(system_stats, api_stats, consciousness_stats)
+                "health_score": self._calculate_health_score(
+                    system_stats, api_stats, consciousness_stats
+                ),
             }
-            
+
             # Update global metrics
             global system_metrics
             system_metrics = combined_metrics
-            
+
             # Add to historical data
             # Keep only last 24 hours of data
             cutoff = now - (DASHBOARD_CONFIG["data_retention_hours"] * 3600)
             global historical_data
             historical_data.append(combined_metrics)
             historical_data = [d for d in historical_data if d["timestamp"] > cutoff]
-            
+
             return combined_metrics
-            
+
         except Exception as e:
             logger.error(f"Error collecting metrics: {e}")
             return {"error": str(e), "timestamp": now}
-    
+
     async def _collect_system_metrics(self) -> Dict[str, Any]:
         """Collect basic system metrics"""
         import psutil
-        
+
         return {
             "cpu_percent": psutil.cpu_percent(interval=0.1),
             "memory_percent": psutil.virtual_memory().percent,
-            "disk_percent": psutil.disk_usage('/').percent,
+            "disk_percent": psutil.disk_usage("/").percent,
             "active_processes": len(psutil.pids()),
             "uptime": time.time() - psutil.boot_time(),
-            "load_average": psutil.getloadavg()[0] if hasattr(psutil, 'getloadavg') else 0
+            "load_average": (
+                psutil.getloadavg()[0] if hasattr(psutil, "getloadavg") else 0
+            ),
         }
-    
+
     async def _collect_api_metrics(self) -> Dict[str, Any]:
         """Collect API endpoint metrics"""
         # In production, this would read from actual metrics store
@@ -154,12 +156,12 @@ class MetricsCollector:
             "active_connections": len(active_connections),
             "endpoints": {
                 "/feedback/card": {"requests": 5623, "avg_time": 45},
-                "/tools/registry": {"requests": 3421, "avg_time": 123}, 
+                "/tools/registry": {"requests": 3421, "avg_time": 123},
                 "/admin": {"requests": 892, "avg_time": 234},
-                "/audit/trail": {"requests": 2911, "avg_time": 267}
-            }
+                "/audit/trail": {"requests": 2911, "avg_time": 267},
+            },
         }
-    
+
     async def _collect_consciousness_metrics(self) -> Dict[str, Any]:
         """Collect consciousness system metrics"""
         # Mock data - in production would integrate with actual consciousness modules
@@ -170,9 +172,9 @@ class MetricsCollector:
             "reflection_cycles": 156,
             "attention_span": 45.7,  # seconds
             "state": "focused",
-            "dream_integration": True
+            "dream_integration": True,
         }
-    
+
     async def _collect_memory_metrics(self) -> Dict[str, Any]:
         """Collect memory system metrics"""
         return {
@@ -182,9 +184,9 @@ class MetricsCollector:
             "integrity_score": 0.996,
             "consolidation_rate": 0.87,
             "recall_latency": 23.4,  # ms
-            "storage_efficiency": 0.91
+            "storage_efficiency": 0.91,
         }
-    
+
     async def _collect_ethics_metrics(self) -> Dict[str, Any]:
         """Collect Guardian/ethics system metrics"""
         return {
@@ -196,9 +198,9 @@ class MetricsCollector:
             "approval_rate": 0.969,
             "intervention_count": 12,
             "drift_alerts": 3,
-            "cascade_prevented": True
+            "cascade_prevented": True,
         }
-    
+
     async def _collect_dream_metrics(self) -> Dict[str, Any]:
         """Collect dream engine metrics"""
         return {
@@ -208,25 +210,26 @@ class MetricsCollector:
             "innovation_score": 0.68,
             "reality_coherence": 0.85,
             "synthesis_quality": 0.79,
-            "processing_load": 0.34
+            "processing_load": 0.34,
         }
-    
+
     async def _collect_flags_metrics(self) -> Dict[str, Any]:
         """Collect feature flags status"""
         try:
             from lukhas_pwm.flags import get_flags
+
             flags = get_flags()
-            
+
             return {
                 "total_flags": len(flags),
                 "enabled_flags": sum(1 for v in flags.values() if v),
                 "disabled_flags": sum(1 for v in flags.values() if not v),
-                "flags": flags
+                "flags": flags,
             }
         except Exception as e:
             logger.error(f"Error collecting flags: {e}")
             return {"error": str(e)}
-    
+
     async def _collect_performance_metrics(self) -> Dict[str, Any]:
         """Collect performance metrics"""
         return {
@@ -236,33 +239,42 @@ class MetricsCollector:
             "latency_p99": 567,
             "queue_depth": 12,
             "cache_hit_rate": 0.89,
-            "db_connections": 8
+            "db_connections": 8,
         }
-    
-    def _calculate_health_score(self, system: Dict, api: Dict, consciousness: Dict) -> float:
+
+    def _calculate_health_score(
+        self, system: Dict, api: Dict, consciousness: Dict
+    ) -> float:
         """Calculate overall system health score"""
         factors = [
             min(1.0, (100 - system.get("cpu_percent", 0)) / 100),  # Lower CPU is better
-            min(1.0, (100 - system.get("memory_percent", 0)) / 100),  # Lower memory is better
+            min(
+                1.0, (100 - system.get("memory_percent", 0)) / 100
+            ),  # Lower memory is better
             min(1.0, 1.0 - api.get("error_rate", 0)),  # Lower error rate is better
             consciousness.get("awareness_level", 0.5),  # Higher awareness is better
-            min(1.0, 1000 / max(api.get("average_response_time", 1000), 1))  # Lower response time is better
+            min(
+                1.0, 1000 / max(api.get("average_response_time", 1000), 1)
+            ),  # Lower response time is better
         ]
         return sum(factors) / len(factors)
 
+
 # Initialize metrics collector
 metrics_collector = MetricsCollector()
+
 
 @app.on_event("startup")
 async def startup_event():
     """Initialize dashboard on startup"""
     logger.info("🚀 Starting LUKHAS PWM Unified Dashboard")
-    
+
     # Start background metrics collection
     asyncio.create_task(metrics_collection_loop())
-    
+
     # Start alert processing
     asyncio.create_task(alert_processing_loop())
+
 
 async def metrics_collection_loop():
     """Background task to collect metrics periodically"""
@@ -275,6 +287,7 @@ async def metrics_collection_loop():
             logger.error(f"Metrics collection error: {e}")
             await asyncio.sleep(5)
 
+
 async def alert_processing_loop():
     """Background task to process alerts"""
     while True:
@@ -285,82 +298,97 @@ async def alert_processing_loop():
             logger.error(f"Alert processing error: {e}")
             await asyncio.sleep(5)
 
+
 async def process_alerts():
     """Process and generate alerts based on current metrics"""
     if not system_metrics:
         return
-    
+
     current_time = datetime.now(timezone.utc)
     new_alerts = []
-    
+
     # Check drift score
     memory_drift = system_metrics.get("memory", {}).get("drift_score", 0)
     if memory_drift > DASHBOARD_CONFIG["alert_thresholds"]["drift_critical"]:
-        new_alerts.append({
-            "id": f"drift_{int(time.time())}",
-            "type": "critical",
-            "title": "Critical Memory Drift Detected", 
-            "message": f"Memory drift score {memory_drift:.2f} exceeds critical threshold",
-            "timestamp": current_time.isoformat(),
-            "system": "memory"
-        })
-    
+        new_alerts.append(
+            {
+                "id": f"drift_{int(time.time())}",
+                "type": "critical",
+                "title": "Critical Memory Drift Detected",
+                "message": f"Memory drift score {memory_drift:.2f} exceeds critical threshold",
+                "timestamp": current_time.isoformat(),
+                "system": "memory",
+            }
+        )
+
     # Check system resources
     cpu_percent = system_metrics.get("system", {}).get("cpu_percent", 0)
     if cpu_percent > 90:
-        new_alerts.append({
-            "id": f"cpu_{int(time.time())}",
-            "type": "warning",
-            "title": "High CPU Usage",
-            "message": f"CPU usage at {cpu_percent:.1f}%",
-            "timestamp": current_time.isoformat(),
-            "system": "system"
-        })
-    
+        new_alerts.append(
+            {
+                "id": f"cpu_{int(time.time())}",
+                "type": "warning",
+                "title": "High CPU Usage",
+                "message": f"CPU usage at {cpu_percent:.1f}%",
+                "timestamp": current_time.isoformat(),
+                "system": "system",
+            }
+        )
+
     # Check API performance
     response_time = system_metrics.get("api", {}).get("average_response_time", 0)
     if response_time > DASHBOARD_CONFIG["alert_thresholds"]["response_time_slow"]:
-        new_alerts.append({
-            "id": f"perf_{int(time.time())}",
-            "type": "warning", 
-            "title": "Slow API Response Time",
-            "message": f"Average response time {response_time}ms exceeds threshold",
-            "timestamp": current_time.isoformat(),
-            "system": "api"
-        })
-    
+        new_alerts.append(
+            {
+                "id": f"perf_{int(time.time())}",
+                "type": "warning",
+                "title": "Slow API Response Time",
+                "message": f"Average response time {response_time}ms exceeds threshold",
+                "timestamp": current_time.isoformat(),
+                "system": "api",
+            }
+        )
+
     # Add new alerts
     global alerts
     alerts.extend(new_alerts)
-    
+
     # Keep only recent alerts
     cutoff = current_time.timestamp() - 3600  # 1 hour
-    alerts = [a for a in alerts if datetime.fromisoformat(a["timestamp"].replace('Z', '+00:00')).timestamp() > cutoff]
+    alerts = [
+        a
+        for a in alerts
+        if datetime.fromisoformat(a["timestamp"].replace("Z", "+00:00")).timestamp()
+        > cutoff
+    ]
+
 
 async def notify_websocket_clients():
     """Send updates to all connected WebSocket clients"""
     if not active_connections:
         return
-    
+
     message = {
         "type": "metrics_update",
         "data": system_metrics,
         "alerts": alerts[-10:],  # Last 10 alerts
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
-    
+
     disconnected_clients = []
     for connection in active_connections:
         try:
             await connection.send_json(message)
         except Exception:
             disconnected_clients.append(connection)
-    
+
     # Remove disconnected clients
     for client in disconnected_clients:
         active_connections.remove(client)
 
+
 # API Endpoints
+
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard_home():
@@ -706,15 +734,18 @@ async def dashboard_home():
     """
     return HTMLResponse(content=html_content)
 
+
 @app.get("/api/metrics")
 async def get_metrics():
     """Get current system metrics"""
     return JSONResponse(content=system_metrics)
 
+
 @app.get("/api/alerts")
 async def get_alerts():
     """Get current alerts"""
     return JSONResponse(content=alerts)
+
 
 @app.get("/api/history")
 async def get_historical_data(hours: int = 1):
@@ -723,33 +754,37 @@ async def get_historical_data(hours: int = 1):
     filtered_data = [d for d in historical_data if d["timestamp"] > cutoff]
     return JSONResponse(content=filtered_data)
 
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """WebSocket endpoint for real-time updates"""
     await websocket.accept()
     active_connections.append(websocket)
-    
+
     try:
         # Send initial data
         if system_metrics:
-            await websocket.send_json({
-                "type": "metrics_update",
-                "data": system_metrics,
-                "alerts": alerts[-10:],
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            })
-        
+            await websocket.send_json(
+                {
+                    "type": "metrics_update",
+                    "data": system_metrics,
+                    "alerts": alerts[-10:],
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+
         while True:
             # Keep connection alive
             await asyncio.sleep(30)
             await websocket.ping()
-            
+
     except WebSocketDisconnect:
         pass
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
     finally:
         active_connections.remove(websocket)
+
 
 @app.get("/health")
 async def health_check():
@@ -760,29 +795,26 @@ async def health_check():
         "version": "2.0.0",
         "trinity": "⚛️🧠🛡️",
         "active_connections": len(active_connections),
-        "metrics_available": bool(system_metrics)
+        "metrics_available": bool(system_metrics),
     }
+
 
 def start_dashboard(host: str = None, port: int = None, dev: bool = False):
     """Start the unified dashboard server"""
     host = host or DASHBOARD_CONFIG["host"]
     port = port or DASHBOARD_CONFIG["port"]
-    
-    logger.info(f"🚀 Starting LUKHAS PWM Unified Dashboard")
+
+    logger.info("🚀 Starting LUKHAS PWM Unified Dashboard")
     logger.info(f"   📊 Dashboard: http://{host}:{port}")
     logger.info(f"   📡 WebSocket: ws://{host}:{port}/ws")
     logger.info(f"   🔗 API: http://{host}:{port}/api/metrics")
-    logger.info(f"   ⚛️🧠🛡️ Trinity Framework Active")
-    
-    uvicorn.run(
-        app, 
-        host=host, 
-        port=port,
-        reload=dev,
-        log_level="info"
-    )
+    logger.info("   ⚛️🧠🛡️ Trinity Framework Active")
+
+    uvicorn.run(app, host=host, port=port, reload=dev, log_level="info")
+
 
 if __name__ == "__main__":
     import sys
+
     dev_mode = "--dev" in sys.argv
     start_dashboard(dev=dev_mode)

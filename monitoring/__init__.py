@@ -32,7 +32,7 @@ from .endocrine_observability_engine import (
     EndocrineSnapshot,
     PlasticityEvent,
     PlasticityTriggerType,
-    create_endocrine_observability_engine
+    create_endocrine_observability_engine,
 )
 
 from .plasticity_trigger_manager import (
@@ -40,7 +40,7 @@ from .plasticity_trigger_manager import (
     AdaptationPlan,
     AdaptationRule,
     AdaptationStrategy,
-    AdaptationPriority
+    AdaptationPriority,
 )
 
 from .bio_symbolic_coherence_monitor import (
@@ -49,7 +49,7 @@ from .bio_symbolic_coherence_monitor import (
     CoherenceLevel,
     CoherenceMetric,
     CoherenceMeasurement,
-    create_bio_symbolic_coherence_monitor
+    create_bio_symbolic_coherence_monitor,
 )
 
 from .adaptive_metrics_collector import (
@@ -58,7 +58,7 @@ from .adaptive_metrics_collector import (
     MetricContext,
     MetricDefinition,
     MetricDataPoint,
-    create_adaptive_metrics_collector
+    create_adaptive_metrics_collector,
 )
 
 from .hormone_driven_dashboard import (
@@ -67,7 +67,7 @@ from .hormone_driven_dashboard import (
     VisualizationType,
     DashboardAlert,
     PredictionInsight,
-    create_hormone_driven_dashboard
+    create_hormone_driven_dashboard,
 )
 
 from .neuroplastic_learning_orchestrator import (
@@ -76,7 +76,7 @@ from .neuroplastic_learning_orchestrator import (
     LearningGoal,
     AdaptationExperiment,
     LearningInsight,
-    create_neuroplastic_learning_orchestrator
+    create_neuroplastic_learning_orchestrator,
 )
 
 from .integrated_monitoring_system import (
@@ -85,7 +85,7 @@ from .integrated_monitoring_system import (
     MonitoringLevel,
     SystemHealthMetrics,
     create_integrated_monitoring_system,
-    start_complete_monitoring_system
+    start_complete_monitoring_system,
 )
 
 from .monitoring_config import (
@@ -101,13 +101,15 @@ from .monitoring_config import (
     load_monitoring_config,
     save_monitoring_config,
     validate_monitoring_config,
-    create_default_monitoring_config
+    create_default_monitoring_config,
 )
 
 # Version information
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
-__description__ = "Enhanced monitoring and observability with endocrine-triggered plasticity"
+__description__ = (
+    "Enhanced monitoring and observability with endocrine-triggered plasticity"
+)
 
 # Main entry points
 __all__ = [
@@ -115,28 +117,24 @@ __all__ = [
     "IntegratedMonitoringSystem",
     "start_complete_monitoring_system",
     "create_integrated_monitoring_system",
-    
     # Individual components
     "EndocrineObservabilityEngine",
-    "PlasticityTriggerManager", 
+    "PlasticityTriggerManager",
     "BioSymbolicCoherenceMonitor",
     "AdaptiveMetricsCollector",
     "HormoneDrivenDashboard",
     "NeuroplasticLearningOrchestrator",
-    
     # Configuration
     "ComprehensiveMonitoringConfig",
     "MonitoringProfile",
     "MonitoringConfigManager",
     "load_monitoring_config",
-    
     # Key data structures
     "EndocrineSnapshot",
-    "PlasticityEvent", 
+    "PlasticityEvent",
     "CoherenceReport",
     "SystemHealthMetrics",
     "LearningInsight",
-    
     # Enums and types
     "PlasticityTriggerType",
     "CoherenceLevel",
@@ -144,25 +142,27 @@ __all__ = [
     "DashboardMode",
     "LearningPhase",
     "IntegrationState",
-    "MonitoringLevel"
+    "MonitoringLevel",
 ]
 
 
-def create_monitoring_system_from_config(config_path: str = None, profile: MonitoringProfile = None):
+def create_monitoring_system_from_config(
+    config_path: str = None, profile: MonitoringProfile = None
+):
     """
     Convenience function to create a complete monitoring system from configuration.
-    
+
     Args:
         config_path: Path to configuration file
         profile: Monitoring profile to use
-    
+
     Returns:
         Configured IntegratedMonitoringSystem ready to start
-    
+
     Example:
         >>> from monitoring import create_monitoring_system_from_config, MonitoringProfile
         >>> from orchestration.signals.signal_bus import SignalBus
-        >>> 
+        >>>
         >>> signal_bus = SignalBus()
         >>> monitoring = create_monitoring_system_from_config(
         ...     config_path="config/monitoring.yaml",
@@ -172,16 +172,16 @@ def create_monitoring_system_from_config(config_path: str = None, profile: Monit
         >>> await monitoring.start_monitoring()
     """
     from orchestration.signals.signal_bus import SignalBus
-    
+
     # Load configuration
     config = load_monitoring_config(config_path, profile)
-    
+
     # Create signal bus (would typically be passed from main system)
     signal_bus = SignalBus()
-    
+
     # Create integrated system with configuration
     return create_integrated_monitoring_system(
-        signal_bus, 
+        signal_bus,
         {
             "endocrine_config": config.endocrine.__dict__,
             "plasticity_config": config.plasticity.__dict__,
@@ -189,13 +189,13 @@ def create_monitoring_system_from_config(config_path: str = None, profile: Monit
             "metrics_config": config.metrics.__dict__,
             "dashboard_config": config.dashboard.__dict__,
             "learning_config": config.learning.__dict__,
-            **config.integration.__dict__
-        }
+            **config.integration.__dict__,
+        },
     )
 
 
 # Quick start example
-QUICK_START_EXAMPLE = '''
+QUICK_START_EXAMPLE = """
 # Quick Start Example - Enhanced LUKHAS Monitoring
 
 from monitoring import start_complete_monitoring_system, MonitoringProfile
@@ -242,4 +242,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-'''
+"""
