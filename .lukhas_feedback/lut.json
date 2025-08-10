@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "updated_ms": 1754722442150,
+  "updated_ms": 1754724824968,
   "style": {
-    "temperature_delta": 0.05,
-    "top_p_delta": 0.05,
-    "memory_write_boost": 0.04,
-    "verbosity_bias": 0.1
+    "temperature_delta": 0.07019583776065287,
+    "top_p_delta": 0.07019583776065287,
+    "memory_write_boost": 0.056156670208522295,
+    "verbosity_bias": 0.14039167552130574
   }
 }

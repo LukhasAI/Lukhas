@@ -1,0 +1,32 @@
+# --- Back-compat shim -------------------------------------------------------
+class PromptModulation(Modulator):
+    """
+    Backward-compatibility layer for older callers that expect a
+    `PromptModulation.task(...)` coroutine-style API.
+
+    Accepts either a list of Signal objects, or a list of dicts like
+    {"name": str, "level": float, "ttl_ms": int, "source": str, "audit_id": str}.
+    Returns the computed modulation parameters dict.
+    """
+    async def task(self, *, signals, context=None):
+        # Normalize incoming signals to Signal instances
+        norm_signals = []
+        for s in (signals or []):
+            if isinstance(s, Signal):
+                norm_signals.append(s)
+            elif isinstance(s, dict):
+                # tolerate missing optional fields
+                norm_signals.append(
+                    Signal(
+                        name=s.get("name"),
+                        level=float(s.get("level", 0.0)),
+                        ttl_ms=int(s.get("ttl_ms", 0)),
+                        source=s.get("source", "runtime"),
+                        audit_id=s.get("audit_id", "A-AUTO"),
+                        ts=s.get("ts") or time.time(),
+                    )
+                )
+        # Delegate to Modulator.combine
+        params = self.combine(norm_signals)
+        # Optionally use `context` later (kept for API parity)
+        return params

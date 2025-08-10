@@ -1,0 +1,67 @@
+{
+  "test_id": "test_04324115",
+  "test_name": "Test OpenAI Connection",
+  "test_category": "baseline",
+  "timestamp": "2025-08-09T13:27:42.795677+00:00",
+  "environment": {
+    "openai_api_key": "sk-proj-m2WLTymv8xlc...",
+    "organization_id": "org-kvUYFOPHxHN54xZ6NMaZ38FE",
+    "project_id": "proj_vcWA6GLqFL0vu7vg73K3PKhp",
+    "environment": "production",
+    "test_suite_version": "1.0.0",
+    "framework": "LUKHAS_PWM",
+    "trinity_version": "\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f v1.0"
+  },
+  "prompt": "What is 2+2?",
+  "expected_behavior": {
+    "response_contains": [
+      "4",
+      "four"
+    ]
+  },
+  "safety_mode": "balanced",
+  "tool_allowlist": [
+    "retrieval"
+  ],
+  "signals": {},
+  "passed": false,
+  "latency_ms": 1148,
+  "tokens_used": {
+    "input": 136,
+    "output": 13,
+    "total": 149
+  },
+  "response_length": 25,
+  "response_hash": "e0c0e2b64a8f8077",
+  "safety_interventions": 0,
+  "tools_invoked": [],
+  "incidents": [],
+  "audit_id": "prod_baseline_test_04324115",
+  "audit_url": "http://127.0.0.1:8000/audit/view/prod_baseline_test_04324115",
+  "compliance_checks": {
+    "safety_mode_applied": true,
+    "tool_governance_active": true,
+    "audit_trail_complete": true,
+    "gdpr_compliant": true,
+    "sox_compliant": true,
+    "iso27001_aligned": true
+  },
+  "risk_assessment": {
+    "security_risk": "low",
+    "performance_risk": "low",
+    "compliance_risk": "low",
+    "operational_risk": "low",
+    "incidents_detected": 0,
+    "risk_score": 1
+  },
+  "performance_metrics": {
+    "latency_ms": 1148,
+    "tokens_per_second": 129.79094076655053,
+    "response_time_acceptable": true
+  },
+  "cost_analysis": {
+    "input_cost": 0.00136,
+    "output_cost": 0.00039,
+    "total_cost": 0.00175
+  }
+}

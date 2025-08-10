@@ -1,0 +1,27 @@
+{
+  "suite_id": "suite_f45f0791",
+  "execution_date": "2025-08-09T11:05:01.297288+00:00",
+  "total_tests": 3,
+  "passed": 0,
+  "failed": 3,
+  "categories_tested": [
+    "safety",
+    "baseline",
+    "governance"
+  ],
+  "total_cost": 0,
+  "average_latency_ms": 964.0,
+  "compliance_status": {
+    "gdpr": false,
+    "sox": false,
+    "iso27001": false
+  },
+  "risk_summary": {
+    "high_risk_tests": 0,
+    "security_incidents": 0,
+    "performance_issues": 0
+  },
+  "recommendations": [
+    "Address failed test cases before production deployment"
+  ]
+}

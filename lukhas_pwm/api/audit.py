@@ -57,16 +57,62 @@ def view_audit(audit_id: str):
     badge_style = config["style"]
     badge_tooltip = config["tooltip"]
 
-    # Tool allowlist display
+    # Tool allowlist and usage display
     tools_html = ""
     if tool_allowlist:
-        tools_list = ", ".join(tool_allowlist)
         tools_html = f"""
         <div class="card" style="margin-top:16px;">
           <h3>🛠️ Allowed Tools</h3>
           <div class="tools-list">
             {', '.join([f'<code>{tool}</code>' for tool in tool_allowlist])}
           </div>
+        </div>
+        """
+    
+    # Tool usage analytics
+    tool_analytics = obj.get("tool_analytics", {})
+    tools_used = tool_analytics.get("tools_used", [])
+    incidents = tool_analytics.get("incidents", [])
+    
+    if tools_used:
+        tools_used_html = "<h4>✅ Tools Actually Used:</h4><ul>"
+        for tool_call in tools_used:
+            tool_name = tool_call.get("tool", "unknown")
+            status = tool_call.get("status", "unknown")
+            duration = tool_call.get("duration_ms", "N/A")
+            status_emoji = "✅" if status == "executed" else "⚠️"
+            tools_used_html += f"""
+            <li>
+              <code>{tool_name}</code> 
+              {status_emoji} {status}
+              <span style="color:#666; margin-left:10px;">({duration}ms)</span>
+            </li>
+            """
+        tools_used_html += "</ul>"
+        tools_html += f"""
+        <div class="card" style="margin-top:16px;">
+          <h3>📊 Tool Usage Analytics</h3>
+          {tools_used_html}
+        </div>
+        """
+    
+    # Security incidents display
+    if incidents:
+        incidents_html = "<h4>🚨 Blocked Attempts:</h4>"
+        for incident in incidents:
+            incidents_html += f"""
+            <div class="incident-chip" style="background:#dc3545; color:white; padding:6px 12px; border-radius:999px; display:inline-block; margin:4px;">
+              ⛔ Blocked: <strong>{incident.get('attempted_tool', 'unknown')}</strong>
+              <span style="opacity:0.8; font-size:12px;">(auto-tightened to strict)</span>
+            </div>
+            """
+        tools_html += f"""
+        <div class="card" style="margin-top:16px; border-color:#dc3545;">
+          <h3>🛡️ Security Incidents</h3>
+          {incidents_html}
+          <p style="color:#dc3545; margin-top:10px;">
+            <strong>Action Taken:</strong> Safety mode automatically tightened to STRICT
+          </p>
         </div>
         """
 

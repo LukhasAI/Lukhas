@@ -51,7 +51,7 @@ except ImportError:
 
 # Import identity client for tier validation
 try:
-    from identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
     _HAS_IDENTITY_CLIENT = True
 except ImportError:
     _HAS_IDENTITY_CLIENT = False

@@ -97,28 +97,23 @@ class UnifiedOpenAIClient:
         """
         # Get API key from parameter or environment
         self.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        self.organization = os.getenv('ORGANIZATION_ID')
+        self.project = os.getenv('PROJECT_ID')
+        
         if not self.api_key:
             raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
-        # Store organization and project IDs for reference
-        self.organization_id = os.getenv('OPENAI_ORGANIZATION_ID')
-        self.project_id = os.getenv('OPENAI_PROJECT')
-
-        # Initialize clients using auto-detection from environment
-        # The OpenAI library will automatically use:
-        # - OPENAI_API_KEY
-        # - OPENAI_ORGANIZATION
-        # - OPENAI_PROJECT (if available)
-
+        # Initialize clients with organization from .env
+        client_kwargs = {"api_key": self.api_key}
+        if self.organization:
+            client_kwargs["organization"] = self.organization
+        
         # For sync client
-        if api_key:
-            # If API key was explicitly provided, use it
-            self.client = OpenAI(api_key=api_key)
-            self.async_client = AsyncOpenAI(api_key=api_key)
-        else:
-            # Otherwise use full auto-detection
-            self.client = OpenAI()
-            self.async_client = AsyncOpenAI()
+        self.client = OpenAI(**client_kwargs)
+        self.async_client = AsyncOpenAI(**client_kwargs)
+        
+        # Store project ID for headers if needed
+        self.project_id = self.project
 
         # Conversation management
         self.conversations: Dict[str, ConversationState] = {}
@@ -129,7 +124,7 @@ class UnifiedOpenAIClient:
         self.retry_attempts = 3
         self.retry_delay = 1.0
 
-        logger.info(f"UnifiedOpenAIClient initialized with org: {self.organization_id}")
+        logger.info(f"UnifiedOpenAIClient initialized with org: {self.organization}")
 
     # Conversation Management
 

@@ -49,8 +49,8 @@ MODULE_NAME = "module_registry"
 
 # Import tier system components
 try:
-    from identity.core.lambd_id_service import TierLevel
-    from identity.interface import IdentityClient
+    from governance.identity.core.lambd_id_service import TierLevel
+    from governance.identity.interface import IdentityClient
     from memory.core.tier_system import AccessType, PermissionScope
     TIER_SYSTEM_AVAILABLE = True
 except ImportError:
