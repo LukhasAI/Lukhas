@@ -21,7 +21,15 @@ import structlog
 
 from core.endocrine.hormone_system import HormoneType
 from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
-from .endocrine_observability_engine import EndocrineSnapshot
+
+# Support both package and direct module execution import styles for EndocrineSnapshot
+try:
+    from .endocrine_observability_engine import EndocrineSnapshot
+except Exception:
+    try:
+        from monitoring.endocrine_observability_engine import EndocrineSnapshot
+    except Exception:
+        from endocrine_observability_engine import EndocrineSnapshot
 
 logger = structlog.get_logger(__name__)
 
@@ -153,9 +161,11 @@ class BioSymbolicCoherenceMonitor:
         # Integration tracking
         self.integration_events: deque = deque(maxlen=200)
         
-        logger.info("BioSymbolicCoherenceMonitor initialized",
-                   monitoring_interval=self.monitoring_interval,
-                   metrics_tracked=len(CoherenceMetric))
+        logger.info(
+            "BioSymbolicCoherenceMonitor initialized",
+            monitoring_interval=self.monitoring_interval,
+            metrics_tracked=len(CoherenceMetric),
+        )
     
     async def update_bio_system_state(self, endocrine_snapshot: EndocrineSnapshot):
         """Update biological system state information"""
@@ -248,9 +258,11 @@ class BioSymbolicCoherenceMonitor:
                 return await self._measure_circadian_processing_rhythm()
             
         except Exception as e:
-            logger.error("Error measuring coherence metric",
-                        metric=metric.value,
-                        error=str(e))
+            logger.error(
+                "Error measuring coherence metric",
+                metric=metric.value,
+                error=str(e),
+            )
         
         return None
     
@@ -334,9 +346,11 @@ class BioSymbolicCoherenceMonitor:
         elif bio_stress < 0.3 and decision_making_active:
             decision_coherence = 0.7  # Shouldn't be overly active when relaxed
         
-        coherence_score = (consciousness_alignment * 0.4 + 
-                          reasoning_alignment * 0.4 + 
-                          decision_coherence * 0.2)
+        coherence_score = (
+            consciousness_alignment * 0.4
+            + reasoning_alignment * 0.4
+            + decision_coherence * 0.2
+        )
         
         alignment_factors = []
         misalignment_factors = []
@@ -371,45 +385,47 @@ class BioSymbolicCoherenceMonitor:
     
     async def _measure_learning_integration(self) -> CoherenceMeasurement:
         """Measure integration between biological plasticity and symbolic learning"""
-        
+
         # This would measure how well biological adaptation triggers
         # are integrated with symbolic learning processes
-        
+
         hormone_levels = self.bio_system_state.get("hormone_levels", {})
         memory_operations = self.symbolic_system_state.get("memory_operations", 0)
-        
+
         # Learning-related hormones
         dopamine = hormone_levels.get("dopamine", 0.5)  # Reward/learning
-        serotonin = hormone_levels.get("serotonin", 0.5) # Mood/learning state
-        
+        serotonin = hormone_levels.get("serotonin", 0.5)  # Mood/learning state
+
         # Expected memory activity based on learning hormones
         expected_memory_ops = (dopamine * 0.6 + serotonin * 0.4) * 10  # Scale to ops count
-        
+
         # Compare with actual memory operations
         if expected_memory_ops > 0:
             memory_alignment = min(1.0, memory_operations / expected_memory_ops)
         else:
             memory_alignment = 0.5
-        
+
         # Base coherence on memory alignment
         coherence_score = memory_alignment
-        
-        alignment_factors = []
-        misalignment_factors = []
-        
+
+        alignment_factors: List[str] = []
+        misalignment_factors: List[str] = []
+
         if memory_alignment > 0.7:
             alignment_factors.append("Memory operations aligned with learning hormones")
         else:
             misalignment_factors.append("Memory activity not matching learning state")
-        
+
         return CoherenceMeasurement(
             metric_type=CoherenceMetric.LEARNING_INTEGRATION,
             coherence_score=coherence_score,
-            bio_component_state={"learning_hormones": {"dopamine": dopamine, "serotonin": serotonin}},
+            bio_component_state={
+                "learning_hormones": {"dopamine": dopamine, "serotonin": serotonin}
+            },
             symbolic_component_state={"memory_ops": memory_operations},
             alignment_factors=alignment_factors,
             misalignment_factors=misalignment_factors,
-            confidence=0.6  # Lower confidence as this is complex to measure
+            confidence=0.6,  # Lower confidence as this is complex to measure
         )
     
     async def _measure_emotional_symbolic_sync(self) -> CoherenceMeasurement:
@@ -693,9 +709,11 @@ class BioSymbolicCoherenceMonitor:
         """Check for coherence issues and trigger alerts if needed"""
         
         if report.overall_level == CoherenceLevel.CRITICAL:
-            logger.critical("Critical bio-symbolic coherence detected",
-                          overall_coherence=report.overall_coherence,
-                          critical_issues=report.critical_issues)
+            logger.critical(
+                "Critical bio-symbolic coherence detected",
+                overall_coherence=report.overall_coherence,
+                critical_issues=report.critical_issues,
+            )
             
             # Emit critical alert signal
             signal = Signal(
@@ -711,9 +729,11 @@ class BioSymbolicCoherenceMonitor:
             self.signal_bus.publish(signal)
         
         elif report.overall_level == CoherenceLevel.POOR:
-            logger.warning("Poor bio-symbolic coherence detected",
-                         overall_coherence=report.overall_coherence,
-                         recommendations=report.recommendations)
+            logger.warning(
+                "Poor bio-symbolic coherence detected",
+                overall_coherence=report.overall_coherence,
+                recommendations=report.recommendations,
+            )
     
     async def _emit_coherence_signal(self, report: CoherenceReport):
         """Emit coherence status signal for other systems"""

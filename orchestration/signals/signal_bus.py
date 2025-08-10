@@ -30,6 +30,12 @@ class SignalType(Enum):
     HOMEOSTASIS = "homeostasis"         # Return to baseline
     CURIOSITY = "curiosity"              # Exploration drive
     FATIGUE = "fatigue"                  # Resource depletion
+    # Extended types used by monitoring/integration modules
+    METRIC_UPDATE = "metric_update"
+    ALERT = "alert"
+    ADAPTATION = "adaptation"
+    COHERENCE = "coherence"
+    LEARNING_PHASE = "learning_phase"
 
 
 @dataclass

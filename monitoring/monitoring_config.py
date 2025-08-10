@@ -26,7 +26,7 @@ class MonitoringProfile(Enum):
     TESTING = "testing"              # Testing environment settings  
     PRODUCTION = "production"        # Production environment settings
     RESEARCH = "research"           # Research and experimentation
-    DEMONSTRATION = "demonstration" # Demo and presentation mode
+    DEMONSTRATION = "demonstration"  # Demo and presentation mode
 
 
 @dataclass
@@ -540,14 +540,19 @@ class MonitoringConfigManager:
     
     def create_profile_config(self, profile: MonitoringProfile) -> ComprehensiveMonitoringConfig:
         """Create configuration for a specific profile"""
-        
+
         config = ComprehensiveMonitoringConfig()
         config.profile = profile
-        
+
         profile_overrides = self.profile_configs.get(profile, {})
         config = self._apply_overrides(config, profile_overrides)
-        
+
         return config
+
+
+# Backward/compatibility alias expected by some tests
+
+MonitoringConfig = ComprehensiveMonitoringConfig
 
 
 def create_default_monitoring_config() -> ComprehensiveMonitoringConfig:
@@ -598,9 +603,11 @@ def create_example_configs():
         example_manager = MonitoringConfigManager(str(example_path))
         example_manager.save_config(config)
         
-        logger.info("Created example configuration",
-                   profile=profile.value,
-                   path=str(example_path))
+        logger.info(
+            "Created example configuration",
+            profile=profile.value,
+            path=str(example_path),
+        )
 
 
 if __name__ == "__main__":
@@ -616,6 +623,8 @@ if __name__ == "__main__":
     else:
         logger.info("Configuration validation passed")
     
-    logger.info("Monitoring configuration system ready",
-               profile=config.profile.value,
-               version=config.config_version)
+    logger.info(
+        "Monitoring configuration system ready",
+        profile=config.profile.value,
+        version=config.config_version,
+    )

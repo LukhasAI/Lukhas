@@ -49,8 +49,8 @@ logger = structlog.get_logger(__name__)
 class TestComprehensiveMonitoringSystem:
     """Comprehensive test suite for all monitoring capabilities"""
     
-    async def setup_method(self):
-        """Set up test environment"""
+    async def async_setup(self):
+        """Async setup for test environment (callable directly or via sync wrapper)."""
         self.test_results = {}
         self.performance_metrics = {}
         
@@ -68,6 +68,25 @@ class TestComprehensiveMonitoringSystem:
         
         print("🧪 COMPREHENSIVE MONITORING SYSTEM TEST SUITE")
         print("=" * 60)
+
+    def setup_method(self):
+        """Pytest-compatible synchronous setup that runs the async setup."""
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # Create a temporary loop if one is already running
+                new_loop = asyncio.new_event_loop()
+                try:
+                    asyncio.set_event_loop(new_loop)
+                    new_loop.run_until_complete(self.async_setup())
+                finally:
+                    new_loop.close()
+                    asyncio.set_event_loop(loop)
+            else:
+                loop.run_until_complete(self.async_setup())
+        except RuntimeError:
+            # No current loop; create one
+            asyncio.run(self.async_setup())
     
     async def _initialize_all_systems(self):
         """Initialize all monitoring systems"""
@@ -1018,7 +1037,7 @@ async def run_comprehensive_tests():
     print("=" * 80)
     
     test_suite = TestComprehensiveMonitoringSystem()
-    await test_suite.setup_method()
+    await test_suite.async_setup()
     
     # Run all test categories
     test_methods = [
