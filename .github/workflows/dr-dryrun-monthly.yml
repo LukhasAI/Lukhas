@@ -1,0 +1,186 @@
+name: dr-dryrun-monthly
+
+on:
+  schedule:
+    - cron: "23 4 1 * *"   # 04:23 UTC on the 1st of every month
+  workflow_dispatch: {}
+
+jobs:
+  dr-dryrun:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+      BACKUP_PREFIX: pwm
+      AWS_REGION: ${{ secrets.BACKUP_AWS_REGION }}
+  # Optionally set FRESHNESS_DAYS via repo/org vars; leave unset to skip freshness gate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.BACKUP_AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq awscli
+          python -V
+          aws --version
+
+      - name: Locate latest manifest & tarball in S3
+        id: pick
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # List manifests (stable sort by key)
+          aws s3 ls "${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/" \
+            | awk '{print $4}' \
+            | grep -E '\\.tar\\.(zst|gz)\\.manifest\\.json$' \
+            | sort \
+            | tail -n 1 > latest_manifest_key.txt || true
+
+          if [ ! -s latest_manifest_key.txt ]; then
+            echo "No manifests found under ${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/"
+            exit 1
+          fi
+
+          MANIFEST_KEY="$(cat latest_manifest_key.txt)"
+          MANIFEST_URI="${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/${MANIFEST_KEY}"
+          TARBALL_URI="${MANIFEST_URI%.manifest.json}"   # drop suffix to get tarball
+
+          echo "manifest=${MANIFEST_URI}" >> "$GITHUB_OUTPUT"
+          echo "tarball=${TARBALL_URI}" >> "$GITHUB_OUTPUT"
+          echo "Picked manifest: $MANIFEST_URI"
+
+      - name: Freshness gate (optional)
+        run: |
+          set -euo pipefail
+          if [ -n "${FRESHNESS_DAYS:-}" ]; then
+            KEY="${{ steps.pick.outputs.manifest }}"
+            BUCKET="$(echo "$KEY" | cut -d/ -f3)"
+            KEY_PATH="$(echo "$KEY" | cut -d/ -f4-)"
+            META=$(aws s3api head-object --bucket "$BUCKET" --key "$KEY_PATH")
+            LAST=$(echo "$META" | jq -r '.LastModified')
+            echo "Latest manifest LastModified: $LAST"
+            LIMIT=$(date -u -d "${FRESHNESS_DAYS} days ago" +%s)
+            TS=$(date -u -d "$LAST" +%s)
+            if [ "$TS" -lt "$LIMIT" ]; then
+              echo "::error::Latest backup is older than ${FRESHNESS_DAYS} days"; exit 1;
+            fi
+          else
+            echo "FRESHNESS_DAYS not set; skipping freshness gate"
+          fi
+
+      - name: DR dry-run (checksum verify only)
+        id: dryrun
+        run: |
+          mkdir -p out/_dr
+          python scripts/restore.py \
+            --manifest "${{ steps.pick.outputs.manifest }}" \
+            --tarball  "${{ steps.pick.outputs.tarball }}" \
+            --dry_run | tee out/dr_dryrun_result.json
+
+      - name: Upload DR dry-run artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dr-dryrun-result
+          path: out/dr_dryrun_result.json
+
+      - name: Job summary
+        run: |
+          echo "## DR Dry-Run (Monthly)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Manifest:** ${{ steps.pick.outputs.manifest }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tarball:**  ${{ steps.pick.outputs.tarball }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f out/dr_dryrun_result.json ]; then
+            OK=$(jq -r '.ok' out/dr_dryrun_result.json)
+            VER=$(jq -r '.verified' out/dr_dryrun_result.json)
+            echo "- **Verified:** $VER" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Raw result" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat out/dr_dryrun_result.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            [ "$OK" = "true" ] && [ "$VER" = "true" ] || exit 1
+          else
+            echo "_No result produced_" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+      - name: KPI digest
+        run: |
+          mkdir -p out
+          python scripts/report_kpi_backup.py \
+            --weekly out/dr_dryrun_weekly.json \
+            --monthly out/dr_dryrun_result.json \
+            --quarterly out/dr_fullrestore_summary.json \
+            | tee out/backup_kpi.json
+
+      - name: Upload KPI
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-kpi
+          path: out/backup_kpi.json
+
+      - name: Render KPI badge
+        run: |
+          mkdir -p out badges
+          python scripts/kpi_badge.py --in out/backup_kpi.json --out badges/backup_status.svg
+
+      - name: Commit badge to repo (main only)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "badges/backup_status.svg"
+          message: "chore(dr): update backup KPI badge [skip ci]"
+
+      - name: Notify Slack on failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WF_NAME: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            msg=$(jq -n --arg t "$WF_NAME failed" \
+                         --arg u "$RUN_URL" \
+                         --arg r "${{ github.ref_name }}" \
+                         --arg s "${{ github.sha }}" \
+                         '{text: ("\(.t)\n• Run: \(.u)\n• Branch: \(.r)\n• SHA: \(.s)")}')
+            curl -s -X POST -H 'Content-type: application/json' --data "$msg" "$SLACK_WEBHOOK_URL" || true
+          else
+            echo "SLACK_WEBHOOK_URL not set; skipping Slack notification"
+          fi
+
+      - name: Open failure issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `[DR ${context.workflow}] Failure on ${context.ref}`;
+            const body = `**Workflow:** ${context.workflow}
+            **Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+
+            Please review artifacts and logs.`;
+            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
+            });
+            if (issues.total_count === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title, body, labels: ['dr','backup','failure']
+              });
+            }

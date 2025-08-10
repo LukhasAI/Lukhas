@@ -1,0 +1,194 @@
+name: dr-dryrun-weekly
+
+on:
+  schedule:
+    - cron: "17 4 * * 1"   # Mondays 04:17 UTC
+  workflow_dispatch: {}
+
+jobs:
+  dryrun:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+      BACKUP_PREFIX: pwm
+      AWS_REGION: ${{ secrets.BACKUP_AWS_REGION }}
+      # Default freshness; can override by defining an env/variable in repo settings
+      FRESHNESS_DAYS: '10'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.BACKUP_AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Tooling
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq awscli
+          python -V
+          aws --version
+
+      - name: Chaos toggle (optional)
+        if: ${{ vars.DR_CHAOS == 'true' || secrets.DR_CHAOS == 'true' }}
+        id: chaos
+        run: |
+          # Corrupt the manifest key to force a failure downstream
+          echo "Enabling chaos: corrupting manifest URI"
+          echo "manifest=s3://invalid-bucket/invalid/manifest.json" >> $GITHUB_OUTPUT
+          echo "tarball=s3://invalid-bucket/invalid/backup.tar.zst"  >> $GITHUB_OUTPUT
+          echo "chaos_enabled=true" >> $GITHUB_OUTPUT
+
+      - name: Pick latest manifest & tarball
+        id: pick
+        if: ${{ steps.chaos.outputs.chaos_enabled != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 ls "${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/" \
+            | awk '{print $4}' \
+            | grep -E '\\.tar\\.(zst|gz)\\.manifest\\.json$' \
+            | sort | tail -n 1 > latest_manifest_key.txt
+          if [ ! -s latest_manifest_key.txt ]; then
+            echo "::error::No manifests found under ${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/"; exit 1;
+          fi
+          MANIFEST_KEY="$(cat latest_manifest_key.txt)"
+          MANIFEST_URI="${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/${MANIFEST_KEY}"
+          TARBALL_URI="${MANIFEST_URI%.manifest.json}"
+          echo "manifest=${MANIFEST_URI}" >> "$GITHUB_OUTPUT"
+          echo "tarball=${TARBALL_URI}"  >> "$GITHUB_OUTPUT"
+
+      - name: Freshness gate
+        if: ${{ steps.chaos.outputs.chaos_enabled != 'true' }}
+        run: |
+          KEY="${{ steps.chaos.outputs.chaos_enabled == 'true' && steps.chaos.outputs.manifest || steps.pick.outputs.manifest }}"
+          BUCKET=$(echo "$KEY" | cut -d/ -f3)
+          OBJECT=$(echo "$KEY" | cut -d/ -f4-)
+          META=$(aws s3api head-object --bucket "$BUCKET" --key "$OBJECT")
+          LAST=$(echo "$META" | jq -r '.LastModified')
+          TS=$(date -u -d "$LAST" +%s)
+          LIMIT=$(date -u -d "${FRESHNESS_DAYS} days ago" +%s)
+          echo "LastModified: $LAST  (FRESHNESS_DAYS=${FRESHNESS_DAYS})"
+          if [ "$TS" -lt "$LIMIT" ]; then
+            echo "::error::Latest backup older than ${FRESHNESS_DAYS} days"; exit 1;
+          fi
+
+      - name: Early freshness heads-up (optional Slack warn)
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WF_NAME: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # Warn if backup age > 7 days but within 10-day gate
+          KEY="${{ steps.pick.outputs.manifest }}"
+          BUCKET=$(echo "$KEY" | cut -d/ -f3)
+          OBJECT=$(echo "$KEY" | cut -d/ -f4-)
+          META=$(aws s3api head-object --bucket "$BUCKET" --key "$OBJECT")
+          LAST=$(echo "$META" | jq -r '.LastModified')
+          TS=$(date -u -d "$LAST" +%s)
+          WARN=$(date -u -d "7 days ago" +%s)
+          LIMIT=$(date -u -d "${FRESHNESS_DAYS} days ago" +%s)
+          if [ -n "$SLACK_WEBHOOK_URL" ] && [ "$TS" -lt "$WARN" ] && [ "$TS" -gt "$LIMIT" ]; then
+            msg=$(jq -n --arg t "Weekly DR: backup approaching freshness gate" \
+                         --arg u "$RUN_URL" \
+                         --arg last "$LAST" \
+                         --arg warn "7d" \
+                         --arg gate "${FRESHNESS_DAYS}d" \
+                         '{text: ("\(.t)\n• Run: \(.u)\n• LastModified: \(.last)\n• Warn threshold: \(.warn)\n• Gate: \(.gate)")}')
+            curl -s -X POST -H 'Content-type: application/json' --data "$msg" "$SLACK_WEBHOOK_URL" || true
+          fi
+
+      - name: DR dry-run (checksum verify only)
+        run: |
+          mkdir -p out/_dr
+          MANIFEST="${{ steps.chaos.outputs.chaos_enabled == 'true' && steps.chaos.outputs.manifest || steps.pick.outputs.manifest }}"
+          TARBALL="${{ steps.chaos.outputs.chaos_enabled == 'true' && steps.chaos.outputs.tarball || steps.pick.outputs.tarball }}"
+          python scripts/restore.py \
+            --manifest "$MANIFEST" \
+            --tarball  "$TARBALL" \
+            --dry_run | tee out/dr_dryrun_weekly.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dr-dryrun-weekly
+          path: out/dr_dryrun_weekly.json
+
+      - name: Summary
+        run: |
+          echo "## Weekly DR Dry-Run" >> $GITHUB_STEP_SUMMARY
+          echo "- Manifest: ${{ steps.pick.outputs.manifest }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tarball:  ${{ steps.pick.outputs.tarball }}"  >> $GITHUB_STEP_SUMMARY
+          echo "- Freshness: <= ${FRESHNESS_DAYS} days ✅"      >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat out/dr_dryrun_weekly.json || true
+
+      - name: KPI digest
+        run: |
+          mkdir -p out
+          python3 scripts/report_kpi_backup.py \
+            --weekly out/dr_dryrun_weekly.json \
+            --monthly out/dr_dryrun_result.json \
+            --quarterly out/dr_fullrestore_summary.json \
+            | tee out/backup_kpi.json
+
+      - name: Upload KPI
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-kpi
+          path: out/backup_kpi.json
+
+      - name: Render KPI badge
+        run: |
+          mkdir -p out badges
+          python scripts/kpi_badge.py --in out/backup_kpi.json --out badges/backup_status.svg
+
+      - name: Commit badge to repo (main only)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "badges/backup_status.svg"
+          message: "chore(dr): update backup KPI badge [skip ci]"
+
+      - name: Notify Slack on failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WF_NAME: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            msg=$(jq -n --arg t "$WF_NAME failed" \
+                         --arg u "$RUN_URL" \
+                         --arg r "${{ github.ref_name }}" \
+                         --arg s "${{ github.sha }}" \
+                         '{text: ("\(.t)\n• Run: \(.u)\n• Branch: \(.r)\n• SHA: \(.s)")}')
+            curl -s -X POST -H 'Content-type: application/json' --data "$msg" "$SLACK_WEBHOOK_URL" || true
+          else
+            echo "SLACK_WEBHOOK_URL not set; skipping Slack notification"
+          fi
+
+      - name: Open failure issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `[DR ${context.workflow}] Failure on ${context.ref}`;
+            const body = `**Workflow:** ${context.workflow}
+            **Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+
+            Please review artifacts and logs.`;
+            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
+            });
+            if (issues.total_count === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title, body, labels: ['dr','backup','failure']
+              });
+            }
